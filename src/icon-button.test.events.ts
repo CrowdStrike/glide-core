@@ -1,11 +1,11 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreIconButton from './icon-button.js';
+import IconButton from './icon-button.js';
 import { click } from './library/mouse.js';
 
 it('dispatches a "click" event on click', async () => {
-  const host = await fixture<GlideCoreIconButton>(
+  const host = await fixture<IconButton>(
     html`<glide-core-icon-button label="Label">
       <div>Icon</div>
     </glide-core-icon-button>`,
@@ -20,7 +20,7 @@ it('dispatches a "click" event on click', async () => {
 });
 
 it('does not dispatch a "click" event on click when disabled', async () => {
-  const host = await fixture<GlideCoreIconButton>(html`
+  const host = await fixture<IconButton>(html`
     <glide-core-icon-button label="Label" disabled>
       <div>Icon</div>
     </glide-core-icon-button>
@@ -35,7 +35,7 @@ it('does not dispatch a "click" event on click when disabled', async () => {
 });
 
 it('dispatches a "click" event on `click()`', async () => {
-  const host = await fixture<GlideCoreIconButton>(
+  const host = await fixture<IconButton>(
     html`<glide-core-icon-button label="Label">
       <div>Icon</div>
     </glide-core-icon-button>`,
@@ -53,7 +53,7 @@ it('dispatches a "click" event on `click()`', async () => {
 });
 
 it('does not dispatch a "click" event on `click()` when disabled', async () => {
-  const host = await fixture<GlideCoreIconButton>(html`
+  const host = await fixture<IconButton>(html`
     <glide-core-icon-button label="Label" disabled>
       <div>Icon</div>
     </glide-core-icon-button>
@@ -68,7 +68,7 @@ it('does not dispatch a "click" event on `click()` when disabled', async () => {
 });
 
 it('dispatches a "click" event on Enter', async () => {
-  const host = await fixture<GlideCoreIconButton>(html`
+  const host = await fixture<IconButton>(html`
     <glide-core-icon-button label="Label">
       <div>Icon</div>
     </glide-core-icon-button>
@@ -85,7 +85,7 @@ it('dispatches a "click" event on Enter', async () => {
 });
 
 it('does not dispatch a "click" event on Enter when disabled', async () => {
-  const host = await fixture<GlideCoreIconButton>(html`
+  const host = await fixture<IconButton>(html`
     <glide-core-icon-button label="Label" disabled>
       <div>Icon</div>
     </glide-core-icon-button>
@@ -101,7 +101,7 @@ it('does not dispatch a "click" event on Enter when disabled', async () => {
 });
 
 it('dispatches a "click" event on Space', async () => {
-  const host = await fixture<GlideCoreIconButton>(html`
+  const host = await fixture<IconButton>(html`
     <glide-core-icon-button label="Label">
       <div>Icon</div>
     </glide-core-icon-button>
@@ -118,7 +118,7 @@ it('dispatches a "click" event on Space', async () => {
 });
 
 it('does not dispatch a "click" event on Space when disabled', async () => {
-  const host = await fixture<GlideCoreIconButton>(html`
+  const host = await fixture<IconButton>(html`
     <glide-core-icon-button label="Label" disabled>
       <div>Icon</div>
     </glide-core-icon-button>

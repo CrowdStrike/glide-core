@@ -7,7 +7,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreCheckbox from './checkbox.js';
+import Checkbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
@@ -17,7 +17,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-checkbox-group': GlideCoreCheckboxGroup;
+    'glide-core-checkbox-group': CheckboxGroup;
   }
 }
 
@@ -35,7 +35,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreCheckbox}
+ * @slot {Checkbox}
  * @slot {Element | string} [description] - Additional information or context
  *
  * @fires {Event} invalid
@@ -66,10 +66,7 @@ declare global {
  */
 @customElement('glide-core-checkbox-group')
 @final
-export default class GlideCoreCheckboxGroup
-  extends LitElement
-  implements FormControl
-{
+export default class CheckboxGroup extends LitElement implements FormControl {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -340,11 +337,11 @@ export default class GlideCoreCheckboxGroup
             @private-disabled-change=${this.#onCheckboxDisabledChange}
             @private-value-change=${this.#onCheckboxValueChange}
             @slotchange=${this.#onDefaultSlotChange}
-            ${assertSlot([GlideCoreCheckbox])}
+            ${assertSlot([Checkbox])}
             ${ref(this.#defaultSlotElementRef)}
           >
             <!--
-              @type {GlideCoreCheckbox}
+              @type {Checkbox}
               @required
             -->
           </slot>
@@ -495,8 +492,8 @@ export default class GlideCoreCheckboxGroup
     return this.#defaultSlotElementRef.value
       ? this.#defaultSlotElementRef.value
           .assignedElements()
-          .filter((element): element is GlideCoreCheckbox => {
-            return element instanceof GlideCoreCheckbox;
+          .filter((element): element is Checkbox => {
+            return element instanceof Checkbox;
           })
       : [];
   }
@@ -526,7 +523,7 @@ export default class GlideCoreCheckboxGroup
 
     if (
       !newlyFocusedElement ||
-      !(newlyFocusedElement instanceof GlideCoreCheckbox) ||
+      !(newlyFocusedElement instanceof Checkbox) ||
       !this.#checkboxElements.includes(newlyFocusedElement)
     ) {
       this.#onBlur();
@@ -535,27 +532,21 @@ export default class GlideCoreCheckboxGroup
 
   #onCheckboxCheckedChange(event: Event) {
     if (
-      event.target instanceof GlideCoreCheckbox &&
+      event.target instanceof Checkbox &&
       event.target.checked &&
       event.target.value
     ) {
       this.#value = [...this.value, event.target.value];
-    } else if (
-      event.target instanceof GlideCoreCheckbox &&
-      !event.target.checked
-    ) {
+    } else if (event.target instanceof Checkbox && !event.target.checked) {
       this.#value = this.value.filter((value) => {
-        return (
-          event.target instanceof GlideCoreCheckbox &&
-          value !== event.target.value
-        );
+        return event.target instanceof Checkbox && value !== event.target.value;
       });
     }
   }
 
   #onCheckboxDisabledChange(event: Event) {
     if (
-      event.target instanceof GlideCoreCheckbox &&
+      event.target instanceof Checkbox &&
       event.target.disabled &&
       event.target.checked
     ) {
@@ -569,7 +560,7 @@ export default class GlideCoreCheckboxGroup
       const index = this.#value.lastIndexOf(event.target.value);
       this.#value.splice(index, index + 1);
     } else if (
-      event.target instanceof GlideCoreCheckbox &&
+      event.target instanceof Checkbox &&
       event.target.checked &&
       event.target.value
     ) {
@@ -579,17 +570,14 @@ export default class GlideCoreCheckboxGroup
 
   #onCheckboxValueChange(event: CustomEvent<{ new: string; old: string }>) {
     if (
-      event.target instanceof GlideCoreCheckbox &&
+      event.target instanceof Checkbox &&
       event.target.checked &&
       event.detail.new
     ) {
       this.value = this.#value.map((value) => {
         return value === event.detail.old ? event.detail.new : value;
       });
-    } else if (
-      event.target instanceof GlideCoreCheckbox &&
-      event.target.checked
-    ) {
+    } else if (event.target instanceof Checkbox && event.target.checked) {
       this.value = this.#value.filter((value) => value !== event.detail.old);
     }
   }

@@ -1,9 +1,9 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { hover } from './library/mouse.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import DropdownOption from './dropdown.option.js';
 
 it('is selected when programmatically selected', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       private-multiple
@@ -22,7 +22,7 @@ it('is selected when programmatically selected', async () => {
 });
 
 it('is deselected when programmatically deselected', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       private-multiple
@@ -42,7 +42,7 @@ it('is deselected when programmatically deselected', async () => {
 });
 
 it('sets `privateIsEditActive`', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       editable
@@ -60,7 +60,7 @@ it('sets `privateIsEditActive`', async () => {
 });
 
 it('is checked when selected and programmatically enabled', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       private-multiple
@@ -77,7 +77,7 @@ it('is checked when selected and programmatically enabled', async () => {
 });
 
 it('is unchecked when selected and programmatically disabled', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       private-multiple

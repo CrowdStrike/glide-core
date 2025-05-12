@@ -4,10 +4,10 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreMenuButton from './menu.button.js';
+import MenuButton from './menu.button.js';
 import { LocalizeController } from './library/localize.js';
-import GlideCoreMenuLink from './menu.link.js';
-import GlideCoreMenuOptions from './menu.options.js';
+import MenuLink from './menu.link.js';
+import MenuOptions from './menu.options.js';
 import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -15,7 +15,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-menu': GlideCoreMenu;
+    'glide-core-menu': Menu;
   }
 }
 
@@ -28,14 +28,14 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreMenuOptions}
+ * @slot {MenuOptions}
  * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
  *
  * @fires {Event} toggle
  */
 @customElement('glide-core-menu')
 @final
-export default class GlideCoreMenu extends LitElement {
+export default class Menu extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -259,12 +259,12 @@ export default class GlideCoreMenu extends LitElement {
           @mouseover=${this.#onDefaultSlotMouseover}
           @private-disabled=${this.#onOptionsDisabled}
           @private-slot-change=${this.#onOptionsSlotChange}
-          ${assertSlot([GlideCoreMenuOptions])}
+          ${assertSlot([MenuOptions])}
           ${ref(this.#defaultSlotElementRef)}
         >
           <!--
             @required
-            @type {GlideCoreMenuOptions}
+            @type {MenuOptions}
           -->
         </slot>
       </div>
@@ -371,12 +371,11 @@ export default class GlideCoreMenu extends LitElement {
       event.relatedTarget instanceof HTMLElement &&
       this.#shadowRoot?.contains(event.relatedTarget);
 
-    const isOptionsFocused =
-      event.relatedTarget instanceof GlideCoreMenuOptions;
+    const isOptionsFocused = event.relatedTarget instanceof MenuOptions;
 
     const isOptionFocused =
-      event.relatedTarget instanceof GlideCoreMenuButton ||
-      event.relatedTarget instanceof GlideCoreMenuLink;
+      event.relatedTarget instanceof MenuButton ||
+      event.relatedTarget instanceof MenuLink;
 
     if (!isMenuFocused && !isOptionsFocused && !isOptionFocused) {
       this.open = false;
@@ -395,8 +394,7 @@ export default class GlideCoreMenu extends LitElement {
 
   #onDefaultSlotFocusin(event: FocusEvent) {
     const isButtonOrLink =
-      event.target instanceof GlideCoreMenuButton ||
-      event.target instanceof GlideCoreMenuLink;
+      event.target instanceof MenuButton || event.target instanceof MenuLink;
 
     if (
       isButtonOrLink &&
@@ -416,8 +414,8 @@ export default class GlideCoreMenu extends LitElement {
 
   #onDefaultSlotMouseover(event: Event) {
     if (
-      (event.target instanceof GlideCoreMenuLink ||
-        event.target instanceof GlideCoreMenuButton) &&
+      (event.target instanceof MenuLink ||
+        event.target instanceof MenuButton) &&
       !event.target.disabled
     ) {
       if (this.#optionElements) {
@@ -686,7 +684,7 @@ export default class GlideCoreMenu extends LitElement {
       ?.assignedElements()
       .at(0);
 
-    return firstAssignedElement instanceof GlideCoreMenuOptions
+    return firstAssignedElement instanceof MenuOptions
       ? firstAssignedElement
       : null;
   }
@@ -694,7 +692,7 @@ export default class GlideCoreMenu extends LitElement {
   get #optionElements() {
     // A cleaner approach, which would obviate all the optional chaining and
     // conditions throughout, would be to return an empty array if `children`
-    // is `undefined`. The problem is test coverage. `GlideCoreMenuOptions`
+    // is `undefined`. The problem is test coverage. `MenuOptions`
     // throws when its default slot is empty. So the branch where `children` is
     // `undefined` is never reached.
     let elements: HTMLCollection | Element[] | undefined =
@@ -711,11 +709,8 @@ export default class GlideCoreMenu extends LitElement {
 
     if (elements) {
       return [...elements].filter(
-        (element): element is GlideCoreMenuLink | GlideCoreMenuButton => {
-          return (
-            element instanceof GlideCoreMenuLink ||
-            element instanceof GlideCoreMenuButton
-          );
+        (element): element is MenuLink | MenuButton => {
+          return element instanceof MenuLink || element instanceof MenuButton;
         },
       );
     }

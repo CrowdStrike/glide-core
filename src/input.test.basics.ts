@@ -1,19 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreInput from './input.js';
+import Input from './input.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreInput {}
+class Subclassed extends Input {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-input')).to.equal(
-    GlideCoreInput,
-  );
+  expect(window.customElements.get('glide-core-input')).to.equal(Input);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreInput>(html`
+  const host = await fixture<Input>(html`
     <glide-core-input label="Label" value="value"></glide-core-input>
   `);
 
@@ -30,7 +28,7 @@ it('has a search icon', async () => {
 });
 
 it('has a max character and current character count', async () => {
-  const host = await fixture<GlideCoreInput>(html`
+  const host = await fixture<Input>(html`
     <glide-core-input label="Label" maxlength="5"></glide-core-input>
   `);
 
@@ -42,7 +40,7 @@ it('has a max character and current character count', async () => {
 });
 
 it('has no character count when `maxlength` is zero', async () => {
-  const host = await fixture<GlideCoreInput>(html`
+  const host = await fixture<Input>(html`
     <glide-core-input label="Label" maxlength="0"></glide-core-input>
   `);
 
@@ -54,7 +52,7 @@ it('has no character count when `maxlength` is zero', async () => {
 });
 
 it('has a character count for screenreaders', async () => {
-  const host = await fixture<GlideCoreInput>(html`
+  const host = await fixture<Input>(html`
     <glide-core-input label="Label" maxlength="5"></glide-core-input>
   `);
 
@@ -89,7 +87,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

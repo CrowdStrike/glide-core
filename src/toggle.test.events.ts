@@ -1,9 +1,9 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { click } from './library/mouse.js';
-import GlideCoreToggle from './toggle.js';
+import Toggle from './toggle.js';
 
 it('dispatches a "click" event on click', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
@@ -16,7 +16,7 @@ it('dispatches a "click" event on click', async () => {
 });
 
 it('dispatches a "change" event on click', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
@@ -29,7 +29,7 @@ it('dispatches a "change" event on click', async () => {
 });
 
 it('dispatches an "input" event on click', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 

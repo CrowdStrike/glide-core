@@ -2,10 +2,10 @@ import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
 import { click } from './library/mouse.js';
-import GlideCorePopover from './popover.js';
+import Popover from './popover.js';
 
 it('opens when opened programmatically', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
@@ -25,7 +25,7 @@ it('opens when opened programmatically', async () => {
 });
 
 it('opens when open and enabled programmatically', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover open disabled>
       Popover
       <button slot="target">Target</button>
@@ -45,7 +45,7 @@ it('opens when open and enabled programmatically', async () => {
 });
 
 it('closes when open and disabled programmatically', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -68,7 +68,7 @@ it('closes when open and disabled programmatically', async () => {
 });
 
 it('does not open when opened programmatically and disabled', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover disabled>
       Popover
       <button slot="target">Target</button>
@@ -254,7 +254,7 @@ it('closes when something outside of it is clicked', async () => {
 });
 
 it('does not close when a slotted `<label>` is clicked', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover open>
       <label for="input">Label</label>
       <input id="input" />
@@ -273,7 +273,7 @@ it('does not close when a slotted `<label>` is clicked', async () => {
 });
 
 it('has `this.#cleanUpFloatingUi?.()` coverage', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
@@ -293,7 +293,7 @@ it('has `this.#cleanUpFloatingUi?.()` coverage', async () => {
 });
 
 it('has `set offset(offset: number)` coverage', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -326,7 +326,7 @@ it('has `middlewareData.arrow.y` coverage', async () => {
 });
 
 it('has `#show()` coverage', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover placement="right">
       Popover
       <button slot="target">Target</button>

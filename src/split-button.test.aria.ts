@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
-import type GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
-import type GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
+import type SplitButtonPrimaryButton from './split-button.primary-button.js';
+import type SplitButtonPrimaryLink from './split-button.primary-link.js';
+import type SplitButtonSecondaryButton from './split-button.secondary-button.js';
 
 test('<glide-core-split-button-primary-button>[disabled=${true}]', async ({
   page,
@@ -10,7 +10,7 @@ test('<glide-core-split-button-primary-button>[disabled=${true}]', async ({
 
   await page
     .locator('glide-core-split-button-primary-button')
-    .evaluate<void, GlideCoreSplitButtonPrimaryButton>((element) => {
+    .evaluate<void, SplitButtonPrimaryButton>((element) => {
       element.disabled = true;
     });
 
@@ -51,7 +51,7 @@ test('<glide-core-split-button-primary-link>[disabled=${true}]', async ({
 
   await page
     .locator('glide-core-split-button-primary-link')
-    .evaluate<void, GlideCoreSplitButtonPrimaryLink>((element) => {
+    .evaluate<void, SplitButtonPrimaryLink>((element) => {
       element.disabled = true;
     });
 
@@ -81,7 +81,7 @@ test('<glide-core-split-button-secondary-button>[disabled=${true}]', async ({
 
   await page
     .locator('glide-core-split-button-secondary-button')
-    .evaluate<void, GlideCoreSplitButtonSecondaryButton>((element) => {
+    .evaluate<void, SplitButtonSecondaryButton>((element) => {
       element.disabled = true;
     });
 

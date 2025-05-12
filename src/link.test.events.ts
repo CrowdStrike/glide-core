@@ -1,11 +1,11 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreLink from './link.js';
+import Link from './link.js';
 import { click } from './library/mouse.js';
 
 it('dispatches a "click" event on click', async () => {
-  const host = await fixture<GlideCoreLink>(
+  const host = await fixture<Link>(
     html`<glide-core-link label="Label" href="/"></glide-core-link>`,
   );
 
@@ -22,7 +22,7 @@ it('dispatches a "click" event on click', async () => {
 });
 
 it('does not dispatch a "click" event on click when disabled', async () => {
-  const host = await fixture<GlideCoreLink>(
+  const host = await fixture<Link>(
     html`<glide-core-link label="Label" href="/" disabled></glide-core-link>`,
   );
 
@@ -39,7 +39,7 @@ it('does not dispatch a "click" event on click when disabled', async () => {
 });
 
 it('dispatches a "click" event on `click()`', async () => {
-  const host = await fixture<GlideCoreLink>(
+  const host = await fixture<Link>(
     html`<glide-core-link label="Label" href="/"></glide-core-link>`,
   );
 
@@ -59,7 +59,7 @@ it('dispatches a "click" event on `click()`', async () => {
 });
 
 it('does not dispatch a "click" event on `click()` when disabled', async () => {
-  const host = await fixture<GlideCoreLink>(
+  const host = await fixture<Link>(
     html`<glide-core-link label="Label" href="/" disabled></glide-core-link>`,
   );
 
@@ -76,7 +76,7 @@ it('does not dispatch a "click" event on `click()` when disabled', async () => {
 });
 
 it('dispatches a "click" event on Enter', async () => {
-  const host = await fixture<GlideCoreLink>(
+  const host = await fixture<Link>(
     html`<glide-core-link label="Label" href="/"></glide-core-link>`,
   );
 
@@ -95,7 +95,7 @@ it('dispatches a "click" event on Enter', async () => {
 });
 
 it('does not dispatch a "click" event on Enter when disabled', async () => {
-  const host = await fixture<GlideCoreLink>(
+  const host = await fixture<Link>(
     html`<glide-core-link label="Label" href="/" disabled></glide-core-link>`,
   );
 

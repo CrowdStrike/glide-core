@@ -1,9 +1,9 @@
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
-import GlideCoreTooltip from './tooltip.js';
+import Tooltip from './tooltip.js';
 
 it('dispatches a "toggle" event when opened programmatically', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -21,7 +21,7 @@ it('dispatches a "toggle" event when opened programmatically', async () => {
 });
 
 it('dispatches a "toggle" event when closed programmatically', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" open>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -39,7 +39,7 @@ it('dispatches a "toggle" event when closed programmatically', async () => {
 });
 
 it('does not dispatch a "toggle" event when opened programmatically and already open', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" open>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -55,7 +55,7 @@ it('does not dispatch a "toggle" event when opened programmatically and already 
 });
 
 it('does not dispatch a "toggle" event when closed programmatically and already closed', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -71,7 +71,7 @@ it('does not dispatch a "toggle" event when closed programmatically and already 
 });
 
 it('does not dispatch a "toggle" event when opened programmatically and disabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" disabled>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -87,7 +87,7 @@ it('does not dispatch a "toggle" event when opened programmatically and disabled
 });
 
 it('does not dispatch a "toggle" event when closed programmatically and disabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" disabled open>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,

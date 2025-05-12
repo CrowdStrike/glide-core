@@ -1,9 +1,9 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import GlideCoreDropdown from './dropdown.js';
-import type GlideCoreDropdownOption from './dropdown.option.js';
+import Dropdown from './dropdown.js';
+import type DropdownOption from './dropdown.option.js';
 
 it('is accessible ', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -13,7 +13,7 @@ it('is accessible ', async () => {
 });
 
 it('has a selected option label when an option is initially selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
@@ -31,7 +31,7 @@ it('has a selected option label when an option is initially selected', async () 
 });
 
 it('sets its internal `label` to the last initially selected option', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
@@ -51,7 +51,7 @@ it('sets its internal `label` to the last initially selected option', async () =
 });
 
 it('sets `value` to that of the last initially selected option', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
@@ -76,7 +76,7 @@ it('sets `value` to that of the last initially selected option', async () => {
 });
 
 it('hides Select All', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
@@ -91,7 +91,7 @@ it('hides Select All', async () => {
     </glide-core-dropdown>`,
   );
 
-  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+  const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
   );
 
@@ -204,7 +204,7 @@ it('only shows the last selected option as selected when multiple are selected i
 });
 
 it('does not include in its `value` disabled options that are selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"

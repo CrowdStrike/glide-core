@@ -12,10 +12,10 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
-import type GlideCoreMenu from './menu.js';
+import type Menu from './menu.js';
 
 it('dispatches one link "click" event when a link is selected via click', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -44,7 +44,7 @@ it('dispatches one link "click" event when a link is selected via click', async 
 });
 
 it('dispatches one button "click" event when a button is selected via click', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -75,7 +75,7 @@ it('dispatches one button "click" event when a button is selected via click', as
 });
 
 it('dispatches one link "click" event when a link is selected via Space', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -107,7 +107,7 @@ it('dispatches one link "click" event when a link is selected via Space', async 
 });
 
 it('dispatches one button "click" event when a button is selected via Space', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -139,7 +139,7 @@ it('dispatches one button "click" event when a button is selected via Space', as
 });
 
 it('dispatches one link "click" event when a link is selected via Enter', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -171,7 +171,7 @@ it('dispatches one link "click" event when a link is selected via Enter', async 
 });
 
 it('dispatches one button "click" event when a button is selected via Enter', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -203,7 +203,7 @@ it('dispatches one button "click" event when a button is selected via Enter', as
 });
 
 it('does not dispatch a "click" event when a disabled link is clicked', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -226,7 +226,7 @@ it('does not dispatch a "click" event when a disabled link is clicked', async ()
 });
 
 it('does not dispatch a "click" event when a disabled button is clicked', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 

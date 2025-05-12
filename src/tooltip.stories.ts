@@ -6,7 +6,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreTooltip from './tooltip.js';
+import TooltipComponent from './tooltip.js';
 import focusOutline from './styles/focus-outline.js';
 
 const meta: Meta = {
@@ -160,7 +160,7 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-tooltip')
       ?.addEventListener('toggle', (event: Event) => {
-        if (event.target instanceof GlideCoreTooltip) {
+        if (event.target instanceof TooltipComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {

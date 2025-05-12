@@ -1,7 +1,7 @@
 import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreButtonGroupButton from './button-group.button.js';
+import ButtonGroupButton from './button-group.button.js';
 import { click } from './library/mouse.js';
 import './button-group.js';
 
@@ -18,7 +18,7 @@ it('dispatches a "selected" event when a button is clicked and not already selec
     </glide-core-button-group>`,
   );
 
-  const button = host.querySelector<GlideCoreButtonGroupButton>(
+  const button = host.querySelector<ButtonGroupButton>(
     'glide-core-button-group-button:nth-of-type(2)',
   );
 
@@ -144,7 +144,7 @@ it('does not dispatch a "selected" event when a button is selected programmatica
   );
 
   setTimeout(() => {
-    const button = host.querySelector<GlideCoreButtonGroupButton>(
+    const button = host.querySelector<ButtonGroupButton>(
       'glide-core-button-group-button:nth-of-type(2)',
     );
 
@@ -199,7 +199,7 @@ it('does not dispatch a "selected" event a button is selected programmatically',
   host.addEventListener('selected', spy);
 
   setTimeout(() => {
-    const button = host.querySelector<GlideCoreButtonGroupButton>(
+    const button = host.querySelector<ButtonGroupButton>(
       'glide-core-button-group-button:nth-of-type(2)',
     );
 

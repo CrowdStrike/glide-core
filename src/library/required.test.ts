@@ -11,7 +11,7 @@ import final from './final.js';
 // message.
 @customElement('glide-core-with-required-property')
 @final
-class GlideCoreWithRequiredProperty extends LitElement {
+class WithRequiredProperty extends LitElement {
   @property()
   @required
   label?: string;
@@ -23,7 +23,7 @@ it('throws when a required attribute is missing', async () => {
 
   window.addEventListener('unhandledrejection', spy, { once: true });
 
-  fixture<GlideCoreWithRequiredProperty>(
+  fixture<WithRequiredProperty>(
     html`<glide-core-with-required-property></glide-core-with-required-property>`,
   );
 
@@ -33,7 +33,7 @@ it('throws when a required attribute is missing', async () => {
   expect(spy.args.at(0)?.at(0) instanceof PromiseRejectionEvent).to.be.true;
 
   expect(spy.args.at(0)?.at(0).reason.message).to.equal(
-    'Expected GlideCoreWithRequiredProperty to have a `label` property.',
+    'Expected WithRequiredProperty to have a `label` property.',
   );
 
   stub.restore();
@@ -45,7 +45,7 @@ it('does not throw when a required attribute is not missing', async () => {
 
   window.addEventListener('unhandledrejection', spy, { once: true });
 
-  await fixture<GlideCoreWithRequiredProperty>(
+  await fixture<WithRequiredProperty>(
     html`<glide-core-with-required-property
       label="Label"
     ></glide-core-with-required-property>`,

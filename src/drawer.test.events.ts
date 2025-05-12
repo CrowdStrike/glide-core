@@ -1,12 +1,12 @@
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreDrawer from './drawer.js';
+import Drawer from './drawer.js';
 
 it('dispatches a "toggle" event on open', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
   );
 
@@ -22,7 +22,7 @@ it('dispatches a "toggle" event on open', async () => {
 it('dispatches a "toggle" event on close', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
@@ -38,7 +38,7 @@ it('dispatches a "toggle" event on close', async () => {
 it('does not dispatch a "toggle" event when already open', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
@@ -54,7 +54,7 @@ it('does not dispatch a "toggle" event when already open', async () => {
 it('does not dispatch a "toggle" event when already closed', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
   );
 

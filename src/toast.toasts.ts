@@ -13,30 +13,30 @@ import { LocalizeController } from './library/localize.js';
 import styles from './toast.toasts.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
-import GlideCoreToast from './toast.js';
-import GlideCoreLink from './link.js';
+import Toast from './toast.js';
+import Link from './link.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-private-toasts': GlideCoreToasts;
+    'glide-core-private-toasts': Toasts;
   }
 }
 
 /**
- * @attr {GlideCoreToast[]} [toasts=[]]
+ * @attr {Toast[]} [toasts=[]]
  *
  * @method dismiss
- * @param {GlideCoreToast} toast
+ * @param {Toast} toast
  *
  * @method show
- * @param {GlideCoreToast} toast
+ * @param {Toast} toast
  * @returns Promise<void>
  *
  * @method showPopover
  */
 @customElement('glide-core-private-toasts')
 @final
-export default class GlideCoreToasts extends LitElement {
+export default class Toasts extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -45,9 +45,9 @@ export default class GlideCoreToasts extends LitElement {
   static override styles = styles;
 
   @property({ type: Array })
-  toasts: GlideCoreToast[] = [];
+  toasts: Toast[] = [];
 
-  dismiss(toast: GlideCoreToast): void {
+  dismiss(toast: Toast): void {
     const index = this.toasts.indexOf(toast);
 
     this.toasts = [
@@ -156,7 +156,7 @@ export default class GlideCoreToasts extends LitElement {
     this.#componentElementRef.value?.showPopover();
   }
 
-  static async show(toast: GlideCoreToast): Promise<void> {
+  static async show(toast: Toast): Promise<void> {
     let toasts = document.querySelector('glide-core-private-toasts');
 
     if (!toasts) {
@@ -221,31 +221,31 @@ export default class GlideCoreToasts extends LitElement {
 
   #localize = new LocalizeController(this);
 
-  #onDescriptionClick(toast: GlideCoreToast, event: PointerEvent) {
+  #onDescriptionClick(toast: Toast, event: PointerEvent) {
     // We want to let the consumer decide if navigation should occur. So we
     // cancel the event here, and then programmatically click the consumer's
     // link. The consumer can cancel that link's "click" event if he wants to
     // prevent navigation.
-    if (event.target instanceof GlideCoreLink) {
+    if (event.target instanceof Link) {
       event.preventDefault();
     }
 
     const link = [...toast.querySelectorAll('*')].find((element) => {
-      if (event.target instanceof GlideCoreLink) {
+      if (event.target instanceof Link) {
         return (
-          element instanceof GlideCoreLink &&
+          element instanceof Link &&
           element.label === event.target.label &&
           element.href === event.target.href
         );
       }
     });
 
-    if (link instanceof GlideCoreLink) {
+    if (link instanceof Link) {
       link.click();
     }
   }
 
-  #onToastDismissButtonClick(toast: GlideCoreToast) {
+  #onToastDismissButtonClick(toast: Toast) {
     const isReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches;
@@ -262,7 +262,7 @@ export default class GlideCoreToasts extends LitElement {
     }
   }
 
-  #onToastMouseOut(toast: GlideCoreToast) {
+  #onToastMouseOut(toast: Toast) {
     if (toast.duration < Number.POSITIVE_INFINITY) {
       toast.privateTimeoutId = setTimeout(() => {
         const isReducedMotion = window.matchMedia(
@@ -282,11 +282,11 @@ export default class GlideCoreToasts extends LitElement {
     }
   }
 
-  #onToastMouseOver(toast: GlideCoreToast) {
+  #onToastMouseOver(toast: Toast) {
     clearTimeout(toast.privateTimeoutId);
   }
 
-  #onToastTransitionEnd(toast: GlideCoreToast) {
+  #onToastTransitionEnd(toast: Toast) {
     const toasts = document.querySelector('glide-core-private-toasts');
 
     // Checking `privateDismissing` ensures we don't dismiss Toasts when the

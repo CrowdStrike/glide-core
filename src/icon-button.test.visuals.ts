@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreIconButton from './icon-button.js';
+import type IconButton from './icon-button.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories['Icon Button']) {
 
           await page
             .locator('glide-core-icon-button')
-            .evaluate<void, GlideCoreIconButton>((element) => {
+            .evaluate<void, IconButton>((element) => {
               element.disabled = true;
             });
 
@@ -27,7 +27,7 @@ for (const story of stories['Icon Button']) {
 
             await page
               .locator('glide-core-icon-button')
-              .evaluate<void, GlideCoreIconButton>((element) => {
+              .evaluate<void, IconButton>((element) => {
                 element.disabled = true;
               });
 
@@ -54,7 +54,7 @@ for (const story of stories['Icon Button']) {
 
             await page
               .locator('glide-core-icon-button')
-              .evaluate<void, GlideCoreIconButton>((element) => {
+              .evaluate<void, IconButton>((element) => {
                 element.variant = 'secondary';
               });
 
@@ -71,7 +71,7 @@ for (const story of stories['Icon Button']) {
 
             await page
               .locator('glide-core-icon-button')
-              .evaluate<void, GlideCoreIconButton>((element) => {
+              .evaluate<void, IconButton>((element) => {
                 element.variant = 'tertiary';
               });
 
@@ -99,7 +99,7 @@ for (const story of stories['Icon Button']) {
 
             await page
               .locator('glide-core-icon-button')
-              .evaluate<void, GlideCoreIconButton>((element) => {
+              .evaluate<void, IconButton>((element) => {
                 element.disabled = true;
               });
 
@@ -124,7 +124,7 @@ for (const story of stories['Icon Button']) {
 
             await page
               .locator('glide-core-icon-button')
-              .evaluate<void, GlideCoreIconButton>((element) => {
+              .evaluate<void, IconButton>((element) => {
                 element.variant = 'secondary';
               });
 
@@ -140,7 +140,7 @@ for (const story of stories['Icon Button']) {
 
             await page
               .locator('glide-core-icon-button')
-              .evaluate<void, GlideCoreIconButton>((element) => {
+              .evaluate<void, IconButton>((element) => {
                 element.variant = 'tertiary';
               });
 
@@ -166,7 +166,7 @@ for (const story of stories['Icon Button']) {
 
           await page
             .locator('glide-core-icon-button')
-            .evaluate<void, GlideCoreIconButton>((element) => {
+            .evaluate<void, IconButton>((element) => {
               element.variant = 'secondary';
             });
 
@@ -180,7 +180,7 @@ for (const story of stories['Icon Button']) {
 
           await page
             .locator('glide-core-icon-button')
-            .evaluate<void, GlideCoreIconButton>((element) => {
+            .evaluate<void, IconButton>((element) => {
               element.variant = 'tertiary';
             });
 

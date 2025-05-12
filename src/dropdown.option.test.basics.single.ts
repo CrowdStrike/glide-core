@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import DropdownOption from './dropdown.option.js';
 
 it('is selected when initially selected', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       selected
@@ -13,7 +13,7 @@ it('is selected when initially selected', async () => {
 });
 
 it('is unselected when initially unselected', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -23,7 +23,7 @@ it('is unselected when initially unselected', async () => {
 });
 
 it('is enabled when initially enabled', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -34,7 +34,7 @@ it('is enabled when initially enabled', async () => {
 });
 
 it('is disabled when initially disabled', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       disabled
@@ -46,7 +46,7 @@ it('is disabled when initially disabled', async () => {
 });
 
 it('is editable', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       editable
@@ -58,7 +58,7 @@ it('is editable', async () => {
 });
 
 it('appears checked when selected', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       selected
@@ -73,7 +73,7 @@ it('appears checked when selected', async () => {
 });
 
 it('appears unchecked when selected and disabled', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       selected
@@ -89,7 +89,7 @@ it('appears unchecked when selected and disabled', async () => {
 });
 
 it('has a count', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       count=${1}
@@ -109,7 +109,7 @@ it('has a count', async () => {
 });
 
 it('does not have a count when negative', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       count=${-1}

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreCheckbox from './checkbox.js';
+import type Checkbox from './checkbox.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               element.checked = true;
             });
 
@@ -26,7 +26,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               element.disabled = true;
             });
 
@@ -49,7 +49,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               element.hideLabel = true;
             });
 
@@ -64,7 +64,7 @@ for (const story of stories.Checkbox) {
 
             await page
               .locator('glide-core-checkbox')
-              .evaluate<void, GlideCoreCheckbox>((element) => {
+              .evaluate<void, Checkbox>((element) => {
                 element.disabled = true;
               });
 
@@ -83,7 +83,7 @@ for (const story of stories.Checkbox) {
 
             await page
               .locator('glide-core-checkbox')
-              .evaluate<void, GlideCoreCheckbox>((element) => {
+              .evaluate<void, Checkbox>((element) => {
                 element.checked = true;
               });
 
@@ -116,7 +116,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               element.indeterminate = true;
             });
 
@@ -130,7 +130,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               element.orientation = 'vertical';
             });
 
@@ -144,7 +144,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               element.required = true;
             });
 
@@ -158,7 +158,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               const div = document.createElement('div');
 
               div.textContent = 'Description';
@@ -177,7 +177,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               element.summary = 'Summary';
             });
 
@@ -191,7 +191,7 @@ for (const story of stories.Checkbox) {
 
           await page
             .locator('glide-core-checkbox')
-            .evaluate<void, GlideCoreCheckbox>((element) => {
+            .evaluate<void, Checkbox>((element) => {
               element.tooltip = 'Tooltip';
             });
 

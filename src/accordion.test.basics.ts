@@ -1,20 +1,18 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreAccordion from './accordion.js';
+import Accordion from './accordion.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreAccordion {}
+class Subclassed extends Accordion {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-accordion')).to.equal(
-    GlideCoreAccordion,
-  );
+  expect(window.customElements.get('glide-core-accordion')).to.equal(Accordion);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreAccordion>(
+  const host = await fixture<Accordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
@@ -37,7 +35,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }
@@ -47,14 +45,14 @@ it('throws when subclassed', async () => {
 
 it('throws if its default slot is empty', async () => {
   await expectUnhandledRejection(() => {
-    return fixture<GlideCoreAccordion>(
+    return fixture<Accordion>(
       html`<glide-core-accordion label="Label"></glide-core-accordion>`,
     );
   });
 });
 
 it('`#onPrefixIconSlotChange` coverage', async () => {
-  await fixture<GlideCoreAccordion>(
+  await fixture<Accordion>(
     html`<glide-core-accordion label="Label">
       Content
       <div slot="prefix-icon"></div>
@@ -63,7 +61,7 @@ it('`#onPrefixIconSlotChange` coverage', async () => {
 });
 
 it('`#onSuffixIconsSlotChange` coverage', async () => {
-  await fixture<GlideCoreAccordion>(
+  await fixture<Accordion>(
     html`<glide-core-accordion label="Label">
       Content
       <div slot="suffix-icons"></div>

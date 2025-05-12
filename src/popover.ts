@@ -21,7 +21,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-popover': GlideCorePopover;
+    'glide-core-popover': Popover;
   }
 }
 
@@ -41,7 +41,7 @@ declare global {
  */
 @customElement('glide-core-popover')
 @final
-export default class GlideCorePopover extends LitElement {
+export default class Popover extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

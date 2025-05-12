@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreTextarea from './textarea.js';
+import type Textarea from './textarea.js';
 
 test('disabled', async ({ page }) => {
   await page.goto('?id=textarea--textarea');
 
   await page
     .locator('glide-core-textarea')
-    .evaluate<void, GlideCoreTextarea>((element) => {
+    .evaluate<void, Textarea>((element) => {
       element.disabled = true;
     });
 
@@ -21,7 +21,7 @@ test('hide-label', async ({ page }) => {
 
   await page
     .locator('glide-core-textarea')
-    .evaluate<void, GlideCoreTextarea>((element) => {
+    .evaluate<void, Textarea>((element) => {
       element.hideLabel = true;
     });
 
@@ -36,7 +36,7 @@ test('max-length', async ({ page }) => {
 
   await page
     .locator('glide-core-textarea')
-    .evaluate<void, GlideCoreTextarea>((element) => {
+    .evaluate<void, Textarea>((element) => {
       element.maxlength = 1;
     });
 
@@ -54,7 +54,7 @@ test('slot="description"', async ({ page }) => {
 
   await page
     .locator('glide-core-textarea')
-    .evaluate<void, GlideCoreTextarea>((element) => {
+    .evaluate<void, Textarea>((element) => {
       const div = document.createElement('div');
 
       div.textContent = 'Description';
@@ -75,7 +75,7 @@ test('tooltip', async ({ page }) => {
 
   await page
     .locator('glide-core-textarea')
-    .evaluate<void, GlideCoreTextarea>((element) => {
+    .evaluate<void, Textarea>((element) => {
       element.tooltip = 'Tooltip';
     });
 

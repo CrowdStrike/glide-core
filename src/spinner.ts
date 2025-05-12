@@ -10,7 +10,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-spinner': GlideCoreSpinner;
+    'glide-core-spinner': Spinner;
   }
 }
 
@@ -23,7 +23,7 @@ declare global {
  */
 @customElement('glide-core-spinner')
 @final
-export default class GlideCoreSpinner extends LitElement {
+export default class Spinner extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,

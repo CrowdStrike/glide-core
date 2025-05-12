@@ -4,8 +4,8 @@ import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
-import GlideCoreRadioGroup from './radio-group.js';
+import RadioGroupRadioComponent from './radio-group.radio.js';
+import RadioGroupComponent from './radio-group.js';
 
 const meta: Meta = {
   title: 'Radio Group',
@@ -38,7 +38,7 @@ const meta: Meta = {
 
     if (
       context.name.includes('Error') &&
-      radioGroup instanceof GlideCoreRadioGroup
+      radioGroup instanceof RadioGroupComponent
     ) {
       radioGroup.reportValidity();
 
@@ -54,7 +54,7 @@ const meta: Meta = {
     }
 
     radioGroup?.addEventListener('change', (event: Event) => {
-      if (event.target instanceof GlideCoreRadioGroupRadio) {
+      if (event.target instanceof RadioGroupRadioComponent) {
         // The only public property we have to go off with Radio is `label`.
         // But `label` is a moving target because it can be changed via a control.
         // Thus `id`, which is stripped from the code example by `preview.js`.
@@ -151,7 +151,7 @@ const meta: Meta = {
     },
     'slot="default"': {
       table: {
-        type: { summary: 'GlideCoreRadio' },
+        type: { summary: 'Radio' },
       },
       type: { name: 'function', required: true },
     },

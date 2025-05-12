@@ -1,21 +1,19 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreLabel from './label.js';
+import Label from './label.js';
 import './tooltip.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreLabel {}
+class Subclassed extends Label {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-private-label')).to.equal(
-    GlideCoreLabel,
-  );
+  expect(window.customElements.get('glide-core-private-label')).to.equal(Label);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreLabel>(
+  const host = await fixture<Label>(
     html`<glide-core-private-label tooltip="Tooltip">
       <label for="input">Label</label>
       <input id="input" slot="control" />
@@ -27,7 +25,7 @@ it('is accessible', async () => {
 });
 
 it('can be required', async () => {
-  const host = await fixture<GlideCoreLabel>(
+  const host = await fixture<Label>(
     html`<glide-core-private-label required>
       <label for="input">Label</label>
       <input id="input" slot="control" />
@@ -39,7 +37,7 @@ it('can be required', async () => {
 });
 
 it('places the tooltip on the bottom when horizontal', async () => {
-  const host = await fixture<GlideCoreLabel>(
+  const host = await fixture<Label>(
     html`<glide-core-private-label tooltip="Tooltip">
       <label for="input">Label</label>
       <input id="input" slot="control" />
@@ -52,7 +50,7 @@ it('places the tooltip on the bottom when horizontal', async () => {
 });
 
 it('places the tooltip on the right when vertical', async () => {
-  const host = await fixture<GlideCoreLabel>(
+  const host = await fixture<Label>(
     html`<glide-core-private-label orientation="vertical" tooltip="Tooltip">
       <label for="input">Label</label>
       <input id="input" slot="control" />
@@ -68,7 +66,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

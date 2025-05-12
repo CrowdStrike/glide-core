@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreButtonGroupButton from './button-group.button.js';
+import type ButtonGroupButton from './button-group.button.js';
 
 test('<glide-core-button-group-button>[disabled=${true}]', async ({ page }) => {
   await page.goto('?id=button-group--button-group');
@@ -7,7 +7,7 @@ test('<glide-core-button-group-button>[disabled=${true}]', async ({ page }) => {
   await page
     .locator('glide-core-button-group-button')
     .first()
-    .evaluate<void, GlideCoreButtonGroupButton>((element) => {
+    .evaluate<void, ButtonGroupButton>((element) => {
       element.disabled = true;
     });
 
@@ -54,7 +54,7 @@ test('<glide-core-button-group-button>[selected=${false}]', async ({
   await page
     .locator('glide-core-button-group-button')
     .first()
-    .evaluate<void, GlideCoreButtonGroupButton>((element) => {
+    .evaluate<void, ButtonGroupButton>((element) => {
       element.selected = false;
     });
 

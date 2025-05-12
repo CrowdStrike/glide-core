@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreTooltip from './tooltip.js';
+import type Tooltip from './tooltip.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Tooltip) {
 
           await page
             .locator('glide-core-tooltip')
-            .evaluate<void, GlideCoreTooltip>((element) => {
+            .evaluate<void, Tooltip>((element) => {
               element.offset = 50;
               element.open = true;
             });
@@ -27,7 +27,7 @@ for (const story of stories.Tooltip) {
 
           await page
             .locator('glide-core-tooltip')
-            .evaluate<void, GlideCoreTooltip>((element) => {
+            .evaluate<void, Tooltip>((element) => {
               element.open = true;
             });
 
@@ -41,7 +41,7 @@ for (const story of stories.Tooltip) {
 
           await page
             .locator('glide-core-tooltip')
-            .evaluate<void, GlideCoreTooltip>((element) => {
+            .evaluate<void, Tooltip>((element) => {
               element.open = true;
               element.placement = 'left';
             });
@@ -56,7 +56,7 @@ for (const story of stories.Tooltip) {
 
           await page
             .locator('glide-core-tooltip')
-            .evaluate<void, GlideCoreTooltip>((element) => {
+            .evaluate<void, Tooltip>((element) => {
               element.open = true;
               element.placement = 'right';
             });
@@ -71,7 +71,7 @@ for (const story of stories.Tooltip) {
 
           await page
             .locator('glide-core-tooltip')
-            .evaluate<void, GlideCoreTooltip>((element) => {
+            .evaluate<void, Tooltip>((element) => {
               element.open = true;
               element.placement = 'top';
             });
@@ -86,7 +86,7 @@ for (const story of stories.Tooltip) {
 
           await page
             .locator('glide-core-tooltip')
-            .evaluate<void, GlideCoreTooltip>((element) => {
+            .evaluate<void, Tooltip>((element) => {
               element.shortcut = ['CMD', 'K'];
 
               // `open` will synchronously trigger a "toggle" event. So `shortcut` needs

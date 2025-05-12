@@ -1,17 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreRadioGroup from './radio-group.js';
-import type GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import RadioGroup from './radio-group.js';
+import type RadioGroupRadio from './radio-group.radio.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreRadioGroup {}
+class Subclassed extends RadioGroup {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-radio-group')).to.equal(
-    GlideCoreRadioGroup,
+    RadioGroup,
   );
 });
 
@@ -71,7 +71,7 @@ it('can be disabled', async () => {
 });
 
 it('sets its `value` to that of the last checked radio', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(html`
+  const host = await fixture<RadioGroup>(html`
     <glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
         label="One"
@@ -157,7 +157,7 @@ it('makes radios untabbable when disabled', async () => {
 });
 
 it('checks radios when `value` is set initially', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" value="two">
       <glide-core-radio-group-radio
         label="One"
@@ -181,7 +181,7 @@ it('checks radios when `value` is set initially', async () => {
 });
 
 it('enables radios when `value` is set initially', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" value="two">
       <glide-core-radio-group-radio
         label="One"
@@ -196,7 +196,7 @@ it('enables radios when `value` is set initially', async () => {
     </glide-core-radio-group>`,
   );
 
-  const radio = host.querySelector<GlideCoreRadioGroupRadio>(
+  const radio = host.querySelector<RadioGroupRadio>(
     'glide-core-radio-group-radio:nth-of-type(2)',
   );
 
@@ -204,7 +204,7 @@ it('enables radios when `value` is set initially', async () => {
 });
 
 it('gives precedence to a checked radio over an initial `value`', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(html`
+  const host = await fixture<RadioGroup>(html`
     <glide-core-radio-group label="Label" value="one">
       <glide-core-radio-group-radio
         label="One"
@@ -223,7 +223,7 @@ it('gives precedence to a checked radio over an initial `value`', async () => {
 });
 
 it('has no `value` when a disabled radio is checked', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(html`
+  const host = await fixture<RadioGroup>(html`
     <glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
         label="One"
@@ -243,7 +243,7 @@ it('has no `value` when a disabled radio is checked', async () => {
 });
 
 it('has no `value` when disabled', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(html`
+  const host = await fixture<RadioGroup>(html`
     <glide-core-radio-group label="Label" disabled>
       <glide-core-radio-group-radio
         label="One"
@@ -264,7 +264,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

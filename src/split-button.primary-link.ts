@@ -10,7 +10,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-split-button-primary-link': GlideCoreSplitButtonPrimaryLink;
+    'glide-core-split-button-primary-link': SplitButtonPrimaryLink;
   }
 }
 
@@ -26,7 +26,7 @@ declare global {
  */
 @customElement('glide-core-split-button-primary-link')
 @final
-export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
+export default class SplitButtonPrimaryLink extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,

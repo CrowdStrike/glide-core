@@ -12,7 +12,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-toggle': GlideCoreToggle;
+    'glide-core-toggle': Toggle;
   }
 }
 
@@ -34,7 +34,7 @@ declare global {
  */
 @customElement('glide-core-toggle')
 @final
-export default class GlideCoreToggle extends LitElement {
+export default class Toggle extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

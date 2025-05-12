@@ -7,7 +7,7 @@ import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreModal from './modal.js';
+import ModalComponent from './modal.js';
 import focusOutline from './styles/focus-outline.js';
 
 const meta: Meta = {
@@ -59,7 +59,7 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-modal')
       ?.addEventListener('toggle', (event: Event) => {
-        if (event.target instanceof GlideCoreModal) {
+        if (event.target instanceof ModalComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -159,7 +159,7 @@ const meta: Meta = {
       control: false,
       table: {
         type: {
-          summary: 'GlideCoreModalIconButton',
+          summary: 'ModalIconButton',
         },
       },
     },
@@ -167,7 +167,7 @@ const meta: Meta = {
       control: false,
       table: {
         type: {
-          summary: 'GlideCoreButton',
+          summary: 'Button',
         },
       },
     },
@@ -175,7 +175,7 @@ const meta: Meta = {
       control: false,
       table: {
         type: {
-          summary: 'GlideCoreButton',
+          summary: 'Button',
         },
       },
     },
@@ -183,7 +183,7 @@ const meta: Meta = {
       control: false,
       table: {
         type: {
-          summary: 'GlideCoreButton | GlideCoreTooltip',
+          summary: 'Button | Tooltip',
         },
       },
     },

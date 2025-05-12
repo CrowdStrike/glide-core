@@ -2,12 +2,12 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreCheckbox from './checkbox.js';
-import GlideCoreCheckboxGroup from './checkbox-group.js';
-import GlideCoreDropdown from './dropdown.js';
-import GlideCoreRadioGroup from './radio-group.js';
-import GlideCoreInput from './input.js';
-import GlideCoreTextArea from './textarea.js';
+import Checkbox from './checkbox.js';
+import CheckboxGroup from './checkbox-group.js';
+import Dropdown from './dropdown.js';
+import RadioGroup from './radio-group.js';
+import Input from './input.js';
+import TextArea from './textarea.js';
 import styles from './form-controls-layout.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -15,7 +15,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-form-controls-layout': GlideCoreFormControlsLayout;
+    'glide-core-form-controls-layout': FormControlsLayout;
   }
 }
 
@@ -25,11 +25,11 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea}
+ * @slot {Checkbox | CheckboxGroup | Dropdown | RadioGroup | Input | TextArea}
  */
 @customElement('glide-core-form-controls-layout')
 @final
-export default class GlideCoreFormControlsLayout extends LitElement {
+export default class FormControlsLayout extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -65,16 +65,16 @@ export default class GlideCoreFormControlsLayout extends LitElement {
       <slot
         @slotchange=${this.#onSlotChange}
         ${assertSlot([
-          GlideCoreCheckbox,
-          GlideCoreCheckboxGroup,
-          GlideCoreDropdown,
-          GlideCoreRadioGroup,
-          GlideCoreInput,
-          GlideCoreTextArea,
+          Checkbox,
+          CheckboxGroup,
+          Dropdown,
+          RadioGroup,
+          Input,
+          TextArea,
         ])}
         ${ref(this.#slotElementRef)}
       >
-        <!-- @type {GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea} -->
+        <!-- @type {Checkbox | CheckboxGroup | Dropdown | RadioGroup | Input | TextArea} -->
       </slot>
     </div>`;
   }

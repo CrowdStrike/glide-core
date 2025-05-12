@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreDrawer from './drawer.js';
+import type Drawer from './drawer.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Drawer) {
 
           await page
             .locator('glide-core-drawer')
-            .evaluate<void, GlideCoreDrawer>((element) => {
+            .evaluate<void, Drawer>((element) => {
               element.open = true;
             });
 
@@ -39,7 +39,7 @@ for (const story of stories.Drawer) {
 
             await page
               .locator('glide-core-drawer')
-              .evaluate<void, GlideCoreDrawer>((element) => {
+              .evaluate<void, Drawer>((element) => {
                 element.open = true;
                 element.pinned = true;
               });
@@ -67,7 +67,7 @@ for (const story of stories.Drawer) {
 
           await page
             .locator('glide-core-drawer')
-            .evaluate<void, GlideCoreDrawer>(async (element) => {
+            .evaluate<void, Drawer>(async (element) => {
               element.open = true;
               element.style.setProperty('--width', '5rem');
             });

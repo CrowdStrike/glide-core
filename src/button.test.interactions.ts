@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreButton from './button.js';
+import Button from './button.js';
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreButton>(
+  const host = await fixture<Button>(
     html`<glide-core-button label="Label"></glide-core-button>`,
   );
 

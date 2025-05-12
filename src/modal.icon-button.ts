@@ -11,7 +11,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-modal-icon-button': GlideCoreModalIconButton;
+    'glide-core-modal-icon-button': ModalIconButton;
   }
 }
 
@@ -25,7 +25,7 @@ declare global {
  */
 @customElement('glide-core-modal-icon-button')
 @final
-export default class GlideCoreModalIconButton extends LitElement {
+export default class ModalIconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

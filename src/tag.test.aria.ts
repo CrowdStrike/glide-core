@@ -1,15 +1,13 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreTag from './tag.js';
+import type Tag from './tag.js';
 
 test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=tag--tag');
 
-  await page
-    .locator('glide-core-tag')
-    .evaluate<void, GlideCoreTag>((element) => {
-      element.disabled = true;
-      element.removable = true;
-    });
+  await page.locator('glide-core-tag').evaluate<void, Tag>((element) => {
+    element.disabled = true;
+    element.removable = true;
+  });
 
   await expect(page.locator('glide-core-tag')).toMatchAriaSnapshot(`
     - text: Label
@@ -20,11 +18,9 @@ test('disabled=${true}', async ({ page }) => {
 test('disabled=${false}', async ({ page }) => {
   await page.goto('?id=tag--tag');
 
-  await page
-    .locator('glide-core-tag')
-    .evaluate<void, GlideCoreTag>((element) => {
-      element.removable = true;
-    });
+  await page.locator('glide-core-tag').evaluate<void, Tag>((element) => {
+    element.removable = true;
+  });
 
   await expect(page.locator('glide-core-tag')).toMatchAriaSnapshot(`
     - text: Label

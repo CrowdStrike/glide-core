@@ -1,20 +1,20 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreIconButton from './icon-button.js';
+import IconButton from './icon-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreIconButton {}
+class Subclassed extends IconButton {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-icon-button')).to.equal(
-    GlideCoreIconButton,
+    IconButton,
   );
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreIconButton>(
+  const host = await fixture<IconButton>(
     html`<glide-core-icon-button aria-description="Description" label="Label">
       <div>Icon</div>
     </glide-core-icon-button>`,
@@ -46,7 +46,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

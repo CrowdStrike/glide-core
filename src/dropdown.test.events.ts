@@ -9,11 +9,11 @@ import {
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click, hover } from './library/mouse.js';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 
 it('dispatches an "edit" event on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -50,7 +50,7 @@ it('dispatches an "edit" event on click', async () => {
 });
 
 it('dispatches an "edit" event on Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -79,7 +79,7 @@ it('dispatches an "edit" event on Enter', async () => {
 });
 
 it('dispatches an "edit" event on Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -108,7 +108,7 @@ it('dispatches an "edit" event on Space', async () => {
 });
 
 it('dispatches an "add" event on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -131,7 +131,7 @@ it('dispatches an "add" event on click', async () => {
 });
 
 it('dispatches an "add" event on Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -154,7 +154,7 @@ it('dispatches an "add" event on Enter', async () => {
 });
 
 it('dispatches an "add" event on Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -179,7 +179,7 @@ it('dispatches an "add" event on Space', async () => {
 it('dispatches an "invalid" event on submit when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -195,7 +195,7 @@ it('dispatches an "invalid" event on submit when required and no option is selec
 it('dispatches an "invalid" event when `checkValidity()` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -211,7 +211,7 @@ it('dispatches an "invalid" event when `checkValidity()` is called when required
 it('dispatches an "invalid" event when `reportValidity()` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -227,7 +227,7 @@ it('dispatches an "invalid" event when `reportValidity()` is called when require
 it('does not dispatch an "invalid" event when `checkValidity()` is called when not required', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -245,7 +245,7 @@ it('does not dispatch an "invalid" event when `checkValidity()` is called when n
 it('does not dispatch an "invalid" event when `checkValidity()` is called when required, disabled, and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" disabled required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -263,7 +263,7 @@ it('does not dispatch an "invalid" event when `checkValidity()` is called when r
 it('does not dispatch an "invalid" event when `reportValidity()` is called when not required,', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -281,7 +281,7 @@ it('does not dispatch an "invalid" event when `reportValidity()` is called when 
 it('does not dispatch an "invalid" event when `reportValidity()` is called when required, disabled, and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" disabled required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -297,7 +297,7 @@ it('does not dispatch an "invalid" event when `reportValidity()` is called when 
 });
 
 it('does not dispatch a "change" event when an option is selected programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -319,7 +319,7 @@ it('does not dispatch a "change" event when an option is selected programmatical
 });
 
 it('does not dispatch a "input" event when an option is selected programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -341,7 +341,7 @@ it('does not dispatch a "input" event when an option is selected programmaticall
 });
 
 it('dispatches a "toggle" on open', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -359,7 +359,7 @@ it('dispatches a "toggle" on open', async () => {
 });
 
 it('dispatches a "toggle" on open', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -377,7 +377,7 @@ it('dispatches a "toggle" on open', async () => {
 });
 
 it('does not dispatch a "toggle" event when already open', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -393,7 +393,7 @@ it('does not dispatch a "toggle" event when already open', async () => {
 });
 
 it('does not dispatch a "toggle" event when already open', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,

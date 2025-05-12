@@ -1,9 +1,9 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
-import GlideCoreCheckbox from './checkbox.js';
+import Checkbox from './checkbox.js';
 
 it('is checked on click', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
@@ -15,7 +15,7 @@ it('is checked on click', async () => {
 });
 
 it('is unchecked on click', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
   );
 
@@ -27,7 +27,7 @@ it('is unchecked on click', async () => {
 });
 
 it('is checked and not indeterminate on click when unchecked and indeterminate', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       indeterminate
@@ -49,7 +49,7 @@ it('is checked and not indeterminate on click when unchecked and indeterminate',
 });
 
 it('is unchecked and not indeterminate on click when checked and indeterminate', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       checked
@@ -72,7 +72,7 @@ it('is unchecked and not indeterminate on click when checked and indeterminate',
 });
 
 it('is still checked on click when checked but disabled', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       checked
@@ -88,7 +88,7 @@ it('is still checked on click when checked but disabled', async () => {
 });
 
 it('is still unchecked on click when unchecked and disabled', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox>`,
   );
 
@@ -100,7 +100,7 @@ it('is still unchecked on click when unchecked and disabled', async () => {
 });
 
 it('is unchecked on click then forcibly unchecked via a "input" listener', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
@@ -117,7 +117,7 @@ it('is unchecked on click then forcibly unchecked via a "input" listener', async
 });
 
 it('is unchecked on click then forcibly unchecked via an "change" listener', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
@@ -134,7 +134,7 @@ it('is unchecked on click then forcibly unchecked via an "change" listener', asy
 });
 
 it('is still indeterminate on click when unchecked and disabled', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       disabled
@@ -155,7 +155,7 @@ it('is still indeterminate on click when unchecked and disabled', async () => {
 });
 
 it('remains unchecked when its "click" event is canceled', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 

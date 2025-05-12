@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreTextarea from './textarea.js';
+import Textarea from './textarea.js';
 
 it('focuses itself when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 

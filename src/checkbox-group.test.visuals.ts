@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreCheckboxGroup from './checkbox-group.js';
+import type CheckboxGroup from './checkbox-group.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories['Checkbox Group']) {
 
           await page
             .locator('glide-core-checkbox-group')
-            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+            .evaluate<void, CheckboxGroup>((element) => {
               element.disabled = true;
             });
 
@@ -44,7 +44,7 @@ for (const story of stories['Checkbox Group']) {
 
           await page
             .locator('glide-core-checkbox-group')
-            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+            .evaluate<void, CheckboxGroup>((element) => {
               element.hideLabel = true;
             });
 
@@ -58,7 +58,7 @@ for (const story of stories['Checkbox Group']) {
 
           await page
             .locator('glide-core-checkbox-group')
-            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+            .evaluate<void, CheckboxGroup>((element) => {
               element.required = true;
             });
 
@@ -72,7 +72,7 @@ for (const story of stories['Checkbox Group']) {
 
           await page
             .locator('glide-core-checkbox-group')
-            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+            .evaluate<void, CheckboxGroup>((element) => {
               const div = document.createElement('div');
 
               div.textContent = 'Description';
@@ -91,7 +91,7 @@ for (const story of stories['Checkbox Group']) {
 
           await page
             .locator('glide-core-checkbox-group')
-            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+            .evaluate<void, CheckboxGroup>((element) => {
               element.tooltip = 'Tooltip';
             });
 
@@ -107,7 +107,7 @@ for (const story of stories['Checkbox Group']) {
 
           await page
             .locator('glide-core-checkbox-group')
-            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+            .evaluate<void, CheckboxGroup>((element) => {
               element.value = ['one'];
             });
 

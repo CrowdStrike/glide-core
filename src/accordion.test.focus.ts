@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreAccordion from './accordion.js';
+import Accordion from './accordion.js';
 
 it('focuses itself when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreAccordion>(
+  const host = await fixture<Accordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 

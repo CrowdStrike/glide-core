@@ -5,9 +5,9 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreMenu from './menu.js';
-import GlideCoreMenuButton from './menu.button.js';
-import GlideCoreMenuLink from './menu.link.js';
+import Menu from './menu.js';
+import MenuButton from './menu.button.js';
+import MenuLink from './menu.link.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './split-button.secondary-button.styles.js';
 import assertSlot from './library/assert-slot.js';
@@ -17,7 +17,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-split-button-secondary-button': GlideCoreSplitButtonSecondaryButton;
+    'glide-core-split-button-secondary-button': SplitButtonSecondaryButton;
   }
 }
 
@@ -30,11 +30,11 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
+ * @slot {MenuButton | MenuLink}
  */
 @customElement('glide-core-split-button-secondary-button')
 @final
-export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
+export default class SplitButtonSecondaryButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
@@ -115,8 +115,8 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
         </button>
 
         <glide-core-menu-options>
-          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}>
-            <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
+          <slot ${assertSlot([MenuButton, MenuLink])}>
+            <!-- @type {MenuButton | MenuLink} -->
           </slot>
         </glide-core-menu-options>
       </glide-core-menu>
@@ -125,5 +125,5 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 
-  #menuElementRef = createRef<GlideCoreMenu>();
+  #menuElementRef = createRef<Menu>();
 }

@@ -1,19 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreTextarea from './textarea.js';
+import Textarea from './textarea.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreTextarea {}
+class Subclassed extends Textarea {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-textarea')).to.equal(
-    GlideCoreTextarea,
-  );
+  expect(window.customElements.get('glide-core-textarea')).to.equal(Textarea);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea
       value="value"
       label="Label"
@@ -24,7 +22,7 @@ it('is accessible', async () => {
 });
 
 it('has a character count for screenreaders', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea
       label="Label"
       maxlength="10"
@@ -41,7 +39,7 @@ it('has a character count for screenreaders', async () => {
 });
 
 it('has a character count when `maxlength` is greater than zero', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea value="value" label="Label" maxlength="10"
       ><span slot="description">Description</span></glide-core-textarea
     >`,
@@ -55,7 +53,7 @@ it('has a character count when `maxlength` is greater than zero', async () => {
 });
 
 it('does not have a character count when `maxlength` is less than zero', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea
       label="Label"
       maxlength="0"
@@ -85,7 +83,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

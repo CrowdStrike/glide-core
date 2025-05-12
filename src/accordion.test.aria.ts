@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreAccordion from './accordion.js';
+import type Accordion from './accordion.js';
 
 test('open=${true}', async ({ page }) => {
   await page.goto('?id=accordion--accordion');
 
   await page
     .locator('glide-core-accordion')
-    .evaluate<void, GlideCoreAccordion>((element) => {
+    .evaluate<void, Accordion>((element) => {
       element.open = true;
     });
 

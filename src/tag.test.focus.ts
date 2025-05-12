@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreTag from './tag.js';
+import Tag from './tag.js';
 
 it('calling `focus()` focuses its removal button', async () => {
-  const host = await fixture<GlideCoreTag>(
+  const host = await fixture<Tag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 

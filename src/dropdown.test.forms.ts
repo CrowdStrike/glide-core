@@ -1,13 +1,13 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 
 it('submits its form on Enter when closed', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -32,7 +32,7 @@ it('submits its form on Enter when closed', async () => {
 it('does not submit its form on Enter when open', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -57,7 +57,7 @@ it('does not submit its form on Enter when open', async () => {
 it('does not submit its form when Enter is pressed on the Edit button', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"
@@ -87,7 +87,7 @@ it('does not submit its form when Enter is pressed on the Edit button', async ()
 });
 
 it('is valid if not required and no option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"
@@ -103,7 +103,7 @@ it('is valid if not required and no option is selected', async () => {
 });
 
 it('is invalid if required and no option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -116,7 +116,7 @@ it('is invalid if required and no option is selected', async () => {
 });
 
 it('is invalid if required and no option is selected when `filterable`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -129,7 +129,7 @@ it('is invalid if required and no option is selected when `filterable`', async (
 });
 
 it('is both invalid and valid if required and disabled and no option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" disabled required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -142,7 +142,7 @@ it('is both invalid and valid if required and disabled and no option is selected
 });
 
 it('sets the validity message with `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -173,7 +173,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -195,7 +195,7 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
 });
 
 it('is invalid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -226,7 +226,7 @@ it('is invalid when `setValidity()` is called', async () => {
 });
 
 it('is valid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -252,7 +252,7 @@ it('is valid when `setValidity()` is called', async () => {
 });
 
 it('sets the validity message with `setCustomValidity()` when `filterable`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -283,7 +283,7 @@ it('sets the validity message with `setCustomValidity()` when `filterable`', asy
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()` when `filterable`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -305,7 +305,7 @@ it('removes a validity message with an empty argument to `setCustomValidity()` w
 });
 
 it('is invalid when `setValidity()` is called when `filterable`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -336,7 +336,7 @@ it('is invalid when `setValidity()` is called when `filterable`', async () => {
 });
 
 it('is valid when `setValidity()` is called when `filterable`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -362,7 +362,7 @@ it('is valid when `setValidity()` is called when `filterable`', async () => {
 });
 
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -376,7 +376,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
 });
 
 it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,

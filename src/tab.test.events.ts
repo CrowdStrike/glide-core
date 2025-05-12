@@ -1,8 +1,8 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import GlideCoreTab from './tab.js';
+import Tab from './tab.js';
 
 it('dispatches a "private-selected" event when selected', async () => {
-  const host = await fixture<GlideCoreTab>(
+  const host = await fixture<Tab>(
     html`<glide-core-tab panel="1">One</glide-core-tab>`,
   );
 

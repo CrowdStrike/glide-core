@@ -9,7 +9,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-private-tooltip-container': GlideCoreTooltipContainer;
+    'glide-core-private-tooltip-container': TooltipContainer;
   }
 }
 
@@ -40,7 +40,7 @@ declare global {
  */
 @customElement('glide-core-private-tooltip-container')
 @final
-export default class GlideCoreTooltipContainer extends LitElement {
+export default class TooltipContainer extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

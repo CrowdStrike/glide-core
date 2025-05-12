@@ -16,7 +16,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-textarea': GlideCoreTextarea;
+    'glide-core-textarea': Textarea;
   }
 }
 
@@ -70,10 +70,7 @@ declare global {
  */
 @customElement('glide-core-textarea')
 @final
-export default class GlideCoreTextarea
-  extends LitElement
-  implements FormControl
-{
+export default class Textarea extends LitElement implements FormControl {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {

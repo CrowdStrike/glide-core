@@ -4,14 +4,14 @@ import { expect, fixture, html } from '@open-wc/testing';
 import en from '../translations/en.js';
 import { LocalizeController } from './localize.js';
 
-@customElement('mock-host')
-class GlideCoreMockComponent extends LitElement {
+@customElement('glide-core-component')
+class Component extends LitElement {
   localize = new LocalizeController(this);
 }
 
 it('can call any term from en translation if locale is Japanese', async () => {
-  const host = await fixture<GlideCoreMockComponent>(
-    html`<mock-host></mock-host>`,
+  const host = await fixture<Component>(
+    html`<glide-core-component></glide-core-component>`,
   );
 
   host.lang = 'ja';
@@ -26,8 +26,8 @@ it('can call any term from en translation if locale is Japanese', async () => {
 });
 
 it('can call any term from en translation if locale is French', async () => {
-  const host = await fixture<GlideCoreMockComponent>(
-    html`<mock-host></mock-host>`,
+  const host = await fixture<Component>(
+    html`<glide-core-component></glide-core-component>`,
   );
 
   host.lang = 'fr';
