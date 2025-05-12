@@ -67,7 +67,7 @@ it('does not focus the input after `checkValidity()` is called', async () => {
 
   host.checkValidity();
 
-  expect(host.shadowRoot?.activeElement).to.equal(null);
+  expect(host.shadowRoot?.activeElement).to.be.null;
 });
 
 it('updates its validity on blur', async () => {

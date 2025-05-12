@@ -30,7 +30,7 @@ it('can be reset if it has no initial value', async () => {
   host.value = 'value';
   form.reset();
 
-  expect(host.value).to.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('has `formData` when it has a `value` and `name`', async () => {

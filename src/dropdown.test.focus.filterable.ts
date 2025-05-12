@@ -127,7 +127,7 @@ it('does not focus the input when `checkValidity()` is called', async () => {
   );
 
   host.checkValidity();
-  expect(host.shadowRoot?.activeElement).to.equal(null);
+  expect(host.shadowRoot?.activeElement).to.be.null;
 });
 
 it('sets the `value` of its `<input> to the selected option when focus is lost', async () => {

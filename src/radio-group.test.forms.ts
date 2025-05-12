@@ -240,7 +240,7 @@ it('resets `value` to an empty string when no radios were initially checked', as
   form.reset();
   await host.updateComplete;
 
-  expect(host.value).to.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('is valid if not required and radios are unchecked', async () => {

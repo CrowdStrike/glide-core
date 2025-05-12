@@ -239,7 +239,7 @@ it('has no `value` when a disabled radio is checked', async () => {
     </glide-core-radio-group>
   `);
 
-  expect(host.value).to.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('has no `value` when disabled', async () => {
@@ -257,7 +257,7 @@ it('has no `value` when disabled', async () => {
     </glide-core-radio-group>
   `);
 
-  expect(host.value).to.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('throws when subclassed', async () => {

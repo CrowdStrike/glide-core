@@ -17,7 +17,7 @@ it('can be cleared', async () => {
   expect(host.value).to.be.equal('testing');
 
   await click(clearButton);
-  expect(host.value).to.be.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('reveals its value', async () => {

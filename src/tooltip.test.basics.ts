@@ -106,7 +106,7 @@ it('does not set `aria-describedby` on its target when disabled', async () => {
   );
 
   const button = host.querySelector('button');
-  expect(button?.getAttribute('aria-describedby')).to.equal(null);
+  expect(button?.getAttribute('aria-describedby')).to.be.null;
 });
 
 it('sets `aria-describedby` when not hidden from screenreaders', async () => {
@@ -131,7 +131,7 @@ it('does not set `aria-describedby` on its target when hidden from screenreaders
   );
 
   const button = host.querySelector('button');
-  expect(button?.getAttribute('aria-describedby')).to.equal(null);
+  expect(button?.getAttribute('aria-describedby')).to.be.null;
 });
 
 it('throws when `label` is empty', async () => {

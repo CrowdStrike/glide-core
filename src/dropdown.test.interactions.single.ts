@@ -801,5 +801,5 @@ it('updates its internal label when a selected option is disabled programmatical
   await host.updateComplete;
 
   const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
-  expect(label?.textContent?.trim()).to.equal('');
+  expect(label?.textContent?.trim()).to.be.empty.string;
 });

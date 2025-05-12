@@ -77,7 +77,7 @@ it('does not focus its primary button when `checkValidity()` is called', async (
   );
 
   host.checkValidity();
-  expect(host.shadowRoot?.activeElement).to.equal(null);
+  expect(host.shadowRoot?.activeElement).to.be.null;
 });
 
 it('focuses the second tag when the first one is removed', async () => {

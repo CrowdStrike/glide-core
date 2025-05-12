@@ -263,7 +263,7 @@ it('updates `value` when the `value` of a checked radio is emptied programmatica
   assert(radio);
   radio.value = '';
 
-  expect(host.value).to.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('enables radios when `value` is set programmatically', async () => {
@@ -658,7 +658,7 @@ it('updates its `value` when the group is programmatically disabled', async () =
   host.disabled = true;
   await host.updateComplete;
 
-  expect(host.value).to.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('retains its `value` when the `value` of a checked radio that is not the last enabled one is changed', async () => {
