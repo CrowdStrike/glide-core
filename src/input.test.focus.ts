@@ -25,7 +25,7 @@ it('focuses itself after submit when required and no value', async () => {
   form.requestSubmit();
 
   const input = host.shadowRoot?.querySelector('[data-test="input"]');
-  expect(host.shadowRoot?.activeElement).to.be.equal(input);
+  expect(host.shadowRoot?.activeElement).to.equal(input);
 });
 
 it('focuses itself after `reportValidity()` is called when required and no value', async () => {

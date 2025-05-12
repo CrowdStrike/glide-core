@@ -42,7 +42,7 @@ it('has `formData` value when checked', async () => {
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.be.equal('value');
+  expect(formData.get('name')).to.equal('value');
 });
 
 it('has `formData` value when checked and indeterminate', async () => {
@@ -62,7 +62,7 @@ it('has `formData` value when checked and indeterminate', async () => {
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.be.equal('value');
+  expect(formData.get('name')).to.equal('value');
 });
 
 it('has no `formData` value when unchecked', async () => {

@@ -25,7 +25,7 @@ it('closes when it loses focus', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
 it('remains open when the options host is focused', async () => {

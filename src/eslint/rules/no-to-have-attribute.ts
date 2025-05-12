@@ -13,13 +13,13 @@ export const noToHaveAttribute = createRule({
   meta: {
     docs: {
       description:
-        'Using `.to.have.attribute()` causes tests to hang when it is falsy, so we should not use it.',
+        'Using `to.have.attribute()` causes tests to hang when falsy.',
       recommended: true,
     },
     type: 'suggestion',
     messages: {
       noToHaveAttribute:
-        'Prefer using `.hasAttribute()` or `.getAttribute()` instead of `.to.have.attribute()`.',
+        'Prefer using `hasAttribute()` or `getAttribute()` instead of `to.have.attribute()`.',
     },
     schema: [],
   },

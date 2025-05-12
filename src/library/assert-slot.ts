@@ -188,6 +188,6 @@ class AssertSlot extends Directive {
 
 /**
  * @param {(Element | Text)[] | null } nodes - An array of node constructors allowed in the slot or `null` is any constructor is allowed
- * @param {boolean} [isOptional] - `false` by default. Set o `true` if the slot is optional
+ * @param {boolean} [isOptional] - `false` by default. Set to `true` if the slot is optional
  */
 export default directive(AssertSlot);

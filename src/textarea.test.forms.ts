@@ -30,7 +30,7 @@ it('can be reset if it has no initial value', async () => {
   host.value = 'value';
   form.reset();
 
-  expect(host.value).to.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('has `formData` when it has a `value` and `name`', async () => {
@@ -47,7 +47,7 @@ it('has `formData` when it has a `value` and `name`', async () => {
 
   const formData = new FormData(form);
 
-  expect(formData.get('name')).to.be.equal('value');
+  expect(formData.get('name')).to.equal('value');
 });
 
 it('has `formData` when text is entered and has a `name`', async () => {
@@ -62,7 +62,7 @@ it('has `formData` when text is entered and has a `name`', async () => {
   await sendKeys({ type: 'value' });
   const formData = new FormData(form);
 
-  expect(formData.get('name')).to.be.equal('value');
+  expect(formData.get('name')).to.equal('value');
 });
 
 it('has no `formData` value when it has a value and is disabled', async () => {
@@ -450,7 +450,7 @@ it('submits its form on Meta + Enter', async () => {
   await sendKeys({ press: 'Enter' });
   await sendKeys({ up: 'Meta' });
 
-  expect(spy.callCount).to.be.equal(1);
+  expect(spy.callCount).to.equal(1);
 });
 
 it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
