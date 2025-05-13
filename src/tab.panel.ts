@@ -18,6 +18,12 @@ declare global {
  * @attr {string} name - The corresponding Tab should have a `panel` attribute with this name
  *
  * @readonly
+ * @attr {string} [id]
+ *
+ * @readonly
+ * @attr {string} [role='tabpanel']
+ *
+ * @readonly
  * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the panel
@@ -56,10 +62,11 @@ export default class TabPanel extends LitElement {
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
-  protected override firstUpdated() {
-    this.setAttribute('role', 'tabpanel');
-    this.id = this.#id;
-  }
+  @property({ reflect: true })
+  override readonly role = 'tabpanel';
+
+  @property({ reflect: true })
+  override readonly id: string = nanoid();
 
   override render() {
     return html`<div
@@ -78,8 +85,6 @@ export default class TabPanel extends LitElement {
       </slot>
     </div>`;
   }
-
-  #id = nanoid();
 
   #isSelected = false;
 }

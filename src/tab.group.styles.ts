@@ -40,26 +40,24 @@ export default [
       @media (prefers-reduced-motion: no-preference) {
         scroll-behavior: smooth;
       }
+    }
 
-      &::after {
-        background: var(--glide-core-color-interactive-stroke-active);
-        block-size: 0.125rem;
-        content: '';
-        inline-size: var(--private-selected-tab-indicator-width);
-        inset-block-end: 0;
-        inset-inline: 0;
-        position: absolute;
-        transform-origin: left;
-        translate: var(--private-selected-tab-indicator-translate, 0) 0;
-      }
+    .selected-tab-indicator {
+      background: var(--glide-core-color-interactive-stroke-active);
+      block-size: 0.125rem;
+      content: '';
+      inline-size: var(--private-selected-tab-indicator-width);
+      inset-block-end: 0;
+      inset-inline: 0;
+      position: absolute;
+      transform-origin: left;
+      translate: var(--private-selected-tab-indicator-translate, 0) 0;
 
       &.animated {
         @media (prefers-reduced-motion: no-preference) {
-          &::after {
-            transition:
-              inline-size 250ms,
-              translate 250ms;
-          }
+          transition:
+            inline-size 250ms,
+            translate 250ms;
         }
       }
     }

@@ -17,6 +17,13 @@ declare global {
 /**
  * @attr {string} panel
  * @attr {boolean} [disabled=false]
+ *
+ * @readonly
+ * @attr {string} [id]
+ *
+ * @readonly
+ * @attr {string} [role='tab']
+ *
  * @attr {boolean} [selected=false]
  *
  * @readonly
@@ -67,10 +74,11 @@ export default class Tab extends LitElement {
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
-  protected override firstUpdated() {
-    this.setAttribute('role', 'tab');
-    this.id = this.#id;
-  }
+  @property({ reflect: true })
+  override readonly id: string = nanoid();
+
+  @property({ reflect: true })
+  override readonly role = 'tab';
 
   privateSelect() {
     this.selected = true;
@@ -86,6 +94,7 @@ export default class Tab extends LitElement {
         component: true,
         disabled: this.disabled,
       })}
+      data-test="component"
     >
       <div class="container">
         <slot name="icon">
@@ -118,8 +127,6 @@ export default class Tab extends LitElement {
       }
     }
   }
-
-  #id = nanoid();
 
   #isSelected = false;
 }
