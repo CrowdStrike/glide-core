@@ -101,7 +101,7 @@ export default class Tab extends LitElement {
           -->
         </slot>
       </div>
-    </div> `;
+    </div>`;
   }
 
   protected override updated(changes: PropertyValues) {
