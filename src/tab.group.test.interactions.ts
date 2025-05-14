@@ -1,5 +1,12 @@
 import { emulateMedia, sendKeys } from '@web/test-runner-commands';
-import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
+import {
+  assert,
+  aTimeout,
+  expect,
+  fixture,
+  html,
+  waitUntil,
+} from '@open-wc/testing';
 import Tab from './tab.js';
 import { click } from './library/mouse.js';
 import TabGroup from './tab.group.js';
@@ -215,6 +222,43 @@ it('does not have overflow buttons when not overflowing', async () => {
 
   expect(startButton).to.be.null;
   expect(endButton).to.be.null;
+});
+
+it('hides its overflow buttons when overall tab content is reduced', async () => {
+  // The selected tab indicator transitions its width and position. The transitions
+  // are disabled to simplify and speed up the test.
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">${'x'.repeat(500)}</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  await waitUntil(() => {
+    return (
+      host.shadowRoot?.querySelector('[data-test="overflow-start-button"]') &&
+      host.shadowRoot?.querySelector('[data-test="overflow-end-button"]')
+    );
+  });
+
+  const firstTab = host.querySelector('glide-core-tab');
+
+  assert(firstTab);
+  firstTab.innerHTML = 'One';
+
+  await waitUntil(() => {
+    return (
+      !host.shadowRoot?.querySelector('[data-test="overflow-start-button"]') &&
+      !host.shadowRoot?.querySelector('[data-test="overflow-end-button"]')
+    );
+  });
 });
 
 it('disables its overflow buttons on scroll', async () => {
@@ -441,4 +485,69 @@ it('can be nested', async () => {
   expect(panels[1]?.ariaHidden).to.equal('true');
   expect(panels[2]?.ariaHidden).to.equal('false');
   expect(panels[3]?.ariaHidden).to.equal('true');
+});
+
+it('updates the width of its selected tab indicator when the width of a tab changes', async () => {
+  // The selected tab indicator transitions its width and position. The transitions
+  // are disabled to simplify and speed up the test.
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const firstTab = host
+    .querySelector('glide-core-tab')
+    ?.shadowRoot?.querySelector('[data-test="component"]');
+
+  const firstTabInitialWidth = firstTab?.clientWidth;
+
+  const selectedTabIndicator = host.shadowRoot?.querySelector(
+    '[data-test="selected-tab-indicator"]',
+  );
+
+  assert(firstTab);
+  firstTab.innerHTML = 'One (But Longer)';
+
+  await waitUntil(() => {
+    return selectedTabIndicator?.clientWidth !== firstTabInitialWidth;
+  });
+
+  expect(selectedTabIndicator?.clientWidth).to.equal(firstTab.clientWidth);
+});
+
+it('sets aria attributes on tabs and panels when new ones are added', async () => {
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tab = document.createElement('glide-core-tab');
+  tab.slot = 'nav';
+  tab.panel = '3';
+  tab.textContent = 'Three';
+
+  const panel = document.createElement('glide-core-tab-panel');
+  panel.name = '3';
+  panel.textContent = 'Three';
+
+  host.append(tab);
+  host.append(panel);
+
+  // Wait for `#onNavSlotChange()` and `#onDefaultSlotChange()`.
+  await aTimeout(0);
+
+  expect(tab.getAttribute('aria-controls')).to.equal(panel.id);
+  expect(panel.getAttribute('aria-labelledby')).to.equal(tab.id);
 });

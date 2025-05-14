@@ -7475,6 +7475,27 @@
               "readonly": true,
               "attribute": "version",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tabpanel'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
             }
           ],
           "attributes": [
@@ -7498,6 +7519,23 @@
               },
               "readonly": true,
               "fieldName": "version"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tabpanel'",
+              "fieldName": "role"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
             }
           ],
           "superclass": {
@@ -7613,6 +7651,27 @@
               "readonly": true,
               "attribute": "version",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tab'",
+              "attribute": "role",
+              "reflects": true
             }
           ],
           "events": [
@@ -7661,6 +7720,23 @@
               },
               "readonly": true,
               "fieldName": "version"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tab'",
+              "fieldName": "role"
             }
           ],
           "superclass": {

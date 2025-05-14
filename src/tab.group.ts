@@ -48,11 +48,10 @@ export default class TabGroup extends LitElement {
 
   override firstUpdated() {
     const selectedTab =
-      this.#tabElements?.find((tab) => tab.selected) ?? this.#tabElements?.[0];
+      this.#tabElements.find((tab) => tab.selected) ?? this.#tabElements[0];
 
     if (selectedTab) {
       this.#selectedTab = selectedTab;
-      this.#updateTabsPanelsAndTabBar();
     }
   }
 
@@ -77,7 +76,7 @@ export default class TabGroup extends LitElement {
               data-test="overflow-start-button"
               tabindex="-1"
               ?disabled=${this.isDisableOverflowStartButton}
-              @click=${this.#onOverflowStartButtonClick}
+              @click=${this.#onOverflowButtonClick.bind(this, 'start')}
               ${ref(this.#overflowStartButtonElementRef)}
             >
               ${chevronIcon}
@@ -85,10 +84,7 @@ export default class TabGroup extends LitElement {
           `,
         )}
         <div
-          class=${classMap({
-            'tab-group': true,
-            animated: this.hasUpdated,
-          })}
+          class="tab-group"
           data-test="tablist"
           role="tablist"
           tabindex="-1"
@@ -105,6 +101,15 @@ export default class TabGroup extends LitElement {
           >
             <!-- @type {Tab} -->
           </slot>
+
+          <div
+            class=${classMap({
+              'selected-tab-indicator': true,
+              animated: this.hasUpdated,
+            })}
+            data-test="selected-tab-indicator"
+            ${ref(this.#selectedTabIndicatorElementRef)}
+          ></div>
         </div>
 
         ${when(
@@ -119,7 +124,7 @@ export default class TabGroup extends LitElement {
               })}
               data-test="overflow-end-button"
               tabindex="-1"
-              @click=${this.#onOverflowEndButtonClick}
+              @click=${this.#onOverflowButtonClick.bind(this, 'end')}
               ?disabled=${this.isDisableOverflowEndButton}
               ${ref(this.#overflowEndButtonElementRef)}
             >
@@ -129,14 +134,10 @@ export default class TabGroup extends LitElement {
         )}
       </div>
 
-      <slot ${assertSlot([TabPanel])}>
+      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabPanel])}>
         <!-- @type {TabPanel} -->
       </slot>
     </div>`;
-  }
-
-  override updated() {
-    this.#setUpTabs();
   }
 
   @state()
@@ -152,9 +153,6 @@ export default class TabGroup extends LitElement {
 
   #localize = new LocalizeController(this);
 
-  // Theshold (in px) used to determine when to display overflow buttons.
-  #overflowButtonsScrollDelta = 1;
-
   #overflowEndButtonElementRef = createRef<HTMLButtonElement>();
 
   #overflowStartButtonElementRef = createRef<HTMLButtonElement>();
@@ -162,6 +160,8 @@ export default class TabGroup extends LitElement {
   #resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   #selectedTab: Tab | null = null;
+
+  #selectedTabIndicatorElementRef = createRef<HTMLElement>();
 
   #tabListElementRef = createRef<HTMLElement>();
 
@@ -189,7 +189,8 @@ export default class TabGroup extends LitElement {
       this.#tabElements.includes(clickedTab)
     ) {
       this.#selectedTab = clickedTab;
-      this.#updateTabsPanelsAndTabBar();
+      this.#updateSelectedTabAndPanel();
+      this.#updateSelectedTabIndicator();
       clickedTab.selected = true;
     }
   }
@@ -206,7 +207,8 @@ export default class TabGroup extends LitElement {
       !tab.disabled
     ) {
       this.#selectedTab = tab;
-      this.#updateTabsPanelsAndTabBar();
+      this.#updateSelectedTabAndPanel();
+      this.#updateSelectedTabIndicator();
       event.preventDefault();
     }
 
@@ -274,18 +276,30 @@ export default class TabGroup extends LitElement {
     }
   }
 
+  #onDefaultSlotChange() {
+    this.#setAriaAttributes();
+  }
+
   #onNavSlotChange() {
-    this.#setUpTabs();
-    this.#updateTabsPanelsAndTabBar();
+    this.#setAriaAttributes();
+    this.#updateSelectedTabAndPanel();
+    this.#updateSelectedTabIndicator();
     this.#setOverflowButtonsState();
   }
 
-  #onOverflowEndButtonClick() {
-    this.#scrollTabsList('right');
-  }
+  #onOverflowButtonClick(button: 'start' | 'end') {
+    const directionFactor = button === 'end' ? 1 : -1;
+    const percentageFactor = 0.5;
 
-  #onOverflowStartButtonClick() {
-    this.#scrollTabsList('left');
+    if (this.#tabListElementRef.value) {
+      this.#tabListElementRef.value.scrollBy({
+        left:
+          directionFactor *
+          this.#tabListElementRef.value.clientWidth *
+          percentageFactor,
+        top: 0,
+      });
+    }
   }
 
   #onTabListFocusout() {
@@ -302,6 +316,8 @@ export default class TabGroup extends LitElement {
       clearTimeout(this.#resizeTimeout);
     }
 
+    this.#updateSelectedTabIndicator();
+
     // Toggling the overflow buttons will itself cause a resize. So we
     // wait a tick to avoid a loop.
     this.#resizeTimeout = setTimeout(() => {
@@ -312,82 +328,47 @@ export default class TabGroup extends LitElement {
   #onTabSelected(event: Event) {
     if (event.target instanceof Tab && event.target.selected) {
       this.#selectedTab = event.target;
-
-      this.#updateTabsPanelsAndTabBar();
+      this.#updateSelectedTabAndPanel();
+      this.#updateSelectedTabIndicator();
 
       event.target.privateSelect();
     }
   }
 
-  #scrollTabsList(buttonPlacement: 'left' | 'right') {
-    const directionFactor = buttonPlacement === 'right' ? 1 : -1;
-    const percentageFactor = 0.5;
+  #setAriaAttributes() {
+    for (const tab of this.#tabElements) {
+      const relatedPanel = this.#panelElements
+        .filter((panel) => panel.name === tab.panel)
+        ?.at(0);
 
-    if (this.#tabListElementRef.value) {
-      const scrollDistance =
-        directionFactor *
-        this.#tabListElementRef.value.clientWidth *
-        percentageFactor;
-
-      this.#tabListElementRef.value.scrollBy({
-        left: scrollDistance,
-        top: 0,
-      });
-    }
-  }
-
-  #setEndOverflowButtonState() {
-    const tabListElement = this.#tabListElementRef.value;
-    const tabListElementRect = tabListElement?.getBoundingClientRect();
-
-    if (tabListElementRect && tabListElement) {
-      const { width: tabListElementWidth } = tabListElementRect;
-
-      const tabListElementScrollRight =
-        tabListElement.scrollLeft + tabListElementWidth;
-
-      const tabListElementScrollWidth = tabListElement.scrollWidth;
-
-      this.isDisableOverflowEndButton =
-        tabListElementScrollWidth - tabListElementScrollRight <=
-        this.#overflowButtonsScrollDelta;
+      if (relatedPanel?.id) {
+        tab.setAttribute('aria-controls', relatedPanel.id);
+        relatedPanel.setAttribute('aria-labelledby', tab.id);
+      }
     }
   }
 
   #setOverflowButtonsState() {
     if (this.#tabListElementRef.value) {
-      const { width } = this.#tabListElementRef.value.getBoundingClientRect();
-
       this.isShowOverflowButtons =
-        this.#tabListElementRef.value.scrollWidth - width >
-        this.#overflowButtonsScrollDelta;
+        this.#tabListElementRef.value.scrollWidth >
+        this.#tabListElementRef.value.clientWidth;
     }
 
-    this.#setStartOverflowButtonState();
-    this.#setEndOverflowButtonState();
-  }
-
-  #setStartOverflowButtonState() {
     if (this.#tabListElementRef.value) {
       this.isDisableOverflowStartButton =
         this.#tabListElementRef.value.scrollLeft <= 0;
     }
-  }
 
-  #setUpTabs() {
-    for (const tabElement of this.#tabElements) {
-      const relatedPanel = this.#panelElements
-        .filter((panel) => panel.name === tabElement.panel)
-        ?.at(0);
-
-      if (relatedPanel?.id) {
-        tabElement.setAttribute('aria-controls', relatedPanel.id);
-        relatedPanel.setAttribute('aria-labelledby', tabElement.id);
-      }
+    if (this.#tabListElementRef.value) {
+      this.isDisableOverflowEndButton =
+        this.#tabListElementRef.value.scrollLeft +
+          this.#tabListElementRef.value.clientWidth >=
+        this.#tabListElementRef.value.scrollWidth;
     }
   }
 
-  #updateTabsPanelsAndTabBar() {
+  #updateSelectedTabAndPanel() {
     for (const tabElement of this.#tabElements) {
       tabElement.selected = this.#selectedTab === tabElement;
       tabElement.tabIndex = this.#selectedTab === tabElement ? 0 : -1;
@@ -400,12 +381,13 @@ export default class TabGroup extends LitElement {
       panel.privateIsSelected = thisPanelName === selectedTabPanelName;
       panel.tabIndex = thisPanelName === selectedTabPanelName ? 0 : -1;
     }
+  }
 
-    // Set the selected tab indicator.
+  #updateSelectedTabIndicator() {
     if (
       this.#selectedTab &&
       this.#tabElements.length > 0 &&
-      this.#componentElementRef.value
+      this.#selectedTabIndicatorElementRef.value
     ) {
       const selectedTabInlinePadding = Number.parseInt(
         window
@@ -418,7 +400,7 @@ export default class TabGroup extends LitElement {
           ? selectedTabInlinePadding
           : this.#selectedTab.offsetLeft - this.#tabElements.at(0)!.offsetLeft;
 
-      this.#componentElementRef.value.style.setProperty(
+      this.#selectedTabIndicatorElementRef.value.style.setProperty(
         '--private-selected-tab-indicator-translate',
         `${selectedTabIndicatorTranslateLeft}px`,
       );
@@ -432,7 +414,7 @@ export default class TabGroup extends LitElement {
       const { width: selectedTabWidth } =
         this.#selectedTab.getBoundingClientRect();
 
-      this.#componentElementRef.value.style.setProperty(
+      this.#selectedTabIndicatorElementRef.value.style.setProperty(
         '--private-selected-tab-indicator-width',
         `${selectedTabWidth - selectedTabIndicatorWidthAdjustment}px`,
       );

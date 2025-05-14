@@ -1,4 +1,5 @@
-import { expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
+import { emulateMedia } from '@web/test-runner-commands';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import TabGroup from './tab.group.js';
@@ -30,6 +31,35 @@ it('selects the first tab when none is selected', async () => {
 
   expect(tabs[0]?.selected).to.be.true;
   expect(tabs[1]?.selected).to.be.false;
+});
+
+it('sets the width of its selected tab indicator to that of the selected tab', async () => {
+  // The selected tab indicator transitions its width and position. The transitions
+  // are disabled to simplify and speed up the test.
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const firstTab = host
+    .querySelector('glide-core-tab')
+    ?.shadowRoot?.querySelector('[data-test="component"]');
+
+  const selectedTabIndicator = host.shadowRoot?.querySelector(
+    '[data-test="selected-tab-indicator"]',
+  );
+
+  assert(firstTab);
+  assert(selectedTabIndicator);
+
+  expect(selectedTabIndicator.clientWidth).to.equal(firstTab.clientWidth);
 });
 
 it('throws when subclassed', async () => {
