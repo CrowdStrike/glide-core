@@ -52,7 +52,7 @@ it('has `formData` when the checkboxes are checked', async () => {
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.be.equal('["one","two"]');
+  expect(formData.get('name')).to.equal('["one","two"]');
 });
 
 it('has `formData` when the checkbox is checked and indeterminate', async () => {
@@ -73,7 +73,7 @@ it('has `formData` when the checkbox is checked and indeterminate', async () => 
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.be.equal('["value"]');
+  expect(formData.get('name')).to.equal('["value"]');
 });
 
 it('has no `formData` when the checkboxes are unchecked', async () => {

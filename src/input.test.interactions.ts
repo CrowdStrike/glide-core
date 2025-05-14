@@ -14,10 +14,10 @@ it('can be cleared', async () => {
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'testing' });
-  expect(host.value).to.be.equal('testing');
+  expect(host.value).to.equal('testing');
 
   await click(clearButton);
-  expect(host.value).to.be.equal('');
+  expect(host.value).to.be.empty.string;
 });
 
 it('reveals its value', async () => {

@@ -37,7 +37,7 @@ it('focuses its primary button on submit when required and no options are select
 
   const button = host.shadowRoot?.querySelector('[data-test="primary-button"]');
 
-  expect(host.shadowRoot?.activeElement).to.be.equal(button);
+  expect(host.shadowRoot?.activeElement).to.equal(button);
 });
 
 it('focuses its primary button when `reportValidity()` is called when required and no options are selected', async () => {
@@ -77,7 +77,7 @@ it('does not focus its primary button when `checkValidity()` is called', async (
   );
 
   host.checkValidity();
-  expect(host.shadowRoot?.activeElement).to.equal(null);
+  expect(host.shadowRoot?.activeElement).to.be.null;
 });
 
 it('focuses the second tag when the first one is removed', async () => {

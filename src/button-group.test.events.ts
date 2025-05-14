@@ -78,7 +78,7 @@ it('dispatches "selected" events when arrowing', async () => {
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
   expect(event.composed).to.be.true;
-  expect(event.target).to.be.equal(buttons[1]);
+  expect(event.target).to.equal(buttons[1]);
 
   sendKeys({ press: 'ArrowLeft' });
   event = await oneEvent(host, 'selected');
@@ -126,7 +126,7 @@ it('dispatches a "selected" event when a button is selected via Space', async ()
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
   expect(event.composed).to.be.true;
-  expect(event.target).to.be.equal(buttons[1]);
+  expect(event.target).to.equal(buttons[1]);
 });
 
 it('does not dispatch a "selected" event when a button is selected programmatically', async () => {

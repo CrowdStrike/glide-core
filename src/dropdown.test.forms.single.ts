@@ -89,7 +89,7 @@ it('has `formData` value when an option is selected', async () => {
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.be.equal('["value"]');
+  expect(formData.get('name')).to.equal('["value"]');
 });
 
 it('has no `formData` value when no option is selected', async () => {

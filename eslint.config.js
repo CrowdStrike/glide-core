@@ -319,7 +319,7 @@ export default defineConfig([
       '@crowdstrike/glide-core/no-only-tests': 'error',
       '@crowdstrike/glide-core/no-skip-tests': 'error',
       '@crowdstrike/glide-core/no-to-have-attribute': 'error',
-      '@crowdstrike/glide-core/prefer-to-be-true-or-false': 'error',
+      '@crowdstrike/glide-core/better-test-assertions': 'error',
       '@crowdstrike/glide-core/public-member-return-type': 'off',
       '@crowdstrike/glide-core/public-getter-default-comment': 'off',
       '@crowdstrike/glide-core/event-dispatch-from-this': 'off',

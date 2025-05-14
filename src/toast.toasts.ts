@@ -184,7 +184,7 @@ export default class Toasts extends LitElement {
     toasts.toasts = [toast, ...toasts.toasts];
 
     // The transition won't play if the toast is added to the DOM in the same
-    // tick that the `.open` class is added to `.toast`. So we first add the
+    // tick that the `.show` class is added to `.toast`. So we first add the
     // toast to the DOM (above), then we set `privateShow` to apply the class.
     // Then we force a render in the next frame (below).
     await toasts.updateComplete;

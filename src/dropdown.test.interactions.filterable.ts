@@ -377,7 +377,7 @@ it('clears its filter on close when single-select and no option is selected', as
     '[data-test="input"]',
   );
 
-  expect(input?.value).to.equal('');
+  expect(input?.value).to.be.empty.string;
 });
 
 it('clears its filter on close when multiselect and no option is selected', async () => {
@@ -400,7 +400,7 @@ it('clears its filter on close when multiselect and no option is selected', asyn
     '[data-test="input"]',
   );
 
-  expect(input?.value).to.equal('');
+  expect(input?.value).to.be.empty.string;
 });
 
 it('clears its filter on close when multiselect and an option is selected', async () => {
@@ -427,7 +427,7 @@ it('clears its filter on close when multiselect and an option is selected', asyn
     '[data-test="input"]',
   );
 
-  expect(input?.value).to.equal('');
+  expect(input?.value).to.be.empty.string;
 });
 
 it('does not clear its filter when a tag is removed via Backspace', async () => {
@@ -687,7 +687,7 @@ it('clears its input field when `multiple` is set programmatically', async () =>
     '[data-test="input"]',
   );
 
-  expect(input?.value).to.equal('');
+  expect(input?.value).to.be.empty.string;
 });
 
 it('does not select options on Space', async () => {

@@ -357,7 +357,7 @@ it('closes when `open` is set programmatically', async () => {
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(target?.ariaExpanded).to.equal('false');
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
 it('does not open on click when there are no options', async () => {
@@ -378,7 +378,7 @@ it('does not open on click when there are no options', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -403,7 +403,7 @@ it('does not open when `disabled` is set on its target', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -431,7 +431,7 @@ it('does not open when `disabled` is set programmatically on its target', async 
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -457,7 +457,7 @@ it('does not open when `aria-disabled` is set on its target', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -484,7 +484,7 @@ it('does not open when `aria-disabled` is set programmatically on its target', a
   const options = host.querySelector('glide-core-menu-options');
 
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -669,7 +669,7 @@ it('does not open on Space when there are no options', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -728,7 +728,7 @@ it('closes when its target clicked', async () => {
 
   expect(menu?.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -756,7 +756,7 @@ it('closes when something outside of it is clicked', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -785,7 +785,7 @@ it('closes on Escape', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -810,7 +810,7 @@ it('closes when an option is selected via click', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -841,7 +841,7 @@ it('closes when an option is selected via Enter', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -872,7 +872,7 @@ it('closes when an option is selected via Enter and its target is a `<span>', as
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -898,7 +898,7 @@ it('closes when an option is selected via Space', async () => {
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -924,7 +924,7 @@ it('closes when an option is selected via Space and its target is a `<span>`', a
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -1333,7 +1333,7 @@ it('sets `aria-activedescendant` on close', async () => {
   await click(host.querySelector('button'));
 
   const options = host.querySelector('glide-core-menu-options');
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
 it('sets `aria-expanded` on open', async () => {

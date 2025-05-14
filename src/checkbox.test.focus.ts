@@ -26,7 +26,7 @@ it('focuses the input after submit when required and unchecked', async () => {
   form.requestSubmit();
 
   const input = host.shadowRoot?.querySelector('[data-test="input"]');
-  expect(host.shadowRoot?.activeElement).to.be.equal(input);
+  expect(host.shadowRoot?.activeElement).to.equal(input);
 });
 
 it('focuses the input after `reportValidity()` is called when required and unchecked', async () => {
@@ -67,7 +67,7 @@ it('does not focus the input after `checkValidity()` is called', async () => {
 
   host.checkValidity();
 
-  expect(host.shadowRoot?.activeElement).to.equal(null);
+  expect(host.shadowRoot?.activeElement).to.be.null;
 });
 
 it('updates its validity on blur', async () => {

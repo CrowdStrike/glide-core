@@ -95,7 +95,7 @@ it('focuses the input on submit when required and no option is selected', async 
   form.requestSubmit();
 
   const input = host.shadowRoot?.querySelector('[data-test="input"]');
-  expect(host.shadowRoot?.activeElement).to.be.equal(input);
+  expect(host.shadowRoot?.activeElement).to.equal(input);
 });
 
 it('focuses the input when `reportValidity()` is called when required and no option is selected', async () => {
@@ -127,7 +127,7 @@ it('does not focus the input when `checkValidity()` is called', async () => {
   );
 
   host.checkValidity();
-  expect(host.shadowRoot?.activeElement).to.equal(null);
+  expect(host.shadowRoot?.activeElement).to.be.null;
 });
 
 it('sets the `value` of its `<input> to the selected option when focus is lost', async () => {
