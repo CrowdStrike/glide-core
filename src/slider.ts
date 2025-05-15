@@ -455,7 +455,7 @@ export default class Slider extends LitElement implements FormControl {
                 <div class="slider-wrapper">
                   <div
                     class=${classMap({
-                      'open-track': true,
+                      'unfilled-track': true,
                       disabled: this.disabled,
                     })}
                     data-test="slider"
@@ -543,7 +543,7 @@ export default class Slider extends LitElement implements FormControl {
               html`<div class="slider-wrapper single">
                   <div
                     class=${classMap({
-                      'open-track': true,
+                      'unfilled-track': true,
                       disabled: this.disabled,
                     })}
                     data-test="slider"
