@@ -113,7 +113,7 @@ export default class Tab extends LitElement {
     </div>`;
   }
 
-  protected override updated(changes: PropertyValues) {
+  override updated(changes: PropertyValues) {
     if (changes.has('selected')) {
       this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
     }

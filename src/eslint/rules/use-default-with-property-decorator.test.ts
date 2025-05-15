@@ -72,6 +72,13 @@ ruleTester.run(
           }
         `,
       },
+      {
+        code: `
+          class Class {
+            readonly property = true;
+          }
+        `,
+      },
     ],
     invalid: [
       {

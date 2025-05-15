@@ -5,8 +5,8 @@ import {
 } from '@typescript-eslint/utils';
 import { parse as commentParser } from 'comment-parser';
 
-// https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L109
 const createRule = ESLintUtils.RuleCreator<{
+  // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L110
   recommended: boolean;
 }>((name) => {
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
@@ -68,8 +68,8 @@ export const publicGetterDefaultComment = createRule({
           });
 
           if (comment) {
-            const parsed = commentParser(`/** 
-              ${comment.value} 
+            const parsed = commentParser(`/**
+              ${comment.value}
             */`);
 
             const hasDefaultTag = parsed.at(0)?.tags.some((tag) => {

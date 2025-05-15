@@ -17,6 +17,7 @@ import { slotTypeComment } from './rules/slot-type-comment.js';
 import { publicPropertyExpressionType } from './rules/public-property-expression-type.js';
 import { useDefaultWithPropertyDecorator } from './rules/use-default-with-property-decorator.js';
 import { privateStateDecorators } from './rules/private-state-decorators.js';
+import { noProtectedKeyword } from './rules/no-protected-keyword.js';
 
 export default {
   rules: {
@@ -41,5 +42,6 @@ export default {
     'public-property-expression-type': publicPropertyExpressionType,
     'use-default-with-property-decorator': useDefaultWithPropertyDecorator,
     'private-state-decorators': privateStateDecorators,
+    'no-protected-keyword': noProtectedKeyword,
   },
 };

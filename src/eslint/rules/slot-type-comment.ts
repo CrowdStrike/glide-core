@@ -2,8 +2,8 @@ import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import { parse as htmlParser, CommentNode } from 'node-html-parser';
 import { parse as commentParser } from 'comment-parser';
 
-// https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L109
 const createRule = ESLintUtils.RuleCreator<{
+  // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L110
   recommended: boolean;
 }>((name) => {
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
@@ -65,8 +65,8 @@ export const slotTypeComment = createRule({
               return;
             }
 
-            const tags = commentParser(`/** 
-                ${comment.rawText} 
+            const tags = commentParser(`/**
+                ${comment.rawText}
               */`).flatMap((block) => block.tags);
 
             const typeTag = tags.find((tag) => tag.tag === 'type');
