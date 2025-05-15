@@ -26,27 +26,24 @@ export const noRedudantPropertyStringType = createRule({
   },
   defaultOptions: [],
   create(context) {
-    let isLitElement = true;
+    let isComponent = false;
 
     return {
       ClassDeclaration(node) {
         if (
-          !node.superClass ||
-          (node.superClass?.type === AST_NODE_TYPES.Identifier &&
-            'name' in node.superClass &&
-            node.superClass.name !== 'LitElement')
+          node.superClass?.type === AST_NODE_TYPES.Identifier &&
+          node.superClass.name === 'LitElement'
         ) {
-          isLitElement = false;
+          isComponent = true;
           return;
         }
       },
       Decorator(node) {
-        if (!isLitElement) {
+        if (!isComponent) {
           return;
         }
 
         if (
-          node.expression &&
           node.expression.type === AST_NODE_TYPES.CallExpression &&
           node.expression.arguments?.length > 0
         ) {

@@ -55,6 +55,7 @@ export default defineConfig([
       '@crowdstrike/glide-core/slot-type-comment': 'error',
       '@crowdstrike/glide-core/public-property-expression-type': 'error',
       '@crowdstrike/glide-core/use-default-with-property-decorator': 'error',
+      '@crowdstrike/glide-core/private-state-decorators': 'error',
 
       // Only a few hand-picked rules because much of what the plugin offers either doesn't
       // apply to us (SEO rules) or is covered by other tools (formatting and accessibility
