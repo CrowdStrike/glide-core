@@ -1,4 +1,6 @@
 import './icons/storybook.js';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
@@ -58,7 +60,7 @@ const meta: Meta = {
       // Slider is a bit unique in that it always
       // has a `value` set. To force an error state,
       // we have to use `setCustomValidity`.
-      slider.setCustomValidity('error');
+      slider.setCustomValidity('Error');
       slider.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -70,6 +72,17 @@ const meta: Meta = {
         // on `document.body` on page load.
         document.activeElement.blur();
       }
+    }
+
+    if (slider instanceof SliderComponent) {
+      slider.addEventListener('change', () => {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            value: slider.value,
+          },
+        });
+      });
     }
   },
   render(arguments_) {
@@ -161,11 +174,12 @@ const meta: Meta = {
       },
     },
     orientation: {
-      control: false,
+      control: { type: 'radio' },
+      options: ['horizontal', 'vertical'],
       defaultValue: 'horizontal',
       table: {
         defaultValue: { summary: '"horizontal"' },
-        type: { summary: '"horizontal"' },
+        type: { summary: '"horizontal" | "vertical"' },
       },
     },
     required: {
@@ -240,7 +254,7 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '[]' },
         type: {
-          summary: 'string[]',
+          summary: 'number[]',
         },
       },
     },

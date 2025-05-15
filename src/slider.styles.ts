@@ -6,6 +6,11 @@ export default [
     ${focusOutline('.handle:focus-visible')}
   `,
   css`
+    /* The designs call for a bit more spacing than the default when vertical. */
+    glide-core-private-label[orientation='vertical']::part(private-tooltips) {
+      margin-block-end: var(--glide-core-spacing-base-xxs);
+    }
+
     .slider-container {
       align-items: center;
       display: flex;
@@ -62,7 +67,7 @@ export default [
       }
     }
 
-    .slider-wrapper {
+    .track-container {
       flex: 1;
       min-inline-size: 0;
 
