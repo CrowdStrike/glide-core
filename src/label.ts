@@ -163,7 +163,7 @@ export default class Label extends LitElement {
               class="required-symbol"
               data-test="required-symbol"
             >
-              &nbsp;*
+              *
             </span>`
           : ''}
       </div>

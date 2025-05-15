@@ -44,6 +44,7 @@ export default [
 
     .tooltips {
       align-items: center;
+      column-gap: var(--glide-core-spacing-base-xxs);
       display: flex;
 
       /*
@@ -64,7 +65,6 @@ export default [
 
     .optional-tooltip {
       display: none;
-      margin-inline-end: var(--glide-core-spacing-base-xs);
 
       &.vertical {
         order: 1;
