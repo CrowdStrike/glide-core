@@ -9,7 +9,7 @@ it('is accessible ', async () => {
   await expect(host).to.be.accessible();
 });
 
-it('sets `value` when one is not provided to 25/75% splits', async () => {
+it('sets `value` when one is not provided to 25/75% of the range size', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"

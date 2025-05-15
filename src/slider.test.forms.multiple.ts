@@ -31,7 +31,7 @@ it('sets `value` back to the default when one is not provided initially and it i
   expect(host.value).to.deep.equal([25, 75]);
 });
 
-it('updates `value` to the initial value when programmatically emptying it', async () => {
+it('updates `value` to 25/75% of the range size when programmatically emptying it', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -43,7 +43,7 @@ it('updates `value` to the initial value when programmatically emptying it', asy
 
   host.value = [];
 
-  expect(host.value).to.deep.equal([10, 90]);
+  expect(host.value).to.deep.equal([25, 75]);
 });
 
 it('submits its form on Enter when the minimum input has focus', async () => {
