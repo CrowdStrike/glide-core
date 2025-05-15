@@ -10,6 +10,14 @@ it('registers itself', async () => {
   expect(window.customElements.get('glide-core-slider')).to.equal(Slider);
 });
 
+it('sets a less than 1 `step` to 1', async () => {
+  const host = await fixture<Slider>(
+    html`<glide-core-slider label="Label" step="0"></glide-core-slider>`,
+  );
+
+  expect(host.step).to.equal(1);
+});
+
 it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 

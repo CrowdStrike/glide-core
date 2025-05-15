@@ -28,7 +28,7 @@ declare global {
  * @attr {number} [min=0]
  * @attr {boolean} [multiple=false]
  * @attr {string} [name='']
- * @attr {'vertical'} [orientation='vertical']
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
  * @attr {number} [step=1]
@@ -165,8 +165,8 @@ export default class Slider extends LitElement implements FormControl {
   @required
   label?: string;
 
-  @property({ reflect: true })
-  orientation = 'vertical' as const;
+  @property({ reflect: true, useDefault: true })
+  orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
@@ -294,8 +294,17 @@ export default class Slider extends LitElement implements FormControl {
     }
   }
 
+  /**
+   * @default 1
+   */
   @property({ reflect: true, type: Number, useDefault: true })
-  step = 1;
+  get step(): number {
+    return this.#step;
+  }
+
+  set step(step: number) {
+    this.#step = step > 0 ? step : 1;
+  }
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
@@ -409,7 +418,7 @@ export default class Slider extends LitElement implements FormControl {
           middle: this.privateSplit === 'middle',
         })}
         label=${ifDefined(this.label)}
-        orientation="vertical"
+        orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
@@ -459,7 +468,7 @@ export default class Slider extends LitElement implements FormControl {
                   ${ref(this.#minimumInputElementRef)}
                 />
 
-                <div class="slider-wrapper">
+                <div class="track-container">
                   <div
                     class=${classMap({
                       'unfilled-track': true,
@@ -547,7 +556,7 @@ export default class Slider extends LitElement implements FormControl {
                   ${ref(this.#maximumInputElementRef)}
                 />`,
             () =>
-              html`<div class="slider-wrapper single">
+              html`<div class="track-container single">
                   <div
                     class=${classMap({
                       'unfilled-track': true,
@@ -768,6 +777,8 @@ export default class Slider extends LitElement implements FormControl {
   #sliderElementRef = createRef<HTMLDivElement>();
 
   #sliderFillElementRef = createRef<HTMLDivElement>();
+
+  #step = 1;
 
   get #isShowValidationFeedback() {
     return (

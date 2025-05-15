@@ -5,8 +5,9 @@ import packageJson from '../package.json' with { type: 'json' };
 import Checkbox from './checkbox.js';
 import CheckboxGroup from './checkbox-group.js';
 import Dropdown from './dropdown.js';
-import RadioGroup from './radio-group.js';
 import Input from './input.js';
+import RadioGroup from './radio-group.js';
+import Slider from './slider.js';
 import TextArea from './textarea.js';
 import styles from './form-controls-layout.styles.js';
 import assertSlot from './library/assert-slot.js';
@@ -25,7 +26,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {Checkbox | CheckboxGroup | Dropdown | RadioGroup | Input | TextArea}
+ * @slot {Checkbox | CheckboxGroup | Dropdown | Input | RadioGroup | Slider | TextArea}
  */
 @customElement('glide-core-form-controls-layout')
 @final
@@ -68,13 +69,14 @@ export default class FormControlsLayout extends LitElement {
           Checkbox,
           CheckboxGroup,
           Dropdown,
-          RadioGroup,
           Input,
+          RadioGroup,
+          Slider,
           TextArea,
         ])}
         ${ref(this.#slotElementRef)}
       >
-        <!-- @type {Checkbox | CheckboxGroup | Dropdown | RadioGroup | Input | TextArea} -->
+        <!-- @type {Checkbox | CheckboxGroup | Dropdown | Input | RadioGroup | Slider | TextArea} -->
       </slot>
     </div>`;
   }

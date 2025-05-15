@@ -3074,7 +3074,7 @@
               "name": "",
               "description": "",
               "type": {
-                "text": "Checkbox | CheckboxGroup | Dropdown | RadioGroup | Input | TextArea"
+                "text": "Checkbox | CheckboxGroup | Dropdown | Input | RadioGroup | Slider | TextArea"
               }
             }
           ],
@@ -6535,10 +6535,10 @@
             {
               "kind": "field",
               "name": "orientation",
-              "default": "'vertical'",
               "type": {
-                "text": "'vertical'"
+                "text": "'horizontal' | 'vertical'"
               },
+              "default": "'horizontal'",
               "attribute": "orientation",
               "reflects": true
             },
@@ -6797,10 +6797,10 @@
             },
             {
               "name": "orientation",
-              "default": "'vertical'",
               "type": {
-                "text": "'vertical'"
+                "text": "'horizontal' | 'vertical'"
               },
+              "default": "'horizontal'",
               "fieldName": "orientation"
             },
             {

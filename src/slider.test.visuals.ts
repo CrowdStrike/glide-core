@@ -103,6 +103,68 @@ for (const story of stories.Slider) {
           });
         });
 
+        test.describe('orientation="horizontal"', () => {
+          test('tooltip="Tooltip"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-slider')
+              .evaluate<void, Slider>((element) => {
+                element.orientation = 'horizontal';
+                element.tooltip = 'Tooltip';
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('tooltip=""', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-slider')
+              .evaluate<void, Slider>((element) => {
+                element.orientation = 'horizontal';
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
+        test.describe('orientation="vertical"', () => {
+          test('tooltip="Tooltip"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-slider')
+              .evaluate<void, Slider>((element) => {
+                element.orientation = 'vertical';
+                element.tooltip = 'Tooltip';
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('tooltip=""', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-slider')
+              .evaluate<void, Slider>((element) => {
+                element.orientation = 'vertical';
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
         test('required', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
