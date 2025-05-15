@@ -18,11 +18,11 @@ export default [
       /* stylelint-disable-next-line property-no-vendor-prefix */
       -moz-appearance: textfield;
       background-color: var(--glide-core-color-interactive-surface-container);
+      block-size: 2.125rem;
       border: 1px solid var(--glide-core-color-interactive-stroke-primary);
       border-radius: var(--glide-core-rounding-base-radius-sm);
-      inline-size: 1.5rem;
-      padding-block: 0.4688rem;
-      padding-inline: var(--glide-core-spacing-base-sm);
+      box-sizing: border-box;
+      inline-size: 2.125rem;
       text-align: center;
 
       &::-webkit-outer-spin-button,
