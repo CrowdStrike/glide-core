@@ -260,8 +260,6 @@ export default class Slider extends LitElement implements FormControl {
     if (oldValue && !multiple) {
       this.maximumValue = undefined;
 
-      this.requestUpdate();
-
       this.updateComplete.then(() => {
         this.#updateHandlesAndTrack();
       });
@@ -289,8 +287,6 @@ export default class Slider extends LitElement implements FormControl {
       } else {
         this.maximumValue = desiredMaximumValue;
       }
-
-      this.requestUpdate();
 
       this.updateComplete.then(() => {
         this.#updateHandlesAndTrack();
