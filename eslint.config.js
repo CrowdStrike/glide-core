@@ -53,6 +53,7 @@ export default defineConfig([
       '@crowdstrike/glide-core/slot-type-comment': 'error',
       '@crowdstrike/glide-core/public-property-expression-type': 'error',
       '@crowdstrike/glide-core/use-default-with-property-decorator': 'error',
+      '@crowdstrike/glide-core/private-state-decorators': 'error',
 
       // Enabling this rule would force us to `await` any function that returns a promise.
       // One example is a function that itself `await`s `updateComplete`. The rule is a bit
