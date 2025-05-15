@@ -461,7 +461,7 @@ export default class DropdownOption extends LitElement {
           </div>`;
         },
       )}
-    </div> `;
+    </div>`;
   }
 
   @state()

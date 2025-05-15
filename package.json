@@ -101,6 +101,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
+    "@html-eslint/eslint-plugin": "^0.40.3",
     "@shoelace-style/localize": "^3.2.1",
     "nanoid": "^5.0.9"
   },

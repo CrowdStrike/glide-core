@@ -15,7 +15,7 @@ const meta: Meta = {
           import '@crowdstrike/glide-core/toggle.js';
         </script>
 
-        ${story()} `,
+        ${story()}`,
   ],
   parameters: {
     actions: {

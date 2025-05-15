@@ -8,6 +8,7 @@ import importPlugin from 'eslint-plugin-import';
 import typescript from 'typescript-eslint';
 import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig, globalIgnores } from 'eslint/config';
+import html from '@html-eslint/eslint-plugin';
 import glideCore from './dist/eslint/plugin.js';
 
 const compat = new FlatCompat();
@@ -31,6 +32,7 @@ export default defineConfig([
     plugins: {
       '@stylistic': stylistic,
       '@crowdstrike/glide-core': glideCore,
+      html,
     },
     languageOptions: {
       parserOptions: {
@@ -53,6 +55,16 @@ export default defineConfig([
       '@crowdstrike/glide-core/slot-type-comment': 'error',
       '@crowdstrike/glide-core/public-property-expression-type': 'error',
       '@crowdstrike/glide-core/use-default-with-property-decorator': 'error',
+
+      // Only a few hand-picked rules because much of what the plugin offers either doesn't
+      // apply to us (SEO rules) or is covered by other tools (formatting and accessibility
+      // rules). The `sort-attrs` rule would be nice. But it doesn't sort attributes
+      // alphabetically like it claims to.
+      'html/no-duplicate-attrs': 'error',
+      'html/no-duplicate-class': 'error',
+      'html/no-duplicate-id': 'error',
+      'html/no-obsolete-tags': 'error',
+      'html/no-trailing-spaces': 'error',
 
       // Enabling this rule would force us to `await` any function that returns a promise.
       // One example is a function that itself `await`s `updateComplete`. The rule is a bit
