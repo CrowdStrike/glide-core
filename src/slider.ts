@@ -14,10 +14,6 @@ import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
-// TONY TODO:
-// - Move the firstUpdated default setting when no value
-//   changes into the value setter instead.
-
 declare global {
   interface HTMLElementTagNameMap {
     'glide-core-slider': Slider;
@@ -110,14 +106,28 @@ export default class Slider extends LitElement implements FormControl {
   }
 
   set value(value: number[]) {
-    // TONY TODO:
-    // Update firstUpdated to this instead:
-    //
-    // if !value
-    //   set defaults
-    //
-    // Comment:
-    // Can expect a warning in the console, don't worry
+    if (!value || value.length === 0) {
+      const rangeSize = this.max - this.min;
+
+      // To match native, when the value is emptied, we create
+      // one. Native sets it to 50% of the max, but we have a
+      // design requirement already for a 25/75% split of the range
+      // size, so we'll use that instead.
+      this.minimumValue = this.min + Math.floor(rangeSize * 0.25);
+
+      this.maximumValue = this.multiple
+        ? this.min + Math.ceil(rangeSize * 0.75)
+        : undefined;
+
+      this.#initialValue =
+        this.multiple && this.maximumValue !== undefined
+          ? [this.minimumValue, this.maximumValue]
+          : [this.minimumValue];
+
+      this.#updateHandlesAndTrack();
+
+      return;
+    }
 
     if (
       this.multiple &&
@@ -351,11 +361,12 @@ export default class Slider extends LitElement implements FormControl {
     if (!this.value || this.value.length === 0) {
       const rangeSize = this.max - this.min;
 
-      // We have a design requirement that when a Slider isn't
-      // provided a default value, to set it 25% for the
-      // single slider and 25% and 75% for the multiple slider.
-      // This roughly aligns with native, at least by setting
-      // a default value.
+      // When the native range input is not provided a value,
+      // it defaults it to 50% of the max. Our design requirements
+      // are a little bit different, in that they want the single
+      // slider and minimum handle in multiple mode to be at
+      // 25% of the range size, and the maximum handle in multiple
+      // mode to be at 75% of the range size.
       this.minimumValue = this.min + Math.floor(rangeSize * 0.25);
 
       this.maximumValue = this.multiple
