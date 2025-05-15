@@ -44,8 +44,8 @@ export default [
 
     .tooltips {
       align-items: center;
+      column-gap: var(--glide-core-spacing-base-xxs);
       display: flex;
-      gap: var(--glide-core-spacing-base-xxs);
 
       /*
         Allows for an ellipsis on the label. See the linked comment for why it's "3ch"
