@@ -71,18 +71,6 @@ export default [
       }
     }
 
-    .open-track {
-      background-color: var(--glide-core-color-static-stroke-primary);
-      block-size: 0.375rem;
-      border-radius: var(--glide-core-rounding-base-radius-round);
-      inline-size: 100%;
-      position: relative;
-
-      &.disabled {
-        background-color: var(--glide-core-color-static-stroke-secondary);
-      }
-    }
-
     .filled-track {
       background-color: var(
         --glide-core-color-interactive-surface-container-active
@@ -91,9 +79,8 @@ export default [
       border-radius: var(--glide-core-rounding-base-radius-round);
 
       /*
-        Absolute positioning is required here, as we use JavaScript
-        to fill the track based on how the user interacts with the
-        component.
+        Absolute positioning is required here, as JavaScript is
+        used to fill it as the user interacts with the component.
       */
       position: absolute;
 
@@ -101,6 +88,18 @@ export default [
         background-color: var(
           --glide-core-color-interactive-surface-container-inactive
         );
+      }
+    }
+
+    .unfilled-track {
+      background-color: var(--glide-core-color-static-stroke-primary);
+      block-size: 0.375rem;
+      border-radius: var(--glide-core-rounding-base-radius-round);
+      inline-size: 100%;
+      position: relative;
+
+      &.disabled {
+        background-color: var(--glide-core-color-static-stroke-secondary);
       }
     }
 
