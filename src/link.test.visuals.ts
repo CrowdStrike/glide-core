@@ -52,13 +52,14 @@ for (const story of stories.Link) {
         test.describe(':hover', () => {
           test('href=""', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-            await page.locator('glide-core-link').hover();
 
             await page
               .locator('glide-core-link')
               .evaluate<void, Link>((element) => {
                 element.href = '';
               });
+
+            await page.locator('glide-core-link').hover();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,

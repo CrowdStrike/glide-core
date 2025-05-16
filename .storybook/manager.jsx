@@ -4,7 +4,8 @@ import { addons, types, useStorybookApi } from '@storybook/manager-api';
 import { create } from '@storybook/theming/create';
 import { html } from 'lit';
 import { STORY_RENDERED } from '@storybook/core-events';
-import { IconButton, Icons } from '@storybook/components';
+import { IconButton } from '@storybook/components';
+import { GithubIcon } from '@storybook/icons';
 import logo from './assets/logo.png';
 import React from 'react';
 
@@ -29,7 +30,7 @@ addons.register('github', () => {
               .replace(/^\.\//, '') // Remove the leading `./`
               .replace('.stories', '')}`}
           >
-            <Icons icon="github" style={{ color: 'white' }} />
+            <GithubIcon style={{ color: 'white' }} />
           </a>
         </IconButton>
       );
