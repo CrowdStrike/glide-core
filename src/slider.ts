@@ -106,23 +106,17 @@ export default class Slider extends LitElement implements FormControl {
   }
 
   set value(value: number[]) {
-    if (!value || value.length === 0) {
+    if (value.length === 0) {
       const rangeSize = this.max - this.min;
 
       // To match native, when the value is emptied, we create
       // one. Native sets it to 50% of the max, but we have a
-      // design requirement already for a 25/75% split of the range
-      // size, so we'll use that instead.
+      // design requirement for a 25/75% split of the range size.
       this.minimumValue = this.min + Math.floor(rangeSize * 0.25);
 
       this.maximumValue = this.multiple
         ? this.min + Math.ceil(rangeSize * 0.75)
         : undefined;
-
-      this.#initialValue =
-        this.multiple && this.maximumValue !== undefined
-          ? [this.minimumValue, this.maximumValue]
-          : [this.minimumValue];
 
       this.#updateHandlesAndTrack();
 
@@ -135,9 +129,22 @@ export default class Slider extends LitElement implements FormControl {
       value[0] !== undefined &&
       value[1] !== undefined
     ) {
+      // Normalize values to snap to the closest valid step increment,
+      // even if a developer sets a value between steps.
+      //
+      // Doing so creates consistent behavior between programmatic
+      // updates and user interactions. Users can select values that
+      // align with steps when dragging the handles or when entering
+      // values into the inputs. This ensures programmatic updates
+      // follow the same rules.
+      //
+      // It also prevents the Slider from ending up in a state where
+      // the position visually doesn't match where a user would expect
+      // based on the step configuration.
       const normalizedMinimum = Math.round(value[0] / this.step) * this.step;
       const normalizedMaximum = Math.round(value[1] / this.step) * this.step;
 
+      // Clamp the normalized values to the allowed ranges.
       this.minimumValue = Math.max(normalizedMinimum, this.min);
       this.maximumValue = Math.min(normalizedMaximum, this.max);
 
@@ -146,14 +153,27 @@ export default class Slider extends LitElement implements FormControl {
     }
 
     if (!this.multiple && value.length > 0 && value[0] !== undefined) {
+      // Normalize the value to snap to the closest valid step increment,
+      // even if a developer sets a value between steps.
+      //
+      // Doing so creates consistent behavior between programmatic
+      // updates and user interactions. Users can select values that
+      // align with step when dragging the handle or when entering
+      // values into the input. This ensures programmatic updates
+      // follow the same rules.
+      //
+      // It also prevents the Slider from ending up in a state where
+      // the position visually doesn't match where a user would expect
+      // based on the step configuration.
       const normalizedValue = Math.round(value[0] / this.step) * this.step;
 
+      // Clamp the normalized value to the allowed range.
       this.minimumValue = Math.max(
         Math.min(normalizedValue, this.max),
         this.min,
       );
 
-      // Clear maximumValue to ensure consistency in single handle mode
+      // Clear maximumValue to ensure consistency in single handle mode.
       this.maximumValue = undefined;
 
       this.#updateHandlesAndTrack();
@@ -193,14 +213,16 @@ export default class Slider extends LitElement implements FormControl {
 
     this.maximumValue = Math.min(this.maximumValue ?? this.#max, max);
 
-    // Help the user out by clamping the minimum value if it is now
-    // greater than the `max` to prevent the UI from being in a position
-    // where a user can't interact with the handles.
+    // Prevents Slider from reaching an unusable state when max changes.
     //
-    // In multiple mode, we can decide which value to set it to by
-    // looking at `max` and the current value and `step`.
-    // But in single mode, it's easier, because we can simply
-    // set the current value to the provided `max`.
+    // If max decreases below minimumValue, we need to adjust the value
+    // to maintain usability. Without this adjustment, the handle could
+    // become stuck beyond the visible track, leaving users unable to
+    // interact with it.
+    //
+    // Setting minimumValue maintains functionality to respect the
+    // relationship between handles in multiple mode. In single mode,
+    // it ensures Slider remains accessible within the valid range.
     if (this.minimumValue !== undefined && this.minimumValue > max) {
       this.minimumValue =
         this.multiple && this.maximumValue !== undefined
@@ -225,20 +247,22 @@ export default class Slider extends LitElement implements FormControl {
     this.minimumValue = Math.max(this.minimumValue ?? this.#min, min);
 
     if (this.multiple) {
-      // Help the user out by clamping the maximum value if it is now
-      // less than the `min` to prevent the sliders from being in a
-      // position where a user can't easily interact with the handles.
+      // Prevents the multi-handle Slider from becoming unusable when
+      // min increases.
       //
-      // We'll leverage the minimumValue and `step` for our maximumValue
-      // in this case.
+      // If min increases above the maximumValue, the maximum handle
+      // would become inaccessible and be outside of the visible track.
+      // This adjustment ensures both handles remain functional within
+      // the valid range while maintaining proper step separation between
+      // them.
       if (this.maximumValue !== undefined && this.maximumValue < min) {
         this.maximumValue = Math.max(min, this.minimumValue + this.step);
       }
     } else {
-      // In single mode, it's safer to always reset the
-      // maximumValue to undefined when `min` changes
-      // to prevent getting into states where the maximumValue
-      // persists.
+      // In single mode, we intentionally clear maximumValue when min
+      // changes to maintain component state consistency and prevent edge
+      // cases where maximumValue could unexpectedly influence Slider's
+      // behavior when switching between single and multiple modes.
       this.maximumValue = undefined;
     }
 
@@ -258,22 +282,28 @@ export default class Slider extends LitElement implements FormControl {
     this.#multiple = multiple;
 
     if (oldValue && !multiple) {
+      // Similar to the min setter above, clear out maximumValue to
+      // prevent state inconsistencies and UX issues when switching
+      // from multiple to single.
       this.maximumValue = undefined;
 
       this.updateComplete.then(() => {
         this.#updateHandlesAndTrack();
       });
-    } else if (!oldValue && multiple && this.minimumValue !== undefined) {
+
+      return;
+    }
+
+    if (!oldValue && multiple && this.minimumValue !== undefined) {
       const rangeSize = this.max - this.min;
 
-      // As per the designs, we always try to default the
-      // maximum value to ~75% of the range size available.
+      // Design calls for positioning the maximum handle at 75% of
+      // the available range.
       const desiredMaximumValue = this.min + Math.ceil(rangeSize * 0.75);
 
-      // However, there may be cases where the current
-      // minimum value now exceeds that 75% threshold.
-      // We attempt to account for this case by updating
-      // the maximum value to `max`.
+      // There may be cases where the current minimum value now
+      // exceeds the 75% range size threshold. We attempt to account
+      // for this case by maxing out maximumValue.
       if (this.minimumValue >= desiredMaximumValue) {
         this.maximumValue = this.max;
 
@@ -396,20 +426,15 @@ export default class Slider extends LitElement implements FormControl {
   }
 
   override render() {
-    // The #slider element has a click handler for convenience
-    // to allow for users to click anywhere on the track and have
-    // a handle move to that position. This is a situation where the
-    // linter is being overzealous without considering the full context
-    // of the component.
+    // The Slider track has a click handler for convenience to allow
+    // users to click anywhere on the track and have a handle move to
+    // that position. This behavior is an ehancement rather than
+    // essential functionality and is a situation where the linter is being
+    // overzealous without considering the full context of the component.
     //
-    // This behavior is an ehancement rather than essential functionality.
-    //
-    // A keyboard user can already update this component
-    // via the inputs directly or via the handles. Exposing the track via
-    // keyboard wouldn't bring any real value in this instance.
-    //
-    // So... we disable it.
-
+    // A keyboard user can already update the component via the input
+    // elements directly or via the handles. Exposing the track via keyboard
+    // wouldn't bring any real value in this instance.
     /*  eslint-disable lit-a11y/click-events-have-key-events */
     return html`
       <glide-core-private-label
@@ -818,13 +843,13 @@ export default class Slider extends LitElement implements FormControl {
 
       this.#draggingHandleElement = undefined;
 
-      // Dragging involves interacting with the handles on a track.
       // Track clicks can inadvertently occur when letting go of
-      // a handle. To help combat that, we use this variable to
-      // keep track of when we are still processing a drag event.
+      // a handle. To help prevent click events from dispatching,
+      // this variable keeps track of when we are still processing
+      // the drag event.
       //
       // Resetting the state in the next frame allows the drag
-      // to fully complete before accept tracking click events
+      // to fully complete before accepting track click events
       // again.
       setTimeout(() => {
         this.#isCompletingDrag = false;
@@ -833,11 +858,14 @@ export default class Slider extends LitElement implements FormControl {
   };
 
   #onDrag(clientX: number, handle: HTMLElement, sliderRect: DOMRect) {
-    const position = (clientX - sliderRect.left) / sliderRect.width;
-    const clampedPosition = position * (this.max - this.min) + this.min;
-    const valueUsingStep = Math.round(clampedPosition / this.step) * this.step;
+    const filledPercentage = (clientX - sliderRect.left) / sliderRect.width;
+    const clampedPosition = filledPercentage * (this.max - this.min) + this.min;
 
-    // Track if any value actually changed to match native
+    // Ensures the calculated value aligns with the slider's step
+    // configuration, rounding to the nearest valid step increment.
+    const snappedValue = Math.round(clampedPosition / this.step) * this.step;
+
+    // Track if any value actually changed to match native.
     let hasValueChanged = false;
 
     if (this.multiple) {
@@ -845,7 +873,7 @@ export default class Slider extends LitElement implements FormControl {
 
       if (isMinimumHandle && this.maximumValue) {
         const newValue = Math.min(
-          Math.max(valueUsingStep, this.min),
+          Math.max(snappedValue, this.min),
           this.maximumValue - this.step,
         );
 
@@ -855,7 +883,7 @@ export default class Slider extends LitElement implements FormControl {
         }
       } else if (this.minimumValue !== undefined) {
         const newValue = Math.min(
-          Math.max(valueUsingStep, this.minimumValue + this.step),
+          Math.max(snappedValue, this.minimumValue + this.step),
           this.max,
         );
 
@@ -876,7 +904,7 @@ export default class Slider extends LitElement implements FormControl {
       return;
     }
 
-    const newValue = Math.min(Math.max(valueUsingStep, this.min), this.max);
+    const newValue = Math.min(Math.max(snappedValue, this.min), this.max);
 
     if (newValue !== this.minimumValue) {
       this.minimumValue = newValue;
@@ -912,17 +940,13 @@ export default class Slider extends LitElement implements FormControl {
 
   #onMaximumInputChange() {
     if (this.#maximumInputElementRef.value && this.minimumValue !== undefined) {
-      const maximumInput = this.#maximumInputElementRef.value;
-
-      let valueUsingStep = Number(maximumInput.value);
-      valueUsingStep = Math.round(valueUsingStep / this.step) * this.step;
+      const inputValue = Number(this.#maximumInputElementRef.value.value);
+      const normalizedValue = Math.round(inputValue / this.step) * this.step;
 
       this.maximumValue = Math.min(
-        Math.max(valueUsingStep, this.minimumValue + this.step),
+        Math.max(normalizedValue, this.minimumValue + this.step),
         this.max,
       );
-
-      maximumInput.value = this.maximumValue.toString(); // Update if clamped
 
       this.#updateHandlesAndTrack();
 
@@ -955,17 +979,23 @@ export default class Slider extends LitElement implements FormControl {
 
   #onMinimumInputChange() {
     if (this.#minimumInputElementRef.value && this.maximumValue !== undefined) {
-      const minimumInput = this.#minimumInputElementRef.value;
-
-      let valueUsingStep = Number(minimumInput.value);
-      valueUsingStep = Math.round(valueUsingStep / this.step) * this.step;
+      const inputValue = Number(this.#minimumInputElementRef.value.value);
+      const normalizedValue = Math.round(inputValue / this.step) * this.step;
 
       this.minimumValue = Math.min(
-        Math.max(valueUsingStep, this.min),
+        Math.max(normalizedValue, this.min),
+        // Ensures the minimum value always stays at least one step below the
+        // maximum value, maintaining the required separation.
+        // Without this, users could set the minimum value equal to or higher
+        // than the maximum value, creating issues, both visually and
+        // operationally.
+        //
+        // Consider the case where maximumValue is 75 and step is 5.
+        // Without this, a user could set the value to 80, which would
+        // be invalid. With this constraint, the minimum value can't go higher
+        // than 70 (75-5).
         this.maximumValue - this.step,
       );
-
-      minimumInput.value = this.minimumValue.toString(); // Update if clamped
 
       this.#updateHandlesAndTrack();
 
@@ -1125,15 +1155,14 @@ export default class Slider extends LitElement implements FormControl {
   }
 
   #onSingleInputChange() {
-    const input = this.#singleInputElementRef.value;
-    const handle = this.#singleHandleElementRef.value;
+    if (this.#singleInputElementRef.value) {
+      const inputValue = Number(this.#singleInputElementRef.value.value);
+      const normalizedValue = Math.round(inputValue / this.step) * this.step;
 
-    if (input && handle) {
-      let newValue = Number(input.value);
-      newValue = Math.round(newValue / this.step) * this.step;
-
-      this.minimumValue = Math.min(Math.max(newValue, this.min), this.max);
-      input.value = this.minimumValue.toString();
+      this.minimumValue = Math.min(
+        Math.max(normalizedValue, this.min),
+        this.max,
+      );
 
       this.#updateHandlesAndTrack();
 
@@ -1185,11 +1214,11 @@ export default class Slider extends LitElement implements FormControl {
         this.minimumValue !== undefined &&
         this.maximumValue !== undefined
       ) {
-        // Calculate distance to each handle to determine which one to move
+        // Calculate the distance to each handle to determine which one to move.
         const minimumDistance = Math.abs(clickValue - this.minimumValue);
         const maximumDistance = Math.abs(clickValue - this.maximumValue);
 
-        // Move the closest handle
+        // Move the closest handle.
         if (minimumDistance <= maximumDistance) {
           this.minimumValue = Math.min(
             Math.max(clickValue, this.min),
@@ -1207,7 +1236,7 @@ export default class Slider extends LitElement implements FormControl {
 
       this.#updateHandlesAndTrack();
 
-      // Native fires both events in this case
+      // Native fires both events in this case.
       this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
 
       this.dispatchEvent(
@@ -1231,7 +1260,7 @@ export default class Slider extends LitElement implements FormControl {
       // We want document-level event listeners so that the user can
       // drag and release the handle outside of the component and it
       // update properly. Not all users will drag the handles though,
-      // so rather than adding event listeners in connectedCallback
+      // so rather than adding event listeners in connectedCallback()
       // and having them fire any time a user moves their mouse, even
       // if they aren't interacting directly with the Slider, we add
       // these event listeners only when the user initiates dragging.
