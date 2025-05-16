@@ -5,8 +5,10 @@
 import { css, html, LitElement, svg } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import shadowRootMode from '../library/shadow-root-mode.js';
+import final from '../library/final.js';
 
 @customElement('glide-core-example-icon')
+@final
 export default class ExampleIcon extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

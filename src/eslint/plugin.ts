@@ -18,6 +18,7 @@ import { publicPropertyExpressionType } from './rules/public-property-expression
 import { useDefaultWithPropertyDecorator } from './rules/use-default-with-property-decorator.js';
 import { privateStateDecorators } from './rules/private-state-decorators.js';
 import { noProtectedKeyword } from './rules/no-protected-keyword.js';
+import { useFinalDecorator } from './rules/use-final-decorator.js';
 
 export default {
   rules: {
@@ -43,5 +44,6 @@ export default {
     'use-default-with-property-decorator': useDefaultWithPropertyDecorator,
     'private-state-decorators': privateStateDecorators,
     'no-protected-keyword': noProtectedKeyword,
+    'use-final-decorator': useFinalDecorator,
   },
 };
