@@ -101,9 +101,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
-    "@html-eslint/eslint-plugin": "^0.40.3",
-    "@shoelace-style/localize": "^3.2.1",
-    "nanoid": "^5.0.9"
+    "@shoelace-style/localize": "^3.2.1"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
@@ -115,6 +113,7 @@
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "^9.22.0",
     "@figma/rest-api-spec": "^0.27.0",
+    "@html-eslint/eslint-plugin": "^0.40.3",
     "@open-wc/testing": "^4.0.0",
     "@playwright/test": "^1.52.0",
     "@rollup/plugin-commonjs": "^28.0.2",

@@ -5,7 +5,6 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { nanoid } from 'nanoid';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import checkedIcon from './icons/checked.js';
@@ -16,6 +15,7 @@ import type Checkbox from './checkbox.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
+import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -131,7 +131,7 @@ export default class DropdownOption extends LitElement {
   // On the host instead of inside the shadow DOM so screenreaders can find it
   // when Dropdown uses it with `aria-activedescendant`.
   @property({ reflect: true })
-  override readonly id: string = nanoid();
+  override readonly id: string = uniqueId();
 
   // An option is considered active when it's interacted with via keyboard or hovered.
   // Used by Dropdown.

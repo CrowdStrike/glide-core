@@ -1,7 +1,6 @@
 import './icon-button.js';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import Toasts from './toast.toasts.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -9,6 +8,7 @@ import final from './library/final.js';
 import required from './library/required.js';
 import Link from './link.js';
 import assertSlot from './library/assert-slot.js';
+import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -61,7 +61,7 @@ export default class Toast extends LitElement {
   // via `event.target.id`, which Toast was dismissed and then update whatever data
   // structure they're using to render Toasts.
   @property()
-  privateId = nanoid();
+  privateId = uniqueId();
 
   @property({ type: Boolean })
   privateShow = false;

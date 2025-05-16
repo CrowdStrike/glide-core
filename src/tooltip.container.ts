@@ -1,11 +1,11 @@
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { nanoid } from 'nanoid';
 import { classMap } from 'lit/directives/class-map.js';
 import { map } from 'lit/directives/map.js';
 import styles from './tooltip.container.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -76,7 +76,7 @@ export default class TooltipContainer extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.id = nanoid();
+    this.id = uniqueId();
 
     this.role = this.role =
       this.disabled || this.screenreaderHidden ? 'none' : 'tooltip';

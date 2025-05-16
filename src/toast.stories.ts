@@ -9,7 +9,7 @@ import { addons } from '@storybook/preview-api';
 import { withActions } from '@storybook/addon-actions/decorator';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { nanoid } from 'nanoid';
+import uniqueId from './library/unique-id.js';
 
 interface Toast {
   description?: string;
@@ -135,7 +135,7 @@ const meta: Meta = {
               toasts: [
                 ...updatedArguments.toasts,
                 {
-                  id: nanoid(),
+                  id: uniqueId(),
 
                   // The data attributes are used by Toast's visual and ARIA tests. They're
                   // not ideal. But they're better than those tests selecting and manipulating
