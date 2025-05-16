@@ -44,11 +44,9 @@ const config = {
   viteFinal(config) {
     return mergeConfig(config, {
       build: {
+        // Unminified so element class names aren't managed in the Actions tab. Using
+        // Terser is an option. But its `keep_classnames` option has no effect here.
         minify: false,
-        terserOptions: {
-          // So `event.target` and `event.srcElement` in the Actions tab aren't mangled.
-          keep_classnames: true,
-        },
       },
     });
   },

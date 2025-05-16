@@ -13,7 +13,6 @@ const entryPoints = await globby(['src/styles/*.css']).then((paths) => {
 await esbuild.build({
   entryPoints,
   bundle: true,
-  minify: true,
   outbase: '.',
   outdir: './dist',
 });
