@@ -64,7 +64,11 @@ export default class Link extends LitElement {
   override render() {
     return html`<a
       aria-disabled=${this.disabled}
-      class=${classMap({ component: true, disabled: this.disabled })}
+      class=${classMap({
+        component: true,
+        disabled: this.disabled,
+        href: Boolean(this.href),
+      })}
       data-test="component"
       download=${ifDefined(this.download)}
       href=${ifDefined(this.href)}

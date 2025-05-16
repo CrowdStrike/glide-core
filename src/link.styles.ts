@@ -23,7 +23,7 @@ export default [
           cursor: not-allowed;
         }
 
-        &:not(.disabled) {
+        &.href:not(.disabled) {
           color: var(--glide-core-color-interactive-text-link--hover);
           text-decoration: underline;
         }
