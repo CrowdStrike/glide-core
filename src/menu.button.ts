@@ -2,12 +2,12 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './menu.button.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
+import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -66,7 +66,7 @@ export default class MenuButton extends LitElement {
   // On the host instead of inside the shadow DOM so screenreaders can find it when
   // Menu uses it with `aria-activedescendant`.
   @property({ reflect: true })
-  override readonly id: string = nanoid();
+  override readonly id: string = uniqueId();
 
   // A button is considered active when it's interacted with via keyboard or
   // hovered. Private because it's only meant to be used internally and by Menu.

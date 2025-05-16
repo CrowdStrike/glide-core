@@ -38,7 +38,7 @@ ruleTester.run('public-property-type', publicPropertyExpressionType, {
     {
       code: `
         export default class {
-          id = nanoid();
+          id = uniqueId();
         }
       `,
       errors: [

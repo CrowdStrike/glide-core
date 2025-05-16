@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
-import { nanoid } from 'nanoid';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 import { range } from 'lit/directives/range.js';
@@ -12,6 +11,7 @@ import styles from './menu.options.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -73,7 +73,7 @@ export default class MenuOptions extends LitElement {
   // On the host instead of inside the shadow DOM so screenreaders can find it
   // when Menu uses it with `aria-activedescendant`.
   @property({ reflect: true })
-  override readonly id: string = nanoid();
+  override readonly id: string = uniqueId();
 
   @property({ type: Boolean })
   privateLoading = false;

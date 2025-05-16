@@ -2,7 +2,6 @@ import { html, LitElement } from 'lit';
 import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import MenuButton from './menu.button.js';
 import { LocalizeController } from './library/localize.js';
@@ -12,6 +11,7 @@ import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -635,7 +635,7 @@ export default class Menu extends LitElement {
       });
 
       this.#targetElement.ariaHasPopup = 'true';
-      this.#targetElement.id = nanoid();
+      this.#targetElement.id = uniqueId();
 
       this.#targetElement.setAttribute(
         'aria-controls',
