@@ -85,18 +85,66 @@ for (const story of stories.Input) {
           );
         });
 
-        test('orientation="vertical"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test.describe('orientation="horizontal"', () => {
+          test('tooltip="Tooltip"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-input')
-            .evaluate<void, Input>((element) => {
-              element.orientation = 'vertical';
-            });
+            await page
+              .locator('glide-core-input')
+              .evaluate<void, Input>((element) => {
+                element.orientation = 'horizontal';
+                element.tooltip = 'Tooltip';
+              });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('tooltip=""', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-input')
+              .evaluate<void, Input>((element) => {
+                element.orientation = 'horizontal';
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
+        test.describe('orientation="vertical"', () => {
+          test('tooltip="Tooltip"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-input')
+              .evaluate<void, Input>((element) => {
+                element.orientation = 'vertical';
+                element.tooltip = 'Tooltip';
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('tooltip=""', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-input')
+              .evaluate<void, Input>((element) => {
+                element.orientation = 'vertical';
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
         test('password-toggle', async ({ page }, test) => {
@@ -150,22 +198,6 @@ for (const story of stories.Input) {
             .evaluate<void, Input>((element) => {
               element.required = true;
             });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test('tooltip', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-input')
-            .evaluate<void, Input>((element) => {
-              element.tooltip = 'Tooltip';
-            });
-
-          await page.locator('glide-core-tooltip').getByRole('button').focus();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
