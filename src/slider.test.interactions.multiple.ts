@@ -419,6 +419,8 @@ it('uses `step` to round up when an entered value falls outside of the step with
 
   minimumInput?.blur();
 
+  await host.updateComplete;
+
   expect(minimumInput?.value).to.equal('20');
   expect(host.value).to.deep.equal([20, 75]);
 });
@@ -440,6 +442,8 @@ it('uses `step` to round down when an entered value falls outside of the step wi
   await sendKeys({ type: '14' });
 
   minimumInput?.blur();
+
+  await host.updateComplete;
 
   expect(minimumInput?.value).to.equal('10');
   expect(host.value).to.deep.equal([10, 75]);
@@ -467,6 +471,8 @@ it('uses `step` to round up when a value falls outside of the step with maximum 
 
   maximumInput?.blur();
 
+  await host.updateComplete;
+
   expect(maximumInput?.value).to.equal('90');
   expect(host.value).to.deep.equal([25, 90]);
 });
@@ -492,6 +498,8 @@ it('uses `step` to round down when a value falls outside of the step with maximu
   await sendKeys({ type: '84' });
 
   maximumInput?.blur();
+
+  await host.updateComplete;
 
   expect(maximumInput?.value).to.equal('80');
   expect(host.value).to.deep.equal([25, 80]);
@@ -1529,6 +1537,8 @@ it('snaps the minimum input value to the maximum value - step if the entered val
 
   minimumInput?.blur();
 
+  await host.updateComplete;
+
   expect(minimumInput?.value).to.equal('74');
   expect(host.value).to.deep.equal([74, 75]);
 });
@@ -1555,6 +1565,8 @@ it('snaps the maximum input value to the minimum value + step if the entered val
   await sendKeys({ type: '20' });
 
   maximumInput?.blur();
+
+  await host.updateComplete;
 
   expect(maximumInput?.value).to.equal('26');
   expect(host.value).to.deep.equal([25, 26]);
@@ -1911,4 +1923,19 @@ it('adjusts the minimum and maximum values when switched to `multiple` if the cu
 
   await host.updateComplete;
   expect(host.value).to.deep.equal([90, 100]);
+});
+
+it('normalizes `value` when provided with values that fall outside of `step`', async () => {
+  const host = await fixture<Slider>(
+    html`<glide-core-slider
+      label="Label"
+      max="100"
+      min="0"
+      step="10"
+      .value=${[5, 95]}
+      multiple
+    ></glide-core-slider>`,
+  );
+
+  expect(host.value).to.deep.equal([10, 100]);
 });

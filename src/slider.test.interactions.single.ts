@@ -212,6 +212,8 @@ it('uses `step` to round up when an entered value falls outside of the step on b
 
   singleInput?.blur();
 
+  await host.updateComplete;
+
   expect(singleInput?.value).to.equal('20');
   expect(host.value).to.deep.equal([20]);
 });
@@ -230,6 +232,8 @@ it('uses `step` to round down when an entered value falls outside of the step on
   await sendKeys({ type: '14' });
 
   singleInput?.blur();
+
+  await host.updateComplete;
 
   expect(singleInput?.value).to.equal('10');
   expect(host.value).to.deep.equal([10]);
@@ -846,4 +850,18 @@ it('caps the input value to `max` when the entered value exceeds it', async () =
   await sendKeys({ type: '400' });
 
   expect(host.value).to.deep.equal([100]);
+});
+
+it('normalizes `value` when provided with a value that fall outside of `step`', async () => {
+  const host = await fixture<Slider>(
+    html`<glide-core-slider
+      label="Label"
+      max="100"
+      min="0"
+      step="10"
+      .value=${[15]}
+    ></glide-core-slider>`,
+  );
+
+  expect(host.value).to.deep.equal([20]);
 });
