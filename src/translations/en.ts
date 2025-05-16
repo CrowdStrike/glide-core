@@ -33,6 +33,10 @@ const translation: Translation = {
   editTag: (label: string) => `Edit tag: ${label}`,
   removeTag: (label: string) => `Remove tag: ${label}`,
   itemCount: (count: string) => `${count} items`,
+  maximum: (label: string) => `Maximum ${label}`,
+  setMaximum: (label: string) => `Set maximum ${label}`,
+  minimum: (label: string) => `Minimum ${label}`,
+  setMinimum: (label: string) => `Set minimum ${label}`,
 };
 
 export default translation;

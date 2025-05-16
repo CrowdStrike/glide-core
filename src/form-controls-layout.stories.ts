@@ -5,10 +5,11 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import RadioGroupRadioComponent from './radio-group.radio.js';
 import CheckboxGroupComponent from './checkbox-group.js';
 import DropdownComponent from './dropdown.js';
 import InputComponent from './input.js';
+import RadioGroupRadioComponent from './radio-group.radio.js';
+import SliderComponent from './slider.js';
 import TextareaComponent from './textarea.js';
 
 const meta: Meta = {
@@ -41,11 +42,12 @@ const meta: Meta = {
     '<glide-core-checkbox-group>.value': [],
     '<glide-core-dropdown>.open': false,
     '<glide-core-dropdown>.value': [],
+    '<glide-core-input>.value': '',
     '<glide-core-radio-group>.value': '',
     '<glide-core-radio-group-radio>.one.checked': false,
     '<glide-core-radio-group-radio>.two.checked': false,
     '<glide-core-radio-group-radio>.three.checked': false,
-    '<glide-core-input>.value': '',
+    '<glide-core-slider>.value': [],
     '<glide-core-textarea>.value': '',
   },
   argTypes: {
@@ -53,7 +55,7 @@ const meta: Meta = {
       table: {
         type: {
           summary:
-            'Checkbox | CheckboxGroup | Dropdown | RadioGroup | Input | TextArea',
+            'Checkbox | CheckboxGroup | Dropdown | Input | RadioGroup | Slider | TextArea',
         },
       },
       type: { name: 'function', required: true },
@@ -111,6 +113,11 @@ const meta: Meta = {
       },
     },
     '<glide-core-radio-group-radio>.three.checked': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-slider>.value': {
       table: {
         disable: true,
       },
@@ -200,6 +207,19 @@ const meta: Meta = {
         });
       }
     });
+
+    const slider = context.canvasElement.querySelector('glide-core-slider');
+
+    if (slider instanceof SliderComponent) {
+      slider.addEventListener('change', () => {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            '<glide-core-slider>.value': slider.value,
+          },
+        });
+      });
+    }
 
     const textarea = context.canvasElement.querySelector('glide-core-textarea');
 
@@ -299,6 +319,11 @@ const meta: Meta = {
             ]}
           ></glide-core-radio-group-radio>
         </glide-core-radio-group>
+
+        <glide-core-slider
+          label="Label"
+          .value=${arguments_['<glide-core-slider>.value'] || nothing}
+        ></glide-core-slider>
 
         <glide-core-textarea
           label="Label"
