@@ -89,7 +89,26 @@ export default class Toast extends LitElement {
   // `firstUpdated()` instead of `connectedCallback()` so the Toast isn't shown
   // before `assertSlot()` has had a chance to check the slot.
   override firstUpdated() {
-    Toasts.show(this);
+    (async () => {
+      // A workaround for a Glimmmer rendering quirk.
+      //
+      // When an attribute's value is dynamic, Glimmer doesn't render it immediately
+      // with the rest of a component's markup. Instead, it appears to schedule setting
+      // the attribute, delaying its render by a tick or so.
+      //
+      // In practice, this means Link receives its attributes sometime between its
+      // `connectedCallback()` and `firstUpdated()` lifecycle methods. So we wait
+      // for `firstUpdated()` via  `updateComplete`. If we don't, Links will be rendered
+      // inside the Toasts component without their attributes.
+      //
+      // This workaround is, of course, dependent on Glimmmer not delaying attribute
+      // rendering past `firstUpdated()`. But it may be the best we can do. If Glimmmer
+      // does change how it renders dynamic attributes, it hopefully renders them sooner
+      // not later.
+      await this.querySelector('glide-core-link')?.updateComplete;
+
+      Toasts.show(this);
+    })();
   }
 
   override render() {
