@@ -318,7 +318,7 @@ export default class Dropdown extends LitElement implements FormControl {
     }
 
     for (const option of this.#optionElements) {
-      this.#isProgrammaticSelection = true;
+      this.#isSelectionFromValueSetter = true;
 
       // If `value` is falsy, every option is left unselected. Otherwise, every
       // `option.value` that's an empty string would be selected. If multiple
@@ -326,7 +326,7 @@ export default class Dropdown extends LitElement implements FormControl {
       // avoid that unfortunately.
       option.selected = value.some((value) => value && value === option.value);
 
-      this.#isProgrammaticSelection = false;
+      this.#isSelectionFromValueSetter = false;
 
       // We have a few options if `value` is set programmatically to include
       // the value of a disabled option. We can throw, remove the value from
@@ -961,7 +961,6 @@ export default class Dropdown extends LitElement implements FormControl {
               @private-disabled-change=${this.#onOptionsDisabledChange}
               @private-editable-change=${this.#onOptionsEditableChange}
               @private-label-change=${this.#onOptionsLabelChange}
-              @private-selected-change=${this.#onOptionsSelectedChange}
               @private-value-change=${this.#onOptionsValueChange}
             >
               <glide-core-dropdown-option
@@ -977,6 +976,7 @@ export default class Dropdown extends LitElement implements FormControl {
 
               <slot
                 class="default-slot"
+                @private-selected-change=${this.#onOptionsSelectedChange}
                 @slotchange=${this.#onDefaultSlotChange}
                 ${assertSlot([DropdownOption, Text], true)}
                 ${ref(this.#defaultSlotElementRef)}
@@ -1250,16 +1250,14 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #isOverflowTest = false;
 
-  // Set in the `value` setter and used in `#onOptionsSelectedChange()` to prevent
-  // the latter from adding duplicate values to `value`.
-  //
-  // Also set in `#onDefaultSlotChange()` to prevent `#onOptionsSelectedChange()` from
-  // resetting the user's filter query back to an empty string.
-  #isProgrammaticSelection = false;
+  // Used in `#onOptionsSelectedChange()` to guard against, among other things,
+  // resetting Select All back to its previous value after Select All is selected
+  // or deselected.
+  #isSelectionFromSelectAllOrNone = false;
 
-  // Used in `#onOptionsSelectedChange()` to guard against resetting Select All back
-  // to its previous value after Select All is selected or deselected.
-  #isSelectionChangeFromSelectAll = false;
+  // Used in `#onOptionsSelectedChange()` to prevent it from adding duplicate values
+  // to `value`.
+  #isSelectionFromValueSetter = false;
 
   #isSelectionViaSpaceOrEnter = false;
 
@@ -1408,9 +1406,7 @@ export default class Dropdown extends LitElement implements FormControl {
 
     // Now update Select All to reflect the selected options.
     if (this.#selectAllElementRef.value) {
-      this.#isProgrammaticSelection = true;
       this.#selectAllElementRef.value.selected = this.isAllSelected;
-      this.#isProgrammaticSelection = false;
     }
 
     if (this.multiple) {
@@ -1422,6 +1418,7 @@ export default class Dropdown extends LitElement implements FormControl {
       !this.lastSelectedOption.disabled
     ) {
       this.#value = [this.lastSelectedOption.value];
+      this.isShowSingleSelectIcon = Boolean(this.selectedOptions.at(0)?.value);
     }
 
     // Dropdown's internal label now needs to be updated to reflect the selected option
@@ -2304,35 +2301,17 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   #onOptionsSelectedChange(event: Event) {
-    if (!this.multiple) {
-      for (const option of this.#optionElements) {
-        if (
-          option !== event.target &&
-          event.target instanceof DropdownOption &&
-          event.target.selected &&
-          option.selected &&
-          event.target !== this.#selectAllElementRef.value
-        ) {
-          option.selected = false;
-        }
-      }
+    if (this.#isSelectionFromSelectAllOrNone) {
+      return;
     }
 
-    if (
-      event.target !== this.#selectAllElementRef.value &&
-      !this.#isSelectionChangeFromSelectAll &&
-      this.#selectAllElementRef.value
-    ) {
-      // Update Select All to reflect the new selection or deselection.
+    if (this.#selectAllElementRef.value) {
       this.#selectAllElementRef.value.selected = this.isAllSelected;
     }
 
-    this.isShowSingleSelectIcon =
-      !this.multiple && Boolean(this.selectedOptions.at(0)?.value);
-
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof DropdownOption) {
-      if (this.multiple && !this.#isProgrammaticSelection) {
+      if (this.multiple && !this.#isSelectionFromValueSetter) {
         this.#value =
           event.target.selected && event.target.value && !event.target.disabled
             ? [...this.value, event.target.value]
@@ -2362,7 +2341,22 @@ export default class Dropdown extends LitElement implements FormControl {
         event.target.selected &&
         !event.target.disabled
       ) {
+        for (const option of this.#optionElements) {
+          if (
+            option !== event.target &&
+            event.target instanceof DropdownOption &&
+            event.target.selected &&
+            option.selected
+          ) {
+            option.selected = false;
+          }
+        }
+
         this.#value = event.target.value ? [event.target.value] : [];
+
+        this.isShowSingleSelectIcon = Boolean(
+          this.selectedOptions.at(0)?.value,
+        );
 
         if (this.#inputElementRef.value && event.target.label) {
           this.isFiltering = false;
@@ -2524,7 +2518,7 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   #selectAllOrNone() {
-    this.#isSelectionChangeFromSelectAll = true;
+    this.#isSelectionFromSelectAllOrNone = true;
 
     for (const option of this.#optionElements) {
       if (
@@ -2541,7 +2535,11 @@ export default class Dropdown extends LitElement implements FormControl {
       }
     }
 
-    this.#isSelectionChangeFromSelectAll = false;
+    this.#value = this.#optionElements
+      .filter(({ selected, value }) => selected && value)
+      .map(({ value }) => value);
+
+    this.#isSelectionFromSelectAllOrNone = false;
   }
 
   async #setTagOverflowLimit() {

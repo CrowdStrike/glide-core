@@ -392,7 +392,6 @@ it('clears its filter on close when multiselect and no option is selected', asyn
   await aTimeout(0);
 
   await sendKeys({ press: 'Tab' });
-
   await sendKeys({ type: 'o' });
   await click(document.body);
 
@@ -419,7 +418,6 @@ it('clears its filter on close when multiselect and an option is selected', asyn
   await aTimeout(0);
 
   await sendKeys({ press: 'Tab' });
-
   await sendKeys({ type: 'o' });
   await click(document.body);
 
@@ -479,7 +477,6 @@ it('does not clear its filter when every tag is removed via Meta + Backspace', a
 
   await sendKeys({ press: 'Tab' }); // Focus the tag.
   await sendKeys({ press: 'Tab' }); // Focus the input.
-
   await sendKeys({ type: 'o' });
   await sendKeys({ press: 'ArrowLeft' });
   await sendKeys({ down: 'Meta' });
