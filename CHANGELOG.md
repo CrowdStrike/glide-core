@@ -1,5 +1,42 @@
 # @crowdstrike/glide-core
 
+## 0.27.0
+
+### Minor Changes
+
+- [#887](https://github.com/CrowdStrike/glide-core/pull/887) [`886cea9`](https://github.com/CrowdStrike/glide-core/commit/886cea95da25648b90965e7408e0daa0266e1a04) Thanks [@clintcs](https://github.com/clintcs)! - Menu and Split Button's `size` attributes have been removed. Both are now always large. Please get in touch with us if you have a use for `size="small"`.
+
+- [#889](https://github.com/CrowdStrike/glide-core/pull/889) [`2224975`](https://github.com/CrowdStrike/glide-core/commit/22249754892cb60034d86ee99b06d57dcde1e350) Thanks [@clintcs](https://github.com/clintcs)! - Button Group now throws when more than one Button Group Button is rendered with a `selected` attribute.
+
+- [#895](https://github.com/CrowdStrike/glide-core/pull/895) [`04ab456`](https://github.com/CrowdStrike/glide-core/commit/04ab456af9cb1ad54440c7f443f75c8ff1a8b0be) Thanks [@clintcs](https://github.com/clintcs)! - Tab Panel and Tab's `id` and `role` attributes have always been set internally by those components for accessibility. Both attributes are now typed as read-only to signal they shouldn't be changed externally.
+
+- [#885](https://github.com/CrowdStrike/glide-core/pull/885) [`bbc2afe`](https://github.com/CrowdStrike/glide-core/commit/bbc2afea29af0c323ced60107f19cd3984f9acee) Thanks [@clintcs](https://github.com/clintcs)! - Tag's `size` attribute has been removed. Tag is now always large. Please get in touch with us if you have a use for `size="small"` or `size="medium"`.
+
+- [#884](https://github.com/CrowdStrike/glide-core/pull/884) [`9ed3023`](https://github.com/CrowdStrike/glide-core/commit/9ed30235a966348b5c0b5cd1939533c66f1b297e) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown's `size` attribute has been removed. Dropdown is now always large. Please get in touch with us if you have a use for `size="small"`.
+
+### Patch Changes
+
+- [#885](https://github.com/CrowdStrike/glide-core/pull/885) [`bbc2afe`](https://github.com/CrowdStrike/glide-core/commit/bbc2afea29af0c323ced60107f19cd3984f9acee) Thanks [@clintcs](https://github.com/clintcs)! - Tag's height has been slightly reduced.
+
+- [#898](https://github.com/CrowdStrike/glide-core/pull/898) [`fdcb34e`](https://github.com/CrowdStrike/glide-core/commit/fdcb34e75f019111193f5a745a37dd7f940afafa) Thanks [@ynotdraw](https://github.com/ynotdraw)! - The spacing between a form element's tooltip and the label has been decreased.
+
+- [#904](https://github.com/CrowdStrike/glide-core/pull/904) [`88dfdd3`](https://github.com/CrowdStrike/glide-core/commit/88dfdd3428e31379565d3ceac331d558b99fdfd9) Thanks [@clintcs](https://github.com/clintcs)! - Link no longer has an underline on hover when an `href` attribute isn't provided.
+
+- [#901](https://github.com/CrowdStrike/glide-core/pull/901) [`d19ad74`](https://github.com/CrowdStrike/glide-core/commit/d19ad74917aa1a21328939ccb8daa4096c9159b1) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Removed unnecessary top margin Textarea when `orientation="vertical"`.
+
+- [#908](https://github.com/CrowdStrike/glide-core/pull/908) [`1f597fa`](https://github.com/CrowdStrike/glide-core/commit/1f597fa9a2f879de011ece07c50ceaba1b329ac7) Thanks [@clintcs](https://github.com/clintcs)! - Links added to Toasts are no longer missing in Ember applications.
+
+- [#895](https://github.com/CrowdStrike/glide-core/pull/895) [`04ab456`](https://github.com/CrowdStrike/glide-core/commit/04ab456af9cb1ad54440c7f443f75c8ff1a8b0be) Thanks [@clintcs](https://github.com/clintcs)! - - Tab now updates the width of its selected indicator when a Tab's content changes.
+
+  - Tab's selected indicator now spans the full width of Tab.
+  - Tab Group no longer unnecessarily shows its overflow buttons when the content of a Tab is reduced.
+  - Tab Panel and Tab are now accessibly labeled and associated with each other when they're added to Tab Group after initial render.
+
+- [#903](https://github.com/CrowdStrike/glide-core/pull/903) [`103d226`](https://github.com/CrowdStrike/glide-core/commit/103d2263c74690e23ddb1b4fe396843fdaef3cba) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown when filterable and all but one Dropdown Option is disabled no longer sets the value of its input field to "Select All" when the enabled Dropdown Option is selected.
+
+- [#883](https://github.com/CrowdStrike/glide-core/pull/883) [`ac1ca8e`](https://github.com/CrowdStrike/glide-core/commit/ac1ca8e22d4982ba6a2b0cb0a5c37e6a32007d45) Thanks [@clintcs](https://github.com/clintcs)! - - The asterisk of required form controls is no longer hidden when form controls' labels are truncated.
+  - Textarea now has a minimum width.
+
 ## 0.26.1
 
 ### Patch Changes
