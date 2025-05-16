@@ -28,8 +28,6 @@ declare global {
 @customElement('glide-core-link')
 @final
 export default class Link extends LitElement {
-  static formAssociated = true;
-
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
