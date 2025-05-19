@@ -16,7 +16,7 @@ it('focuses the handle when `focus()` is called', async () => {
   expect(host.shadowRoot?.activeElement).to.equal(singleHandle);
 });
 
-it('focuses the single input after submission when in a forced error state', async () => {
+it('focuses the input after submission when in a forced error state', async () => {
   const form = document.createElement('form');
 
   const host = await fixture<Slider>(
@@ -29,10 +29,11 @@ it('focuses the single input after submission when in a forced error state', asy
   form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    // Slider is a bit different because it always has a `value`.
-    // So to force a focus state via the `invalid` event listener,
-    // one must put the Slider in an invalid state first. Which
-    // can only happen by setting custom validity.
+    // Slider is a bit unique from our other form components
+    // because it always has a `value`. To force a focus state
+    // via the `invalid` event listener, one must put the Slider
+    // in an invalid state first. Which can only happen by setting
+    // custom validity.
     host.setCustomValidity('validity message');
     host.reportValidity();
   });

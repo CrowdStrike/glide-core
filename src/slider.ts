@@ -173,7 +173,11 @@ export default class Slider extends LitElement implements FormControl {
         this.min,
       );
 
-      // Clear maximumValue to ensure consistency in single handle mode.
+      // When not in multiple mode, we clear the maximumValue to
+      // ensure the Slider won't get in an odd state as the minimumValue
+      // is adjusted. If a consumers add the multiple attribute, we
+      // recalculate what the maximumValue should be based on the current
+      // position of the minimum handle with respect to max and step.
       this.maximumValue = undefined;
 
       this.#updateHandlesAndTrack();
@@ -298,7 +302,7 @@ export default class Slider extends LitElement implements FormControl {
       const rangeSize = this.max - this.min;
 
       // Design calls for positioning the maximum handle at 75% of
-      // the available range.
+      // the range size.
       const desiredMaximumValue = this.min + Math.ceil(rangeSize * 0.75);
 
       // There may be cases where the current minimum value now
@@ -307,10 +311,10 @@ export default class Slider extends LitElement implements FormControl {
       if (this.minimumValue >= desiredMaximumValue) {
         this.maximumValue = this.max;
 
-        // If the minimum value is still (somehow) larger,
-        // we lower it to help prevent the component from
-        // getting into an invalid state. This is hopefully
-        // an edge case, but one we should account for.
+        // If the minimum value is still larger, we lower it to help
+        // prevent the component from getting into an invalid state.
+        // This is hopefully an edge case, but one we should account
+        // for.
         if (this.minimumValue >= this.maximumValue) {
           this.minimumValue = this.maximumValue - this.step;
         }
@@ -384,7 +388,6 @@ export default class Slider extends LitElement implements FormControl {
       this.minimumValue = this.value.at(0);
       this.maximumValue = this.value.at(1);
 
-      // Have to add this check to satisfy TypeScript
       if (this.minimumValue !== undefined && this.maximumValue !== undefined) {
         this.#initialValue = [this.minimumValue, this.maximumValue];
       }
@@ -397,11 +400,11 @@ export default class Slider extends LitElement implements FormControl {
       const rangeSize = this.max - this.min;
 
       // When the native range input is not provided a value,
-      // it defaults it to 50% of the max. Our design requirements
-      // are a little bit different, in that they want the single
-      // slider and minimum handle in multiple mode to be at
-      // 25% of the range size, and the maximum handle in multiple
-      // mode to be at 75% of the range size.
+      // it defaults value to 50% of the max. Our design requirements
+      // are different, in that they want the single slider or minimum
+      // handle in multiple mode to be at 25% of the range size, and
+      // the maximum handle in multiple mode to be at 75% of the range
+      // size.
       this.minimumValue = this.min + Math.floor(rangeSize * 0.25);
 
       this.maximumValue = this.multiple

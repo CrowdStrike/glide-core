@@ -2,78 +2,6 @@ import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Slider from './slider.js';
 
-it('sets `min` on the input', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" min="10"></glide-core-slider>`,
-  );
-
-  const singleInput = host.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="single-input"]',
-  );
-
-  expect(singleInput?.getAttribute('min')).to.equal('10');
-});
-
-it('sets `step` on the input', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" step="10"></glide-core-slider>`,
-  );
-
-  const singleInput = host.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="single-input"]',
-  );
-
-  expect(singleInput?.getAttribute('step')).to.equal('10');
-});
-
-it('sets `max` on the input', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" max="200"></glide-core-slider>`,
-  );
-
-  const singleInput = host.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="single-input"]',
-  );
-
-  expect(singleInput?.getAttribute('max')).to.equal('200');
-});
-
-it('sets `aria-valuemin` on the handle as `min`', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" min="20"></glide-core-slider>`,
-  );
-
-  const singleHandle = host.shadowRoot?.querySelector(
-    '[data-test="single-handle"]',
-  );
-
-  expect(singleHandle?.getAttribute('aria-valuemin')).to.equal('20');
-});
-
-it('sets `aria-valuemax` on the minimum handle as `max`', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" max="200"></glide-core-slider>`,
-  );
-
-  const singleHandle = host.shadowRoot?.querySelector(
-    '[data-test="single-handle"]',
-  );
-
-  expect(singleHandle?.getAttribute('aria-valuemax')).to.equal('200');
-});
-
-it('sets `aria-valuenow` on the handle as `value`', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" .value=${[7]}></glide-core-slider>`,
-  );
-
-  const singleHandle = host.shadowRoot?.querySelector(
-    '[data-test="single-handle"]',
-  );
-
-  expect(singleHandle?.getAttribute('aria-valuenow')).to.equal('7');
-});
-
 it('updates all relevant elements when `max` is set programmatically', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" .value=${[50]}></glide-core-slider>`,
@@ -156,11 +84,10 @@ it('maintains `value` when `min` is set below the current value', async () => {
   host.min = 10;
   await host.updateComplete;
 
-  // Value should remain unchanged
   expect(host.value).to.deep.equal([50]);
 });
 
-it('respects the min/max bounds', async () => {
+it('respects the min/max bounds by ensuring the values do not exceed them', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -426,11 +353,13 @@ it('decreases by `step` when dragging the handle', async () => {
 
   await aTimeout(0);
 
+  // Drag the handle to a location that will force
+  // the value to be rounded down to the nearest `step`.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
       cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.2, // 20% position = value of 20
+      clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
 
@@ -475,11 +404,13 @@ it('increases by `step` when dragging the handle', async () => {
 
   await aTimeout(0);
 
+  // Drag the handle to a location that will force
+  // the value to be rounded up to the nearest `step`.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
       cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.3, // 30% position = value of 30
+      clientX: trackRect.left + trackRect.width * 0.3,
     }),
   );
 
@@ -514,28 +445,26 @@ it('clicking on the track updates the value', async () => {
     new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.6, // 60% position
+      clientX: trackRect.left + trackRect.width * 0.6,
     }),
   );
 
   await host.updateComplete;
 
-  // The value should update to the clicked position (60)
   expect(host.value).to.deep.equal([60]);
 
-  // Verify the handle has moved to the clicked position
   const singleHandle = host.shadowRoot?.querySelector(
     '[data-test="single-handle"]',
   );
 
   assert(singleHandle);
 
-  // Get the handle's position as a percentage of the track width
   const handleStyle = window.getComputedStyle(singleHandle);
   const handleLeft = Number.parseFloat(handleStyle.left);
   const handleLeftPercent = (handleLeft / trackRect.width) * 100;
 
-  // The handle should be positioned at approximately 60% (allowing for small rounding differences)
+  // The handle should be positioned at ~60%, allowing
+  // for small rounding differences.
   expect(handleLeftPercent).to.be.closeTo(60, 2);
 });
 
@@ -551,65 +480,17 @@ it('maintains a single value when switching between multiple and single modes', 
   host.multiple = true;
   await host.updateComplete;
 
-  // Should preserve the first value and add a maximum value
+  // Should preserve the first value and
+  // add a maximum value.
   expect(host.value.length).to.equal(2);
   expect(host.value).to.deep.equal([40, 75]);
 
-  // Switch back to single mode
   host.multiple = false;
   await host.updateComplete;
 
-  // Should preserve the first value
+  // Should preserve the first value.
   expect(host.value.length).to.equal(1);
   expect(host.value[0]).to.equal(40);
-});
-
-it('sets the input to disabled when `disabled`', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" disabled></glide-core-slider>`,
-  );
-
-  const singleInput = host.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="single-input"]',
-  );
-
-  expect(singleInput?.hasAttribute('disabled')).to.be.true;
-});
-
-it('sets the input to readonly when `readonly`', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" readonly></glide-core-slider>`,
-  );
-
-  const singleInput = host.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="single-input"]',
-  );
-
-  expect(singleInput?.hasAttribute('readonly')).to.be.true;
-});
-
-it('sets the handle to aria-disabled when `disabled`', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" disabled></glide-core-slider>`,
-  );
-
-  const singleHandle = host.shadowRoot?.querySelector(
-    '[data-test="single-handle"]',
-  );
-
-  expect(singleHandle?.hasAttribute('aria-disabled')).to.be.true;
-});
-
-it('sets the handle to aria-readonly when `readonly`', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label" readonly></glide-core-slider>`,
-  );
-
-  const singleHandle = host.shadowRoot?.querySelector(
-    '[data-test="single-handle"]',
-  );
-
-  expect(singleHandle?.hasAttribute('aria-readonly')).to.be.true;
 });
 
 it('does not update when dragging the handle when `disabled`', async () => {
@@ -644,7 +525,7 @@ it('does not update when dragging the handle when `disabled`', async () => {
     new MouseEvent('mousemove', {
       bubbles: true,
       cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.2, // 20% position = value of 20
+      clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
 
@@ -694,7 +575,7 @@ it('does not update when dragging the handle when `readonly`', async () => {
     new MouseEvent('mousemove', {
       bubbles: true,
       cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.2, // 20% position = value of 20
+      clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
 
@@ -712,7 +593,7 @@ it('does not update when dragging the handle when `readonly`', async () => {
   expect(host.value).to.deep.equal([25]);
 });
 
-it('prevents updating the `value` when clicking on the track when `disabled`', async () => {
+it('prevents updating the value when clicking on the track when `disabled`', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -731,7 +612,7 @@ it('prevents updating the `value` when clicking on the track when `disabled`', a
     new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.6, // 60% position
+      clientX: trackRect.left + trackRect.width * 0.6,
     }),
   );
 
@@ -740,7 +621,7 @@ it('prevents updating the `value` when clicking on the track when `disabled`', a
   expect(host.value).to.deep.equal([25]);
 });
 
-it('prevents updating the `value` when clicking on the track when `readonly`', async () => {
+it('prevents updating the value when clicking on the track when `readonly`', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -759,7 +640,7 @@ it('prevents updating the `value` when clicking on the track when `readonly`', a
     new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.6, // 60% position
+      clientX: trackRect.left + trackRect.width * 0.6,
     }),
   );
 
@@ -768,7 +649,7 @@ it('prevents updating the `value` when clicking on the track when `readonly`', a
   expect(host.value).to.deep.equal([25]);
 });
 
-it('prevents updating the `value` when using the arrow keys on the handle when `disabled`', async () => {
+it('prevents updating the value when using the arrow keys on the handle when `disabled`', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -788,7 +669,7 @@ it('prevents updating the `value` when using the arrow keys on the handle when `
   expect(host.value).to.deep.equal([25]);
 });
 
-it('prevents updating the `value` when using the arrow keys on the handle when `readonly`', async () => {
+it('prevents updating the value when using the arrow keys on the handle when `readonly`', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -806,34 +687,6 @@ it('prevents updating the `value` when using the arrow keys on the handle when `
   await sendKeys({ press: 'ArrowDown' });
 
   expect(host.value).to.deep.equal([25]);
-});
-
-it('hides the minimum and maximum inputs and sliders', async () => {
-  const host = await fixture<Slider>(
-    html`<glide-core-slider label="Label"></glide-core-slider>`,
-  );
-
-  const maximumInput = host.shadowRoot?.querySelector(
-    '[data-test="maximum-input"]',
-  );
-
-  const minimumInput = host.shadowRoot?.querySelector(
-    '[data-test="minimum-input"]',
-  );
-
-  const maximumHandle = host.shadowRoot?.querySelector(
-    '[data-test="maximum-handle"]',
-  );
-
-  const minimumHandle = host.shadowRoot?.querySelector(
-    '[data-test="minimum-handle"]',
-  );
-
-  expect(maximumInput?.checkVisibility()).to.not.be.ok;
-  expect(minimumInput?.checkVisibility()).to.not.be.ok;
-
-  expect(maximumHandle?.checkVisibility()).to.not.be.ok;
-  expect(minimumHandle?.checkVisibility()).to.not.be.ok;
 });
 
 it('caps the input value to `max` when the entered value exceeds it', async () => {

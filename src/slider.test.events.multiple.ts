@@ -57,6 +57,8 @@ it('dispatches a "change" event blurring the minimum input', async () => {
 
   await sendKeys({ type: '1' });
 
+  expect(spy.callCount).to.equal(0);
+
   minimumInput?.blur();
 
   expect(spy.callCount).to.equal(1);
@@ -77,6 +79,8 @@ it('dispatches a "change" event blurring the maximum input', async () => {
   maximumInput?.focus();
 
   await sendKeys({ type: '1' });
+
+  expect(spy.callCount).to.equal(0);
 
   maximumInput?.blur();
 
@@ -130,6 +134,13 @@ it('dispatches an "input" event dragging the minimum handle', async () => {
 
   await host.updateComplete;
 
+  // `greaterThan(0)` because each time the handle
+  // is dragged and the `value` updates, an `input`
+  // event is dispatched, just like native. Rather
+  // than asserting an exact value and having a
+  // comment explaining why, it may be less confusing
+  // to simply verify the event is dispatched at least
+  // once.
   expect(spy.callCount).to.be.greaterThan(0);
 });
 
@@ -180,10 +191,17 @@ it('dispatches an "input" event dragging the maximum handle', async () => {
 
   await host.updateComplete;
 
+  // `greaterThan(0)` because each time the handle
+  // is dragged and the `value` updates, an `input`
+  // event is dispatched, just like native. Rather
+  // than asserting an exact value and having a
+  // comment explaining why, it may be less confusing
+  // to simply verify the event is dispatched at least
+  // once.
   expect(spy.callCount).to.be.greaterThan(0);
 });
 
-it('dispatches an "change" event dragging and letting go of the minimum handle', async () => {
+it('dispatches a "change" event dragging and letting go of the minimum handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -221,6 +239,8 @@ it('dispatches an "change" event dragging and letting go of the minimum handle',
 
   await aTimeout(0);
 
+  expect(spy.callCount).to.equal(0);
+
   document.dispatchEvent(
     new MouseEvent('mouseup', {
       bubbles: true,
@@ -233,7 +253,7 @@ it('dispatches an "change" event dragging and letting go of the minimum handle',
   expect(spy.callCount).to.equal(1);
 });
 
-it('dispatches an "change" event dragging and letting go of the maximum handle', async () => {
+it('dispatches a "change" event dragging and letting go of the maximum handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -271,6 +291,8 @@ it('dispatches an "change" event dragging and letting go of the maximum handle',
 
   await aTimeout(0);
 
+  expect(spy.callCount).to.equal(0);
+
   document.dispatchEvent(
     new MouseEvent('mouseup', {
       bubbles: true,
@@ -300,7 +322,8 @@ it('dispatches an "input" and "change" event clicking on the minimum side of the
   assert(trackRect);
   assert(sliderTrack);
 
-  // Click on the track at 10% position (closer to minimum handle than maximum handle)
+  // Click on the track at the 10% position, which is closer
+  // to the minimum handle than the maximum handle.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
@@ -332,7 +355,8 @@ it('dispatches an "input" and "change" event clicking on the maximum side of the
   assert(trackRect);
   assert(sliderTrack);
 
-  // Click on the track at 90% position (closer to maximum handle than maximum handle)
+  // Click on the track at the 90% position, which is closer
+  // to the maximum handle than the minimum handle.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
@@ -771,7 +795,7 @@ it('does not dispatch events when clicking on the maximum handle', async () => {
   expect(changeSpy.callCount).to.equal(0);
 });
 
-it('prevents track click events immediately after completing a drag operation', async () => {
+it('prevents track click events dispatching immediately after completing a drag operation', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -827,7 +851,7 @@ it('prevents track click events immediately after completing a drag operation', 
 
   await host.updateComplete;
 
-  // At this point, drag should have triggered input and change events
+  // At this point, the drag should have dispatched input and change events.
   expect(inputSpy.callCount).to.be.greaterThan(0);
   expect(changeSpy.callCount).to.equal(1);
   expect(host.value).to.deep.equal([20, 70]);
@@ -835,8 +859,8 @@ it('prevents track click events immediately after completing a drag operation', 
   inputSpy.resetHistory();
   changeSpy.resetHistory();
 
-  // Immediately clicking on the track should be ignored because we just finished dragging.
-  // There's a comment explaining why.
+  // Immediately clicking on the track should be ignored because we just
+  // finished dragging. There's a comment in the source explaining why.
   // No new events should be dispatched and the `value` shouldn't be updated.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
@@ -852,10 +876,10 @@ it('prevents track click events immediately after completing a drag operation', 
   expect(changeSpy.callCount).to.equal(0);
   expect(host.value).to.deep.equal([20, 70]);
 
-  // Wait for the drag completion timeout
+  // Now wait for the drag completion timeout.
   await aTimeout(0);
 
-  // Clicking should now work again
+  // Clicking should now work again.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,

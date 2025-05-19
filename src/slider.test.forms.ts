@@ -17,7 +17,7 @@ it('can be reset to its initial value', async () => {
   expect(host.value).to.deep.equal([20]);
 });
 
-it('has `formData` value when it has a value', async () => {
+it('has a `formData` value when it has a value', async () => {
   const form = document.createElement('form');
 
   await fixture<Slider>(
@@ -35,7 +35,7 @@ it('has `formData` value when it has a value', async () => {
   expect(formData.get('name')).to.equal('[20]');
 });
 
-it('has no `formData` value when it has a value but disabled', async () => {
+it('has no `formData` value when it has a value but is disabled', async () => {
   const form = document.createElement('form');
 
   await fixture<Slider>(
@@ -54,7 +54,7 @@ it('has no `formData` value when it has a value but disabled', async () => {
   expect(formData.get('name')).to.be.null;
 });
 
-it('has no `formData` value when it has a value but without a `name`', async () => {
+it('has no `formData` value when it has a value but no `name`', async () => {
   const form = document.createElement('form');
 
   await fixture<Slider>(
@@ -120,11 +120,9 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
 
   host.setCustomValidity('validity message');
   host.reportValidity();
-
   await host.updateComplete;
 
   host.setCustomValidity('');
-
   await host.updateComplete;
 
   expect(
@@ -139,16 +137,13 @@ it('is valid when `setValidity()` is called', async () => {
   );
 
   host.setValidity({ customError: true }, 'validity message');
-
   host.setValidity({});
-
   await host.updateComplete;
 
   expect(host.validity.valid).to.be.true;
   expect(host.validity.customError).to.be.false;
 
   expect(host.reportValidity()).to.be.true;
-
   await host.updateComplete;
 
   expect(

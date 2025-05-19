@@ -198,22 +198,6 @@ for (const story of stories.Slider) {
           );
         });
 
-        test('tooltip', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-slider')
-            .evaluate<void, Slider>((element) => {
-              element.tooltip = 'Tooltip';
-            });
-
-          await page.locator('glide-core-tooltip').getByRole('button').focus();
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
         test(`value="['80']"`, async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 

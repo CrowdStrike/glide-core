@@ -3,7 +3,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import Slider from './slider.js';
 
-it('can be reset if there was no initial value', async () => {
+it('resets to 25/75% of the range size if there was no initial value', async () => {
   const form = document.createElement('form');
 
   const host = await fixture<Slider>(
@@ -31,7 +31,7 @@ it('sets `value` back to the default when one is not provided initially and it i
   expect(host.value).to.deep.equal([25, 75]);
 });
 
-it('updates `value` to 25/75% of the range size when programmatically emptying it', async () => {
+it('sets `value` to 25/75% of the range size when programmatically emptying it, even when given an initial value', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -158,7 +158,7 @@ it('submits its form on Enter when the maximum handle has focus', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('defaults `formData` to 25/75% of `max` when no value', async () => {
+it('defaults `formData` to 25/75% of the range size when no value', async () => {
   const form = document.createElement('form');
 
   await fixture<Slider>(

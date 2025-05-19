@@ -38,6 +38,8 @@ it('dispatches a "change" event blurring the input', async () => {
 
   await sendKeys({ type: '1' });
 
+  expect(spy.callCount).to.equal(0);
+
   singleInput?.blur();
 
   expect(spy.callCount).to.equal(1);
@@ -90,10 +92,17 @@ it('dispatches an "input" event dragging the handle', async () => {
 
   await host.updateComplete;
 
+  // `greaterThan(0)` because each time the handle
+  // is dragged and the `value` updates, an `input`
+  // event is dispatched, just like native. Rather
+  // than asserting an exact value and having a
+  // comment explaining why, it may be less confusing
+  // to simply verify the event is dispatched at least
+  // once.
   expect(spy.callCount).to.be.greaterThan(0);
 });
 
-it('dispatches an "change" event dragging and letting go of the handle', async () => {
+it('dispatches a "change" event dragging and letting go of the handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label"></glide-core-slider>`,
   );
@@ -382,4 +391,100 @@ it('does not dispatch events when clicking on the handle', async () => {
 
   expect(inputSpy.callCount).to.equal(0);
   expect(changeSpy.callCount).to.equal(0);
+});
+
+it('prevents track click events dispatching immediately after completing a drag operation', async () => {
+  const host = await fixture<Slider>(
+    html`<glide-core-slider label="Label" .value=${[30]}></glide-core-slider>`,
+  );
+
+  const sliderTrack = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="slider"]',
+  );
+
+  const singleHandle = host.shadowRoot?.querySelector(
+    '[data-test="single-handle"]',
+  );
+
+  assert(sliderTrack);
+  assert(singleHandle);
+
+  const inputSpy = sinon.spy();
+  const changeSpy = sinon.spy();
+
+  host.addEventListener('input', inputSpy);
+  host.addEventListener('change', changeSpy);
+
+  const trackRect = sliderTrack.getBoundingClientRect();
+
+  singleHandle.dispatchEvent(
+    new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
+
+  await aTimeout(0);
+
+  document.dispatchEvent(
+    new MouseEvent('mousemove', {
+      bubbles: true,
+      cancelable: true,
+      clientX: trackRect.left + trackRect.width * 0.2,
+    }),
+  );
+
+  await aTimeout(0);
+
+  document.dispatchEvent(
+    new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
+
+  await host.updateComplete;
+
+  // At this point, the drag should have dispatched input and change events.
+  expect(inputSpy.callCount).to.be.greaterThan(0);
+  expect(changeSpy.callCount).to.equal(1);
+  expect(host.value).to.deep.equal([20]);
+
+  inputSpy.resetHistory();
+  changeSpy.resetHistory();
+
+  // Immediately clicking on the track should be ignored because we just
+  // finished dragging. There's a comment in the source explaining why.
+  // No new events should be dispatched and the `value` shouldn't be updated.
+  sliderTrack.dispatchEvent(
+    new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      clientX: trackRect.left + trackRect.width * 0.2,
+    }),
+  );
+
+  await host.updateComplete;
+
+  expect(inputSpy.callCount).to.equal(0);
+  expect(changeSpy.callCount).to.equal(0);
+  expect(host.value).to.deep.equal([20]);
+
+  // Now wait for the drag completion timeout.
+  await aTimeout(0);
+
+  // Clicking should now work again.
+  sliderTrack.dispatchEvent(
+    new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      clientX: trackRect.left + trackRect.width * 0.4,
+    }),
+  );
+
+  await host.updateComplete;
+
+  expect(inputSpy.callCount).to.equal(1);
+  expect(changeSpy.callCount).to.equal(1);
+  expect(host.value).to.deep.equal([40]);
 });

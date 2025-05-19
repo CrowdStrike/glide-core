@@ -12,6 +12,8 @@ export default [
     }
 
     .slider-container {
+      --private-track-size: 0.375rem;
+
       align-items: center;
       display: flex;
       gap: var(--glide-core-spacing-base-md);
@@ -72,6 +74,13 @@ export default [
       min-inline-size: 0;
 
       &.single {
+        /*
+            Without this suggestion from design, when the handle
+            is at the min, it would overflow the container and
+            not align with label. This isn't needed in multiple
+            mode because we have an input to help prevent this
+            from happening.
+         */
         padding-inline-start: var(--glide-core-spacing-base-sm);
       }
     }
@@ -80,7 +89,7 @@ export default [
       background-color: var(
         --glide-core-color-interactive-surface-container-active
       );
-      block-size: 0.375rem;
+      block-size: var(--private-track-size);
       border-radius: var(--glide-core-rounding-base-radius-round);
 
       /*
@@ -98,7 +107,7 @@ export default [
 
     .unfilled-track {
       background-color: var(--glide-core-color-static-stroke-primary);
-      block-size: 0.375rem;
+      block-size: var(--private-track-size);
       border-radius: var(--glide-core-rounding-base-radius-round);
       inline-size: 100%;
       position: relative;
