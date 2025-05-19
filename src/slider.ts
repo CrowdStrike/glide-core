@@ -861,60 +861,67 @@ export default class Slider extends LitElement implements FormControl {
     const filledPercentage = (clientX - sliderRect.left) / sliderRect.width;
     const clampedPosition = filledPercentage * (this.max - this.min) + this.min;
 
-    // Ensures the calculated value aligns with the slider's step
+    // Ensures the calculated value aligns with the Slider's step
     // configuration, rounding to the nearest valid step increment.
     const snappedValue = Math.round(clampedPosition / this.step) * this.step;
 
-    // Track if any value actually changed to match native.
-    let hasValueChanged = false;
+    if (!this.multiple) {
+      const newValue = Math.min(Math.max(snappedValue, this.min), this.max);
 
-    if (this.multiple) {
-      const isMinimumHandle = handle === this.#minimumHandleElementRef.value;
+      // To align with native, we only dispatch the input event when
+      // the value is actually changed.
+      if (newValue !== this.minimumValue) {
+        this.minimumValue = newValue;
+        this.#updateHandlesAndTrack();
 
-      if (isMinimumHandle && this.maximumValue) {
-        const newValue = Math.min(
-          Math.max(snappedValue, this.min),
-          this.maximumValue - this.step,
-        );
-
-        if (newValue !== this.minimumValue) {
-          this.minimumValue = newValue;
-          hasValueChanged = true;
-        }
-      } else if (this.minimumValue !== undefined) {
-        const newValue = Math.min(
-          Math.max(snappedValue, this.minimumValue + this.step),
-          this.max,
-        );
-
-        if (newValue !== this.maximumValue) {
-          this.maximumValue = newValue;
-          hasValueChanged = true;
-        }
-      }
-
-      this.#updateHandlesAndTrack();
-
-      if (hasValueChanged) {
         this.dispatchEvent(
           new Event('input', { bubbles: true, composed: true }),
         );
+
+        return;
       }
-
-      return;
     }
 
-    const newValue = Math.min(Math.max(snappedValue, this.min), this.max);
+    const isMinimumHandle = handle === this.#minimumHandleElementRef.value;
 
-    if (newValue !== this.minimumValue) {
-      this.minimumValue = newValue;
-      hasValueChanged = true;
+    if (isMinimumHandle && this.maximumValue !== undefined) {
+      const newValue = Math.min(
+        Math.max(snappedValue, this.min),
+        this.maximumValue - this.step,
+      );
+
+      // To align with native, we only dispatch the input event when
+      // the value is actually changed.
+      if (newValue !== this.minimumValue) {
+        this.minimumValue = newValue;
+        this.#updateHandlesAndTrack();
+
+        this.dispatchEvent(
+          new Event('input', { bubbles: true, composed: true }),
+        );
+
+        return;
+      }
     }
 
-    this.#updateHandlesAndTrack();
+    if (this.minimumValue !== undefined) {
+      const newValue = Math.min(
+        Math.max(snappedValue, this.minimumValue + this.step),
+        this.max,
+      );
 
-    if (hasValueChanged) {
-      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+      // To align with native, we only dispatch the input event when
+      // the value is actually changed.
+      if (newValue !== this.maximumValue) {
+        this.maximumValue = newValue;
+        this.#updateHandlesAndTrack();
+
+        this.dispatchEvent(
+          new Event('input', { bubbles: true, composed: true }),
+        );
+
+        return;
+      }
     }
   }
 
@@ -1026,33 +1033,33 @@ export default class Slider extends LitElement implements FormControl {
     if (this.minimumValue !== undefined && this.maximumValue !== undefined) {
       const isMinimumHandle = handle === this.#minimumHandleElementRef.value;
 
-      let newValue = isMinimumHandle ? this.minimumValue : this.maximumValue;
+      let value = isMinimumHandle ? this.minimumValue : this.maximumValue;
 
       switch (event.key) {
         case 'ArrowLeft':
         case 'ArrowDown': {
-          newValue = newValue - this.step;
+          value = value - this.step;
           break;
         }
         case 'ArrowRight':
         case 'ArrowUp': {
-          newValue = newValue + this.step;
+          value = value + this.step;
           break;
         }
         case 'PageDown': {
-          newValue = newValue - this.step * 10;
+          value = value - this.step * 10;
           break;
         }
         case 'PageUp': {
-          newValue = newValue + this.step * 10;
+          value = value + this.step * 10;
           break;
         }
         case 'Home': {
-          newValue = isMinimumHandle ? this.min : this.minimumValue + this.step;
+          value = isMinimumHandle ? this.min : this.minimumValue + this.step;
           break;
         }
         case 'End': {
-          newValue = isMinimumHandle ? this.maximumValue - this.step : this.max;
+          value = isMinimumHandle ? this.maximumValue - this.step : this.max;
           break;
         }
         case 'Enter': {
@@ -1069,12 +1076,12 @@ export default class Slider extends LitElement implements FormControl {
 
       if (isMinimumHandle) {
         this.minimumValue = Math.min(
-          Math.max(newValue, this.min),
+          Math.max(value, this.min),
           this.maximumValue - this.step,
         );
       } else {
         this.maximumValue = Math.min(
-          Math.max(newValue, this.minimumValue + this.step),
+          Math.max(value, this.minimumValue + this.step),
           this.max,
         );
       }
@@ -1097,33 +1104,33 @@ export default class Slider extends LitElement implements FormControl {
     const handle = this.#singleHandleElementRef.value;
 
     if (handle && this.minimumValue !== undefined) {
-      let newValue = this.minimumValue;
+      let value = this.minimumValue;
 
       switch (event.key) {
         case 'ArrowLeft':
         case 'ArrowDown': {
-          newValue -= this.step;
+          value -= this.step;
           break;
         }
         case 'ArrowRight':
         case 'ArrowUp': {
-          newValue += this.step;
+          value += this.step;
           break;
         }
         case 'PageDown': {
-          newValue -= this.step * 10;
+          value -= this.step * 10;
           break;
         }
         case 'PageUp': {
-          newValue += this.step * 10;
+          value += this.step * 10;
           break;
         }
         case 'Home': {
-          newValue = this.min;
+          value = this.min;
           break;
         }
         case 'End': {
-          newValue = this.max;
+          value = this.max;
           break;
         }
         case 'Enter': {
@@ -1138,7 +1145,7 @@ export default class Slider extends LitElement implements FormControl {
 
       event.preventDefault();
 
-      this.minimumValue = Math.min(Math.max(newValue, this.min), this.max);
+      this.minimumValue = Math.min(Math.max(value, this.min), this.max);
 
       this.#updateHandlesAndTrack();
 
@@ -1207,7 +1214,10 @@ export default class Slider extends LitElement implements FormControl {
 
       const clampedPosition = clickPosition * (this.max - this.min) + this.min;
 
-      const clickValue = Math.round(clampedPosition / this.step) * this.step;
+      // Similar to when dragging, when clicking the track we need to
+      // ensure the calculated value aligns with the Slider's step
+      // configuration, rounding to the nearest valid step increment.
+      const snappedValue = Math.round(clampedPosition / this.step) * this.step;
 
       if (
         this.multiple &&
@@ -1215,24 +1225,37 @@ export default class Slider extends LitElement implements FormControl {
         this.maximumValue !== undefined
       ) {
         // Calculate the distance to each handle to determine which one to move.
-        const minimumDistance = Math.abs(clickValue - this.minimumValue);
-        const maximumDistance = Math.abs(clickValue - this.maximumValue);
+        const minimumDistance = Math.abs(snappedValue - this.minimumValue);
+        const maximumDistance = Math.abs(snappedValue - this.maximumValue);
 
         // Move the closest handle.
         if (minimumDistance <= maximumDistance) {
           this.minimumValue = Math.min(
-            Math.max(clickValue, this.min),
+            Math.max(snappedValue, this.min),
             this.maximumValue - this.step,
           );
         } else {
           this.maximumValue = Math.min(
-            Math.max(clickValue, this.minimumValue + this.step),
+            Math.max(snappedValue, this.minimumValue + this.step),
             this.max,
           );
         }
-      } else {
-        this.minimumValue = Math.min(Math.max(clickValue, this.min), this.max);
+
+        this.#updateHandlesAndTrack();
+
+        // Native fires both events in this case.
+        this.dispatchEvent(
+          new Event('input', { bubbles: true, composed: true }),
+        );
+
+        this.dispatchEvent(
+          new Event('change', { bubbles: true, composed: true }),
+        );
+
+        return;
       }
+
+      this.minimumValue = Math.min(Math.max(snappedValue, this.min), this.max);
 
       this.#updateHandlesAndTrack();
 
