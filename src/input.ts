@@ -342,7 +342,12 @@ export default class Input extends LitElement implements FormControl {
                     'clear-icon-button--visible': this.#isClearButtonVisible,
                   })}
                   data-test="clear-button"
-                  label=${this.#localize.term('clearEntry', this.label!)}
+                  label=${this.#localize.term(
+                    'clearEntry',
+                    // TODO: say why
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    this.label!,
+                  )}
                   @click=${this.#onClearButtonClick}
                 >
                   ${xIcon}

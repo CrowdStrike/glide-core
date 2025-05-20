@@ -242,6 +242,7 @@ export default class Popover extends LitElement {
 
           <slot
             class="default-slot"
+            data-test="default-slot"
             ${assertSlot()}
             ${ref(this.#defaultSlotElementRef)}
           >

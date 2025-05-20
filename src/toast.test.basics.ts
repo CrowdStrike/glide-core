@@ -1,8 +1,8 @@
-import './link.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import { emulateMedia } from '@web/test-runner-commands';
+import Link from './link.js';
 import expectWindowError from './library/expect-window-error.js';
 import Toast from './toast.js';
 
@@ -43,7 +43,11 @@ it('can have a description', async () => {
   await fixture(
     html`<glide-core-toast label="Label">
       Description
-      <glide-core-link label="Label" href="/"></glide-core-link>
+      <glide-core-link
+        label="Label"
+        data-test="link"
+        href="/"
+      ></glide-core-link>
     </glide-core-toast>`,
   );
 
@@ -52,7 +56,7 @@ it('can have a description', async () => {
     ?.shadowRoot?.querySelector('[data-test="toast"]')
     ?.querySelector('[data-test="description"]');
 
-  const link = description?.querySelector('glide-core-link');
+  const link = description?.querySelector<Link>('[data-test="link"]');
 
   expect(description?.textContent?.trim()).to.equal('Description');
   expect(link?.label).to.equal('Label');

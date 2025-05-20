@@ -334,7 +334,12 @@ export default class DropdownOption extends LitElement {
 
             ${when(this.editable, () => {
               return html`<button
-                aria-label=${this.#localize.term('editOption', this.label!)}
+                aria-label=${this.#localize.term(
+                  'editOption',
+                  // TODO: say why
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  this.label!,
+                )}
                 class=${classMap({
                   'edit-button': true,
                   active: this.privateIsEditActive,
@@ -382,7 +387,7 @@ export default class DropdownOption extends LitElement {
           >
               <slot class=${classMap({
                 'icon-slot': true,
-              })} name="icon">
+              })} data-test="icon-slot" name="icon">
               <!--
                 An icon before the label
                 @type {Element}
@@ -422,7 +427,12 @@ export default class DropdownOption extends LitElement {
 
               ${when(this.editable, () => {
                 return html`<button
-                  aria-label=${this.#localize.term('editOption', this.label!)}
+                  aria-label=${this.#localize.term(
+                    'editOption',
+                    // TODO: say why
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    this.label!,
+                  )}
                   class=${classMap({
                     'edit-button': true,
                     active: this.privateActive && this.privateIsEditActive,
@@ -447,6 +457,8 @@ export default class DropdownOption extends LitElement {
                   data-test="count-container"
                 >
                   ${when(
+                    // TODO: say why
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     this.count! >= 1000,
                     () => {
                       return '999+';

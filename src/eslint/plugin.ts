@@ -9,6 +9,7 @@ import { noSpacePress } from './rules/no-space-press.js';
 import { noToHaveAttribute } from './rules/no-to-have-attribute.js';
 import { preferClosedShadowRoot } from './rules/prefer-shadow-root-mode.js';
 import { betterTestAssertions } from './rules/better-test-assertions.js';
+import { betterTestSelectors } from './rules/better-test-selectors.js';
 import { publicMemberReturnType } from './rules/public-member-return-type.js';
 import { publicGetterDefaultComment } from './rules/public-getter-default-comment.js';
 import { eventDispatchFromThis } from './rules/event-dispatch-from-this.js';
@@ -35,6 +36,7 @@ export default {
     'no-to-have-attribute': noToHaveAttribute,
     'prefer-shadow-root-mode': preferClosedShadowRoot,
     'better-test-assertions': betterTestAssertions,
+    'better-test-selectors': betterTestSelectors,
     'public-member-return-type': publicMemberReturnType,
     'public-getter-default-comment': publicGetterDefaultComment,
     'event-dispatch-from-this': eventDispatchFromThis,

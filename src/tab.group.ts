@@ -398,7 +398,9 @@ export default class TabGroup extends LitElement {
       const selectedTabIndicatorTranslateLeft =
         this.#selectedTab === this.#tabElements.at(0)
           ? selectedTabInlinePadding
-          : this.#selectedTab.offsetLeft - this.#tabElements.at(0)!.offsetLeft;
+          : // TODO: say why
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            this.#selectedTab.offsetLeft - this.#tabElements.at(0)!.offsetLeft;
 
       this.#selectedTabIndicatorElementRef.value.style.setProperty(
         '--private-selected-tab-indicator-translate',

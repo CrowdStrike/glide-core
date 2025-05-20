@@ -17,14 +17,31 @@ export default defineConfig([
   globalIgnores(['dist']),
   {
     extends: [
+      // https://github.com/eslint/eslint/blob/20a9e59438fde3642ab058cc55ee1b9fa02b6391/packages/js/src/configs/eslint-recommended.js
       eslint.configs.recommended,
+
+      // https://github.com/sindresorhus/eslint-plugin-unicorn/tree/main/rules
       unicorn.configs['flat/all'],
+
+      // https://github.com/bryanrsmith/eslint-plugin-sort-class-members/blob/main/src/index.js
       sortClassMembers.configs['flat/recommended'],
+
+      // https://github.com/import-js/eslint-plugin-import/blob/main/config/recommended.js
       importPlugin.flatConfigs.recommended,
+
+      // https://github.com/43081j/eslint-plugin-lit/blob/master/src/configs/recommended.ts
       compat.extends('plugin:lit/recommended'),
+
+      // https://github.com/open-wc/open-wc/blob/c6f14851e1ec257cc03726c058d7fbf7223471ba/packages/eslint-plugin-lit-a11y/lib/index.js
       compat.extends('plugin:lit-a11y/recommended'),
+
+      // https://github.com/typescript-eslint/typescript-eslint/blob/9335077904aaa4a8ddcd3b446b5c28dd4e8079bf/packages/eslint-plugin/src/configs/flat/recommended-type-checked.ts
       typescript.configs.recommendedTypeChecked,
+
+      // https://github.com/typescript-eslint/typescript-eslint/blob/9335077904aaa4a8ddcd3b446b5c28dd4e8079bf/packages/eslint-plugin/src/configs/flat/stylistic-type-checked.ts
       typescript.configs.stylisticTypeChecked,
+
+      // https://github.com/prettier/eslint-config-prettier/blob/main/index.js
       prettier,
     ],
   },
@@ -76,6 +93,9 @@ export default defineConfig([
 
       // Most of the methods this rule would cover are bound by Lit.
       '@typescript-eslint/unbound-method': 'off',
+
+      // TODO: explain
+      '@typescript-eslint/no-non-null-assertion': 'error',
 
       '@stylistic/padding-line-between-statements': [
         'error',
@@ -335,6 +355,7 @@ export default defineConfig([
       '@crowdstrike/glide-core/no-skip-tests': 'error',
       '@crowdstrike/glide-core/no-to-have-attribute': 'error',
       '@crowdstrike/glide-core/better-test-assertions': 'error',
+      '@crowdstrike/glide-core/better-test-selectors': 'error',
       '@crowdstrike/glide-core/public-member-return-type': 'off',
       '@crowdstrike/glide-core/public-getter-default-comment': 'off',
       '@crowdstrike/glide-core/event-dispatch-from-this': 'off',

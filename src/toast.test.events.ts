@@ -55,7 +55,11 @@ it('dispatches a "click" event when a link is clicked', async () => {
   const host = await fixture(
     html`<glide-core-toast label="Label">
       Description
-      <glide-core-link label="Label" href="/"></glide-core-link>
+      <glide-core-link
+        label="Label"
+        data-test="link"
+        href="/"
+      ></glide-core-link>
     </glide-core-toast>`,
   );
 
@@ -71,7 +75,7 @@ it('dispatches a "click" event when a link is clicked', async () => {
     document
       .querySelector('glide-core-private-toasts')
       ?.shadowRoot?.querySelector('[data-test="toast"]')
-      ?.querySelector('glide-core-link'),
+      ?.querySelector('[data-test="link"]'),
   );
 
   const event = await oneEvent(host, 'click');

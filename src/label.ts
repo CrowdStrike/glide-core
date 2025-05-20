@@ -119,6 +119,7 @@ export default class Label extends LitElement {
                 vertical: this.orientation === 'vertical',
                 visible: this.tooltip ? true : false,
               })}
+              data-test="optional-tooltip"
               label=${ifDefined(this.tooltip)}
               placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
             >

@@ -1,5 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import DropdownOption from './dropdown.option.js';
+import type GlideCoreCheckbox from './checkbox.js';
 
 it('is selected when initially selected', async () => {
   const host = await fixture<DropdownOption>(
@@ -11,7 +12,9 @@ it('is selected when initially selected', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  const checkbox = host.shadowRoot?.querySelector<GlideCoreCheckbox>(
+    '[data-test="checkbox"]',
+  );
 
   expect(host.ariaSelected).to.equal('true');
   expect(checkbox?.checked).to.be.true;
@@ -26,7 +29,9 @@ it('is unselected when initially unselected', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  const checkbox = host.shadowRoot?.querySelector<GlideCoreCheckbox>(
+    '[data-test="checkbox"]',
+  );
 
   expect(host.ariaSelected).to.equal('false');
   expect(checkbox?.checked).to.be.false;
@@ -40,7 +45,9 @@ it('is enabled when initially enabled', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  const checkbox = host.shadowRoot?.querySelector<GlideCoreCheckbox>(
+    '[data-test="checkbox"]',
+  );
 
   expect(host.disabled).to.be.false;
   expect(host.ariaDisabled).to.equal('false');
@@ -56,7 +63,9 @@ it('is disabled when initially disabled', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  const checkbox = host.shadowRoot?.querySelector<GlideCoreCheckbox>(
+    '[data-test="checkbox"]',
+  );
 
   expect(host.disabled).to.be.true;
   expect(host.ariaDisabled).to.equal('true');
@@ -85,7 +94,10 @@ it('is unchecked when selected and enabled', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  const checkbox = host.shadowRoot?.querySelector<GlideCoreCheckbox>(
+    '[data-test="checkbox"]',
+  );
+
   expect(checkbox?.checked).to.be.true;
 });
 
@@ -99,7 +111,10 @@ it('is unchecked when selected and disabled', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  const checkbox = host.shadowRoot?.querySelector<GlideCoreCheckbox>(
+    '[data-test="checkbox"]',
+  );
+
   expect(checkbox?.checked).to.be.false;
 });
 

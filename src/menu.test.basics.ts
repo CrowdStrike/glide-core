@@ -52,7 +52,10 @@ it('can be open', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const defaultSlot = host?.shadowRoot?.querySelector('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector(
+    '[data-test="default-slot"]',
+  );
+
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
   const link = host.querySelector('glide-core-menu-link');
@@ -126,8 +129,9 @@ it('is not opened when open and its target is `disabled`', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const target = host.querySelector('button');
   const options = host.querySelector('glide-core-menu-options');
