@@ -5,10 +5,7 @@ import {
 } from '@typescript-eslint/utils';
 import { parse as commentParser } from 'comment-parser';
 
-const createRule = ESLintUtils.RuleCreator<{
-  // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L110
-  recommended: boolean;
-}>((name) => {
+const createRule = ESLintUtils.RuleCreator((name) => {
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
 });
 
@@ -18,7 +15,6 @@ export const publicGetterDefaultComment = createRule({
     docs: {
       description:
         'Ensures getters that have setters have a comment with a `@default` tag.',
-      recommended: true,
     },
     type: 'suggestion',
     messages: {

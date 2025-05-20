@@ -1,9 +1,6 @@
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 
-const createRule = ESLintUtils.RuleCreator<{
-  // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L110
-  recommended: boolean;
-}>((name) => {
+const createRule = ESLintUtils.RuleCreator((name) => {
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
 });
 
@@ -13,7 +10,6 @@ export const noSkipTests = createRule({
     docs: {
       description:
         'Ensures tests are not skipped, as we do not want to accumulate a collection of skipped tests that never get addressed.',
-      recommended: true,
     },
     type: 'suggestion',
     messages: {

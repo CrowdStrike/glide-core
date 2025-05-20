@@ -334,7 +334,14 @@ export default class DropdownOption extends LitElement {
 
             ${when(this.editable, () => {
               return html`<button
-                aria-label=${this.#localize.term('editOption', this.label!)}
+                aria-label=${this.#localize.term(
+                  'editOption',
+
+                  // `this.label` is always defined because it's a required attribute.
+                  //
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  this.label!,
+                )}
                 class=${classMap({
                   'edit-button': true,
                   active: this.privateIsEditActive,
@@ -359,6 +366,9 @@ export default class DropdownOption extends LitElement {
                 data-test="count-container"
               >
                 ${when(
+                  // `this.count` is guaranteed to be defined by the `when()` above.
+                  //
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   this.count! >= 1000,
                   () => {
                     return '999+';
@@ -422,7 +432,13 @@ export default class DropdownOption extends LitElement {
 
               ${when(this.editable, () => {
                 return html`<button
-                  aria-label=${this.#localize.term('editOption', this.label!)}
+                  aria-label=${this.#localize.term(
+                    'editOption',
+                    // `this.label` is always defined because it's a required attribute.
+                    //
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    this.label!,
+                  )}
                   class=${classMap({
                     'edit-button': true,
                     active: this.privateActive && this.privateIsEditActive,
@@ -447,6 +463,9 @@ export default class DropdownOption extends LitElement {
                   data-test="count-container"
                 >
                   ${when(
+                    // `this.count` is guaranteed to be defined by the `when()` above.
+                    //
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     this.count! >= 1000,
                     () => {
                       return '999+';
