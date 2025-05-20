@@ -1,4 +1,4 @@
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Slider from './slider.js';
 
@@ -351,8 +351,6 @@ it('decreases by `step` when dragging the handle', async () => {
     }),
   );
 
-  await aTimeout(0);
-
   // Drag the handle to a location that will force
   // the value to be rounded down to the nearest `step`.
   document.dispatchEvent(
@@ -362,8 +360,6 @@ it('decreases by `step` when dragging the handle', async () => {
       clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -402,10 +398,8 @@ it('increases by `step` when dragging the handle', async () => {
     }),
   );
 
-  await aTimeout(0);
-
-  // Drag the handle to a location that will force
-  // the value to be rounded up to the nearest `step`.
+  // Drag the handle to a location that will force the value to be
+  // rounded up to the nearest `step`.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -413,8 +407,6 @@ it('increases by `step` when dragging the handle', async () => {
       clientX: trackRect.left + trackRect.width * 0.3,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -463,8 +455,8 @@ it('clicking on the track updates the value', async () => {
   const handleLeft = Number.parseFloat(handleStyle.left);
   const handleLeftPercent = (handleLeft / trackRect.width) * 100;
 
-  // The handle should be positioned at ~60%, allowing
-  // for small rounding differences.
+  // The handle should be positioned at ~60%, allowing for small
+  // rounding differences.
   expect(handleLeftPercent).to.be.closeTo(60, 2);
 });
 
@@ -480,8 +472,7 @@ it('maintains a single value when switching between multiple and single modes', 
   host.multiple = true;
   await host.updateComplete;
 
-  // Should preserve the first value and
-  // add a maximum value.
+  // Should preserve the first value and add a maximum value.
   expect(host.value.length).to.equal(2);
   expect(host.value).to.deep.equal([40, 75]);
 
@@ -519,8 +510,6 @@ it('does not update when dragging the handle when `disabled`', async () => {
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -528,8 +517,6 @@ it('does not update when dragging the handle when `disabled`', async () => {
       clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -569,8 +556,6 @@ it('does not update when dragging the handle when `readonly`', async () => {
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -578,8 +563,6 @@ it('does not update when dragging the handle when `readonly`', async () => {
       clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {

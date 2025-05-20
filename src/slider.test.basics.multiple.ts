@@ -75,7 +75,7 @@ it('sets `max` on the maximum input', async () => {
   expect(maximumInput?.max).to.equal('99');
 });
 
-it('sets `min` on the maximum input based on the current minimum value + `step`', async () => {
+it('sets `min` on the maximum input based on the current minimum value plus `step`', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -140,7 +140,7 @@ it('sets `max` on the maximum input', async () => {
   expect(maximumInput?.getAttribute('max')).to.equal('200');
 });
 
-it('sets `max` on the minimum input based on the current maximum value - `step`', async () => {
+it('sets `max` on the minimum input based on the current maximum value minus `step`', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"

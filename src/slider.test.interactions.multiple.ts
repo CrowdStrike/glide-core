@@ -1,4 +1,4 @@
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Slider from './slider.js';
 
@@ -44,7 +44,7 @@ it('adjusts minimum and maximum values when `max` is lowered programmatically be
   await host.updateComplete;
 
   // Maximum becomes the max.
-  // Minimum becomes the max - step = 24.
+  // Minimum becomes the max minus step = 24.
   expect(host.value).to.deep.equal([24, 25]);
 
   const minimumInput = host.shadowRoot?.querySelector<HTMLInputElement>(
@@ -117,7 +117,7 @@ it('adjusts minimum and maximum values when `min` is raised programmatically abo
   await host.updateComplete;
 
   // Minimum becomes the min.
-  // Maximum becomes the min + step = 46
+  // Maximum becomes the min plus step = 46
   expect(host.value).to.deep.equal([45, 46]);
 
   const minimumInput = host.shadowRoot?.querySelector<HTMLInputElement>(
@@ -480,7 +480,7 @@ it('sets the minimum value to `min` on Home on the minimum handle', async () => 
   expect(host.value).to.deep.equal([0, 75]);
 });
 
-it('sets the minimum value to the maximum value - `step` on End on the minimum handle', async () => {
+it('sets the minimum value to the maximum value minus `step` on End on the minimum handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -662,7 +662,7 @@ it('increases by x10 `step` on PageDown on the maximum handle', async () => {
   expect(host.value).to.deep.equal([25, 95]);
 });
 
-it('sets the maximum value to the minimum value + `step` on Home on the maximum handle', async () => {
+it('sets the maximum value to the minimum value plus `step` on Home on the maximum handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -731,10 +731,8 @@ it('decreases by `step` when dragging the minimum handle', async () => {
     }),
   );
 
-  await aTimeout(0);
-
-  // Drag the handle to a location that will force
-  // the value to be rounded down to the nearest `step`.
+  // Drag the handle to a location that will force the value to be
+  // rounded down to the nearest `step`.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -742,8 +740,6 @@ it('decreases by `step` when dragging the minimum handle', async () => {
       clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -786,10 +782,8 @@ it('increases by `step` when dragging the minimum handle', async () => {
     }),
   );
 
-  await aTimeout(0);
-
-  // Drag the handle to a location that will force
-  // the value to be rounded up to the nearest `step`.
+  // Drag the handle to a location that will force the value to be
+  // rounded up to the nearest `step`.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -797,8 +791,6 @@ it('increases by `step` when dragging the minimum handle', async () => {
       clientX: trackRect.left + trackRect.width * 0.3,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -841,10 +833,8 @@ it('decreases by `step` when dragging the maximum handle', async () => {
     }),
   );
 
-  await aTimeout(0);
-
-  // Drag the handle to a location that will force
-  // the value to be rounded down to the nearest `step`.
+  // Drag the handle to a location that will force the value to be
+  // rounded down to the nearest `step`.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -852,8 +842,6 @@ it('decreases by `step` when dragging the maximum handle', async () => {
       clientX: trackRect.left + trackRect.width * 0.7,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -896,10 +884,8 @@ it('increases by `step` when dragging the maximum handle', async () => {
     }),
   );
 
-  await aTimeout(0);
-
-  // Drag the handle to a location that will force
-  // the value to be rounded up to the nearest `step`.
+  // Drag the handle to a location that will force the value to be
+  // rounded up to the nearest `step`.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -907,8 +893,6 @@ it('increases by `step` when dragging the maximum handle', async () => {
       clientX: trackRect.left + trackRect.width * 0.8,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -947,11 +931,8 @@ it('prevents the minimum handle from exceeding the maximum handle when dragging'
     }),
   );
 
-  await aTimeout(0);
-
-  // Try to drag the minimum handle to the 90% position,
-  // which is beyond the maximum handle currently at
-  // 75%.
+  // Try to drag the minimum handle to the 90% position, which is
+  // beyond the maximum handle currently at 75%.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -959,8 +940,6 @@ it('prevents the minimum handle from exceeding the maximum handle when dragging'
       clientX: trackRect.left + trackRect.width * 0.9,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -971,7 +950,7 @@ it('prevents the minimum handle from exceeding the maximum handle when dragging'
 
   await host.updateComplete;
 
-  // The minimum value should be clamped to maximum - step
+  // The minimum value should be clamped to maximum minus step
   expect(host.value).to.deep.equal([74, 75]);
 });
 
@@ -1000,10 +979,8 @@ it('prevents maximum handle from going below the minimum handle when dragging', 
     }),
   );
 
-  await aTimeout(0);
-
-  // Try to drag the maximum handle to the 10% position,
-  // which is below the minimum handle currently at 25%.
+  // Try to drag the maximum handle to the 10% position, which is
+  // below the minimum handle currently at 25%.
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -1011,8 +988,6 @@ it('prevents maximum handle from going below the minimum handle when dragging', 
       clientX: trackRect.left + trackRect.width * 0.1,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -1023,7 +998,7 @@ it('prevents maximum handle from going below the minimum handle when dragging', 
 
   await host.updateComplete;
 
-  // The maximum value should be clamped to minimum + step
+  // The maximum value should be clamped to minimum plus step
   expect(host.value).to.deep.equal([25, 26]);
 });
 
@@ -1057,8 +1032,6 @@ it('does not update when dragging the minimum handle when `disabled`', async () 
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -1066,8 +1039,6 @@ it('does not update when dragging the minimum handle when `disabled`', async () 
       clientX: trackRect.left + trackRect.width * 0.9,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -1111,8 +1082,6 @@ it('does not update when dragging the minimum handle when `readonly`', async () 
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -1120,8 +1089,6 @@ it('does not update when dragging the minimum handle when `readonly`', async () 
       clientX: trackRect.left + trackRect.width * 0.9,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -1165,8 +1132,6 @@ it('does not update when dragging the maximum handle when `disabled`', async () 
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -1174,8 +1139,6 @@ it('does not update when dragging the maximum handle when `disabled`', async () 
       clientX: trackRect.left + trackRect.width * 0.9,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -1219,8 +1182,6 @@ it('does not update when dragging the maximum handle when `readonly`', async () 
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -1228,8 +1189,6 @@ it('does not update when dragging the maximum handle when `readonly`', async () 
       clientX: trackRect.left + trackRect.width * 0.9,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -1256,9 +1215,8 @@ it('clicking on the minimum side of the track updates the minimum value', async 
   assert(trackRect);
   assert(sliderTrack);
 
-  // Click on the track at the 10% position, which
-  // is closer to the minimum handle than the
-  // maximum handle.
+  // Click on the track at the 10% position, which is closer to the
+  // minimum handle than the maximum handle.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
@@ -1281,8 +1239,8 @@ it('clicking on the minimum side of the track updates the minimum value', async 
   const handleLeft = Number.parseFloat(handleStyle.left);
   const handleLeftPercent = (handleLeft / trackRect.width) * 100;
 
-  // The handle should be positioned at ~10%, allowing
-  // for small rounding differences.
+  // The handle should be positioned at ~10%, allowing for small
+  // rounding differences.
   expect(handleLeftPercent).to.be.closeTo(10, 2);
 });
 
@@ -1299,9 +1257,8 @@ it('clicking on the maximum side of the track updates the maximum value', async 
   assert(trackRect);
   assert(sliderTrack);
 
-  // Click on the track at the 90% position, which
-  // is closer to the maximum handle than the minimum
-  // handle.
+  // Click on the track at the 90% position, which is closer to the
+  // maximum handle than the minimum handle.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
@@ -1324,12 +1281,12 @@ it('clicking on the maximum side of the track updates the maximum value', async 
   const handleLeft = Number.parseFloat(handleStyle.left);
   const handleLeftPercent = (handleLeft / trackRect.width) * 100;
 
-  // The handle should be positioned at ~90%, allowing
-  // for small rounding differences.
+  // The handle should be positioned at ~90%, allowing for small
+  // rounding differences.
   expect(handleLeftPercent).to.be.closeTo(90, 2);
 });
 
-it('snaps the minimum input value to the maximum value - `step` if the entered value exceeds the current maximum input value and is blurred', async () => {
+it('snaps the minimum input value to the maximum value minus `step` if the entered value exceeds the current maximum input value and is blurred', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -1343,8 +1300,7 @@ it('snaps the minimum input value to the maximum value - `step` if the entered v
   );
 
   await sendKeys({ press: 'Tab' });
-  // Enter a value that is greater than the
-  // maximum input.
+  // Enter a value that is greater than the maximum input.
   await sendKeys({ type: '80' });
 
   minimumInput?.blur();
@@ -1355,7 +1311,7 @@ it('snaps the minimum input value to the maximum value - `step` if the entered v
   expect(host.value).to.deep.equal([74, 75]);
 });
 
-it('snaps the maximum input value to the minimum value + `step` if the entered value is less than the current minimum input value and is blurred', async () => {
+it('snaps the maximum input value to the minimum value plus `step` if the entered value is less than the current minimum input value and is blurred', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider
       label="Label"
@@ -1373,8 +1329,7 @@ it('snaps the maximum input value to the minimum value + `step` if the entered v
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Tab' });
 
-  // Entered a value that is less than the
-  // minimum input.
+  // Entered a value that is less than the minimum input.
   await sendKeys({ type: '20' });
 
   maximumInput?.blur();
@@ -1398,8 +1353,7 @@ it('maintains a multiple value when switching between multiple and single modes'
   host.multiple = false;
   await host.updateComplete;
 
-  // Should preserve only the minimum value
-  // after the switch.
+  // Should preserve only the minimum value after the switch.
   expect(host.value).to.deep.equal([30]);
 
   host.value = [50];
@@ -1410,8 +1364,8 @@ it('maintains a multiple value when switching between multiple and single modes'
   host.multiple = true;
   await host.updateComplete;
 
-  // Should preserve the current value as
-  // the minimum and add a maximum value.
+  // Should preserve the current value as the minimum and add a
+  // maximum value.
   expect(host.value).to.deep.equal([50, 75]);
 });
 
@@ -1604,11 +1558,10 @@ it('adjusts the maximum value when switched to `multiple` if the current value e
     ></glide-core-slider>`,
   );
 
-  // There's a comment in the multiple setter explaining
-  // why we do this, but changing to `multiple` while
-  // having the current `value` higher than the 75%
-  // default for the maximum value forces the maximum
-  // value to `max`.
+  // There's a comment in the multiple setter explaining why we do
+  // this, but changing to `multiple` while having the current
+  // `value` higher than the 75% default for the maximum value
+  // forces the maximum value to `max`.
   host.value = [80];
   host.multiple = true;
 
@@ -1626,12 +1579,11 @@ it('adjusts the minimum and maximum values when switched to `multiple` if the cu
     ></glide-core-slider>`,
   );
 
-  // There's a comment in the multiple setter explaining
-  // why we do this, but changing to `multiple` while
-  // having the current `value` set to `max` forces the
-  // maximum value to `max` and the minimum value to
-  // `max` - `step` to prevent the component from being
-  // in an invalid UI state.
+  // There's a comment in the multiple setter explaining why we do
+  // this, but changing to `multiple` while having the current
+  // `value` set to `max` forces the maximum value to `max` and the
+  // minimum value to `max` minus `step` to prevent the component
+  // from being in an invalid UI state.
   host.value = [100];
   host.multiple = true;
 

@@ -59,8 +59,9 @@ export default [
       }
 
       /*
-        We had to resort to a class selector because there may be a bug in Chrome and Safari
-        with ":read-only": https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
+        We had to resort to a class selector because there may be a
+        bug in Chrome and Safari with ":read-only":
+        https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
       */
       &.readonly {
         background-color: transparent;
@@ -70,16 +71,16 @@ export default [
     }
 
     .track-container {
-      flex: 1;
+      flex-grow: 1;
       min-inline-size: 0;
 
       &.single {
         /*
-            Without this suggestion from design, when the handle
-            is at the min, it would overflow the container and
-            not align with label. This isn't needed in multiple
-            mode because we have an input to help prevent this
-            from happening.
+            Without this suggestion from design, when the handle is
+            at the min, it would overflow the container and not
+            align with label. This isn't needed in multiple mode
+            because we have an input to help prevent this from
+            happening.
          */
         padding-inline-start: var(--glide-core-spacing-base-sm);
       }
@@ -134,8 +135,7 @@ export default [
         border 150ms ease-in-out,
         box-shadow 150ms ease-in-out;
 
-      &:not(.disabled, .readonly):active,
-      &:not(.disabled, .readonly):hover {
+      &:not(.disabled, .readonly):is(:active, :hover) {
         border: 4px solid var(--glide-core-color-interactive-stroke-active);
         box-shadow: var(--glide-core-effect-hovered);
       }

@@ -1,4 +1,3 @@
-import './icons/storybook.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -57,10 +56,9 @@ const meta: Meta = {
     const slider = context.canvasElement.querySelector('glide-core-slider');
 
     if (context.name.includes('Error') && slider instanceof SliderComponent) {
-      // Slider is a bit unique in that it always
-      // has a `value` set. To force an error state,
-      // we have to use `setCustomValidity`.
-      slider.setCustomValidity('Error');
+      // Slider is a bit unique in that it always has a `value` set. To force an error
+      // state, we have to use `setCustomValidity`.
+      slider.setCustomValidity('Invalid');
       slider.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -151,13 +149,13 @@ const meta: Meta = {
     },
     max: {
       table: {
-        defaultValue: { summary: '"100"' },
+        defaultValue: { summary: '100' },
         type: { summary: 'string' },
       },
     },
     min: {
       table: {
-        defaultValue: { summary: '"0"' },
+        defaultValue: { summary: '0' },
         type: { summary: 'string' },
       },
     },

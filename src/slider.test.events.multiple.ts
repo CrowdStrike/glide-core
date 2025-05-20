@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { sendKeys } from '@web/test-runner-commands';
 import Slider from './slider.js';
 
-it('dispatches an "input" event typing in the minimum input', async () => {
+it('dispatches an "input" event when typing in the minimum input', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -22,7 +22,7 @@ it('dispatches an "input" event typing in the minimum input', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('dispatches an "input" event typing in the maximum input', async () => {
+it('dispatches an "input" event when typing in the maximum input', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -41,7 +41,7 @@ it('dispatches an "input" event typing in the maximum input', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('dispatches a "change" event blurring the minimum input', async () => {
+it('dispatches a "change" event when the minimum input is blurred', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -49,22 +49,17 @@ it('dispatches a "change" event blurring the minimum input', async () => {
   const spy = sinon.spy();
   host.addEventListener('change', spy);
 
-  const minimumInput = host.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="minimum-input"]',
-  );
-
-  minimumInput?.focus();
-
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: '1' });
 
   expect(spy.callCount).to.equal(0);
 
-  minimumInput?.blur();
+  await sendKeys({ press: 'Tab' });
 
   expect(spy.callCount).to.equal(1);
 });
 
-it('dispatches a "change" event blurring the maximum input', async () => {
+it('dispatches a "change" event when the maximum input is blurred', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -72,22 +67,20 @@ it('dispatches a "change" event blurring the maximum input', async () => {
   const spy = sinon.spy();
   host.addEventListener('change', spy);
 
-  const maximumInput = host.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="maximum-input"]',
-  );
-
-  maximumInput?.focus();
-
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: '1' });
 
   expect(spy.callCount).to.equal(0);
 
-  maximumInput?.blur();
+  await sendKeys({ press: 'Tab' });
 
   expect(spy.callCount).to.equal(1);
 });
 
-it('dispatches an "input" event dragging the minimum handle', async () => {
+it('dispatches an "input" event when dragging the minimum handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -113,8 +106,6 @@ it('dispatches an "input" event dragging the minimum handle', async () => {
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -122,8 +113,6 @@ it('dispatches an "input" event dragging the minimum handle', async () => {
       clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -144,7 +133,7 @@ it('dispatches an "input" event dragging the minimum handle', async () => {
   expect(spy.callCount).to.be.greaterThan(0);
 });
 
-it('dispatches an "input" event dragging the maximum handle', async () => {
+it('dispatches an "input" event when dragging the maximum handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -170,8 +159,6 @@ it('dispatches an "input" event dragging the maximum handle', async () => {
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -179,8 +166,6 @@ it('dispatches an "input" event dragging the maximum handle', async () => {
       clientX: trackRect.left + trackRect.width * 0.7,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -191,17 +176,15 @@ it('dispatches an "input" event dragging the maximum handle', async () => {
 
   await host.updateComplete;
 
-  // `greaterThan(0)` because each time the handle
-  // is dragged and the `value` updates, an `input`
-  // event is dispatched, just like native. Rather
-  // than asserting an exact value and having a
-  // comment explaining why, it may be less confusing
-  // to simply verify the event is dispatched at least
-  // once.
+  // `greaterThan(0)` because each time the handle is dragged and
+  // the `value` updates, an `input` event is dispatched, just like
+  // native. Rather than asserting an exact value and having a
+  // comment explaining why, it may be less confusing to simply
+  // verify the event is dispatched at least once.
   expect(spy.callCount).to.be.greaterThan(0);
 });
 
-it('dispatches a "change" event dragging and letting go of the minimum handle', async () => {
+it('dispatches a "change" event when dragging and letting go of the minimum handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -227,8 +210,6 @@ it('dispatches a "change" event dragging and letting go of the minimum handle', 
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -236,8 +217,6 @@ it('dispatches a "change" event dragging and letting go of the minimum handle', 
       clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
-
-  await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
 
@@ -253,7 +232,7 @@ it('dispatches a "change" event dragging and letting go of the minimum handle', 
   expect(spy.callCount).to.equal(1);
 });
 
-it('dispatches a "change" event dragging and letting go of the maximum handle', async () => {
+it('dispatches a "change" event when dragging and letting go of the maximum handle', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -279,8 +258,6 @@ it('dispatches a "change" event dragging and letting go of the maximum handle', 
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -288,8 +265,6 @@ it('dispatches a "change" event dragging and letting go of the maximum handle', 
       clientX: trackRect.left + trackRect.width * 0.7,
     }),
   );
-
-  await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
 
@@ -305,7 +280,7 @@ it('dispatches a "change" event dragging and letting go of the maximum handle', 
   expect(spy.callCount).to.equal(1);
 });
 
-it('dispatches an "input" and "change" event clicking on the minimum side of the track', async () => {
+it('dispatches an "input" and "change" event when clicking on the minimum side of the track', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -322,8 +297,8 @@ it('dispatches an "input" and "change" event clicking on the minimum side of the
   assert(trackRect);
   assert(sliderTrack);
 
-  // Click on the track at the 10% position, which is closer
-  // to the minimum handle than the maximum handle.
+  // Click on the track at the 10% position, which is closer to the
+  // minimum handle than the maximum handle.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
@@ -338,7 +313,7 @@ it('dispatches an "input" and "change" event clicking on the minimum side of the
   expect(changeSpy.callCount).to.equal(1);
 });
 
-it('dispatches an "input" and "change" event clicking on the maximum side of the track', async () => {
+it('dispatches an "input" and "change" event when clicking on the maximum side of the track', async () => {
   const host = await fixture<Slider>(
     html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
   );
@@ -355,8 +330,8 @@ it('dispatches an "input" and "change" event clicking on the maximum side of the
   assert(trackRect);
   assert(sliderTrack);
 
-  // Click on the track at the 90% position, which is closer
-  // to the maximum handle than the minimum handle.
+  // The 90% position is closer to the maximum handle than the
+  // minimum handle.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
@@ -830,8 +805,6 @@ it('prevents track click events dispatching immediately after completing a drag 
     }),
   );
 
-  await aTimeout(0);
-
   document.dispatchEvent(
     new MouseEvent('mousemove', {
       bubbles: true,
@@ -839,8 +812,6 @@ it('prevents track click events dispatching immediately after completing a drag 
       clientX: trackRect.left + trackRect.width * 0.2,
     }),
   );
-
-  await aTimeout(0);
 
   document.dispatchEvent(
     new MouseEvent('mouseup', {
@@ -851,7 +822,8 @@ it('prevents track click events dispatching immediately after completing a drag 
 
   await host.updateComplete;
 
-  // At this point, the drag should have dispatched input and change events.
+  // At this point, the drag should have dispatched input and change
+  // events.
   expect(inputSpy.callCount).to.be.greaterThan(0);
   expect(changeSpy.callCount).to.equal(1);
   expect(host.value).to.deep.equal([20, 70]);
@@ -859,9 +831,10 @@ it('prevents track click events dispatching immediately after completing a drag 
   inputSpy.resetHistory();
   changeSpy.resetHistory();
 
-  // Immediately clicking on the track should be ignored because we just
-  // finished dragging. There's a comment in the source explaining why.
-  // No new events should be dispatched and the `value` shouldn't be updated.
+  // Immediately clicking on the track should be ignored because we
+  // just finished dragging. There's a comment in the source
+  // explaining why. No new events should be dispatched and the
+  // `value` shouldn't be updated.
   sliderTrack.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
@@ -876,7 +849,7 @@ it('prevents track click events dispatching immediately after completing a drag 
   expect(changeSpy.callCount).to.equal(0);
   expect(host.value).to.deep.equal([20, 70]);
 
-  // Now wait for the drag completion timeout.
+  // Now wait a frame for the drag completion timeout.
   await aTimeout(0);
 
   // Clicking should now work again.

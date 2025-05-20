@@ -133,7 +133,8 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 
   await host.updateComplete;
 
-  // Like native, the message shouldn't display until `reportValidity()` is called.
+  // Like native, the message shouldn't display until
+  // `reportValidity()` is called.
   expect(
     host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,

@@ -69,6 +69,20 @@ for (const story of stories.Slider) {
               `${test.titlePath.join('.')}.png`,
             );
           });
+
+          test(`value="['80']"`, async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-slider')
+              .evaluate<void, Slider>((element) => {
+                element.value = [80];
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
         test.describe('multiple=${true}', () => {
@@ -95,6 +109,21 @@ for (const story of stories.Slider) {
               .evaluate<void, Slider>((element) => {
                 element.multiple = true;
                 element.readonly = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test(`value="['10, 90']"`, async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-slider')
+              .evaluate<void, Slider>((element) => {
+                element.multiple = true;
+                element.value = [10, 90];
               });
 
             await expect(page).toHaveScreenshot(
@@ -191,35 +220,6 @@ for (const story of stories.Slider) {
               div.slot = 'description';
 
               element.append(div);
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test(`value="['80']"`, async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-slider')
-            .evaluate<void, Slider>((element) => {
-              element.value = [80];
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test(`value="['10, 90']"`, async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-slider')
-            .evaluate<void, Slider>((element) => {
-              element.multiple = true;
-              element.value = [10, 90];
             });
 
           await expect(page).toHaveScreenshot(

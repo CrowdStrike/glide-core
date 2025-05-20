@@ -30,10 +30,10 @@ it('focuses the minimum input after submission when in a forced error state', as
     event.preventDefault();
 
     // Slider is a bit unique from our other form components
-    // because it always has a `value`. To force a focus state
-    // via the `invalid` event listener, one must put the Slider
-    // in an invalid state first. Which can only happen by setting
-    // custom validity.
+    // because it always has a `value`. To force a focus state via
+    // the `invalid` event listener, one must put the Slider in an
+    // invalid state first. Which can only happen by setting custom
+    // validity.
     host.setCustomValidity('validity message');
     host.reportValidity();
   });
