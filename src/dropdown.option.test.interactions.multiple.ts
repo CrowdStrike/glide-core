@@ -1,6 +1,7 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { hover } from './library/mouse.js';
 import DropdownOption from './dropdown.option.js';
+import Checkbox from './checkbox.js';
 
 it('is selected when programmatically selected', async () => {
   const host = await fixture<DropdownOption>(
@@ -72,7 +73,10 @@ it('is checked when selected and programmatically enabled', async () => {
   host.disabled = false;
   await host.updateComplete;
 
-  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  const checkbox = host.shadowRoot?.querySelector<Checkbox>(
+    '[data-test="checkbox"]',
+  );
+
   expect(checkbox?.checked).to.be.true;
 });
 
@@ -88,6 +92,9 @@ it('is unchecked when selected and programmatically disabled', async () => {
   host.disabled = true;
   await host.updateComplete;
 
-  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  const checkbox = host.shadowRoot?.querySelector<Checkbox>(
+    '[data-test="checkbox"]',
+  );
+
   expect(checkbox?.checked).to.be.false;
 });

@@ -1,9 +1,6 @@
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 
-const createRule = ESLintUtils.RuleCreator<{
-  // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L110
-  recommended: boolean;
-}>((name) => {
+const createRule = ESLintUtils.RuleCreator((name) => {
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
 });
 
@@ -13,7 +10,6 @@ export const noProtectedKeyword = createRule({
     docs: {
       description:
         "Ensures `protected` isn't used on component class fields. Most developers are unlikely to add `protected` to a method or property. But many editor plugins do, especially when autocompleting Lit lifecycle methods.",
-      recommended: true,
     },
     type: 'suggestion',
     messages: {

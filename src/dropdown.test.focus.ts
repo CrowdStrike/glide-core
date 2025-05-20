@@ -3,6 +3,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import './dropdown.option.js';
 import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
+import Label from './label.js';
 
 it('closes and reports validity when it loses focus', async () => {
   const div = document.createElement('div');
@@ -39,7 +40,7 @@ it('closes and reports validity when it loses focus', async () => {
   expect(host.shadowRoot?.activeElement).to.be.null;
   expect(host.validity.valid).to.be.false;
 
-  expect(host.shadowRoot?.querySelector('glide-core-private-label')?.error).to
+  expect(host.shadowRoot?.querySelector<Label>('[data-test="label"]')?.error).to
     .be.true;
 });
 

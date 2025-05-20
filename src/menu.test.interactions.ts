@@ -11,10 +11,10 @@ import MenuLink from './menu.link.js';
 @customElement('glide-core-nested-slot')
 class NestedSlot extends LitElement {
   override render() {
-    return html`<glide-core-menu open>
-      <button slot="target">Target</button>
+    return html`<glide-core-menu data-test="menu" open>
+      <button slot="target" data-test="button">Target</button>
 
-      <glide-core-menu-options>
+      <glide-core-menu-options data-test="menu-options">
         <slot></slot>
       </glide-core-menu-options>
     </glide-core-menu>`;
@@ -24,10 +24,10 @@ class NestedSlot extends LitElement {
 @customElement('glide-core-menu-in-another-component')
 class MenuInAnotherComponent extends LitElement {
   override render() {
-    return html`<glide-core-menu open>
-      <button slot="target">Target</button>
+    return html`<glide-core-menu data-test="menu" open>
+      <button slot="target" data-test="button">Target</button>
 
-      <glide-core-menu-options>
+      <glide-core-menu-options data-test="menu-options">
         <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`;
@@ -47,8 +47,9 @@ it('opens on click', async () => {
 
   await click(host.querySelector('button'));
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const target = host.querySelector('button');
   const options = host.querySelector('glide-core-menu-options');
@@ -76,8 +77,9 @@ it('opens when opened programmatically', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const target = host.querySelector('button');
   const options = host.querySelector('glide-core-menu-options');
@@ -108,8 +110,9 @@ it('opens when `disabled` is set programmatically on its target', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const link = host.querySelector('glide-core-menu-link');
@@ -139,8 +142,9 @@ it('opens when `aria-disabled` is set programmatically on its target', async () 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const link = host.querySelector('glide-core-menu-link');
@@ -166,9 +170,15 @@ it('remains open when the menu edge is clicked', async () => {
   await aTimeout(0);
 
   const target = host.querySelector('button');
-  const defaultSlot = host.shadowRoot?.querySelector('slot:not([name])');
 
-  await click(host.shadowRoot?.querySelector('slot:not([name])'), 'left');
+  const defaultSlot = host.shadowRoot?.querySelector(
+    '[data-test="default-slot"]',
+  );
+
+  await click(
+    host.shadowRoot?.querySelector('[data-test="default-slot"]'),
+    'left',
+  );
 
   expect(host.open).to.be.true;
   expect(defaultSlot?.checkVisibility()).to.be.true;
@@ -197,8 +207,9 @@ it('remains open when a disabled option is clicked via `click()`', async () => {
   host.querySelector('glide-core-menu-link')?.click();
   host.querySelector('glide-core-menu-button')?.click();
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const target = host.querySelector('button');
 
@@ -223,8 +234,9 @@ it('remains open when a disabled link is clicked via `sendMouse()`', async () =>
 
   await click(host.querySelector('glide-core-menu-link'));
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const target = host.querySelector('button');
 
@@ -255,8 +267,9 @@ it('remains open when its options are clicked and the event is canceled', async 
   await click(host.querySelector('glide-core-menu-button'));
   await click(host.querySelector('glide-core-menu-link'));
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const target = host.querySelector('button');
 
@@ -295,8 +308,9 @@ it('remains open when its target is clicked and the event is canceled', async ()
   await sendKeys({ press: 'Enter' });
   await sendKeys({ press: ' ' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   expect(host.open).to.be.true;
   expect(defaultSlot?.checkVisibility()).to.be.true;
@@ -323,8 +337,9 @@ it('remains closed when its target is clicked and the event is canceled', async 
   await sendKeys({ press: 'Enter' });
   await sendKeys({ press: ' ' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
@@ -348,8 +363,9 @@ it('closes when `open` is set programmatically', async () => {
   host.open = false;
   await host.updateComplete;
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const target = host.querySelector('button');
   const options = host.querySelector('glide-core-menu-options');
@@ -370,8 +386,9 @@ it('does not open on click when there are no options', async () => {
 
   await click(host.querySelector('button'));
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -395,8 +412,9 @@ it('does not open when `disabled` is set on its target', async () => {
 
   await click(host.querySelector('button'));
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -424,8 +442,9 @@ it('does not open when `disabled` is set programmatically on its target', async 
   target.disabled = true;
   await click(target);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
 
@@ -450,8 +469,9 @@ it('does not open when `aria-disabled` is set on its target', async () => {
 
   await click(target);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
 
@@ -478,8 +498,9 @@ it('does not open when `aria-disabled` is set programmatically on its target', a
   target.ariaDisabled = 'true';
   await click(target);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
 
@@ -502,8 +523,9 @@ it('opens on Enter', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'Enter' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -529,8 +551,9 @@ it('opens on Enter when its target is a `<span>`', async () => {
   host.querySelector('span')?.focus();
   await sendKeys({ press: 'Enter' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('span');
@@ -556,8 +579,9 @@ it('opens on ArrowUp', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'ArrowUp' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -583,8 +607,9 @@ it('opens on ArrowDown', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'ArrowDown' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -610,8 +635,9 @@ it('opens on Space', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: ' ' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -637,8 +663,9 @@ it('opens on Space when its target is a `<span>`', async () => {
   host.querySelector('span')?.focus();
   await sendKeys({ press: ' ' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('span');
@@ -661,8 +688,9 @@ it('does not open on Space when there are no options', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: ' ' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -694,8 +722,9 @@ it('opens when opened programmatically via the click handler of another element'
   div.append(anotherElement);
   await click(anotherElement);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -715,14 +744,13 @@ it('closes when its target clicked', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const target = host.shadowRoot?.querySelector('button');
+  const target = host.shadowRoot?.querySelector('[data-test="button"]');
+  const menu = host.shadowRoot?.querySelector<Menu>('[data-test="menu"]');
+  const options = host.shadowRoot?.querySelector('[data-test="menu-options"]');
 
-  const menu = host.shadowRoot?.querySelector('glide-core-menu');
-
-  const defaultSlot =
-    menu?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
-
-  const options = menu?.querySelector('glide-core-menu-options');
+  const defaultSlot = menu?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   await click(target);
 
@@ -748,8 +776,9 @@ it('closes when something outside of it is clicked', async () => {
 
   await click(document.body);
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -777,8 +806,9 @@ it('closes on Escape', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'Escape' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -802,8 +832,9 @@ it('closes when an option is selected via click', async () => {
 
   await click(host.querySelector('glide-core-menu-link'));
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -833,8 +864,9 @@ it('closes when an option is selected via Enter', async () => {
   await hover(host.querySelector('glide-core-menu-link'));
   await sendKeys({ press: 'Enter' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -864,8 +896,9 @@ it('closes when an option is selected via Enter and its target is a `<span>', as
   await hover(host.querySelector('glide-core-menu-link'));
   await sendKeys({ press: 'Enter' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('span');
@@ -890,8 +923,9 @@ it('closes when an option is selected via Space', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: ' ' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('button');
@@ -916,8 +950,9 @@ it('closes when an option is selected via Space and its target is a `<span>`', a
   host.querySelector('span')?.focus();
   await sendKeys({ press: ' ' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
   const target = host.querySelector('span');
@@ -1010,8 +1045,7 @@ it('activates a link on hover when the link is in a nested slot', async () => {
   await aTimeout(0);
 
   const links = host.querySelectorAll('glide-core-menu-link');
-
-  const options = host.shadowRoot?.querySelector('glide-core-menu-options');
+  const options = host.shadowRoot?.querySelector('[data-test="menu-options"]');
 
   await hover(links[1]);
 
@@ -1057,8 +1091,7 @@ it('activates a button on hover when the button is in a nested slot', async () =
   await aTimeout(0);
 
   const links = host.querySelectorAll('glide-core-menu-button');
-
-  const options = host.shadowRoot?.querySelector('glide-core-menu-options');
+  const options = host.shadowRoot?.querySelector('[data-test="menu-options"]');
 
   await hover(links[1]);
 

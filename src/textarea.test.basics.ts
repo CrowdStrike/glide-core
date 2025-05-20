@@ -45,7 +45,7 @@ it('has a character count when `maxlength` is greater than zero', async () => {
     >`,
   );
 
-  const container = host.shadowRoot!.querySelector(
+  const container = host.shadowRoot?.querySelector(
     '[data-test="character-count-text"]',
   );
 

@@ -1,9 +1,6 @@
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 
-const createRule = ESLintUtils.RuleCreator<{
-  // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L110
-  recommended: boolean;
-}>((name) => {
+const createRule = ESLintUtils.RuleCreator((name) => {
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
 });
 
@@ -13,7 +10,6 @@ export const noSpacePress = createRule({
     docs: {
       description:
         'Prefer using " " over "Space" when checking keys to align with the native key value. In application code, checking `event.key === "Space"` is incorrect, as " " is what key will be in this case. https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values#whitespace_keys',
-      recommended: true,
     },
     type: 'suggestion',
     messages: {

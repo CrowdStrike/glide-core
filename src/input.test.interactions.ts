@@ -29,7 +29,10 @@ it('reveals its value', async () => {
     ></glide-core-input>
   `);
 
-  const input = host.shadowRoot?.querySelector<HTMLInputElement>('input');
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
   expect(input?.type).to.equal('password');
 
   await click(host.shadowRoot?.querySelector('[data-test="password-toggle"]'));

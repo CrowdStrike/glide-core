@@ -253,6 +253,7 @@ export default class Menu extends LitElement {
 
         <slot
           class="default-slot"
+          data-test="default-slot"
           @click=${this.#onDefaultSlotClick}
           @focusin=${this.#onDefaultSlotFocusin}
           @keydown=${this.#onSlotKeydown}

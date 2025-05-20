@@ -1,9 +1,6 @@
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 
-const createRule = ESLintUtils.RuleCreator<{
-  // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L110
-  recommended: boolean;
-}>(
+const createRule = ESLintUtils.RuleCreator(
   (name) =>
     `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`,
 );
@@ -14,7 +11,6 @@ export const consistentTestFixtureVariableDeclarator = createRule({
     docs: {
       description:
         'Standardizes variable declarators in test files using fixture().',
-      recommended: true,
     },
     type: 'suggestion',
     messages: {

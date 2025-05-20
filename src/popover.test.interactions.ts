@@ -180,7 +180,10 @@ it('remains open when its popover is clicked', async () => {
   await aTimeout(0);
 
   const popover = host.shadowRoot?.querySelector('[data-test="popover"]');
-  const defaultSlot = host.shadowRoot?.querySelector('slot:not([name])');
+
+  const defaultSlot = host.shadowRoot?.querySelector(
+    '[data-test="default-slot"]',
+  );
 
   // The assertion below intermittently fails with `click()`. Seems to be
   // a bug either in Web Test Runner or Playwright related to concurrency.

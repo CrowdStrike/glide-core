@@ -18,8 +18,9 @@ it('closes when it loses focus', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'Tab' });
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const options = host.querySelector('glide-core-menu-options');
 
@@ -46,8 +47,9 @@ it('remains open when the options host is focused', async () => {
 
   const options = host.querySelector('glide-core-menu-options');
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   options?.focus();
 
@@ -71,8 +73,9 @@ it('remains open when an option is focused', async () => {
 
   host.querySelector('button')?.focus();
 
-  const defaultSlot =
-    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const defaultSlot = host?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
 
   const option = host.querySelector('glide-core-menu-link');
 

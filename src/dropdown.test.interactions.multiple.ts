@@ -18,10 +18,26 @@ import Tag from './tag.js';
 @customElement('glide-core-dropdown-in-another-component')
 class DropdownInAnotherComponent extends LitElement {
   override render() {
-    return html`<glide-core-dropdown label="Label" multiple open>
-      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+    return html`<glide-core-dropdown
+      label="Label"
+      data-test="dropdown"
+      multiple
+      open
+    >
+      <glide-core-dropdown-option
+        label="One"
+        data-test="dropdown-option"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        data-test="dropdown-option"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        data-test="dropdown-option"
+      ></glide-core-dropdown-option>
     </glide-core-dropdown>`;
   }
 }
@@ -361,9 +377,12 @@ it('remains open when an option is selected via click', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  await click(host.shadowRoot?.querySelector('glide-core-dropdown-option'));
+  await click(host.shadowRoot?.querySelector('[data-test="dropdown-option"]'));
 
-  const dropdown = host.shadowRoot?.querySelector('glide-core-dropdown');
+  const dropdown = host.shadowRoot?.querySelector<Dropdown>(
+    '[data-test="dropdown"]',
+  );
+
   expect(dropdown?.open).to.be.true;
 });
 
@@ -424,7 +443,6 @@ it('activates Select All on hover', async () => {
   await aTimeout(0);
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
-
   await hover(options[0]);
 
   expect(options[0]?.privateActive).to.be.true;
@@ -452,7 +470,6 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
   host.shadowRoot?.querySelector<Tag>('[data-test="tag"]')?.focus();
-
   await sendKeys({ press: 'ArrowDown' });
 
   expect(options[0]?.privateActive).to.be.true;
@@ -1322,7 +1339,7 @@ it('closes on edit via click', async () => {
 
   await click(
     host.shadowRoot
-      ?.querySelector('glide-core-tag')
+      ?.querySelector('[data-test="tag"]')
       ?.shadowRoot?.querySelector('[data-test="edit-button"]'),
   );
 
@@ -1346,7 +1363,7 @@ it('closes on edit via Enter', async () => {
   await aTimeout(0);
 
   host.shadowRoot
-    ?.querySelector('glide-core-tag')
+    ?.querySelector('[data-test="tag"]')
     ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
     ?.focus();
 
@@ -1372,7 +1389,7 @@ it('closes on edit via Space', async () => {
   await aTimeout(0);
 
   host.shadowRoot
-    ?.querySelector('glide-core-tag')
+    ?.querySelector('[data-test="tag"]')
     ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
     ?.focus();
 

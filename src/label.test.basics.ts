@@ -2,7 +2,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Label from './label.js';
-import './tooltip.js';
+import Tooltip from './tooltip.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
@@ -45,7 +45,8 @@ it('places the tooltip on the bottom when horizontal', async () => {
   );
 
   expect(
-    host.shadowRoot?.querySelector('glide-core-tooltip')?.placement,
+    host.shadowRoot?.querySelector<Tooltip>('[data-test="optional-tooltip"]')
+      ?.placement,
   ).to.equal('bottom');
 });
 
@@ -58,7 +59,8 @@ it('places the tooltip on the right when vertical', async () => {
   );
 
   expect(
-    host.shadowRoot?.querySelector('glide-core-tooltip')?.placement,
+    host.shadowRoot?.querySelector<Tooltip>('[data-test="optional-tooltip"]')
+      ?.placement,
   ).to.equal('right');
 });
 

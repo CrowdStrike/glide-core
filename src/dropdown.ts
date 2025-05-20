@@ -636,6 +636,7 @@ export default class Dropdown extends LitElement implements FormControl {
     >
       <glide-core-private-label
         label=${ifDefined(this.label)}
+        data-test="label"
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
@@ -884,6 +885,8 @@ export default class Dropdown extends LitElement implements FormControl {
                     data-test="edit-button"
                     label=${this.#localize.term(
                       'editOption',
+                      // TODO: say why
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                       this.selectedOptions[0]!.label!,
                     )}
                     tabindex=${this.disabled || this.readonly ? '-1' : '0'}

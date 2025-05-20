@@ -2,10 +2,7 @@ import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import { parse as htmlParser, CommentNode } from 'node-html-parser';
 import { parse as commentParser } from 'comment-parser';
 
-const createRule = ESLintUtils.RuleCreator<{
-  // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L110
-  recommended: boolean;
-}>((name) => {
+const createRule = ESLintUtils.RuleCreator((name) => {
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
 });
 
@@ -14,7 +11,6 @@ export const slotTypeComment = createRule({
   meta: {
     docs: {
       description: 'Ensures slots have a `@type` comment.',
-      recommended: true,
     },
     type: 'suggestion',
     messages: {
