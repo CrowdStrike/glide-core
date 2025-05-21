@@ -1,5 +1,15 @@
 # @crowdstrike/glide-core
 
+## 0.28.0
+
+### Minor Changes
+
+- [#912](https://github.com/CrowdStrike/glide-core/pull/912) [`dab4bc8`](https://github.com/CrowdStrike/glide-core/commit/dab4bc878a42b7f7f8e054f152f1375c194d8fc5) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown's `add-button-label` attribute has been removed. Dropdown no longer supports an Add Button. It was previously unused and will be replaced by support for adding options directly from Dropdown's input field when filterable.
+
+### Patch Changes
+
+- [#897](https://github.com/CrowdStrike/glide-core/pull/897) [`c04aef6`](https://github.com/CrowdStrike/glide-core/commit/c04aef6b60a6e21fab0f1c97d5995b0ec3ff82a2) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Added a Slider component.
+
 ## 0.27.0
 
 ### Minor Changes
