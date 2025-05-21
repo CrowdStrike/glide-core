@@ -150,15 +150,17 @@ const meta: Meta = {
       },
     },
     max: {
+      control: 'number',
       table: {
         defaultValue: { summary: '100' },
-        type: { summary: 'string' },
+        type: { summary: 'number' },
       },
     },
     min: {
+      control: 'number',
       table: {
         defaultValue: { summary: '0' },
-        type: { summary: 'string' },
+        type: { summary: 'number' },
       },
     },
     multiple: {
@@ -240,9 +242,10 @@ const meta: Meta = {
       },
     },
     step: {
+      control: 'number',
       table: {
-        defaultValue: { summary: '"1"' },
-        type: { summary: 'string' },
+        defaultValue: { summary: '1' },
+        type: { summary: 'number' },
       },
     },
     tooltip: {
