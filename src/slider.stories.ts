@@ -89,11 +89,13 @@ const meta: Meta = {
       <glide-core-slider
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
-        orientation=${arguments_.orientation}
+        orientation=${arguments_.orientation === 'horizontal'
+          ? nothing
+          : arguments_.orientation}
         tooltip=${arguments_.tooltip || nothing}
         min=${arguments_.min || nothing}
         max=${arguments_.max || nothing}
-        step=${arguments_.step}
+        step=${arguments_.step === 1 ? nothing : arguments_.step}
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label']}
         ?multiple=${arguments_.multiple}
