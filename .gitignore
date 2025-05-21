@@ -8,4 +8,4 @@
 !.vscode/extensions.json
 dist/
 node_modules/
-tokens/
+tmp/
