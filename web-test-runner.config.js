@@ -102,9 +102,10 @@ export default {
           },
         ],
 
-  // If a test suite take longer than this, it's almost certainly hanging
-  // and won't finish. 2 minutes is the default.
-  testsFinishTimeout: process.env.CI ? 90_000 : 30_000,
+  // If a test suite take longer than this, it's almost certainly hanging and
+  // won't finish. 2 minutes is the default. These timeouts can be reduced by
+  // 30 seconds or so when Dropdown is moved out of the repository.
+  testsFinishTimeout: process.env.CI ? 90_000 : 60_000,
 
   testRunnerHtml(testFramework) {
     return `<html>

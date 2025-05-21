@@ -14,6 +14,7 @@ export const PENDING_STRINGS = [
   'setMaximum',
   'minimum',
   'setMinimum',
+  'add',
 ] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];

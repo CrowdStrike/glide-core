@@ -2552,6 +2552,16 @@
             },
             {
               "kind": "field",
+              "name": "addButton",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "add-button",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -2866,6 +2876,12 @@
               }
             },
             {
+              "name": "add",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
               "name": "invalid",
               "type": {
                 "text": "Event"
@@ -2886,6 +2902,14 @@
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "add-button",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "addButton"
             },
             {
               "name": "disabled",

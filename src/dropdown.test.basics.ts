@@ -72,7 +72,7 @@ it('shows loading feedback', async () => {
   expect(feedback?.checkVisibility()).to.be.true;
 });
 
-it('selects options when `value` is set initially', async () => {
+it('selects options when `value` is set', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" .value=${['two']}>
       <glide-core-dropdown-option
@@ -91,12 +91,25 @@ it('selects options when `value` is set initially', async () => {
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
-
-  // https://github.com/CrowdStrike/glide-core/pull/764#discussion_r1995792862
   expect(host.value).to.deep.equal(['two']);
 });
 
-it('gives selected options precedence over an initial `value`', async () => {
+it('enables options when `value` is set', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" .value=${['one']}>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+  expect(option?.disabled).to.be.false;
+});
+
+it('gives selected options precedence over `value`', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" .value=${['two']}>
       <glide-core-dropdown-option
@@ -130,22 +143,7 @@ it('cannot be open when disabled', async () => {
   expect(options?.checkVisibility()).to.be.false;
 });
 
-it('enables options when `value` is set initially', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" .value=${['one']}>
-      <glide-core-dropdown-option
-        label="one"
-        value="one"
-        disabled
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const option = host.querySelector('glide-core-dropdown-option');
-  expect(option?.disabled).to.be.false;
-});
-
-it('activates the first enabled option when no options are initially selected', async () => {
+it('activates the first enabled option when no options are selected', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option

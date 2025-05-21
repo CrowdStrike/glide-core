@@ -374,6 +374,53 @@ it('does not activate a disabled option on hover', async () => {
   expect(options[1]?.privateActive).to.be.false;
 });
 
+it('activates the first enabled option on open via click', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        disabled
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await click(host.shadowRoot?.querySelector('[data-test="primary-button"]'));
+
+  const activeOptions = [
+    ...host.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ privateActive }) => privateActive);
+
+  expect(activeOptions.length).to.equal(1);
+  expect(activeOptions.at(0)?.label).to.equal('Two');
+});
+
+it('activates the first enabled option on open via Space', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        disabled
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: ' ' });
+
+  const activeOptions = [
+    ...host.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ privateActive }) => privateActive);
+
+  expect(activeOptions.length).to.equal(1);
+  expect(activeOptions.at(0)?.label).to.equal('Two');
+});
+
 it('activates the next enabled option on ArrowDown', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>

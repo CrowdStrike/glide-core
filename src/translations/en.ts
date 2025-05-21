@@ -23,6 +23,7 @@ const translation: Translation = {
   error: 'Error:',
   informational: 'Informational:',
   loading: 'Loading',
+  add: 'Add',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Character count ${current} of ${maximum}`,
