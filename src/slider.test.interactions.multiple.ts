@@ -1,5 +1,6 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
+import sinon from 'sinon';
 import Slider from './slider.js';
 import { hover } from './library/mouse.js';
 
@@ -1554,4 +1555,20 @@ it('normalizes `value` when provided with values that fall outside of `step`', a
   );
 
   expect(host.value).to.deep.equal([10, 100]);
+});
+
+it('throws when `value` is set programmatically to include more than two values', async () => {
+  const host = await fixture<Slider>(
+    html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
+  );
+
+  const spy = sinon.spy();
+
+  try {
+    host.value = [20, 60, 80];
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

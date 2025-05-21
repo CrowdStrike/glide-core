@@ -153,6 +153,10 @@ export default class Slider extends LitElement implements FormControl {
       return;
     }
 
+    if (this.multiple && value.length > 2) {
+      throw new Error('Only two values are allowed when `multiple`.');
+    }
+
     if (!this.multiple && value.length > 0 && value[0] !== undefined) {
       // Normalize the value to snap to the closest valid step
       // increment, even if a developer sets a value between steps.
