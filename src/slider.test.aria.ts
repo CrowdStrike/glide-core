@@ -1,6 +1,45 @@
 import { expect, test } from '@playwright/test';
 import type Slider from './slider.js';
 
+test.describe('disabled', () => {
+  test('multiple=${true}', async ({ page }) => {
+    await page.goto('?id=slider--slider');
+
+    await page
+      .locator('glide-core-slider')
+      .evaluate<void, Slider>((element) => {
+        element.disabled = true;
+        element.multiple = true;
+      });
+
+    await expect(page.locator('glide-core-slider')).toMatchAriaSnapshot(`
+      - text: Label
+      - spinbutton "Set minimum Label" [disabled]
+      - group:
+        - slider "Minimum Label" [disabled]
+        - slider "Maximum Label" [disabled]
+      - spinbutton "Set maximum Label" [disabled]
+    `);
+  });
+
+  test('multiple=${false}', async ({ page }) => {
+    await page.goto('?id=slider--slider');
+
+    await page
+      .locator('glide-core-slider')
+      .evaluate<void, Slider>((element) => {
+        element.disabled = true;
+      });
+
+    await expect(page.locator('glide-core-slider')).toMatchAriaSnapshot(`
+      - text: Label
+      - group:
+        - slider "Label" [disabled]
+      - spinbutton "Label" [disabled]
+    `);
+  });
+});
+
 test('hide-label', async ({ page }) => {
   await page.goto('?id=slider--slider');
 
@@ -33,35 +72,15 @@ test('multiple', async ({ page }) => {
   `);
 });
 
-test.describe('multiple=${true}', () => {
-  test('disabled', async ({ page }) => {
+test.describe('readonly', () => {
+  test('multiple=${true}', async ({ page }) => {
     await page.goto('?id=slider--slider');
 
     await page
       .locator('glide-core-slider')
       .evaluate<void, Slider>((element) => {
-        element.multiple = true;
-        element.disabled = true;
-      });
-
-    await expect(page.locator('glide-core-slider')).toMatchAriaSnapshot(`
-      - text: Label
-      - spinbutton "Set minimum Label" [disabled]
-      - group:
-        - slider "Minimum Label" [disabled]
-        - slider "Maximum Label" [disabled]
-      - spinbutton "Set maximum Label" [disabled]
-    `);
-  });
-
-  test('readonly', async ({ page }) => {
-    await page.goto('?id=slider--slider');
-
-    await page
-      .locator('glide-core-slider')
-      .evaluate<void, Slider>((element) => {
-        element.multiple = true;
         element.readonly = true;
+        element.multiple = true;
       });
 
     await expect(page.locator('glide-core-slider')).toMatchAriaSnapshot(`
@@ -73,27 +92,8 @@ test.describe('multiple=${true}', () => {
       - spinbutton "Set maximum Label"
     `);
   });
-});
 
-test.describe('multiple=${false}', () => {
-  test('disabled', async ({ page }) => {
-    await page.goto('?id=slider--slider');
-
-    await page
-      .locator('glide-core-slider')
-      .evaluate<void, Slider>((element) => {
-        element.disabled = true;
-      });
-
-    await expect(page.locator('glide-core-slider')).toMatchAriaSnapshot(`
-      - text: Label
-      - group:
-        - slider "Label" [disabled]
-      - spinbutton "Label" [disabled]
-    `);
-  });
-
-  test('readonly', async ({ page }) => {
+  test('multiple=${false}', async ({ page }) => {
     await page.goto('?id=slider--slider');
 
     await page

@@ -36,7 +36,7 @@ it('can be reset if there was no initial value', async () => {
   expect(host.value).to.be.empty.string;
 });
 
-it('has `formData` value when it has a value', async () => {
+it('has a `formData` value when it has a value', async () => {
   const form = document.createElement('form');
 
   await fixture<Input>(

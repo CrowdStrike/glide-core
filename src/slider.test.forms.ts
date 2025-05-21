@@ -17,7 +17,7 @@ it('can be reset to its initial value', async () => {
   expect(host.value).to.deep.equal([20]);
 });
 
-it('has `formData` value when it has a value', async () => {
+it('has a `formData` value when it has a value', async () => {
   const form = document.createElement('form');
 
   await fixture<Slider>(
