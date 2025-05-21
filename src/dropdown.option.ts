@@ -98,6 +98,7 @@ export default class DropdownOption extends LitElement {
 
   set disabled(isDisabled: boolean) {
     this.#isDisabled = isDisabled;
+    this.ariaDisabled = isDisabled.toString();
 
     if (this.#checkboxElementRef.value?.checked && isDisabled) {
       this.#checkboxElementRef.value.checked = false;
@@ -105,8 +106,6 @@ export default class DropdownOption extends LitElement {
       this.#checkboxElementRef.value.checked = true;
     }
 
-    this.ariaDisabled = isDisabled.toString();
-    this.ariaSelected = !isDisabled && this.selected ? 'true' : 'false';
     this.dispatchEvent(new Event('private-disabled-change', { bubbles: true }));
   }
 
@@ -166,7 +165,6 @@ export default class DropdownOption extends LitElement {
 
   set selected(isSelected) {
     this.#selected = isSelected;
-    this.ariaSelected = !this.disabled && isSelected ? 'true' : 'false';
 
     if (this.isMultiple && this.#checkboxElementRef.value) {
       this.#checkboxElementRef.value.checked = isSelected;
@@ -180,70 +178,6 @@ export default class DropdownOption extends LitElement {
 
   @property({ attribute: 'tabindex', reflect: true, type: Number })
   override readonly tabIndex = -1;
-
-  @property({ reflect: true })
-  readonly version: string = packageJson.version;
-
-  @state()
-  private get isMultiple() {
-    // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
-    // By then, however, this component has has already completed its initial render. So
-    // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple`
-    // is still useful for when Dropdown's `this.multiple` is set programmatically.
-    return (
-      this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
-    );
-  }
-
-  @state()
-  private get lastSelectedOption(): DropdownOption | undefined {
-    const options = this.parentElement?.querySelectorAll(
-      'glide-core-dropdown-option',
-    );
-
-    if (options && options.length > 0) {
-      return [...options].findLast((option) => option.selected);
-    }
-  }
-
-  override click() {
-    if (this.privateMultiple) {
-      this.#checkboxElementRef.value?.click();
-    } else {
-      this.#componentElementRef.value?.click();
-    }
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-
-    this.ariaDisabled = this.disabled.toString();
-    this.ariaSelected = !this.disabled && this.selected ? 'true' : 'false';
-
-    // Options are arbitrarily shown and hidden when Dropdown is opened and closed. So
-    // calling `#updateLabelOverflow` in the `label` setter isn't sufficient because
-    // the label's `scrollWidth` and `clientWidth` will both be zero until Dropdown
-    // is open. So, rather than expose a pseudo-private method for Dropdown to call
-    // on open, Dropdown Option simply monitors its own visibility.
-    this.#intersectionObserver = new IntersectionObserver(() => {
-      if (this.checkVisibility()) {
-        this.#updateLabelOverflow();
-      }
-    });
-
-    this.#intersectionObserver.observe(this);
-  }
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    this.#intersectionObserver?.disconnect();
-  }
-
-  override firstUpdated() {
-    if (this.#checkboxElementRef.value) {
-      this.#checkboxElementRef.value.checked = this.selected && !this.disabled;
-    }
-  }
 
   /**
    * @default ''
@@ -269,6 +203,71 @@ export default class DropdownOption extends LitElement {
     );
 
     this.#value = value;
+  }
+
+  @property({ reflect: true })
+  readonly version: string = packageJson.version;
+
+  @state()
+  private get isMultiple() {
+    // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
+    // By then, however, this component has has already completed its initial render. So
+    // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple`
+    // is still useful for when Dropdown's `this.multiple` is set programmatically.
+    return (
+      this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
+    );
+  }
+
+  @state()
+  private get lastSelectedAndEnabledOption(): DropdownOption | undefined {
+    const options = this.parentElement?.querySelectorAll(
+      'glide-core-dropdown-option',
+    );
+
+    if (options && options.length > 0) {
+      return [...options].findLast(
+        (option) => option.selected && !option.disabled,
+      );
+    }
+  }
+
+  override click() {
+    if (this.privateMultiple) {
+      this.#checkboxElementRef.value?.click();
+    } else {
+      this.#componentElementRef.value?.click();
+    }
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+
+    this.ariaDisabled = this.disabled.toString();
+
+    // Options are arbitrarily shown and hidden when Dropdown is opened and closed. So
+    // calling `#updateLabelOverflow` in the `label` setter isn't sufficient because
+    // the label's `scrollWidth` and `clientWidth` will both be zero until Dropdown
+    // is open. So, rather than expose a pseudo-private method for Dropdown to call
+    // on open, Dropdown Option simply monitors its own visibility.
+    this.#intersectionObserver = new IntersectionObserver(() => {
+      if (this.checkVisibility()) {
+        this.#updateLabelOverflow();
+      }
+    });
+
+    this.#intersectionObserver.observe(this);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.#intersectionObserver?.disconnect();
+  }
+
+  override firstUpdated() {
+    if (this.#checkboxElementRef.value) {
+      this.#checkboxElementRef.value.checked = this.selected && !this.disabled;
+    }
   }
 
   privateEdit() {
@@ -418,7 +417,7 @@ export default class DropdownOption extends LitElement {
 
               ${when(
                 this.selected &&
-                  this === this.lastSelectedOption &&
+                  this === this.lastSelectedAndEnabledOption &&
                   !this.disabled,
                 () => {
                   return html`<div
@@ -481,6 +480,28 @@ export default class DropdownOption extends LitElement {
         },
       )}
     </div>`;
+  }
+
+  override updated() {
+    // `this.ariaSelected` needs to be updated whenever `disabled`, `privateMulitple`,
+    // `selected`, or `this.lastSelectedAndEnabledOption` change.
+    //
+    // The logic below could be duplicated and added to each setter. But that wouldn't
+    // account for when `this.lastSelectedAndEnabledOption` is forcibly updated by
+    // Dropdown because another option has been selected or deselected.
+    //
+    // Setting `this.ariaSelected` here ensures `this.ariaSelected` is updated whenever
+    // `this.lastSelectedAndEnabledOption` changes. As a bonus, this logic is deduplicated.
+    if (this.privateMultiple) {
+      this.ariaSelected = !this.disabled && this.selected ? 'true' : 'false';
+    } else {
+      this.ariaSelected =
+        !this.disabled &&
+        this.selected &&
+        this === this.lastSelectedAndEnabledOption
+          ? 'true'
+          : 'false';
+    }
   }
 
   @state()

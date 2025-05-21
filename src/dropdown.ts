@@ -1,4 +1,3 @@
-import './checkbox.js';
 import './icon-button.js';
 import './label.js';
 import './tooltip.js';
@@ -57,7 +56,7 @@ declare global {
  *
  * @slot {DropdownOption}
  * @slot {Element | string} [description] - Additional information or context
- * @slot {Element} [icon:value] - Icons for the selected option or options. Slot one icon per Dropdown Option. `<value>` should be equal to the `value` of each Dropdown Option.
+ * @slot {Element} [icon:value] - Icons for the selected Dropdown Option(s). Slot one icon per Dropdown Option. `<value>` should be equal to the `value` of each Dropdown Option.
  *
  * @fires {Event} change
  * @fires {Event} input
@@ -136,11 +135,16 @@ export default class Dropdown extends LitElement implements FormControl {
 
   set filterable(isFilterable: boolean) {
     if (this.#isFilterable !== isFilterable && isFilterable && !this.multiple) {
-      if (this.#inputElementRef.value && this.selectedOptions[0]?.label) {
-        this.#inputElementRef.value.value = this.selectedOptions[0].label;
-        this.inputValue = this.selectedOptions[0].label;
+      if (
+        this.#inputElementRef.value &&
+        this.lastSelectedAndEnabledOption?.label
+      ) {
+        this.#inputElementRef.value.value =
+          this.lastSelectedAndEnabledOption.label;
 
-        this.isInputOverflow =
+        this.inputValue = this.lastSelectedAndEnabledOption.label;
+
+        this.isInputOverflowing =
           this.#inputElementRef.value.scrollWidth >
           this.#inputElementRef.value.clientWidth;
       }
@@ -173,7 +177,6 @@ export default class Dropdown extends LitElement implements FormControl {
     this.#isOpen = isOpen;
 
     if (isOpen && hasChanged && !this.disabled) {
-      this.hasNoAvailableOptions = this.#optionElements.length === 0;
       this.#show();
 
       this.dispatchEvent(
@@ -187,10 +190,12 @@ export default class Dropdown extends LitElement implements FormControl {
       if (
         !this.multiple &&
         this.#inputElementRef.value &&
-        this.selectedOptions[0]?.label
+        this.lastSelectedAndEnabledOption?.label
       ) {
-        this.#inputElementRef.value.value = this.selectedOptions[0].label;
-        this.inputValue = this.selectedOptions[0].label;
+        this.#inputElementRef.value.value =
+          this.lastSelectedAndEnabledOption.label;
+
+        this.inputValue = this.lastSelectedAndEnabledOption.label;
       } else if (
         !this.multiple &&
         this.#inputElementRef.value &&
@@ -203,14 +208,7 @@ export default class Dropdown extends LitElement implements FormControl {
         this.inputValue = '';
       }
 
-      this.isFiltering = false;
-      this.hasNoMatchingOptions = false;
-      this.isShowSingleSelectIcon = Boolean(this.selectedOptions.at(0)?.value);
-
-      for (const option of this.#optionElements) {
-        option.hidden = false;
-      }
-
+      this.#unfilter();
       this.#hide();
 
       this.dispatchEvent(
@@ -251,30 +249,33 @@ export default class Dropdown extends LitElement implements FormControl {
     const wasSingle = !this.#isMultiple && isMultiple;
 
     this.#isMultiple = isMultiple;
-    this.isShowSingleSelectIcon = false;
+
+    this.isShowSingleSelectIcon = wasMultiple
+      ? Boolean(this.lastSelectedAndEnabledOption?.value)
+      : false;
 
     for (const option of this.#optionElements) {
       option.privateMultiple = isMultiple;
 
-      // A single-select can only have one option selected. All but the last one
-      // are deselected.
-      if (wasMultiple && option !== this.lastSelectedOption) {
+      // A single-select Dropdown can only have one option selected. So all but the
+      // last selected and enabled option is deselected.
+      if (wasMultiple && option !== this.lastSelectedAndEnabledOption) {
         option.selected = false;
       }
     }
 
-    if (wasMultiple && this.lastSelectedOption?.value) {
-      this.value = [this.lastSelectedOption.value];
-    } else if (wasSingle && this.lastSelectedOption) {
+    if (wasMultiple && this.lastSelectedAndEnabledOption?.value) {
+      this.value = [this.lastSelectedAndEnabledOption.value];
+    } else if (wasSingle && this.lastSelectedAndEnabledOption) {
       // If Dropdown was single-select and filterable and an option is selected,
       // then the value of its `<input>` is set to the label of the selected option.
       // That behavior doesn't apply to multiselect Dropdown because its selected
-      // option or options are represented by tags. So we clear the `<input>`.
+      // option or options are represented by tags. So we clear input field.
       if (this.#inputElementRef.value) {
         this.#inputElementRef.value.value = '';
       }
 
-      this.lastSelectedOption.privateUpdateCheckbox();
+      this.lastSelectedAndEnabledOption.privateUpdateCheckbox();
       this.#setTagOverflowLimit();
     }
   }
@@ -292,6 +293,12 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   set value(value: string[]) {
+    // You'll notice `this.#value` is internally often used directly. That's done to
+    // bypass the setter's side effects to either avoid a bad state or a prevent a loop.
+    //
+    // If `#onOptionsSelectedChange()`, for example, weren't to bypass the setter, then
+    // our setting value below would cause `#onOptionsSelectedChange()` to be called
+    // again, which in turn would call this setter.
     this.#value = value;
 
     if (!this.multiple && value.length > 1) {
@@ -322,13 +329,12 @@ export default class Dropdown extends LitElement implements FormControl {
 
       this.#isSelectionFromValueSetter = false;
 
-      // We have a few options if `value` is set programmatically to include
-      // the value of a disabled option. We can throw, remove the value from
-      // `value`, or enable the option.
+      // We have a few options if `value` is set programmatically to include the
+      // value of a disabled option. We can throw, remove the value from `value`,
+      // or enable the option.
       //
-      // Throwing is attractive because the inclusion of a disabled option
-      // in `value` is likely a mistake, either due to bad data or developer
-      // error.
+      // Throwing is attractive because the inclusion of a disabled option in `value`
+      // is likely a mistake, either due to bad data or developer error.
       //
       // But we only throw in development. So the form will be submitted with
       // the new `value` in production regardless if it was by mistake. By enabling
@@ -356,6 +362,18 @@ export default class Dropdown extends LitElement implements FormControl {
     );
   }
 
+  private get areAllOptionsSelected() {
+    return (
+      this.#optionElements.length > 0 &&
+      this.#optionElements.filter(({ selected }) => selected).length ===
+        this.#optionElements.filter(({ disabled }) => !disabled).length
+    );
+  }
+
+  private get areSomeOptionsSelected() {
+    return this.#optionElements.some(({ selected }) => selected);
+  }
+
   checkValidity(): boolean {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
@@ -381,20 +399,10 @@ export default class Dropdown extends LitElement implements FormControl {
     });
   }
 
-  private get lastSelectedOption() {
-    return this.#optionElements.findLast((option) => option.selected);
-  }
-
-  private get isAllSelected() {
-    return (
-      this.#optionElements.length > 0 &&
-      this.#optionElements.filter(({ selected }) => selected).length ===
-        this.#optionElements.filter(({ disabled }) => !disabled).length
+  private get lastSelectedAndEnabledOption() {
+    return this.#optionElements.findLast(
+      (option) => option.selected && !option.disabled,
     );
-  }
-
-  private get isSomeSelected() {
-    return this.#optionElements.some(({ selected }) => selected);
   }
 
   private get internalLabel() {
@@ -402,8 +410,10 @@ export default class Dropdown extends LitElement implements FormControl {
 
     return !isFilterable && this.selectedOptions.length === 0
       ? this.placeholder
-      : !this.multiple && !isFilterable && this.selectedOptions.at(-1)?.label
-        ? this.selectedOptions.at(-1)?.label
+      : !this.multiple &&
+          !isFilterable &&
+          this.lastSelectedAndEnabledOption?.label
+        ? this.lastSelectedAndEnabledOption.label
         : '';
   }
 
@@ -439,7 +449,7 @@ export default class Dropdown extends LitElement implements FormControl {
     });
   }
 
-  // `async` because it may return a promise when overridden.
+  // `async` so consumers can fetch and return a promise when they override.
   //
   // eslint-disable-next-line @typescript-eslint/require-await
   async filter(query: string): Promise<DropdownOption[] | undefined | void> {
@@ -472,11 +482,12 @@ export default class Dropdown extends LitElement implements FormControl {
 
     if (
       !this.multiple &&
-      this.lastSelectedOption &&
+      this.lastSelectedAndEnabledOption &&
       this.#inputElementRef.value &&
-      this.lastSelectedOption.label
+      this.lastSelectedAndEnabledOption.label
     ) {
-      this.#inputElementRef.value.value = this.lastSelectedOption.label;
+      this.#inputElementRef.value.value =
+        this.lastSelectedAndEnabledOption.label;
     }
 
     const hasNoSelectedOptions = this.#optionElements.every(
@@ -539,8 +550,8 @@ export default class Dropdown extends LitElement implements FormControl {
 
   get validity(): ValidityState {
     if (this.required && this.selectedOptions.length === 0) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
@@ -704,7 +715,7 @@ export default class Dropdown extends LitElement implements FormControl {
                               slot="icon"
                             >
                               <!--
-                                Icons for the selected option or options.
+                                Icons for the selected Dropdown Option(s).
                                 Slot one icon per Dropdown Option.
                                 \`<value>\` should be equal to the \`value\` of each Dropdown Option.
 
@@ -727,7 +738,7 @@ export default class Dropdown extends LitElement implements FormControl {
                   quiet: this.variant === 'quiet',
                 })}
                 data-test="single-select-icon-slot"
-                name="icon:${this.selectedOptions.at(0)?.value}"
+                name="icon:${this.lastSelectedAndEnabledOption?.value}"
               >
                 <!--
                   @type {Element}
@@ -744,7 +755,7 @@ export default class Dropdown extends LitElement implements FormControl {
               data-test="input-tooltip"
               label=${this.inputValue}
               offset=${8}
-              ?disabled=${this.open || !this.isInputOverflow}
+              ?disabled=${this.open || !this.isInputOverflowing}
               ?open=${!this.open && this.isInputTooltipOpen}
               @toggle=${this.#onTooltipToggle}
               screenreader-hidden
@@ -786,7 +797,7 @@ export default class Dropdown extends LitElement implements FormControl {
 
                 ${when(
                   !this.multiple &&
-                    this.isInputOverflow &&
+                    this.isInputOverflowing &&
                     this.inputValue === this.selectedOptions.at(-1)?.label,
                   () => {
                     return html`<span aria-hidden="true" data-test="ellipsis">
@@ -820,7 +831,7 @@ export default class Dropdown extends LitElement implements FormControl {
               this.multiple ||
               this.filterable ||
               this.isFilterable ||
-              !this.isInternalLabelOverflow}
+              !this.isInternalLabelOverflowing}
               ?open=${!this.open && this.isInternalLabelTooltipOpen}
               @toggle=${this.#onTooltipToggle}
               screenreader-hidden
@@ -870,18 +881,20 @@ export default class Dropdown extends LitElement implements FormControl {
                 },
               )}
               ${when(
-                !this.multiple && this.selectedOptions[0]?.editable,
+                !this.multiple &&
+                  this.lastSelectedAndEnabledOption?.editable &&
+                  !this.isFiltering,
                 () => {
                   return html`<glide-core-icon-button
                     class="edit-button"
                     data-test="edit-button"
                     label=${this.#localize.term(
                       'editOption',
-                      // `this.selectedOptions[0]` is guaranteed to be defined by the `when()` above.
+                      // `this.lastSelectedOption` is guaranteed to be defined by the `when()` above.
                       // And its `label` property is always defined because it's required.
                       //
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                      this.selectedOptions[0]!.label!,
+                      this.lastSelectedAndEnabledOption!.label!,
                     )}
                     tabindex=${this.disabled || this.readonly ? '-1' : '0'}
                     variant="tertiary"
@@ -966,22 +979,25 @@ export default class Dropdown extends LitElement implements FormControl {
                 label=${this.#localize.term('selectAll')}
                 private-multiple
                 ?hidden=${!this.selectAll || !this.multiple || this.isFiltering}
-                ?private-indeterminate=${this.isSomeSelected &&
-                !this.isAllSelected}
+                ?private-indeterminate=${this.areSomeOptionsSelected &&
+                !this.areAllOptionsSelected}
                 ${ref(this.#selectAllElementRef)}
               ></glide-core-dropdown-option>
 
               <slot
-                class="default-slot"
+                class=${classMap({
+                  'default-slot': true,
+                  optionless: this.hasNoMatchingOptions,
+                })}
                 @private-selected-change=${this.#onOptionsSelectedChange}
                 @slotchange=${this.#onDefaultSlotChange}
                 ${assertSlot([DropdownOption, Text], true)}
                 ${ref(this.#defaultSlotElementRef)}
               >
                 <!--
-                  @required
-                  @type {DropdownOption}
-                -->
+                    @required
+                    @type {DropdownOption}
+                  -->
               </slot>
             </div>
 
@@ -1145,14 +1161,13 @@ export default class Dropdown extends LitElement implements FormControl {
   @state()
   private isCheckingValidity = false;
 
-  // `itemCount` isn't immediately communicated to screenreaders so that the
-  // number of options isn't read twice when Dropdown receives focus. It's
-  // already read once without additional effort due to `role="combobox"` and
-  // `aria-controls="options"`.
+  // `itemCount` isn't immediately communicated to screenreaders so the number of
+  // options isn't read twice when Dropdown receives focus. It's already read once
+  // without additional effort due to `role="combobox"` and `aria-controls="options"`.
   //
-  // However, an updated count isn't read when the user filters, which is where
-  // `itemCount` comes in. `isCommunicateItemCountToScreenreaders` is used to
-  // toggle `itemCount` so it isn't read on focus.
+  // However, an updated count isn't read when the user filters, which is where `itemCount`
+  // comes in. `isCommunicateItemCountToScreenreaders` is used to toggle `itemCount`
+  // so it isn't read on focus.
   @state()
   private isCommunicateItemCountToScreenreaders = false;
 
@@ -1163,13 +1178,13 @@ export default class Dropdown extends LitElement implements FormControl {
   private isFiltering = false;
 
   @state()
-  private isInputOverflow = false;
+  private isInputOverflowing = false;
 
   @state()
   private isInputTooltipOpen = false;
 
   @state()
-  private isInternalLabelOverflow = false;
+  private isInternalLabelOverflowing = false;
 
   @state()
   private isInternalLabelTooltipOpen = false;
@@ -1239,7 +1254,10 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #optionsAndFeedbackElementRef = createRef<HTMLElement>();
 
-  #previouslyActiveOption?: DropdownOption;
+  // Used to set the previously active option as active when Dropdown is opened, and
+  // when filtering and the user filters out all options then changes the filter query
+  // to filter some
+  #previouslyActiveOption?: DropdownOption | null;
 
   #primaryButtonElementRef = createRef<HTMLButtonElement>();
 
@@ -1260,7 +1278,7 @@ export default class Dropdown extends LitElement implements FormControl {
       // a later click from outside of Dropdown results in Dropdown closing.
       //
       // Options with a Checkbox emit two "click" events for every "mouseup": one
-      // from the `<label>`, another from the `<input>`. It's just how a `<label>`
+      // from the `<label>`, another from input field. It's just how a `<label>`
       // with a form control works. A timeout is used to ensure both events have
       // been dispatched before `#isComponentClick` is reset.
       //
@@ -1305,7 +1323,7 @@ export default class Dropdown extends LitElement implements FormControl {
     // Dropdown's "click" handler on `document` listens for clicks in the
     // capture phase. There's a comment explaining why. `#isComponentClick`
     // must be set before that handler is called so it has the information it
-    // needs to determine whether or not to close Dropdown.
+    // needs to determine whether to close Dropdown.
     this.#isComponentClick = true;
   }
 
@@ -1323,78 +1341,102 @@ export default class Dropdown extends LitElement implements FormControl {
     }
 
     this.tagOverflowLimit = this.selectedOptions.length;
+
+    // Set here in addition to in `#show()` because, every option may be removed by the
+    // consumer while Dropdown is open. Many consumers do this while the user is filtering.
     this.hasNoAvailableOptions = this.#optionElements.length === 0;
 
     for (const option of this.#optionElements) {
-      // Both here and in the `this.multiple` setter because no assignment happens on
-      // initial render.
+      // Both here and in the `this.multiple` setter because the setter isn't called when
+      // an option is added to Dropdown after initial render.
       option.privateMultiple = this.multiple;
     }
 
-    const firstOption = this.#optionElementsNotHiddenIncludingSelectAll?.find(
-      (option) => !option.disabled,
-    );
+    if (this.open) {
+      const firstEnabledOption =
+        this.#optionElementsNotHiddenIncludingSelectAll?.find(
+          (option) => !option.disabled,
+        );
 
-    // Even with single-select, there's nothing to stop developers from adding
-    // a `selected` attribute to more than one option. How native handles this
-    // when setting `value` is to choose the last selected option.
-    //
-    // We're not setting `value` here. But we follow native's behavior elsewhere
-    // when setting `value`. So we do the same here when setting `privateActive`.
-    //
-    // Unrelated to the comment above, setting the active option happens here and
-    // elsewhere instead of once in the `open` setter because Dropdown's options may
-    // change when Dropdown is open. For example, a developer may fetch data and
-    // remove the active option on "filter", leaving the user without an active option.
-    if (!this.activeOption && this.lastSelectedOption) {
-      this.lastSelectedOption.privateActive = true;
-      this.#previouslyActiveOption = this.lastSelectedOption;
-      this.ariaActivedescendant = this.open ? this.lastSelectedOption.id : '';
-    } else if (!this.activeOption && firstOption) {
-      this.#previouslyActiveOption = firstOption;
-      this.ariaActivedescendant = this.open ? firstOption.id : '';
-      firstOption.privateActive = true;
+      // Setting the active option happens here and elsewhere instead of once in the
+      // `open` setter because Dropdown's options may change when Dropdown is open.
+      // For example, a developer may for whatever reason, may remove the active option
+      // while Dropdown is open, leaving the user without one.
+      if (
+        (!this.activeOption || this.activeOption?.disabled) &&
+        firstEnabledOption
+      ) {
+        this.#previouslyActiveOption = firstEnabledOption;
+        this.ariaActivedescendant = firstEnabledOption.id;
+        firstEnabledOption.privateActive = true;
+      }
     }
 
-    // Now update Select All to reflect the selected options.
     if (this.#selectAllElementRef.value) {
-      this.#selectAllElementRef.value.selected = this.isAllSelected;
+      this.#selectAllElementRef.value.selected = this.areAllOptionsSelected;
     }
 
     if (this.multiple) {
       this.#value = this.selectedOptions
         .filter((option) => Boolean(option.value) && !option.disabled)
         .map(({ value }) => value);
-    } else if (
-      this.lastSelectedOption?.value &&
-      !this.lastSelectedOption.disabled
-    ) {
-      this.#value = [this.lastSelectedOption.value];
-      this.isShowSingleSelectIcon = Boolean(this.selectedOptions.at(0)?.value);
+    } else if (this.lastSelectedAndEnabledOption?.value) {
+      // With single-select, there's nothing to stop developers from adding a `selected`
+      // attribute to more than one option. How native handles this when setting `value`
+      // is to choose the last selected option.
+      this.#value = [this.lastSelectedAndEnabledOption.value];
+
+      this.isShowSingleSelectIcon = Boolean(
+        this.lastSelectedAndEnabledOption?.value,
+      );
     }
 
     // Dropdown's internal label now needs to be updated to reflect the selected option
-    // or options. `this.internalLabel` uses the `this.selectedOptions` getter, whose
-    // return value is derived from the state of another component: Dropdown Option.
+    // or options. `this.internalLabel` uses the `this.lastSelectedAndEnabledOption` getter,
+    // whose return value is derived from the state of another component: Dropdown Option.
     // For whatever reason, and even though that component's state is reactive, a change
     // to it doesn't result in a rerender of this component. So one is forced.
     this.requestUpdate();
 
-    // Dropdown becomes filterable if there are more than 10 options. But the `<input>`
+    // Dropdown becomes filterable if there are more than 10 options. But input field
     // won't have rendered yet given we just set `this.isFilterable` above. So we
     // piggyback off of `this.requestUpdate()` and then wait for the update to complete
-    // before setting the `value` of the `<input>`.
+    // before setting the `value` of input field.
     await this.updateComplete;
+
+    if (!this.multiple) {
+      for (const option of this.#optionElements) {
+        if (option.selected) {
+          // When Dropdown is single-select, a Dropdown Option should only appear selected
+          // when it's the last selected option because only the `value` of the last selected
+          // option will be included in Dropdown's `value`. And what the user sees as selected
+          // should always be the same as what's submitted with the form.
+          //
+          // Dropdown Options determine whether they're the last selected option (and thus
+          // whether to show themselves as selected using a checkmark) via their internal
+          // `lastSelectedAndEnabledOption` getter.
+          //
+          // However, an additional selected Dropdown Option can be added to Dropdown's default
+          // slot at any time. And it may now be the last selected option. But what was the last
+          // selected option won't know that a new selected option was added and that it's is no
+          // longer the last. So we force an update of its `lastSelectedAndEnabledOption` getter
+          // and a rerender.
+          option.requestUpdate();
+        }
+      }
+    }
 
     if (
       !this.multiple &&
       this.#inputElementRef.value &&
-      this.lastSelectedOption?.label
+      this.lastSelectedAndEnabledOption?.label
     ) {
-      this.#inputElementRef.value.value = this.lastSelectedOption.label;
-      this.inputValue = this.lastSelectedOption.label;
+      this.#inputElementRef.value.value =
+        this.lastSelectedAndEnabledOption.label;
 
-      this.isInputOverflow =
+      this.inputValue = this.lastSelectedAndEnabledOption.label;
+
+      this.isInputOverflowing =
         this.#inputElementRef.value.scrollWidth >
         this.#inputElementRef.value.clientWidth;
 
@@ -1415,7 +1457,7 @@ export default class Dropdown extends LitElement implements FormControl {
       this.#inputElementRef.value.value = '';
       this.inputValue = '';
 
-      this.isInputOverflow =
+      this.isInputOverflowing =
         this.#inputElementRef.value.scrollWidth >
         this.#inputElementRef.value.clientWidth;
     }
@@ -1544,8 +1586,6 @@ export default class Dropdown extends LitElement implements FormControl {
           // when using VoiceOver.
           event.preventDefault();
 
-          this.isFiltering = false;
-
           this.activeOption.selected = this.multiple
             ? !this.activeOption.selected
             : true;
@@ -1557,8 +1597,37 @@ export default class Dropdown extends LitElement implements FormControl {
           this.#isSelectionViaSpaceOrEnter = false;
           this.#unfilter();
 
-          if (!this.multiple) {
+          if (this.multiple) {
+            if (this.#inputElementRef.value) {
+              this.#inputElementRef.value.value = '';
+            }
+
+            this.inputValue = '';
+          } else {
+            if (
+              this.#inputElementRef.value &&
+              // `undefined` is guarded against only to satisfy the type system.
+              // `this.activeOption.label` is guaranteed to be defined because it's required.
+              this.activeOption.label !== undefined
+            ) {
+              this.#inputElementRef.value.value = this.activeOption.label;
+              this.inputValue = this.activeOption.label;
+
+              // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
+              // is off by one relative to `clientWidth` when they should be the same. It
+              // happens whenever the input field was overflowing and now isn't.
+              this.isInputOverflowing =
+                this.#inputElementRef.value.scrollWidth - 1 >
+                this.#inputElementRef.value.clientWidth;
+            }
+
             this.open = false;
+
+            // `this.isInputTooltipOpen` is set to `true` when the input field receives
+            // focus and `false` when it loses focus. It's currently `true`. But the
+            // user just selected an option and so knows what the option's label is. So
+            // there's no need to show a tooltip.
+            this.isInputTooltipOpen = false;
           }
 
           this.dispatchEvent(
@@ -1602,17 +1671,19 @@ export default class Dropdown extends LitElement implements FormControl {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = true;
 
-          // If we're not already at the top.
-        } else if (previousOption && activeOptionIndex !== 0) {
+          // If `previousOption` isn't defined, we've reached the top.
+        } else if (previousOption) {
+          this.#previouslyActiveOption = this.activeOption;
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = previousOption.id;
-          this.#previouslyActiveOption = previousOption;
 
           previousOption.privateActive = true;
           previousOption.privateIsEditActive = previousOption.editable;
           previousOption.privateIsTooltipOpen = !previousOption.editable;
+
+          // "center" so options before the current one are in view.
           previousOption.scrollIntoView({ block: 'center' });
         }
 
@@ -1642,16 +1713,18 @@ export default class Dropdown extends LitElement implements FormControl {
           this.activeOption.privateIsEditActive = true;
           this.activeOption.privateIsTooltipOpen = false;
 
-          // If we're not already at the bottom.
+          // If `nextOption` isn't defined, we've reached the bottom.
         } else if (nextOption) {
+          this.#previouslyActiveOption = this.activeOption;
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = nextOption.id;
-          this.#previouslyActiveOption = nextOption;
 
           nextOption.privateActive = true;
           nextOption.privateIsTooltipOpen = true;
+
+          // "center" so options after the current one are in view.
           nextOption.scrollIntoView({ block: 'center' });
         }
 
@@ -1668,22 +1741,20 @@ export default class Dropdown extends LitElement implements FormControl {
         // moving to the beginning of the field.
         event.preventDefault();
 
-        const previousOption = [
-          ...this.#optionElementsNotHiddenIncludingSelectAll,
-        ]
+        const firstOption = [...this.#optionElementsNotHiddenIncludingSelectAll]
           .reverse()
           .findLast((option) => !option.disabled);
 
-        if (previousOption) {
+        if (firstOption) {
+          this.#previouslyActiveOption = this.activeOption;
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = previousOption.id;
-          this.#previouslyActiveOption = previousOption;
+          this.ariaActivedescendant = firstOption.id;
 
-          previousOption.privateActive = true;
-          previousOption.privateIsTooltipOpen = true;
-          previousOption.scrollIntoView({ block: 'nearest' });
+          firstOption.privateActive = true;
+          firstOption.privateIsTooltipOpen = true;
+          firstOption.scrollIntoView();
         }
 
         return;
@@ -1699,21 +1770,20 @@ export default class Dropdown extends LitElement implements FormControl {
         // moving to the end of the field.
         event.preventDefault();
 
-        const nextOption = [
+        const lastOption = [
           ...this.#optionElementsNotHiddenIncludingSelectAll,
         ].findLast((option) => !option.disabled);
 
-        // If `option` isn't defined, then we've reached the bottom.
-        if (nextOption && this.activeOption) {
+        if (lastOption && this.activeOption) {
+          this.#previouslyActiveOption = this.activeOption;
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = nextOption.id;
-          this.#previouslyActiveOption = nextOption;
+          this.ariaActivedescendant = lastOption.id;
 
-          nextOption.privateActive = true;
-          nextOption.privateIsTooltipOpen = true;
-          nextOption.scrollIntoView({ block: 'nearest' });
+          lastOption.privateActive = true;
+          lastOption.privateIsTooltipOpen = true;
+          lastOption.scrollIntoView();
         }
 
         return;
@@ -1735,7 +1805,7 @@ export default class Dropdown extends LitElement implements FormControl {
       event.target instanceof Node &&
       this.#editButtonElementRef.value?.contains(event.target)
     ) {
-      this.selectedOptions[0]?.privateEdit();
+      this.lastSelectedAndEnabledOption?.privateEdit();
 
       return;
     }
@@ -1770,9 +1840,9 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   #onDropdownMousedown(event: FocusEvent) {
-    // Retain focus if anything inside it is clicked, like the padding around the
-    // component. Clicking the padding will move focus to `document.body`, which is
-    // not what the user expects.
+    // Retain focus if anything inside Dropdown is about to be clicked, like the padding
+    // around the component. Clicking the padding will move focus to `document.body`,
+    // which is not what the user expects.
     //
     // Having to exclude tags is unfortunate because clicking on the tag's label or
     // padding shouldn't cause the input to lose focus. The trouble is we don't know
@@ -1782,8 +1852,8 @@ export default class Dropdown extends LitElement implements FormControl {
     const isTag = event.target instanceof Tag;
 
     if (isFilterable && !isTag) {
-      // If the `<input>` was clicked, canceling the event would prevent the insertion
-      // point from moving inside the input.
+      // If input field is about to be clicked, canceling the event would prevent the
+      // insertion point from moving inside the input.
       if (event.target !== this.#inputElementRef.value) {
         event.preventDefault();
         this.focus();
@@ -1808,14 +1878,14 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   async #onInputInput(event: Event) {
-    // Allowing the event to propagate would break things for consumers, who
-    // expect "input" events only when an option is selected or deselected.
+    // Allowing the event to propagate would break things for consumers or at least
+    // confuse them. They expect "input" events only when an option is selected or
+    // deselected.
     event.stopPropagation();
 
     this.open = true;
-    this.isShowSingleSelectIcon = false;
 
-    if (this.#inputElementRef.value?.value) {
+    if (this.#inputElementRef.value) {
       this.inputValue = this.#inputElementRef.value.value;
     }
 
@@ -1825,11 +1895,14 @@ export default class Dropdown extends LitElement implements FormControl {
       this.isFiltering = false;
     } else if (
       this.#inputElementRef.value?.value !== '' &&
-      this.#inputElementRef.value?.value !== this.selectedOptions.at(0)?.label
+      this.#inputElementRef.value?.value !==
+        this.lastSelectedAndEnabledOption?.label
     ) {
       this.isFiltering = true;
+      this.isShowSingleSelectIcon = false;
     } else {
       this.isFiltering = false;
+      this.isShowSingleSelectIcon = false;
     }
 
     let options: DropdownOption[] | undefined | void;
@@ -1848,30 +1921,89 @@ export default class Dropdown extends LitElement implements FormControl {
       for (const option of this.#optionElements) {
         option.hidden = !options.includes(option);
       }
+    }
 
-      const firstVisibleOption = this.#optionElementsNotHidden?.at(0);
+    this.isCommunicateItemCountToScreenreaders = true;
 
-      // When filtering filters out the active option, make the first option active
-      // if there is one.
-      if (firstVisibleOption && this.activeOption?.hidden) {
+    if (this.#optionElementsNotHidden) {
+      this.itemCount = this.#optionElementsNotHidden.length;
+    }
+
+    this.hasNoMatchingOptions =
+      this.#optionElementsNotHidden?.length === 0 ? true : false;
+
+    // 1. Options are "One", "Two".
+    // 2. Filter query was "".
+    // 3. Active option was "One".
+    // 4. Filter query is now "three".
+    // 5. No option is active.
+    if (this.hasNoMatchingOptions) {
+      if (this.activeOption) {
+        this.#previouslyActiveOption = this.activeOption;
         this.activeOption.privateActive = false;
-        this.#previouslyActiveOption = firstVisibleOption;
-        this.ariaActivedescendant = firstVisibleOption.id;
-
-        firstVisibleOption.privateActive = true;
       }
 
-      this.hasNoMatchingOptions =
-        !this.#optionElementsNotHidden ||
-        this.#optionElementsNotHidden.length === 0
-          ? true
-          : false;
+      this.ariaActivedescendant = '';
 
-      this.isCommunicateItemCountToScreenreaders = true;
+      return;
+    }
 
-      if (this.#optionElementsNotHidden) {
-        this.itemCount = this.#optionElementsNotHidden.length;
+    const firstEnabledVisibleOption = this.#optionElementsNotHidden?.find(
+      ({ disabled }) => !disabled,
+    );
+
+    // 1. Options are "ABC", "AB", "A".
+    // 2. Previous active option is "AB".
+    // 3. Filter query was "abd". No active option.
+    // 4. Filter query is now "ab".
+    // 5. "AB" is activated.
+    //
+    // Or:
+    //
+    // 1. Options are "ABC", "AB", "A".
+    // 2. Previous active option is "AB".
+    // 3. Active option is "A"
+    // 4. Filter query was "".
+    // 5. Filter query is now "ab".
+    // 6. "AB" is activated.
+    if (
+      (!this.activeOption ||
+        this.activeOption?.hidden ||
+        this.activeOption?.disabled) &&
+      this.#previouslyActiveOption &&
+      !this.#previouslyActiveOption.hidden &&
+      !this.#previouslyActiveOption.disabled
+    ) {
+      const previouslyActiveOption = this.#previouslyActiveOption;
+
+      if (this.activeOption) {
+        this.#previouslyActiveOption = this.activeOption;
+        this.#previouslyActiveOption.privateActive = false;
       }
+
+      previouslyActiveOption.privateActive = true;
+      this.ariaActivedescendant = previouslyActiveOption.id;
+
+      return;
+    }
+
+    // 1. Options are "ABCD", "ABC", "AB", "A".
+    // 2. "ABCD" is disabled.
+    // 3. Previous active option is "AB".
+    // 4. Active option is "A".
+    // 5. Filter query was "".
+    // 6. Filter query is now "abc".
+    // 7. "A" is now hidden.
+    // 8. "AB" is now hidden.
+    // 9. "ABC" is activated.
+    if (this.activeOption?.hidden && firstEnabledVisibleOption) {
+      this.#previouslyActiveOption = this.activeOption;
+      this.activeOption.privateActive = false;
+      this.ariaActivedescendant = firstEnabledVisibleOption.id;
+
+      firstEnabledVisibleOption.privateActive = true;
+
+      return;
     }
   }
 
@@ -1924,20 +2056,15 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #onInputResize() {
     if (this.#inputElementRef.value) {
-      // One is subtracted to account for an apparent Chrome bug when the viewport
-      // is reduced in size and the `<input>` is overflowing, then increased in size
-      // so its not overflowing. If you log `scrollWidth` and `clientWidth` you'll
-      // see the bug. In Safari and Firefox the two are equal after increasing the
-      // size of the viewport.
-      this.isInputOverflow =
-        this.#inputElementRef.value.scrollWidth - 1 >
+      this.isInputOverflowing =
+        this.#inputElementRef.value.scrollWidth >
         this.#inputElementRef.value.clientWidth;
     }
   }
 
   #onInternalLabelResize() {
     if (this.#internalLabelElementRef.value) {
-      this.isInternalLabelOverflow =
+      this.isInternalLabelOverflowing =
         this.#internalLabelElementRef.value.scrollWidth >
         this.#internalLabelElementRef.value.clientWidth;
     }
@@ -1955,16 +2082,13 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   get #optionElementsIncludingSelectAll() {
-    const assignedElements = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is DropdownOption =>
-          element instanceof DropdownOption,
-      );
+    const options = this.#optionElements;
 
-    if (assignedElements && this.#selectAllElementRef.value) {
-      return [this.#selectAllElementRef.value, ...assignedElements];
+    if (this.#selectAllElementRef.value) {
+      options.unshift(this.#selectAllElementRef.value);
     }
+
+    return options;
   }
 
   get #optionElementsNotHidden() {
@@ -1977,18 +2101,16 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   get #optionElementsNotHiddenIncludingSelectAll() {
-    const assignedElementsNotHidden = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is DropdownOption =>
-          element instanceof DropdownOption && !element.hidden,
-      );
+    const options = this.#optionElementsNotHidden;
 
-    return this.#selectAllElementRef.value &&
-      !this.#selectAllElementRef.value.hidden &&
-      assignedElementsNotHidden
-      ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
-      : assignedElementsNotHidden;
+    if (
+      this.#selectAllElementRef.value &&
+      !this.#selectAllElementRef.value.hidden
+    ) {
+      options?.unshift(this.#selectAllElementRef.value);
+    }
+
+    return options;
   }
 
   #onOptionsChange(event: Event) {
@@ -2000,6 +2122,11 @@ export default class Dropdown extends LitElement implements FormControl {
       this.#selectAllOrNone();
     }
 
+    if (this.#inputElementRef.value) {
+      this.#inputElementRef.value.value = '';
+    }
+
+    this.inputValue = '';
     this.#unfilter();
   }
 
@@ -2020,10 +2147,28 @@ export default class Dropdown extends LitElement implements FormControl {
 
       if (option && !option.selected) {
         option.selected = true;
-        this.#unfilter();
 
-        if (!this.multiple) {
-          this.open = false;
+        this.#unfilter();
+        this.open = false;
+
+        // `this.isInputTooltipOpen` is set to `true` when the input field receives
+        // focus and `false` when it loses focus. It's currently `true`. But the
+        // user just selected an option and so knows what the option's label is. So
+        // there's no need to show a tooltip.
+        this.isInputTooltipOpen = false;
+
+        // `undefined` is guarded against only to satisfy the type system. `option.label`
+        // is guaranteed to be defined because it's required.
+        if (this.#inputElementRef.value && option.label !== undefined) {
+          this.#inputElementRef.value.value = option.label;
+          this.inputValue = option.label;
+
+          // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
+          // is off by one relative to `clientWidth` when they should be the same. It
+          // happens whenever the input field was overflowing and now isn't.
+          this.isInputOverflowing =
+            this.#inputElementRef.value.scrollWidth - 1 >
+            this.#inputElementRef.value.clientWidth;
         }
 
         this.dispatchEvent(
@@ -2047,19 +2192,90 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #onOptionsDisabledChange(event: Event) {
     if (
+      this.multiple &&
       event.target instanceof DropdownOption &&
-      event.target.disabled &&
-      event.target.selected
+      event.target.disabled
     ) {
-      // `this.#value` may include multiple of the same value because multiple options
-      // may have the same value. So we only remove the last.
-      //
-      // Ideally, Dropdown wouldn't always remove the last value but would know the exact
-      // index to remove. But Dropdown, the way it's built, doesn't know which value in
-      // `this.#value` corresponds to which option. It probably should if cases like this
-      // continue to pile up. For now, though, consumers' needs seem to be met.
-      const index = this.#value.lastIndexOf(event.target.value);
-      this.#value.splice(index, index + 1);
+      if (event.target.selected) {
+        // `this.#value` may include multiple of the same value because multiple options
+        // may have the same value. So we only remove the last value of its kind.
+        //
+        // Ideally, Dropdown wouldn't always remove the last value but would know the exact
+        // index of the value to remove. But Dropdown, the way it's built, doesn't know
+        // which value in `this.#value` corresponds to which option. It probably should if
+        // cases like this continue to pile up. For now consumers' needs seem to be met.
+        const index = this.#value.lastIndexOf(event.target.value);
+        this.#value.splice(index, index + 1);
+      }
+
+      if (event.target.privateActive) {
+        event.target.privateActive = false;
+
+        const firstEnabledOption = this.#optionElements.find(
+          ({ disabled }) => !disabled,
+        );
+
+        if (firstEnabledOption) {
+          firstEnabledOption.privateActive = true;
+          this.#previouslyActiveOption = firstEnabledOption;
+          this.ariaActivedescendant = firstEnabledOption.id;
+        }
+      }
+    } else if (
+      event.target instanceof DropdownOption &&
+      event.target.disabled
+    ) {
+      this.#value = this.lastSelectedAndEnabledOption?.value
+        ? [this.lastSelectedAndEnabledOption.value]
+        : [];
+
+      if (event.target.privateActive) {
+        event.target.privateActive = false;
+
+        const firstEnabledOption = this.#optionElements.find(
+          ({ disabled }) => !disabled,
+        );
+
+        if (firstEnabledOption) {
+          firstEnabledOption.privateActive = true;
+          this.#previouslyActiveOption = firstEnabledOption;
+          this.ariaActivedescendant = firstEnabledOption.id;
+        }
+      }
+
+      if (this.#inputElementRef.value) {
+        this.#inputElementRef.value.value =
+          this.lastSelectedAndEnabledOption?.label ?? '';
+
+        this.inputValue = this.lastSelectedAndEnabledOption?.label ?? '';
+
+        // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
+        // is off by one relative to `clientWidth` when they should be the same. It
+        // happens whenever the input field was overflowing and now isn't.
+        this.isInputOverflowing =
+          this.#inputElementRef.value.scrollWidth - 1 >
+          this.#inputElementRef.value.clientWidth;
+      }
+
+      for (const option of this.#optionElements) {
+        if (option.selected && option !== event.target) {
+          // When Dropdown is single-select, a Dropdown Option should only appear selected
+          // when it's the last selected option because only the `value` of the last selected
+          // option will be included in Dropdown's `value`. And what the user sees as selected
+          // should always be the same as what's submitted with the form.
+          //
+          // Dropdown Options determine whether they're the last selected option (and thus
+          // whether to show themselves as selected using a checkmark) via their internal
+          // `lastSelectedAndEnabledOption` getter.
+          //
+          // However, it's possible that previously last selected option was just disabled
+          // and there's another selected option that's enabled. But that option won't know
+          // it's now the last selected option until it reruns its `lastSelectedAndEnabledOption`
+          // getter. But it doesn't know that it needs to rerun that getter. So will tell it
+          // to by forcing a rerender.
+          option.requestUpdate();
+        }
+      }
     } else if (
       this.multiple &&
       event.target instanceof DropdownOption &&
@@ -2070,17 +2286,58 @@ export default class Dropdown extends LitElement implements FormControl {
     } else if (
       event.target instanceof DropdownOption &&
       event.target.selected &&
-      event.target.value &&
-      event.target === this.lastSelectedOption
+      // We're only concerned with an enabled option that's the last selected option
+      // because we're single-select, and only the last selected option affects
+      // Dropdown's `value` and and its input field.
+      event.target === this.lastSelectedAndEnabledOption &&
+      // `undefined` is guarded against only to satisfy the type system. `event.target.label`
+      // is guaranteed to be defined because it's required.
+      event.target.label !== undefined
     ) {
-      this.#value = [event.target.value];
+      if (event.target.value) {
+        this.#value = [event.target.value];
+      }
+
+      for (const option of this.#optionElements) {
+        if (option.selected && option !== event.target) {
+          // When Dropdown is single-select, an option should only appear selected when it's the
+          // last selected one because only the `value` of the last selected option will be
+          // included in Dropdown's `value`. And what the user sees as selected should always
+          // be the same as what's submitted with the form.
+          //
+          // Dropdown Options determine whether they're the last selected option (and thus
+          // whether to show themselves as selected using a checkmark) via their internal
+          // `lastSelectedAndEnabledOption` getter.
+          //
+          // However, others option may be enabled and selected, and what was previously the
+          // last selected and enabled option may no longer be the last. But the option won't
+          // know that because it doesn't know that a later option was enabled. So we force an
+          // update its `lastSelectedAndEnabledOption` getter and a rerender.
+          option.requestUpdate();
+        }
+      }
+
+      if (this.#inputElementRef.value) {
+        this.#inputElementRef.value.value = event.target.label;
+        this.inputValue = event.target.label;
+
+        // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
+        // is off by one relative to `clientWidth` when they should be the same. It
+        // happens whenever the input field was overflowing and now isn't.
+        this.isInputOverflowing =
+          this.#inputElementRef.value.scrollWidth - 1 >
+          this.#inputElementRef.value.clientWidth;
+      }
     }
 
-    // Dropdown's internal label now needs to be updated to reflect the selected option
-    // or options. `this.internalLabel` uses the `this.selectedOptions` getter, whose
-    // return value is derived from the state of another component: Dropdown Option.
-    // That component's state is reactive. But a change to it won't trigger a rerender
-    // of this component. Same deal for multiselect Dropdown's tags.
+    // Dropdown's internal label now needs to be updated to reflect the now enabled
+    // or disabled selected option(s). `this.internalLabel` uses the `this.lastSelectedOption`
+    // getter, whose return value is derived from the state of another component: Dropdown
+    // Option. That component's state is reactive. But a change to it won't trigger a
+    // rerender of this component. Same deal for multiselect Dropdown's tags.
+    //
+    // If multiselect, the `areSomeOptionsSelected` and `areAllOptionsSelected` getters need
+    // to rerun so Select All is updated. Dropdown's tags also need ot be updated.
     this.requestUpdate();
   }
 
@@ -2108,6 +2365,8 @@ export default class Dropdown extends LitElement implements FormControl {
   #onOptionsLabelChange() {
     if (this.selectedOptions.length > 0) {
       if (this.multiple) {
+        // The option's label has changed and is reactive. But it's a separate component.
+        // So Dropdown won't know to rerender its tags unless we tell it to.
         this.requestUpdate();
 
         this.updateComplete.then(() => {
@@ -2116,15 +2375,20 @@ export default class Dropdown extends LitElement implements FormControl {
       } else if (
         (this.filterable || this.isFilterable) &&
         this.#inputElementRef.value &&
-        this.selectedOptions[0]?.label
+        this.lastSelectedAndEnabledOption?.label
       ) {
-        this.#inputElementRef.value.value = this.selectedOptions[0].label;
-        this.inputValue = this.selectedOptions[0].label;
+        this.#inputElementRef.value.value =
+          this.lastSelectedAndEnabledOption.label;
 
-        this.isInputOverflow =
+        this.inputValue = this.lastSelectedAndEnabledOption.label;
+
+        this.isInputOverflowing =
           this.#inputElementRef.value.scrollWidth >
           this.#inputElementRef.value.clientWidth;
       } else {
+        // The option's label has changed and is reactive. But it's a separate component.
+        // So Dropdown won't know to rerun its `internalLabel` getter and rerender unless
+        // we tell it to.
         this.requestUpdate();
       }
     }
@@ -2147,17 +2411,17 @@ export default class Dropdown extends LitElement implements FormControl {
       }
 
       if (this.activeOption) {
-        // The currently active option may have been arrowed to and its Tooltip
-        // forced open. Normally, its Tooltip would be closed when the user arrows
-        // again. But now the user is using a mouse. So we force it closed.
+        this.#previouslyActiveOption = this.activeOption;
+
+        // The currently active option may have been arrowed to and its tooltip forced
+        // open. Normally, its tooltip would be closed when the user arrows again. But
+        // now the user is using a mouse. So we force it closed.
         this.activeOption.privateIsTooltipOpen = false;
 
         this.activeOption.privateActive = false;
       }
 
       this.ariaActivedescendant = event.target.id;
-      this.#previouslyActiveOption = event.target;
-
       event.target.privateActive = true;
       event.target.privateIsEditActive = false;
     }
@@ -2169,10 +2433,10 @@ export default class Dropdown extends LitElement implements FormControl {
     }
 
     if (this.#selectAllElementRef.value) {
-      this.#selectAllElementRef.value.selected = this.isAllSelected;
+      this.#selectAllElementRef.value.selected = this.areAllOptionsSelected;
     }
 
-    // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
+    // Update `value`, `open`, `ariaActivedescendant`, and the value of the input field.
     if (event.target instanceof DropdownOption) {
       if (this.multiple && !this.#isSelectionFromValueSetter) {
         this.#value =
@@ -2184,17 +2448,6 @@ export default class Dropdown extends LitElement implements FormControl {
                   value !== event.target.value
                 );
               });
-
-        // Removing a tag will set the related option's `selected` to `false`, which
-        // will kick off this event handler. However, we only want to clear the `value`
-        // of the `<input>` when we're fairly certain that the selection or deselection
-        // came about as a result of filtering. And if the user is interacting with a
-        // tag, then we know hasn't selected or deselected an option after filtering.
-        if (this.#inputElementRef.value && !this.#isEditingOrRemovingTag) {
-          this.isFiltering = false;
-          this.#inputElementRef.value.value = '';
-          this.inputValue = '';
-        }
 
         // The event this handler listens to is dispatched on both selection and deselection.
         // In the case of single-select, we don't care if the target has been deselected. We
@@ -2216,44 +2469,35 @@ export default class Dropdown extends LitElement implements FormControl {
         }
 
         this.#value = event.target.value ? [event.target.value] : [];
-
-        this.isShowSingleSelectIcon = Boolean(
-          this.selectedOptions.at(0)?.value,
-        );
-
-        if (this.#inputElementRef.value && event.target.label) {
-          this.isFiltering = false;
-          this.#inputElementRef.value.value = event.target.label;
-          this.inputValue = event.target.label;
-        }
       }
     }
 
-    if (this.#inputElementRef.value) {
-      this.isInputOverflow =
-        this.#inputElementRef.value.scrollWidth >
-        this.#inputElementRef.value.clientWidth;
-    }
-
-    // Dropdown's internal label now needs to be updated to reflect the selected option
-    // or options. `this.internalLabel` uses the `this.selectedOptions` getter, whose
-    // return value is derived from the state of another component: Dropdown Option.
-    // That component's state is reactive. But a change to it won't trigger a rerender
-    // of this component. Same deal for multiselect Dropdown's tags.
+    // If single-select, Dropdown's internal label now needs to be updated to reflect the
+    // selected option(s). `this.internalLabel` uses the `this.lastSelectedAndEnabledOption` getter,
+    // whose return value is derived from the state of another component: Dropdown Option.
+    // That component's state is reactive. But a change to it won't trigger a rerender of
+    // this component.
+    //
+    // If multiselect, the `areSomeOptionsSelected` and `areAllOptionsSelected` getters need
+    // to rerun so Select All is updated. So do Dropdown's tags.
     this.requestUpdate();
 
-    // Tags vary in width depending on their labels. It's possible an option was
-    // removed and a new option with a shorter label was just added. The new label
-    // may be just short enough that the overflow limit can be increased by one.
-    // Thus the call here in addition to the one in Resize Observer.
-    this.updateComplete.then(() => {
-      this.#setTagOverflowLimit();
-    });
+    if (this.multiple) {
+      // We wait for the update to complete to wait to ensure the newly added or removed
+      // tags are rendered before `#setTagOverflowLimit()` takes its measurements.
+      this.updateComplete.then(() => {
+        // Tags vary in width depending on their labels. It's possible an option was
+        // removed and a new option with a shorter label was just added. The new label
+        // may be just short enough that the overflow limit can be increased by one.
+        // Thus the call here in addition to the one in Resize Observer.
+        this.#setTagOverflowLimit();
+      });
+    }
   }
 
   #onOptionsValueChange(event: CustomEvent<{ old: string; new: string }>) {
     // A cleaner approach would be to return early if `event.target` isn't an instance
-    // of `DropdownOption`. But doing so would create an untestable branch and thus
+    // of DropdownOption. But doing so would create an untestable branch and thus
     // force less than full code coverage because `event.target` will always be an
     // instance of `DropdownOption`.
     //
@@ -2306,13 +2550,11 @@ export default class Dropdown extends LitElement implements FormControl {
     this.#isEditingOrRemovingTag = true;
 
     for (const option of this.#optionElements) {
-      // Options have an ID for the `aria-activedescendant` case. They also have
-      // an ID in case `value` is an empty string, undefined, or duplicate. A
-      // developer might not intend for an ID to be one of those things. But it
-      // happens. The data they're using to generate options, for example, may be
-      // bad. Relying on an ID internally instead of `value` means we're always
-      // deselecting the correct option.
-
+      // Options have an ID for the `aria-activedescendant` case. They also have an ID
+      // in case `value` is an empty string, undefined, or duplicate. A developer might
+      // not intend for an ID to be one of those things. But it happens. The data they're
+      // using to generate options may be bad, for example. Relying on an ID internally
+      // instead of `value` means we're always deselecting the correct option.
       if (option.id === id) {
         option.selected = false;
 
@@ -2444,17 +2686,39 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   #show() {
-    // `#show` is called whenever `open` is set. And `open` can be set arbitrarily
-    // by the consumer. Rather than guarding against calling `#show` everywhere,
-    // Floating UI is simply cleaned up every time `#show` is called.
+    // `#show()` is called whenever `open` is set. And `open` can be set arbitrarily
+    // by the consumer. Rather than guarding against calling `#show()` everywhere,
+    // Floating UI is simply cleaned up every time `#show()` is called.
     this.#cleanUpFloatingUi?.();
 
-    // This is done now instead of after Floating UI does its thing because the
-    // user may begin arrowing immediately to another option option or may have
-    // arrowed to open Dropdown and then accidentally arrowed again.
-    if (this.#previouslyActiveOption) {
+    if (this.#optionElementsNotHidden) {
+      this.itemCount = this.#optionElementsNotHidden.length;
+    }
+
+    // Set here, in addition to in `#onDefaultSlotChange()` because `#onDefaultSlotChange()`
+    // isn't called if there are no options.
+    this.hasNoAvailableOptions = this.#optionElements.length === 0;
+
+    const firstEnabledOption =
+      this.#optionElementsNotHiddenIncludingSelectAll?.find(
+        (option) => !option.disabled,
+      );
+
+    // Done now instead of after Floating UI does its thing because the user may begin
+    // arrowing immediately or may have arrowed to open Dropdown and accidentally
+    // arrowed again.
+    if (
+      this.#previouslyActiveOption &&
+      !this.#previouslyActiveOption.disabled
+    ) {
       this.#previouslyActiveOption.privateActive = true;
       this.ariaActivedescendant = this.#previouslyActiveOption.id;
+      // It's possible the consumer disabled the previously active option since Dropdown
+      // was last open. If so, we land in this condition.
+    } else if (firstEnabledOption) {
+      firstEnabledOption.privateActive = true;
+      this.ariaActivedescendant = firstEnabledOption.id;
+      this.#previouslyActiveOption = firstEnabledOption;
     }
 
     if (
@@ -2510,14 +2774,20 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   #unfilter() {
-    const isFilterable = this.filterable || this.isFilterable;
+    // It would be nice to clear the input field and `this.inputValue` in here
+    // too. It would work for multiselect. But single-select calls this method
+    // after a selection is made and sets the input field and `this.inputValue`
+    // to the label of the selected option instead of clearing them.
 
-    if (isFilterable && this.#inputElementRef.value) {
-      this.isFiltering = false;
-
-      for (const option of this.#optionElements) {
-        option.hidden = false;
-      }
+    for (const option of this.#optionElements) {
+      option.hidden = false;
     }
+
+    this.isFiltering = false;
+    this.hasNoMatchingOptions = false;
+
+    this.isShowSingleSelectIcon = Boolean(
+      this.lastSelectedAndEnabledOption?.value,
+    );
   }
 }

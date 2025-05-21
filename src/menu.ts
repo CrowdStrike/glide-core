@@ -482,7 +482,7 @@ export default class Menu extends LitElement {
       event.preventDefault();
 
       if (event.key === ' ' && isSpanOrDiv) {
-        event.preventDefault(); // Prevent scroll.
+        event.preventDefault(); // Prevent page scroll.
       }
 
       // For VoiceOver. Options normally don't receive focus. But VoiceOver
@@ -496,7 +496,7 @@ export default class Menu extends LitElement {
     }
 
     if ([' ', 'Enter'].includes(event.key) && !this.open && isSpanOrDiv) {
-      event.preventDefault(); // Prevent scroll when Space is pressed.
+      event.preventDefault(); // Prevent page scroll when Space is pressed.
 
       // `<span>`s and `<div>`s don't emit "click" events on Enter and Space.
       // If they did, it would get picked up by `#onTargetSlotClick` and we
@@ -526,7 +526,7 @@ export default class Menu extends LitElement {
       this.#activeOption &&
       this.#optionsElement
     ) {
-      event.preventDefault(); // Prevent scroll.
+      event.preventDefault(); // Prevent page scroll.
 
       this.open = true;
       this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
@@ -544,7 +544,7 @@ export default class Menu extends LitElement {
       // Menu as a whole because more than one Button or Link is required to test
       // these interactions.
       if (event.key === 'ArrowUp' && !event.metaKey) {
-        event.preventDefault(); // Prevent scroll.
+        event.preventDefault(); // Prevent page scroll.
 
         const previousOption = this.#optionElements.findLast(
           (option, index) => {
@@ -562,7 +562,7 @@ export default class Menu extends LitElement {
       }
 
       if (event.key === 'ArrowDown' && !event.metaKey) {
-        event.preventDefault(); // Prevent scroll.
+        event.preventDefault(); // Prevent page scroll.
 
         const nextOption = this.#optionElements.find((option, index) => {
           return !option.disabled && index > activeOptionIndex;
@@ -582,7 +582,7 @@ export default class Menu extends LitElement {
         event.key === 'Home' ||
         event.key === 'PageUp'
       ) {
-        event.preventDefault(); // Prevent scroll.
+        event.preventDefault(); // Prevent page scroll.
 
         const firstOption = [...this.#optionElements]
           .reverse()
@@ -602,7 +602,7 @@ export default class Menu extends LitElement {
         event.key === 'End' ||
         event.key === 'PageDown'
       ) {
-        event.preventDefault(); // Prevent scroll.
+        event.preventDefault(); // Prevent page scroll.
 
         const lastOption = [...this.#optionElements].findLast(
           (option) => !option.disabled,

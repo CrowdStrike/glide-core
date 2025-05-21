@@ -154,7 +154,10 @@ export default [
           2 + var(--private-border-width) * 2
       );
       overflow: auto;
-      scroll-behavior: smooth;
+
+      @media (prefers-reduced-motion: no-preference) {
+        scroll-behavior: smooth;
+      }
 
       &.hidden {
         display: none;

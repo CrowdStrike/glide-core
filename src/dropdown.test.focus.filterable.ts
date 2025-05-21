@@ -26,9 +26,7 @@ it('retains focus on the input when an option is selected via click', async () =
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
-
+  await aTimeout(0); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await click(host.querySelector('glide-core-dropdown-option'));
 
@@ -46,9 +44,7 @@ it('retains focus on the the input when an option is selected via Enter', async 
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
-
+  await aTimeout(0); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
 
   host
@@ -138,8 +134,7 @@ it('sets the `value` of its `<input> to the selected option when focus is lost',
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await aTimeout(0); // Wait for Floating UI
 
   const option = host.querySelector('glide-core-dropdown-option');
   assert(option);

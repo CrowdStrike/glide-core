@@ -95,54 +95,6 @@ it('has no tooltip when active and with a short label set programmatically', asy
   expect(tooltip?.open).to.be.false;
 });
 
-it('sets `aria-selected` when selected programmatically', async () => {
-  const host = await fixture<DropdownOption>(
-    html`<glide-core-dropdown-option
-      label="Label"
-    ></glide-core-dropdown-option>`,
-  );
-
-  host.selected = true;
-  expect(host.ariaSelected).to.equal('true');
-});
-
-it('sets `aria-selected` when deselected programmatically', async () => {
-  const host = await fixture<DropdownOption>(
-    html`<glide-core-dropdown-option
-      label="Label"
-      selected
-    ></glide-core-dropdown-option>`,
-  );
-
-  host.selected = false;
-  expect(host.ariaSelected).to.equal('false');
-});
-
-it('sets `aria-selected` when disabled programmatically', async () => {
-  const host = await fixture<DropdownOption>(
-    html`<glide-core-dropdown-option
-      label="Label"
-      selected
-    ></glide-core-dropdown-option>`,
-  );
-
-  host.disabled = true;
-  expect(host.ariaSelected).to.equal('false');
-});
-
-it('sets `aria-selected` when enabled programmatically', async () => {
-  const host = await fixture<DropdownOption>(
-    html`<glide-core-dropdown-option
-      label="Label"
-      disabled
-      selected
-    ></glide-core-dropdown-option>`,
-  );
-
-  host.disabled = false;
-  expect(host.ariaSelected).to.equal('true');
-});
-
 it('sets `privateIsEditActive`', async () => {
   const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option

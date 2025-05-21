@@ -29,7 +29,7 @@ test('disabled=${false}', async ({ page }) => {
   `);
 });
 
-test.describe('filterable', () => {
+test.describe('filter("noMatchingOptions")', () => {
   test('open=${true}', async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
@@ -40,13 +40,50 @@ test.describe('filterable', () => {
         element.open = true;
       });
 
+    await page.getByRole('combobox').fill('noMatchingOptions');
+
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
-      - combobox "Label" [expanded]
-      - listbox:
+      - combobox "Label 0 items" [expanded]
+      - text: No matching options
+    `);
+  });
+
+  test('open=${false}', async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.filterable = true;
+      });
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      - text: Label
+      - combobox "Label"
+    `);
+  });
+});
+
+test.describe('filter("o")', () => {
+  test('open=${true}', async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.filterable = true;
+        element.open = true;
+      });
+
+    await page.getByRole('combobox').fill('o');
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      - text: Label
+      - combobox "Label 2 items" [expanded]
+      - listbox "o":
         - option "One"
         - option "Two"
-        - option "Three"
     `);
   });
 
