@@ -31,7 +31,7 @@ for (const story of stories.Dropdown) {
               element.filterable = true;
             });
 
-          await page.getByRole('combobox').fill('test');
+          await page.getByRole('combobox').fill('no matching results');
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,

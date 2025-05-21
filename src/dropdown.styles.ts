@@ -161,8 +161,7 @@ export default [
       }
     }
 
-    .default-slot {
-      display: block;
+    .default-slot-and-create-button {
       padding: var(--glide-core-spacing-base-xxxs);
     }
 
@@ -326,6 +325,35 @@ export default [
         color: var(--glide-core-color-interactive-text-placeholder);
         font-family: var(--glide-core-typography-family-primary);
       }
+    }
+
+    .create-button {
+      align-items: center;
+      background-color: transparent;
+      block-size: var(--private-option-height);
+      border-radius: var(--glide-core-spacing-base-sm);
+      border-width: 0;
+      display: flex;
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-bold);
+      inline-size: 100%;
+      max-inline-size: 21.875rem;
+      padding-inline: 0.625rem;
+      transition: background-color 100ms ease-in-out;
+      user-select: none;
+      white-space: nowrap;
+
+      &.active {
+        background-color: var(
+          --glide-core-color-interactive-surface-container--hover
+        );
+      }
+    }
+
+    .create-button-label {
+      overflow-x: hidden;
+      text-overflow: ellipsis;
     }
 
     .description {
