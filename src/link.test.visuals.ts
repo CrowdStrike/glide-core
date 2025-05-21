@@ -66,13 +66,13 @@ for (const story of stories.Link) {
             );
           });
 
-          test('href="/"', async ({ page }, test) => {
+          test('href="https://example.com"', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
               .locator('glide-core-link')
               .evaluate<void, Link>((element) => {
-                element.href = '/';
+                element.href = 'https://example.com';
               });
 
             await page.locator('glide-core-link').hover();
