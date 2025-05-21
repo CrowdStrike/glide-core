@@ -687,3 +687,13 @@ it('normalizes `value` when provided with a value that fall outside of `step`', 
 
   expect(host.value).to.deep.equal([20]);
 });
+
+it('retains only the first `value` array item when multiple are set programmatically', async () => {
+  const host = await fixture<Slider>(
+    html`<glide-core-slider label="Label"></glide-core-slider>`,
+  );
+
+  host.value = [20, 80];
+
+  expect(host.value).to.deep.equal([20]);
+});
