@@ -2474,7 +2474,7 @@
           "slots": [
             {
               "name": "icon:value",
-              "description": "Icons for the selected option or options. Slot one icon per Dropdown Option. \\`<value>\\` should be equal to the \\`value\\` of each Dropdown Option.",
+              "description": "Icons for the selected Dropdown Option(s). Slot one icon per Dropdown Option. \\`<value>\\` should be equal to the \\`value\\` of each Dropdown Option.",
               "type": {
                 "text": "Element"
               }
@@ -2492,9 +2492,9 @@
                 "source": [
                   {
                     "number": 2,
-                    "source": "                  @required",
+                    "source": "                    @required",
                     "tokens": {
-                      "start": "                  ",
+                      "start": "                    ",
                       "delimiter": "",
                       "postDelimiter": "",
                       "tag": "@required",
@@ -2853,6 +2853,12 @@
             }
           ],
           "events": [
+            {
+              "name": "create",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
             {
               "name": "input",
               "type": {

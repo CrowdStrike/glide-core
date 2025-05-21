@@ -50,7 +50,7 @@ it('closes on click', async () => {
   expect(options?.checkVisibility()).to.not.be.ok;
 });
 
-it('does not close on click', async () => {
+it('does not close on click when its input field is clicked', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -62,6 +62,32 @@ it('does not close on click', async () => {
   await aTimeout(0);
 
   await click(host.shadowRoot?.querySelector('[data-test="input"]'));
+
+  const options = host.shadowRoot?.querySelector('[data-test="options"]');
+
+  expect(host.open).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
+});
+
+it('does not close on click when its Create button is clicked via mouse', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable open>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  await click(host);
+  await sendKeys({ type: 'o ' });
+
+  const createButton = host.shadowRoot?.querySelector(
+    '[data-test="create-button"]',
+  );
+
+  await click(createButton);
 
   const options = host.shadowRoot?.querySelector('[data-test="options"]');
 
@@ -108,6 +134,64 @@ it('remains automatically filterable when an option is removed', async () => {
 
   const input = host.shadowRoot?.querySelector('[data-test="input"]');
   expect(input?.checkVisibility()).to.be.true;
+});
+
+it('has a Create button', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ type: 'create button' });
+
+  const createButton = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="create-button"]',
+  );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  const optionlessFeedback = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="optionless-feedback"]',
+  );
+
+  expect(createButton?.checkVisibility()).to.be.true;
+  // TODO: is it appropriate to test active here?
+  expect(createButton?.dataset.testActive).to.equal('true');
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.false;
+  expect(optionlessFeedback?.checkVisibility()).to.not.be.ok;
+
+  await sendKeys({ type: 'create ' });
+
+  expect(createButton?.checkVisibility()).to.be.true;
+  expect(createButton?.dataset.testActive).to.equal('true');
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.false;
+  expect(optionlessFeedback?.checkVisibility()).to.not.be.ok;
+});
+
+it('does not have a Create button', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ type: '  ' });
+
+  const createButton = host.shadowRoot?.querySelector(
+    '[data-test="create-button"',
+  );
+
+  expect(createButton?.checkVisibility()).to.not.be.ok;
+
+  await sendKeys({ type: 'one' });
+  expect(createButton?.checkVisibility()).to.not.be.ok;
 });
 
 it('unfilters when an option is selected via click', async () => {
@@ -162,7 +246,7 @@ it('unfilters on Backspace', async () => {
     </glide-core-dropdown>`,
   );
 
-  host.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
   await sendKeys({ press: 'Backspace' });
   await sendKeys({ press: 'Backspace' });
@@ -600,6 +684,39 @@ it('sets the first unfiltered option as active when the previously active option
   expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
 });
 
+it('sets the previously active option as active when the Create button is active then filtered out', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable open>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  await click(host);
+  await sendKeys({ type: 'o ' });
+  await hover(options[1]);
+
+  const createButton = host.shadowRoot?.querySelector(
+    '[data-test="create-button"]',
+  );
+
+  await hover(createButton);
+  await sendKeys({ press: 'Backspace' });
+
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(options[1]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1]?.id);
+});
+
 it('updates its input field when the `label` of its selected option is set programmatically', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
@@ -899,9 +1016,9 @@ it('uses `placeholder` as a placeholder when multiselect and no option is select
   expect(input?.placeholder).to.equal('Placeholder');
 });
 
-it('sets `aria-activedescendant` on option hover', async () => {
+it('sets the active option on hover', async () => {
   const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" open>
+    html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -916,9 +1033,24 @@ it('sets `aria-activedescendant` on option hover', async () => {
   await hover(options[1]);
 
   expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1]?.id);
+
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ type: 'o ' });
+
+  const createButton = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="create-button"]',
+  );
+
+  await hover(createButton);
+
+  expect(createButton?.dataset.testActive).to.equal('true');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(
+    createButton?.id,
+  );
 });
 
-it('sets `aria-activedescendant` on ArrowDown', async () => {
+it('sets the active option on ArrowDown', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -938,10 +1070,56 @@ it('sets `aria-activedescendant` on ArrowDown', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
+  expect(options[1]?.privateActive).to.be.true;
   expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1]?.id);
+
+  await sendKeys({ type: 'o ' });
+  await sendKeys({ press: 'ArrowDown' });
+
+  const createButton = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="create-button"]',
+  );
+
+  expect(createButton?.dataset.testActive).to.equal('true');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(
+    createButton?.id,
+  );
 });
 
-it('sets `aria-activedescendant` on ArrowUp', async () => {
+it('sets the active option on ArrowUp', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable open multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ type: 'o ' });
+  await sendKeys({ press: 'ArrowDown' }); // Two
+  await sendKeys({ press: 'ArrowDown' }); // Create
+  await sendKeys({ press: 'ArrowUp' }); // Two
+
+  expect(options[1]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1]?.id);
+
+  await sendKeys({ press: 'ArrowUp' }); // One
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
+});
+
+it('retains its Create button as the active option on ArrowUp when there are no options', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -953,20 +1131,25 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
   await aTimeout(0);
 
   await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'ArrowDown' });
+  await sendKeys({ type: 'test ' });
+  await sendKeys({ press: 'ArrowUp' });
+
+  const createButton = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="create-button"]',
+  );
 
   const input = host.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
   );
 
-  const option = host.querySelector(
-    'glide-core-dropdown-option:nth-of-type(2)',
-  );
+  expect(createButton?.dataset.testActive).to.equal('true');
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(
+    createButton?.id,
+  );
 });
 
-it('sets `aria-activedescendant` on ArrowUp', async () => {
+it('sets the active option on Home', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -985,12 +1168,20 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
     '[data-test="input"]',
   );
 
-  const option = host.querySelector('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
+
+  await sendKeys({ type: 'o ' });
+  await sendKeys({ press: 'End' });
+  await sendKeys({ press: 'Home' });
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
 });
 
-it('sets `aria-activedescendant` on ArrowUp', async () => {
+it('sets the active option on PageUp', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -1009,12 +1200,20 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
     '[data-test="input"]',
   );
 
-  const option = host.querySelector('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
+
+  await sendKeys({ type: 'o ' });
+  await sendKeys({ press: 'End' });
+  await sendKeys({ press: 'PageUp' });
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
 });
 
-it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
+it('sets the active option on Meta + ArrowUp', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -1035,12 +1234,22 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
     '[data-test="input"]',
   );
 
-  const option = host.querySelector('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
+
+  await sendKeys({ type: 'o ' });
+  await sendKeys({ press: 'End' });
+  await sendKeys({ down: 'Meta' });
+  await sendKeys({ press: 'ArrowUp' });
+  await sendKeys({ up: 'Meta' });
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
 });
 
-it('sets `aria-activedescendant` on open via click', async () => {
+it('sets the active option on open via click', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -1054,12 +1263,13 @@ it('sets `aria-activedescendant` on open via click', async () => {
     '[data-test="input"]',
   );
 
-  const option = host.querySelector('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
 });
 
-it('sets `aria-activedescendant` on open via Space', async () => {
+it('sets the active option on open via Space', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -1074,12 +1284,13 @@ it('sets `aria-activedescendant` on open via Space', async () => {
     '[data-test="input"]',
   );
 
-  const option = host.querySelector('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
+  expect(options[0]?.privateActive).to.be.true;
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0]?.id);
 });
 
-it('sets `aria-activedescendant` on End', async () => {
+it('sets the active option on End', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -1105,6 +1316,17 @@ it('sets `aria-activedescendant` on End', async () => {
 
   expect(input?.getAttribute('aria-activedescendant')).to.equal(
     options.at(-1)?.id,
+  );
+
+  await sendKeys({ type: 'o ' });
+  await sendKeys({ press: 'End' });
+
+  const createButton = host.shadowRoot?.querySelector(
+    '[data-test="create-button"]',
+  );
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(
+    createButton?.id,
   );
 });
 
@@ -1132,12 +1354,27 @@ it('sets `aria-activedescendant` on PageDown', async () => {
     '[data-test="input"]',
   );
 
+  expect(options.at(-1)?.privateActive).to.be.true;
+
   expect(input?.getAttribute('aria-activedescendant')).to.equal(
     options.at(-1)?.id,
   );
+
+  await sendKeys({ type: 'o ' });
+  await sendKeys({ press: 'PageDown' });
+
+  const createButton = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="create-button"]',
+  );
+
+  expect(createButton?.dataset.testActive).to.equal('true');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(
+    createButton?.id,
+  );
 });
 
-it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
+it('sets the active option on Meta + ArrowDown', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -1163,8 +1400,25 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
     '[data-test="input"]',
   );
 
+  expect(options.at(-1)?.privateActive).to.be.true;
+
   expect(input?.getAttribute('aria-activedescendant')).to.equal(
     options.at(-1)?.id,
+  );
+
+  await sendKeys({ type: 'o ' });
+  await sendKeys({ down: 'Meta' });
+  await sendKeys({ press: 'ArrowDown' });
+  await sendKeys({ up: 'Meta' });
+
+  const createButton = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="create-button"]',
+  );
+
+  expect(createButton?.dataset.testActive).to.equal('true');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(
+    createButton?.id,
   );
 });
 
@@ -1526,7 +1780,7 @@ it('retains its filter query when `multiple` and its default slot changes', asyn
   // Wait for Floating UI.
   await aTimeout(0);
 
-  host.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
 
   const option = document.createElement('glide-core-dropdown-option');
@@ -1553,7 +1807,7 @@ it('retains its filter query when not `multiple` and its default slot changes', 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  host.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
 
   const option = document.createElement('glide-core-dropdown-option');
@@ -1580,7 +1834,7 @@ it('shows a fallback when every option has been hidden via filtering', async () 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  host.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
 
   const feedback = host.shadowRoot?.querySelector(
@@ -1609,7 +1863,7 @@ it('shows a fallback when every option has been removed via filtering', async ()
     }
   };
 
-  host.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
 
   const feedback = host.shadowRoot?.querySelector(

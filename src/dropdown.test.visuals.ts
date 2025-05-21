@@ -22,16 +22,57 @@ for (const story of stories.Dropdown) {
           );
         });
 
-        test('filterable', async ({ page }, test) => {
+        test('filter("noAvailableOptions")', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
             .locator('glide-core-dropdown')
             .evaluate<void, Dropdown>((element) => {
               element.filterable = true;
+              element.open = true;
+
+              const options = element.querySelectorAll(
+                'glide-core-dropdown-option',
+              );
+
+              for (const option of options) {
+                option.remove();
+              }
             });
 
-          await page.getByRole('combobox').fill('test');
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('filter("noMatchingOptions")', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-dropdown')
+            .evaluate<void, Dropdown>((element) => {
+              element.filterable = true;
+              element.open = true;
+            });
+
+          await page.getByRole('combobox').fill('noMatchingOptions');
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('filter("create ")', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-dropdown')
+            .evaluate<void, Dropdown>((element) => {
+              element.filterable = true;
+              element.open = true;
+            });
+
+          await page.getByRole('combobox').fill('create ');
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,

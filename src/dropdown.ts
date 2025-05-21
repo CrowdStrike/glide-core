@@ -27,6 +27,14 @@ import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
+import uniqueId from './library/unique-id.js';
+
+// TODO: filtering issue where "t" causes active option to jump from two to three
+// TODO: add server side example to story. it's the more common of the two.
+// TODO: test adding new option on Create. any bugs that could the slot change could cause?
+// TODO: visual test for when Create is with and without options to capture border and spacing around it
+// TODO: should create be visible when are options are provided? if so, need to handle.
+// TODO: test third option having tooltip
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -57,9 +65,10 @@ declare global {
  *
  * @slot {DropdownOption}
  * @slot {Element | string} [description] - Additional information or context
- * @slot {Element} [icon:value] - Icons for the selected option or options. Slot one icon per Dropdown Option. `<value>` should be equal to the `value` of each Dropdown Option.
+ * @slot {Element} [icon:value] - Icons for the selected Dropdown Option(s). Slot one icon per Dropdown Option. `<value>` should be equal to the `value` of each Dropdown Option.
  *
  * @fires {Event} change
+ * @fires {CustomEvent} create
  * @fires {Event} input
  * @fires {Event} invalid
  * @fires {Event} toggle
@@ -207,6 +216,10 @@ export default class Dropdown extends LitElement implements FormControl {
       this.hasNoMatchingOptions = false;
       this.isShowSingleSelectIcon = Boolean(this.selectedOptions.at(0)?.value);
 
+      // TODO: explain?
+      this.isCreateButtonVisible = false;
+      this.isCreateButtonActive = false;
+
       for (const option of this.#optionElements) {
         option.hidden = false;
       }
@@ -322,13 +335,12 @@ export default class Dropdown extends LitElement implements FormControl {
 
       this.#isSelectionFromValueSetter = false;
 
-      // We have a few options if `value` is set programmatically to include
-      // the value of a disabled option. We can throw, remove the value from
-      // `value`, or enable the option.
+      // We have a few options if `value` is set programmatically to include the
+      // value of a disabled option. We can throw, remove the value from `value`,
+      // or enable the option.
       //
-      // Throwing is attractive because the inclusion of a disabled option
-      // in `value` is likely a mistake, either due to bad data or developer
-      // error.
+      // Throwing is attractive because the inclusion of a disabled option in `value`
+      // is likely a mistake, either due to bad data or developer error.
       //
       // But we only throw in development. So the form will be submitted with
       // the new `value` in production regardless if it was by mistake. By enabling
@@ -341,8 +353,8 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   /*
-    Waiting on visual treatment from Design. For now, this only applies when multiselection
-    isn't enabled and filtering is disabled.
+    Waiting on visual treatment from Design. For now, this only applies when
+    multiselection isn't enabled and filtering is disabled.
   */
   @property({ reflect: true })
   variant?: 'quiet';
@@ -439,6 +451,7 @@ export default class Dropdown extends LitElement implements FormControl {
     });
   }
 
+  // TODO: say why method instead of event.
   // `async` because it may return a promise when overridden.
   //
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -539,8 +552,8 @@ export default class Dropdown extends LitElement implements FormControl {
 
   get validity(): ValidityState {
     if (this.required && this.selectedOptions.length === 0) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
@@ -616,6 +629,8 @@ export default class Dropdown extends LitElement implements FormControl {
     // `.dropdown-and-options` because much of the logic in the handler also applies
     // to options, which can receive focus, and "keydown" events won't be emitted on ".dropdown"
     // when it doesn't have focus.
+
+    // TODO: add comment saying why create button always has selected="false"
 
     /* eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/click-events-have-key-events */
     return html`<div
@@ -704,7 +719,7 @@ export default class Dropdown extends LitElement implements FormControl {
                               slot="icon"
                             >
                               <!--
-                                Icons for the selected option or options.
+                                Icons for the selected Dropdown Option(s).
                                 Slot one icon per Dropdown Option.
                                 \`<value>\` should be equal to the \`value\` of each Dropdown Option.
 
@@ -931,7 +946,8 @@ export default class Dropdown extends LitElement implements FormControl {
               'options-and-feedback': true,
               optionless:
                 (this.hasNoAvailableOptions || this.hasNoMatchingOptions) &&
-                !this.loading,
+                !this.loading &&
+                !this.isCreateButtonVisible,
             })}
             ${ref(this.#optionsAndFeedbackElementRef)}
           >
@@ -942,9 +958,10 @@ export default class Dropdown extends LitElement implements FormControl {
               class=${classMap({
                 options: true,
                 hidden:
-                  this.hasNoAvailableOptions ||
-                  this.hasNoMatchingOptions ||
-                  this.loading,
+                  !this.isCreateButtonVisible &&
+                  (this.hasNoAvailableOptions ||
+                    this.hasNoMatchingOptions ||
+                    this.loading),
               })}
               data-test="options"
               id="options"
@@ -971,18 +988,53 @@ export default class Dropdown extends LitElement implements FormControl {
                 ${ref(this.#selectAllElementRef)}
               ></glide-core-dropdown-option>
 
-              <slot
-                class="default-slot"
-                @private-selected-change=${this.#onOptionsSelectedChange}
-                @slotchange=${this.#onDefaultSlotChange}
-                ${assertSlot([DropdownOption, Text], true)}
-                ${ref(this.#defaultSlotElementRef)}
-              >
-                <!--
-                  @required
-                  @type {DropdownOption}
-                -->
-              </slot>
+              <div class="default-slot-and-create-button">
+                <slot
+                  @private-selected-change=${this.#onOptionsSelectedChange}
+                  @slotchange=${this.#onDefaultSlotChange}
+                  ${assertSlot([DropdownOption, Text], true)}
+                  ${ref(this.#defaultSlotElementRef)}
+                >
+                  <!--
+                    @required
+                    @type {DropdownOption}
+                  -->
+                </slot>
+
+                <div
+                  class=${classMap({
+                    'create-button-container': true,
+                    bordered:
+                      !this.hasNoAvailableOptions && !this.hasNoMatchingOptions,
+                    visible: this.isCreateButtonVisible,
+                  })}
+                >
+                  <button
+                    aria-selected="false"
+                    class=${classMap({
+                      'create-button': true,
+                      active: this.isCreateButtonActive,
+                    })}
+                    data-test="create-button"
+                    data-test-active=${this.isCreateButtonActive}
+                    id=${this.#createButtonId}
+                    role="option"
+                    tabindex="-1"
+                    type="button"
+                    @click=${this.#onCreateButtonClick}
+                    @mouseover=${this.#onCreateButtonMouseover}
+                    ${ref(this.#createButtonElementRef)}
+                  >
+                    <div class="create-button-label">
+                      ${this.inputValue.trim()}
+                    </div>
+
+                    &nbsp;
+
+                    <div class="create-button-description">(Create)</div>
+                  </button>
+                </div>
+              </div>
             </div>
 
             ${when(this.loading, () => {
@@ -997,7 +1049,8 @@ export default class Dropdown extends LitElement implements FormControl {
             })}
             ${when(
               (this.hasNoAvailableOptions || this.hasNoMatchingOptions) &&
-                !this.loading,
+                !this.loading &&
+                !this.isCreateButtonVisible,
               () => {
                 return html`<div data-test="optionless-feedback">
                   ${this.hasNoAvailableOptions
@@ -1156,6 +1209,16 @@ export default class Dropdown extends LitElement implements FormControl {
   @state()
   private isCommunicateItemCountToScreenreaders = false;
 
+  // TODO: explain that this only exists becauser create button doesn't recieve focus.
+  // otherwise, could just check if it has focus.
+  @state()
+  private isCreateButtonActive = false;
+
+  // TODO: explain why made visible instead of remove for the dom. setting ariactivedesc.
+  // TODO: also so create button id is static so ariaActiveDesc doesn't become incorrect on rerender.
+  @state()
+  private isCreateButtonVisible = false;
+
   @state()
   private isFilterable = false;
 
@@ -1195,6 +1258,11 @@ export default class Dropdown extends LitElement implements FormControl {
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
   #componentElementRef = createRef<HTMLElement>();
+
+  #createButtonElementRef = createRef<HTMLButtonElement>();
+
+  // TODO: say why static
+  #createButtonId = uniqueId();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -1309,6 +1377,31 @@ export default class Dropdown extends LitElement implements FormControl {
     this.#isComponentClick = true;
   }
 
+  #onCreateButtonClick() {
+    // TODO: to trim or not to trim? if not, adjust keydown handler event dispatch
+    if (this.#inputElementRef.value) {
+      this.dispatchEvent(
+        new CustomEvent('create', {
+          bubbles: true,
+          composed: true,
+          detail: this.#inputElementRef.value.value,
+        }),
+      );
+    }
+  }
+
+  #onCreateButtonMouseover() {
+    this.isCreateButtonActive = true;
+
+    if (this.#createButtonElementRef.value) {
+      this.ariaActivedescendant = this.#createButtonElementRef.value.id;
+    }
+
+    if (this.activeOption) {
+      this.activeOption.privateActive = false;
+    }
+  }
+
   async #onDefaultSlotChange() {
     if (this.#isFirstDefaultSlotChange) {
       // It's a requirement of Design for Dropdown to automatically become filterable
@@ -1414,6 +1507,7 @@ export default class Dropdown extends LitElement implements FormControl {
     ) {
       this.#inputElementRef.value.value = '';
       this.inputValue = '';
+      this.isCreateButtonVisible = false;
 
       this.isInputOverflow =
         this.#inputElementRef.value.scrollWidth >
@@ -1504,6 +1598,54 @@ export default class Dropdown extends LitElement implements FormControl {
       // The user almost certainly wasn't intending to do both open Dropdown and change
       // the active option in the case of ArrowUp or ArrowDown. Thus return. The user
       // can press ArrowUp or ArrowDown again to change the active option.
+      return;
+    }
+
+    // TODO: say why not check key here. to trap when there are no options and when arrowing down, pagedown, etc.
+    if (this.isCreateButtonActive && this.open) {
+      if (['ArrowUp', 'Home', 'PageUp'].includes(event.key)) {
+        // Prevent page scroll. When filterable, prevent the insertion point from
+        // moving to the beginning of the field.
+        event.preventDefault();
+
+        // TODO: test that scroll is prevented
+        // TODO: put into variables. explain too?
+        // TODO: test the prevactiveoption not hidden bit
+        const option =
+          (event.key === 'ArrowUp' && event.metaKey) ||
+          ['Home', 'PageUp'].includes(event.key)
+            ? this.#optionElementsNotHidden?.at(0)
+            : // TODO: test this
+              event.key === 'ArrowUp' && !this.#previouslyActiveOption?.hidden
+              ? this.#previouslyActiveOption
+              : null;
+
+        // TODO: what about when previousactiveoption is undefined? handle it? how could it happen? leave a comment.
+
+        // TODO: clean these conditions up. it's weird that one is `option` and another is a key
+        // TODO: handle and test edit button case
+        // TODO: unrelated. explain somewhere why create button doesn't receive focus: so focus stays on input during filtering.
+        if (option) {
+          option.privateActive = true;
+
+          this.isCreateButtonActive = false;
+          this.#previouslyActiveOption = option;
+          this.ariaActivedescendant = this.#previouslyActiveOption.id;
+        }
+
+        return;
+      }
+
+      if (event.key === 'Enter' && this.#inputElementRef.value) {
+        this.dispatchEvent(
+          new CustomEvent('create', {
+            bubbles: true,
+            composed: true,
+            detail: this.#inputElementRef.value.value,
+          }),
+        );
+      }
+
       return;
     }
 
@@ -1653,6 +1795,13 @@ export default class Dropdown extends LitElement implements FormControl {
           nextOption.privateActive = true;
           nextOption.privateIsTooltipOpen = true;
           nextOption.scrollIntoView({ block: 'center' });
+        } else if (
+          this.isCreateButtonVisible &&
+          this.#createButtonElementRef.value
+        ) {
+          this.activeOption.privateActive = false;
+          this.isCreateButtonActive = true;
+          this.ariaActivedescendant = this.#createButtonElementRef.value.id;
         }
 
         return;
@@ -1668,22 +1817,20 @@ export default class Dropdown extends LitElement implements FormControl {
         // moving to the beginning of the field.
         event.preventDefault();
 
-        const previousOption = [
-          ...this.#optionElementsNotHiddenIncludingSelectAll,
-        ]
+        const firstOption = [...this.#optionElementsNotHiddenIncludingSelectAll]
           .reverse()
           .findLast((option) => !option.disabled);
 
-        if (previousOption) {
+        if (firstOption) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = previousOption.id;
-          this.#previouslyActiveOption = previousOption;
+          this.ariaActivedescendant = firstOption.id;
+          this.#previouslyActiveOption = firstOption;
 
-          previousOption.privateActive = true;
-          previousOption.privateIsTooltipOpen = true;
-          previousOption.scrollIntoView({ block: 'nearest' });
+          firstOption.privateActive = true;
+          firstOption.privateIsTooltipOpen = true;
+          firstOption.scrollIntoView({ block: 'nearest' });
         }
 
         return;
@@ -1699,21 +1846,26 @@ export default class Dropdown extends LitElement implements FormControl {
         // moving to the end of the field.
         event.preventDefault();
 
-        const nextOption = [
+        const lastOption = [
           ...this.#optionElementsNotHiddenIncludingSelectAll,
         ].findLast((option) => !option.disabled);
 
-        // If `option` isn't defined, then we've reached the bottom.
-        if (nextOption && this.activeOption) {
+        if (this.isCreateButtonVisible && this.#createButtonElementRef.value) {
+          this.activeOption.privateActive = false;
+          this.isCreateButtonActive = true;
+          this.ariaActivedescendant = this.#createButtonElementRef.value.id;
+
+          // If `option` isn't defined, then we've reached the bottom.
+        } else if (lastOption && this.activeOption) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = nextOption.id;
-          this.#previouslyActiveOption = nextOption;
+          this.ariaActivedescendant = lastOption.id;
+          this.#previouslyActiveOption = lastOption;
 
-          nextOption.privateActive = true;
-          nextOption.privateIsTooltipOpen = true;
-          nextOption.scrollIntoView({ block: 'nearest' });
+          lastOption.privateActive = true;
+          lastOption.privateIsTooltipOpen = true;
+          lastOption.scrollIntoView({ block: 'nearest' });
         }
 
         return;
@@ -1815,7 +1967,10 @@ export default class Dropdown extends LitElement implements FormControl {
     this.open = true;
     this.isShowSingleSelectIcon = false;
 
-    if (this.#inputElementRef.value?.value) {
+    // TODO: explain what this is for
+    // TODO: add change set for ellipsis if value is cut
+    // TODO: changeset for this bugfix
+    if (this.#inputElementRef.value) {
       this.inputValue = this.#inputElementRef.value.value;
     }
 
@@ -1842,36 +1997,73 @@ export default class Dropdown extends LitElement implements FormControl {
         options = await this.filter(this.#inputElementRef.value.value);
         // eslint-disable-next-line no-empty
       } catch {}
+
+      // TODO: clean this up
+      this.isCreateButtonVisible =
+        (this.#inputElementRef.value.value.trim().includes(' ') ||
+          (this.#inputElementRef.value.value.endsWith(' ') &&
+            Boolean(this.#inputElementRef.value.value.trim()))) &&
+        !this.#optionElements.some(({ label }) => {
+          // TODO: leave comment about smoking out option label case sensivity
+          return (
+            this.#inputElementRef.value &&
+            label?.toLowerCase() ===
+              this.#inputElementRef.value.value.toLowerCase().trim()
+          );
+        });
     }
 
     if (options) {
       for (const option of this.#optionElements) {
         option.hidden = !options.includes(option);
       }
+    }
 
-      const firstVisibleOption = this.#optionElementsNotHidden?.at(0);
+    // TODO: what happens if there's no previously active option
+    if (
+      this.isCreateButtonActive &&
+      !this.isCreateButtonVisible &&
+      this.#previouslyActiveOption
+    ) {
+      this.isCreateButtonActive = false;
+      this.#previouslyActiveOption.privateActive = true;
+      this.ariaActivedescendant = this.#previouslyActiveOption.id;
+    }
 
-      // When filtering filters out the active option, make the first option active
-      // if there is one.
-      if (firstVisibleOption && this.activeOption?.hidden) {
+    const firstVisibleOption = this.#optionElementsNotHidden?.at(0);
+
+    // When filtering filters out the active option, make the first option active
+    // if there is one.
+    if (firstVisibleOption && this.activeOption?.hidden) {
+      this.activeOption.privateActive = false;
+      this.#previouslyActiveOption = firstVisibleOption;
+      this.ariaActivedescendant = firstVisibleOption.id;
+
+      firstVisibleOption.privateActive = true;
+    }
+
+    this.hasNoMatchingOptions =
+      this.#optionElementsNotHidden?.length === 0 ? true : false;
+
+    if (
+      this.#optionElementsNotHidden?.length === 0 &&
+      this.isCreateButtonVisible
+    ) {
+      this.isCreateButtonActive = true;
+
+      if (this.activeOption && this.#createButtonElementRef.value) {
+        this.#previouslyActiveOption = this.activeOption;
         this.activeOption.privateActive = false;
-        this.#previouslyActiveOption = firstVisibleOption;
-        this.ariaActivedescendant = firstVisibleOption.id;
-
-        firstVisibleOption.privateActive = true;
+        this.ariaActivedescendant = this.#createButtonElementRef.value.id;
       }
+    }
 
-      this.hasNoMatchingOptions =
-        !this.#optionElementsNotHidden ||
-        this.#optionElementsNotHidden.length === 0
-          ? true
-          : false;
+    this.isCommunicateItemCountToScreenreaders = true;
 
-      this.isCommunicateItemCountToScreenreaders = true;
-
-      if (this.#optionElementsNotHidden) {
-        this.itemCount = this.#optionElementsNotHidden.length;
-      }
+    if (this.#optionElementsNotHidden) {
+      this.itemCount = this.isCreateButtonVisible
+        ? this.#optionElementsNotHidden.length + 1
+        : this.#optionElementsNotHidden.length;
     }
   }
 
@@ -1955,16 +2147,13 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   get #optionElementsIncludingSelectAll() {
-    const assignedElements = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is DropdownOption =>
-          element instanceof DropdownOption,
-      );
+    const options = this.#optionElements;
 
-    if (assignedElements && this.#selectAllElementRef.value) {
-      return [this.#selectAllElementRef.value, ...assignedElements];
+    if (this.#selectAllElementRef.value) {
+      options.unshift(this.#selectAllElementRef.value);
     }
+
+    return options;
   }
 
   get #optionElementsNotHidden() {
@@ -1977,18 +2166,16 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   get #optionElementsNotHiddenIncludingSelectAll() {
-    const assignedElementsNotHidden = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is DropdownOption =>
-          element instanceof DropdownOption && !element.hidden,
-      );
+    const options = this.#optionElementsNotHidden;
 
-    return this.#selectAllElementRef.value &&
-      !this.#selectAllElementRef.value.hidden &&
-      assignedElementsNotHidden
-      ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
-      : assignedElementsNotHidden;
+    if (
+      this.#selectAllElementRef.value &&
+      !this.#selectAllElementRef.value.hidden
+    ) {
+      options?.unshift(this.#selectAllElementRef.value);
+    }
+
+    return options;
   }
 
   #onOptionsChange(event: Event) {
@@ -2157,6 +2344,7 @@ export default class Dropdown extends LitElement implements FormControl {
 
       this.ariaActivedescendant = event.target.id;
       this.#previouslyActiveOption = event.target;
+      this.isCreateButtonActive = false;
 
       event.target.privateActive = true;
       event.target.privateIsEditActive = false;
@@ -2194,6 +2382,7 @@ export default class Dropdown extends LitElement implements FormControl {
           this.isFiltering = false;
           this.#inputElementRef.value.value = '';
           this.inputValue = '';
+          this.isCreateButtonVisible = false;
         }
 
         // The event this handler listens to is dispatched on both selection and deselection.
@@ -2230,8 +2419,16 @@ export default class Dropdown extends LitElement implements FormControl {
     }
 
     if (this.#inputElementRef.value) {
+      // TODO: rework this and the other comment
+      // TODO: is -1 needed everywhere this.isInputOverflow it set?
+      //
+      // One is subtracted to account for an apparent Chrome bug when the viewport
+      // is reduced in size and the `<input>` is overflowing, then increased in size
+      // so its not overflowing. If you log `scrollWidth` and `clientWidth` you'll
+      // see the bug. In Safari and Firefox the two are equal after increasing the
+      // size of the viewport.
       this.isInputOverflow =
-        this.#inputElementRef.value.scrollWidth >
+        this.#inputElementRef.value.scrollWidth - 1 >
         this.#inputElementRef.value.clientWidth;
     }
 
