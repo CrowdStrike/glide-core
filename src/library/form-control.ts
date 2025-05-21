@@ -10,7 +10,7 @@ export default interface FormControl {
   summary?: string;
   tooltip?: string;
   validity: ValidityState;
-  value: string | string[];
+  value: string | string[] | number[];
   checkValidity(): boolean;
   formAssociatedCallback(): void;
   formResetCallback(): void;

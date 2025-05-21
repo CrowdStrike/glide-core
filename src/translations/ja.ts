@@ -10,6 +10,10 @@ export const PENDING_STRINGS = [
   'loading',
   'noAvailableOptions',
   'noMatchingOptions',
+  'maximum',
+  'setMaximum',
+  'minimum',
+  'setMinimum',
 ] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
