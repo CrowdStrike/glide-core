@@ -1,7 +1,17 @@
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
-import { sendKeys } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import Slider from './slider.js';
+import { hover } from './library/mouse.js';
+
+// You'd think you'd be able to call `resetMouse()` anywhere. But, for whatever
+// reason, calling it outside `afterEach()` results in sporadic bouts of the
+// following error via Playwright:
+//
+// "mouse.move: Target page, context or browser has been closed".
+afterEach(async () => {
+  await resetMouse();
+});
 
 it('dispatches an "input" event when typing in the minimum input', async () => {
   const host = await fixture<Slider>(
@@ -99,29 +109,23 @@ it('dispatches an "input" event when dragging the minimum handle', async () => {
   assert(trackRect);
   assert(minimumHandle);
 
-  minimumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(minimumHandle);
 
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.2,
-    }),
-  );
+  await sendMouse({
+    type: 'down',
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.2),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   // `greaterThan(0)` because each time the handle
   // is dragged and the `value` updates, an `input`
@@ -152,29 +156,23 @@ it('dispatches an "input" event when dragging the maximum handle', async () => {
   assert(trackRect);
   assert(maximumHandle);
 
-  maximumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(maximumHandle);
 
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.7,
-    }),
-  );
+  await sendMouse({
+    type: 'down',
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.7),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   // `greaterThan(0)` because each time the handle is dragged and
   // the `value` updates, an `input` event is dispatched, just like
@@ -203,31 +201,25 @@ it('dispatches a "change" event when dragging and letting go of the minimum hand
   assert(trackRect);
   assert(minimumHandle);
 
-  minimumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(minimumHandle);
 
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.2,
-    }),
-  );
+  await sendMouse({
+    type: 'down',
+  });
+
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.2),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
   expect(spy.callCount).to.equal(0);
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
-
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(spy.callCount).to.equal(1);
 });
@@ -251,31 +243,25 @@ it('dispatches a "change" event when dragging and letting go of the maximum hand
   assert(trackRect);
   assert(maximumHandle);
 
-  maximumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(maximumHandle);
 
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.7,
-    }),
-  );
+  await sendMouse({
+    type: 'down',
+  });
+
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.7),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
   expect(spy.callCount).to.equal(0);
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
-
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(spy.callCount).to.equal(1);
 });
@@ -798,6 +784,9 @@ it('prevents track click events dispatching immediately after completing a drag 
 
   const trackRect = sliderTrack.getBoundingClientRect();
 
+  // Using the imperative APIs here as using `sendMouse()` will tick
+  // over to the next frame, making it so we can't properly run our
+  // assertions.
   minimumHandle.dispatchEvent(
     new MouseEvent('mousedown', {
       bubbles: true,

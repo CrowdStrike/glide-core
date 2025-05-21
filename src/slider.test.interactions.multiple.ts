@@ -1,6 +1,16 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import Slider from './slider.js';
+import { hover } from './library/mouse.js';
+
+// You'd think you'd be able to call `resetMouse()` anywhere. But, for whatever
+// reason, calling it outside `afterEach()` results in sporadic bouts of the
+// following error via Playwright:
+//
+// "mouse.move: Target page, context or browser has been closed".
+afterEach(async () => {
+  await resetMouse();
+});
 
 it('updates all relevant elements when `max` is set programmatically', async () => {
   const host = await fixture<Slider>(
@@ -724,31 +734,25 @@ it('decreases by `step` when dragging the minimum handle', async () => {
   assert(trackRect);
   assert(minimumHandle);
 
-  minimumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(minimumHandle);
+
+  await sendMouse({
+    type: 'down',
+  });
 
   // Drag the handle to a location that will force the value to be
   // rounded down to the nearest `step`.
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.2,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.2),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
-
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(host.value).to.deep.equal([20, 75]);
 });
@@ -775,31 +779,25 @@ it('increases by `step` when dragging the minimum handle', async () => {
   assert(trackRect);
   assert(minimumHandle);
 
-  minimumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(minimumHandle);
+
+  await sendMouse({
+    type: 'down',
+  });
 
   // Drag the handle to a location that will force the value to be
   // rounded up to the nearest `step`.
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.3,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.3),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
-
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(host.value).to.deep.equal([30, 75]);
 });
@@ -826,31 +824,25 @@ it('decreases by `step` when dragging the maximum handle', async () => {
   assert(trackRect);
   assert(maximumHandle);
 
-  maximumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(maximumHandle);
+
+  await sendMouse({
+    type: 'down',
+  });
 
   // Drag the handle to a location that will force the value to be
   // rounded down to the nearest `step`.
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.7,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.7),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
-
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(host.value).to.deep.equal([25, 70]);
 });
@@ -877,31 +869,25 @@ it('increases by `step` when dragging the maximum handle', async () => {
   assert(trackRect);
   assert(maximumHandle);
 
-  maximumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(maximumHandle);
+
+  await sendMouse({
+    type: 'down',
+  });
 
   // Drag the handle to a location that will force the value to be
   // rounded up to the nearest `step`.
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.8,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.8),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
-
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(host.value).to.deep.equal([25, 80]);
 });
@@ -924,31 +910,25 @@ it('prevents the minimum handle from exceeding the maximum handle when dragging'
   assert(trackRect);
   assert(minimumHandle);
 
-  minimumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(minimumHandle);
+
+  await sendMouse({
+    type: 'down',
+  });
 
   // Try to drag the minimum handle to the 90% position, which is
   // beyond the maximum handle currently at 75%.
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.9,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.9),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
-
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   // The minimum value should be clamped to maximum minus step
   expect(host.value).to.deep.equal([74, 75]);
@@ -972,31 +952,25 @@ it('prevents maximum handle from going below the minimum handle when dragging', 
   assert(trackRect);
   assert(maximumHandle);
 
-  maximumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(maximumHandle);
+
+  await sendMouse({
+    type: 'down',
+  });
 
   // Try to drag the maximum handle to the 10% position, which is
   // below the minimum handle currently at 25%.
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.1,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.1),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
-
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   // The maximum value should be clamped to minimum plus step
   expect(host.value).to.deep.equal([25, 26]);
@@ -1025,29 +999,23 @@ it('does not update when dragging the minimum handle when `disabled`', async () 
   assert(trackRect);
   assert(minimumHandle);
 
-  minimumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(minimumHandle);
 
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.9,
-    }),
-  );
+  await sendMouse({
+    type: 'down',
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.9),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(host.value).to.deep.equal([25, 75]);
 });
@@ -1075,29 +1043,23 @@ it('does not update when dragging the minimum handle when `readonly`', async () 
   assert(trackRect);
   assert(minimumHandle);
 
-  minimumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(minimumHandle);
 
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.9,
-    }),
-  );
+  await sendMouse({
+    type: 'down',
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.9),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(host.value).to.deep.equal([25, 75]);
 });
@@ -1125,29 +1087,23 @@ it('does not update when dragging the maximum handle when `disabled`', async () 
   assert(trackRect);
   assert(maximumHandle);
 
-  maximumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(maximumHandle);
 
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.9,
-    }),
-  );
+  await sendMouse({
+    type: 'down',
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.9),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(host.value).to.deep.equal([25, 75]);
 });
@@ -1175,29 +1131,23 @@ it('does not update when dragging the maximum handle when `readonly`', async () 
   assert(trackRect);
   assert(maximumHandle);
 
-  maximumHandle.dispatchEvent(
-    new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await hover(maximumHandle);
 
-  document.dispatchEvent(
-    new MouseEvent('mousemove', {
-      bubbles: true,
-      cancelable: true,
-      clientX: trackRect.left + trackRect.width * 0.9,
-    }),
-  );
+  await sendMouse({
+    type: 'down',
+  });
 
-  document.dispatchEvent(
-    new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+  await sendMouse({
+    type: 'move',
+    position: [
+      Math.ceil(trackRect.x + trackRect.width * 0.9),
+      Math.ceil(trackRect.y),
+    ],
+  });
 
-  await host.updateComplete;
+  await sendMouse({
+    type: 'up',
+  });
 
   expect(host.value).to.deep.equal([25, 75]);
 });
