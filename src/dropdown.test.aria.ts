@@ -2,28 +2,6 @@ import { expect, test } from '@playwright/test';
 import type Dropdown from './dropdown.js';
 import type DropdownOption from './dropdown.option.js';
 
-test('add-button-label', async ({ page }) => {
-  await page.goto('?id=dropdown--dropdown');
-
-  await page
-    .locator('glide-core-dropdown')
-    .evaluate<void, Dropdown>((element) => {
-      element.addButtonLabel = 'Add';
-      element.open = true;
-    });
-
-  await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - text: Label
-    - button "Label" [expanded]
-    - listbox:
-      - option "One"
-      - option "Two"
-      - option "Three"
-    - contentinfo:
-      - button "Add"
-  `);
-});
-
 test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 

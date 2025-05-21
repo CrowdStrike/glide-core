@@ -11,7 +11,6 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { range } from 'lit/directives/range.js';
 import { map } from 'lit/directives/map.js';
-import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
@@ -37,7 +36,6 @@ declare global {
 
 /**
  * @attr {string} label
- * @attr {string} [add-button-label]
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [filterable=false]
  * @attr {boolean} [hide-label=false]
@@ -61,7 +59,6 @@ declare global {
  * @slot {Element | string} [description] - Additional information or context
  * @slot {Element} [icon:value] - Icons for the selected option or options. Slot one icon per Dropdown Option. `<value>` should be equal to the `value` of each Dropdown Option.
  *
- * @fires {Event} add
  * @fires {Event} change
  * @fires {Event} input
  * @fires {Event} invalid
@@ -110,9 +107,6 @@ export default class Dropdown extends LitElement implements FormControl {
   @property({ reflect: true })
   @required
   label?: string;
-
-  @property({ attribute: 'add-button-label', reflect: true })
-  addButtonLabel?: string;
 
   /**
    * @default false
@@ -455,7 +449,7 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   override firstUpdated() {
-    if (this.#optionsAndFooterElementRef.value) {
+    if (this.#optionsAndFeedbackElementRef.value) {
       // `popover` is used so the options can break out of Modal or another container
       // that has `overflow: hidden`. And elements with `popover` are positioned
       // relative to the viewport. Thus Floating UI in addition to `popover`.
@@ -469,7 +463,7 @@ export default class Dropdown extends LitElement implements FormControl {
       // "auto" also automatically opens the popover when its target is clicked. We want
       // it to remain closed when clicked when there are no options. We also want it to
       // close when every option has been filtered out.
-      this.#optionsAndFooterElementRef.value.popover = 'manual';
+      this.#optionsAndFeedbackElementRef.value.popover = 'manual';
     }
 
     if (this.open && !this.disabled) {
@@ -649,7 +643,6 @@ export default class Dropdown extends LitElement implements FormControl {
         <div
           class="dropdown-and-options"
           slot="control"
-          @focusin=${this.#onDropdownAndOptionsFocusin}
           @focusout=${this.#onDropdownAndOptionsFocusout}
           @keydown=${this.#onDropdownAndOptionsKeydown}
         >
@@ -931,12 +924,12 @@ export default class Dropdown extends LitElement implements FormControl {
 
           <div
             class=${classMap({
-              'options-and-footer': true,
+              'options-and-feedback': true,
               optionless:
                 (this.hasNoAvailableOptions || this.hasNoMatchingOptions) &&
                 !this.loading,
             })}
-            ${ref(this.#optionsAndFooterElementRef)}
+            ${ref(this.#optionsAndFeedbackElementRef)}
           >
             <div
               aria-labelledby=${this.filterable || this.isFilterable
@@ -1009,25 +1002,6 @@ export default class Dropdown extends LitElement implements FormControl {
                 </div>`;
               },
             )}
-
-            <footer
-              class=${classMap({
-                footer: true,
-                visible: Boolean(this.addButtonLabel),
-              })}
-            >
-              <button
-                class="add-button"
-                data-test="add-button"
-                type="button"
-                @click=${this.#onAddButtonClick}
-                @focusin=${this.#onAddButtonFocusin}
-                @mouseover=${this.#onAddButtonMouseover}
-                ${ref(this.#addButtonElementRef)}
-              >
-                ${icons.plus} ${this.addButtonLabel}
-              </button>
-            </footer>
           </div>
         </div>
 
@@ -1214,8 +1188,6 @@ export default class Dropdown extends LitElement implements FormControl {
   @state()
   private validityMessage?: string;
 
-  #addButtonElementRef = createRef<HTMLButtonElement>();
-
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
   #componentElementRef = createRef<HTMLElement>();
@@ -1246,8 +1218,6 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #isOpen = false;
 
-  #isOpenViaClick = false;
-
   #isOverflowTest = false;
 
   // Used in `#onOptionsSelectedChange()` to guard against, among other things,
@@ -1263,7 +1233,7 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #localize = new LocalizeController(this);
 
-  #optionsAndFooterElementRef = createRef<HTMLElement>();
+  #optionsAndFeedbackElementRef = createRef<HTMLElement>();
 
   #previouslyActiveOption?: DropdownOption;
 
@@ -1311,7 +1281,7 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #hide() {
     this.#cleanUpFloatingUi?.();
-    this.#optionsAndFooterElementRef.value?.hidePopover();
+    this.#optionsAndFeedbackElementRef.value?.hidePopover();
     this.ariaActivedescendant = '';
 
     if (this.activeOption) {
@@ -1325,28 +1295,6 @@ export default class Dropdown extends LitElement implements FormControl {
     return (
       !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit
     );
-  }
-
-  #onAddButtonClick() {
-    this.open = false;
-    this.dispatchEvent(new Event('add', { bubbles: true, composed: true }));
-  }
-
-  #onAddButtonFocusin() {
-    if (this.activeOption) {
-      this.activeOption.privateIsTooltipOpen = false;
-      this.#previouslyActiveOption = this.activeOption;
-      this.activeOption.privateActive = false;
-    }
-  }
-
-  #onAddButtonMouseover() {
-    // `#isOpenViaClick` is guarded against to work around a Chrome-only `popover`
-    // bug where "mouseover" is called immediately after Dropdown is opened via click.
-    if (this.activeOption && !this.#isOpenViaClick) {
-      this.#previouslyActiveOption = this.activeOption;
-      this.activeOption.privateActive = false;
-    }
   }
 
   #onComponentMouseup() {
@@ -1469,22 +1417,6 @@ export default class Dropdown extends LitElement implements FormControl {
     }
   }
 
-  #onDropdownAndOptionsFocusin(event: FocusEvent) {
-    // For the case where focus was moved from the Add button back to the Primary
-    // button. The previously active option is deactivated when the Add button
-    // is focused. So now it needs to be reactivated.
-    if (
-      this.open &&
-      this.#previouslyActiveOption &&
-      event.relatedTarget === this.#addButtonElementRef.value
-    ) {
-      this.#previouslyActiveOption.privateActive = true;
-
-      this.#previouslyActiveOption.privateIsTooltipOpen =
-        !this.#previouslyActiveOption.editable;
-    }
-  }
-
   #onDropdownAndOptionsFocusout(event: FocusEvent) {
     // If `event.relatedTarget` is `null`, the user has clicked an element outside
     // Dropdown that cannot receive focus. Otherwise, the user has either clicked
@@ -1529,70 +1461,11 @@ export default class Dropdown extends LitElement implements FormControl {
       return;
     }
 
-    if (
-      this.open &&
-      event.key === 'ArrowUp' &&
-      this.#shadowRoot?.activeElement === this.#addButtonElementRef.value
-    ) {
-      this.focus();
-
-      if (this.#previouslyActiveOption) {
-        this.#previouslyActiveOption.privateActive = true;
-
-        this.#previouslyActiveOption.privateIsEditActive =
-          this.#previouslyActiveOption.editable;
-
-        this.#previouslyActiveOption.privateIsTooltipOpen =
-          !this.#previouslyActiveOption.privateIsEditActive;
-      }
-
-      return;
-    }
-
-    if (
-      this.open &&
-      event.key === 'ArrowDown' &&
-      this.#shadowRoot?.activeElement === this.#addButtonElementRef.value
-    ) {
-      // Prevent page scroll.
-      event.preventDefault();
-
-      return;
-    }
-
-    if (
-      this.open &&
-      event.key === 'ArrowDown' &&
-      this.addButtonLabel &&
-      this.activeOption === this.#optionElementsNotHidden?.at(-1) &&
-      (!this.activeOption?.editable || this.activeOption?.privateIsEditActive)
-    ) {
-      // Prevent page scroll.
-      event.preventDefault();
-
-      if (this.activeOption) {
-        this.#previouslyActiveOption = this.activeOption;
-        this.activeOption.privateIsTooltipOpen = false;
-        this.activeOption.privateActive = false;
-      }
-
-      this.#addButtonElementRef.value?.focus();
-
-      return;
-    }
-
     if (event.key === 'Escape') {
       // Prevent Safari from leaving full screen.
       event.preventDefault();
 
       this.open = false;
-
-      // Focus has to go somewhere if Dropdown is closed and the Add button currently
-      // has focus. If we don't return focus to Dropdown, it'll return the `<body>`
-      // and the user would have to tab back to Dropdown to get to where he was.
-      if (this.#shadowRoot?.activeElement === this.#addButtonElementRef.value) {
-        this.focus();
-      }
 
       return;
     }
@@ -1887,13 +1760,6 @@ export default class Dropdown extends LitElement implements FormControl {
       // then Dropdown will already have focus. But if something else was clicked, like
       // the padding around Dropdown or a Tag, then it won't. So we focus it manually.
       this.focus();
-
-      // There's a comment explaining this in `#onAddButtonMouseover`.
-      this.#isOpenViaClick = true;
-
-      setTimeout(() => {
-        this.#isOpenViaClick = false;
-      });
 
       return;
     }
@@ -2290,13 +2156,6 @@ export default class Dropdown extends LitElement implements FormControl {
 
       event.target.privateActive = true;
       event.target.privateIsEditActive = false;
-
-      // The user may have tabbed to the Add button and is now using his mouse to
-      // select an option. Focus is returned to Dropdown itself so he can resume
-      // filtering.
-      if (this.#shadowRoot?.activeElement === this.#addButtonElementRef.value) {
-        this.focus();
-      }
     }
   }
 
@@ -2596,20 +2455,20 @@ export default class Dropdown extends LitElement implements FormControl {
 
     if (
       this.#dropdownElementRef.value &&
-      this.#optionsAndFooterElementRef.value
+      this.#optionsAndFeedbackElementRef.value
     ) {
       this.#cleanUpFloatingUi = autoUpdate(
         this.#dropdownElementRef.value,
-        this.#optionsAndFooterElementRef.value,
+        this.#optionsAndFeedbackElementRef.value,
         () => {
           (async () => {
             if (
               this.#dropdownElementRef.value &&
-              this.#optionsAndFooterElementRef.value
+              this.#optionsAndFeedbackElementRef.value
             ) {
               const { x, y, placement } = await computePosition(
                 this.#dropdownElementRef.value,
-                this.#optionsAndFooterElementRef.value,
+                this.#optionsAndFeedbackElementRef.value,
                 {
                   placement: 'bottom-start',
                   middleware: [
@@ -2630,15 +2489,15 @@ export default class Dropdown extends LitElement implements FormControl {
                 },
               );
 
-              this.#optionsAndFooterElementRef.value.dataset.placement =
+              this.#optionsAndFeedbackElementRef.value.dataset.placement =
                 placement;
 
-              Object.assign(this.#optionsAndFooterElementRef.value.style, {
+              Object.assign(this.#optionsAndFeedbackElementRef.value.style, {
                 left: `${x}px`,
                 top: `${y}px`,
               });
 
-              this.#optionsAndFooterElementRef.value?.showPopover();
+              this.#optionsAndFeedbackElementRef.value?.showPopover();
             }
           })();
         },
@@ -2658,25 +2517,3 @@ export default class Dropdown extends LitElement implements FormControl {
     }
   }
 }
-
-const icons = {
-  plus: html`
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 16 16"
-      fill="none"
-      style=${styleMap({
-        height: 'var(--private-size)',
-        width: 'var(--private-size)',
-      })}
-    >
-      <path
-        d="M7.99998 3.33337V12.6667M3.33331 8.00004H12.6666"
-        stroke="currentColor"
-        stroke-width="1.3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-  `,
-};

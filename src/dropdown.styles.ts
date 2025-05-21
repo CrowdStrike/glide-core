@@ -1,13 +1,11 @@
 import { css } from 'lit';
-import focusOutline from './styles/focus-outline.js';
 import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
 import skeleton from './styles/skeleton.js';
 
 export default [
   css`
-    ${focusOutline('.add-button:focus-visible')}
-    ${opacityAndScaleAnimation('.options-and-footer:popover-open')}
+    ${opacityAndScaleAnimation('.options-and-feedback:popover-open')}
     ${skeleton('.loading-feedback')}
     ${visuallyHidden('.item-count')}
     ${visuallyHidden('.selected-option-labels')}
@@ -120,7 +118,7 @@ export default [
       }
     }
 
-    .options-and-footer {
+    .options-and-feedback {
       --private-border-width: 1px;
 
       background-color: var(
@@ -166,58 +164,6 @@ export default [
     .default-slot {
       display: block;
       padding: var(--glide-core-spacing-base-xxxs);
-    }
-
-    .footer {
-      background-color: var(--glide-core-color-static-surface-header);
-      display: none;
-      inline-size: calc(100% - var(--glide-core-spacing-base-xxxs) * 2);
-      inset-block-end: 0;
-      padding: var(--glide-core-spacing-base-xxxs);
-
-      /*
-        "sticky" is a little hack so that footer is absolutely positioned but
-        its space in layout is preserved, so it doesn't overlap the last option.
-      */
-      position: sticky;
-
-      &.visible {
-        display: block;
-      }
-    }
-
-    .add-button {
-      --private-size: 1rem;
-
-      align-items: center;
-      background-color: transparent;
-      border: none;
-      border-radius: var(--glide-core-rounding-base-radius-md);
-      column-gap: 0.625rem;
-      display: flex;
-      font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-default);
-      font-weight: var(--glide-core-typography-weight-regular);
-      inline-size: 100%;
-      line-height: 100%;
-      padding-block: 0.375rem;
-      padding-inline: var(--glide-core-spacing-base-sm);
-      text-align: start;
-
-      &:focus {
-        outline: none;
-      }
-
-      &:focus-visible {
-        outline-offset: -2px;
-      }
-
-      &:focus,
-      &:hover {
-        background-color: var(
-          --glide-core-color-interactive-surface-container--hover
-        );
-      }
     }
 
     .select-all {

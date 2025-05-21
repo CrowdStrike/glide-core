@@ -36,7 +36,6 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': '',
-    'add-button-label': '',
     'addEventListener(event, handler)': '',
     'checkValidity()': '',
     disabled: false,
@@ -88,11 +87,6 @@ const meta: Meta = {
         type: { summary: 'DropdownOption' },
       },
       type: { name: 'function', required: true },
-    },
-    'add-button-label': {
-      table: {
-        type: { summary: 'string' },
-      },
     },
     'addEventListener(event, handler)': {
       control: false,
@@ -494,7 +488,6 @@ async (query: string): Promise<DropdownOption[] | void> => {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing */
     return html`<glide-core-dropdown
-      add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
       name=${arguments_.name || nothing}
       orientation=${arguments_.orientation === 'horizontal'
@@ -587,7 +580,6 @@ export const WithIcons: StoryObj = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`<glide-core-dropdown
-      add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
       name=${arguments_.name || nothing}
       orientation=${arguments_.orientation === 'horizontal'

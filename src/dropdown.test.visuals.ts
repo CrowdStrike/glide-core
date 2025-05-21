@@ -8,21 +8,6 @@ for (const story of stories.Dropdown) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
-        test('add-button-label', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-dropdown')
-            .evaluate<void, Dropdown>((element) => {
-              element.addButtonLabel = 'Add';
-              element.open = true;
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
         test('disabled', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
