@@ -484,7 +484,14 @@ export default class Slider extends LitElement implements FormControl {
             () =>
               html`<input
                   aria-describedby="meta"
-                  aria-label=${this.#localize.term('setMinimum', this.label!)}
+                  aria-label=${this.#localize.term(
+                    'setMinimum',
+                    // `this.label` is always defined because it's a
+                    // required attribute.
+                    //
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    this.label!,
+                  )}
                   aria-invalid=${this.#isShowValidationFeedback}
                   class=${classMap({
                     input: true,
@@ -531,7 +538,14 @@ export default class Slider extends LitElement implements FormControl {
 
                     <div
                       aria-disabled=${this.disabled}
-                      aria-label=${this.#localize.term('minimum', this.label!)}
+                      aria-label=${this.#localize.term(
+                        'minimum',
+                        // `this.label` is always defined because
+                        // it's a required attribute.
+                        //
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        this.label!,
+                      )}
                       aria-readonly=${this.readonly}
                       aria-valuemin=${this.min}
                       aria-valuemax=${this.max}
@@ -551,7 +565,14 @@ export default class Slider extends LitElement implements FormControl {
 
                     <div
                       aria-disabled=${this.disabled}
-                      aria-label=${this.#localize.term('maximum', this.label!)}
+                      aria-label=${this.#localize.term(
+                        'maximum',
+                        // `this.label` is always defined because
+                        // it's a required attribute.
+                        //
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        this.label!,
+                      )}
                       aria-readonly=${this.readonly}
                       aria-valuemin=${this.min}
                       aria-valuemax=${this.max}
@@ -572,7 +593,13 @@ export default class Slider extends LitElement implements FormControl {
                 </div>
 
                 <input
-                  aria-label=${this.#localize.term('setMaximum', this.label!)}
+                  aria-label=${this.#localize.term(
+                    'setMaximum',
+                    // `this.label` is always defined because it's a required attribute.
+                    //
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    this.label!,
+                  )}
                   aria-invalid=${this.#isShowValidationFeedback}
                   class=${classMap({
                     input: true,
@@ -964,11 +991,15 @@ export default class Slider extends LitElement implements FormControl {
   }
 
   #onMaximumHandleKeydown(event: KeyboardEvent) {
-    this.#onMultipleHandleKeydown(event, this.#maximumHandleElementRef.value!);
+    if (this.#maximumHandleElementRef.value) {
+      this.#onMultipleHandleKeydown(event, this.#maximumHandleElementRef.value);
+    }
   }
 
   #onMaximumHandleMousedown(event: MouseEvent) {
-    this.#startDragging(event, this.#maximumHandleElementRef.value!);
+    if (this.#maximumHandleElementRef.value) {
+      this.#startDragging(event, this.#maximumHandleElementRef.value);
+    }
   }
 
   #onMaximumInputChange() {
@@ -1003,11 +1034,15 @@ export default class Slider extends LitElement implements FormControl {
   }
 
   #onMinimumHandleKeydown(event: KeyboardEvent) {
-    this.#onMultipleHandleKeydown(event, this.#minimumHandleElementRef.value!);
+    if (this.#minimumHandleElementRef.value) {
+      this.#onMultipleHandleKeydown(event, this.#minimumHandleElementRef.value);
+    }
   }
 
   #onMinimumHandleMousedown(event: MouseEvent) {
-    this.#startDragging(event, this.#minimumHandleElementRef.value!);
+    if (this.#minimumHandleElementRef.value) {
+      this.#startDragging(event, this.#minimumHandleElementRef.value);
+    }
   }
 
   #onMinimumInputChange() {
@@ -1185,7 +1220,9 @@ export default class Slider extends LitElement implements FormControl {
   }
 
   #onSingleHandleMousedown(event: MouseEvent) {
-    this.#startDragging(event, this.#singleHandleElementRef.value!);
+    if (this.#singleHandleElementRef.value) {
+      this.#startDragging(event, this.#singleHandleElementRef.value);
+    }
   }
 
   #onSingleInputChange() {
