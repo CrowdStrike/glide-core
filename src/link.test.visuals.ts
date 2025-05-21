@@ -7,6 +7,16 @@ for (const story of stories.Link) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
+        test(':active', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-link').hover();
+          await page.mouse.down();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('disabled=${true}', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -24,16 +34,6 @@ for (const story of stories.Link) {
         test('disabled=${false}', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
           await page.locator('glide-core-link').waitFor();
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test(':active', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.locator('glide-core-link').hover();
-          await page.mouse.down();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,

@@ -98,7 +98,13 @@ export default class Tag extends LitElement {
 
         ${when(this.privateEditable, () => {
           return html`<button
-            aria-label=${this.#localize.term('editTag', this.label!)}
+            aria-label=${this.#localize.term(
+              'editTag',
+              // `this.label` is always defined because it's a required attribute.
+              //
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              this.label!,
+            )}
             class=${classMap({
               'edit-button': true,
               disabled: this.disabled,
@@ -116,7 +122,14 @@ export default class Tag extends LitElement {
           this.removable,
           () =>
             html`<button
-              aria-label=${this.#localize.term('removeTag', this.label!)}
+              aria-label=${this.#localize.term(
+                'removeTag',
+
+                // `this.label` is always defined because it's a required attribute.
+                //
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                this.label!,
+              )}
               class=${classMap({
                 'removal-button': true,
                 disabled: this.disabled,

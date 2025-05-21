@@ -877,6 +877,10 @@ export default class Dropdown extends LitElement implements FormControl {
                     data-test="edit-button"
                     label=${this.#localize.term(
                       'editOption',
+                      // `this.selectedOptions[0]` is guaranteed to be defined by the `when()` above.
+                      // And its `label` property is always defined because it's required.
+                      //
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                       this.selectedOptions[0]!.label!,
                     )}
                     tabindex=${this.disabled || this.readonly ? '-1' : '0'}
