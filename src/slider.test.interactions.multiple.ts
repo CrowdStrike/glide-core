@@ -1572,3 +1572,19 @@ it('throws when `value` is set programmatically to include more than two values'
 
   expect(spy.callCount).to.equal(1);
 });
+
+it('throws when `value` is set programmatically with a larger number as the first element', async () => {
+  const host = await fixture<Slider>(
+    html`<glide-core-slider label="Label" multiple></glide-core-slider>`,
+  );
+
+  const spy = sinon.spy();
+
+  try {
+    host.value = [99, 1];
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});

@@ -129,6 +129,10 @@ export default class Slider extends LitElement implements FormControl {
       value[0] !== undefined &&
       value[1] !== undefined
     ) {
+      if (value[0] > value[1]) {
+        throw new Error('The first value must be less than the second.');
+      }
+
       // Normalize values to snap to the closest valid step
       // increment, even if a developer sets a value between
       // steps.
