@@ -40,13 +40,23 @@ test.describe('filterable', () => {
         element.open = true;
       });
 
+    await page.getByRole('combobox').fill('o');
+
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
-      - combobox "Label" [expanded]
-      - listbox:
+      - combobox "Label 2 items" [expanded]
+      - listbox "o":
         - option "One"
         - option "Two"
-        - option "Three"
+    `);
+
+    await page.getByRole('combobox').fill('create ');
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      - text: Label
+      - combobox "Label 1 items" [expanded]
+      - listbox "create":
+        - option "create (Create)" [selected]
     `);
   });
 
