@@ -6,6 +6,7 @@
   - [Getting started](#getting-started)
   - [Adding a release note](#adding-a-release-note)
   - [Updating style variables](#updating-style-variables)
+  - [Updating dev resources](#updating-dev-resources)
   - [Localization](#localization)
 - [Documentation](#documentation)
   - [Components](#components)
@@ -89,8 +90,13 @@ pnpm changeset
 
 ### Updating style variables
 
-1. Generate a Figma [personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens).
-1. `FIGMA_TOKEN=<token> pnpm start:production:figma`
+1. Generate a Figma [personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens) with "Read-only" permissions to "Variables".
+1. `FIGMA_TOKEN=<token> pnpm start:production:figma:variables`
+
+### Updating [dev resources](https://help.figma.com/hc/en-us/articles/15023231995927-Link-Dev-resources-to-layers-in-Dev-Mode)
+
+1. Generate a Figma [personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens) with "Write" permissions to "Dev resources".
+1. `FIGMA_TOKEN=<token> start:production:figma:dev-resources`
 
 ### Localization
 
