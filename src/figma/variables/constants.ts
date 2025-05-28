@@ -31,5 +31,5 @@ export const extendedVariables = [
 ];
 
 export const figmaFileId = 'A4B1kaT5HVLqcijwK4GXzt';
-export const tokensDirectory = 'tmp/tokens';
+export const tokensDirectory = './dist/figma/tokens';
 export const stylesheetsDirectory = 'src/styles/variables';

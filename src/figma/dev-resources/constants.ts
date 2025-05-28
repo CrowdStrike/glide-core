@@ -1,5 +1,5 @@
 export const figmaFileId = 'A4B1kaT5HVLqcijwK4GXzt';
-export const resourcesDirectory = 'tmp/dev-resources';
+export const resourcesDirectory = './dist/figma/dev-resources';
 
 export interface DeveloperResource {
   urls: {
