@@ -50,7 +50,7 @@ export default async () => {
     );
   }
 
-  spinner.success('Figma variables collected.');
+  spinner.success('Figma variables fetched.');
 
   return tokens.meta;
 };

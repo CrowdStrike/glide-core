@@ -4,9 +4,9 @@ import yoctoSpinner from 'yocto-spinner';
 import { resourcesDirectory } from './constants.js';
 
 /**
- * Writes the dev resources to the provided directory. Having them
- * on disk helps with debugging by letting us manually verify them
- * against what's shown in Figma's UI.
+ * Writes the dev resources to disk. Having them on disk helps with
+ * debugging by letting us manually verify them against what's shown
+ * in Figma's UI.
  */
 export default async (resources: DevResource[]) => {
   const spinner = yoctoSpinner({

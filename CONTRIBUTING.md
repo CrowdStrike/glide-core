@@ -93,7 +93,7 @@ pnpm changeset
 1. Generate a Figma [personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens) with "Read-only" permissions to "Variables".
 1. `FIGMA_TOKEN=<token> pnpm start:production:figma:variables`
 
-### Updating dev resources
+### Updating [dev resources](https://help.figma.com/hc/en-us/articles/15023231995927-Link-Dev-resources-to-layers-in-Dev-Mode)
 
 1. Generate a Figma [personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens) with "Write" permissions to "Dev resources".
 1. `FIGMA_TOKEN=<token> start:production:figma:dev-resources`

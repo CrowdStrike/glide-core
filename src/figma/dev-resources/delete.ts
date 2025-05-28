@@ -29,27 +29,22 @@ function sleep(milliseconds = 1000) {
 // request and then delaying longer between batches seems to keep us
 // from getting hit with a 429 status code.
 async function deleteInBatches(resources: DevResource[]) {
-  const developmentResourceIds = resources.map((resource) => resource.id);
+  const resourceIds = resources.map((resource) => resource.id);
 
   async function loop() {
-    const batchedIds = developmentResourceIds.splice(0, 5);
-    const hasItemsToDelete = developmentResourceIds.length;
+    const batchedIds = resourceIds.splice(0, 5);
+    const hasResourcesToDelete = resourceIds.length;
 
     for (const id of batchedIds) {
-      const token = process.env.FIGMA_TOKEN;
-
-      if (!token) {
-        throw new Error(
-          '"FIGMA_TOKEN" is a required environment variable. See [`CONTRIBUTING.md`](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#updating-dev-resources) for more information.',
-        );
-      }
-
       const response = await fetch(
         `https://api.figma.com/v1/files/${figmaFileId}/dev_resources/${id}`,
         {
           method: 'DELETE',
           headers: {
-            'X-FIGMA-TOKEN': token,
+            // Verified to exist in run.ts.
+            //
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            'X-FIGMA-TOKEN': process.env.FIGMA_TOKEN!,
           },
         },
       );
@@ -63,7 +58,7 @@ async function deleteInBatches(resources: DevResource[]) {
       await sleep(1000);
     }
 
-    if (hasItemsToDelete) {
+    if (hasResourcesToDelete) {
       await sleep(5000);
       return loop();
     }

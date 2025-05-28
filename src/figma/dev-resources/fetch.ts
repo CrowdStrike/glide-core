@@ -6,14 +6,6 @@ import { figmaFileId } from './constants.js';
  * Fetches the dev resources from Figma's API¹ and returns them.
  */
 export default async () => {
-  const token = process.env.FIGMA_TOKEN;
-
-  if (!token) {
-    throw new Error(
-      '"FIGMA_TOKEN" is a required environment variable. See [`CONTRIBUTING.md`](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#updating-dev-resources) for more information.',
-    );
-  }
-
   const spinner = yoctoSpinner({
     text: 'Fetching Figma dev resources…',
   }).start();
@@ -24,7 +16,10 @@ export default async () => {
     {
       method: 'GET',
       headers: {
-        'X-FIGMA-TOKEN': token,
+        // Verified to exist in run.ts.
+        //
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        'X-FIGMA-TOKEN': process.env.FIGMA_TOKEN!,
       },
     },
   );
@@ -37,7 +32,7 @@ export default async () => {
 
   const resources = (await response.json()) as GetDevResourcesResponse;
 
-  spinner.success('Figma dev resources collected.');
+  spinner.success('Figma dev resources fetched.');
 
   return resources.dev_resources;
 };

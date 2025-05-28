@@ -13,6 +13,12 @@ import update from './update.js';
  * to perform those actions.
  */
 async function run() {
+  if (!process.env.FIGMA_TOKEN) {
+    throw new Error(
+      '"FIGMA_TOKEN" is a required environment variable. See [`CONTRIBUTING.md`](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#updating-dev-resources) for more information.',
+    );
+  }
+
   const existingResources = await fetch();
   await write(existingResources);
 

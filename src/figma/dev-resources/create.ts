@@ -14,23 +14,18 @@ export default async (
     return;
   }
 
-  const token = process.env.FIGMA_TOKEN;
-
   const spinner = yoctoSpinner({
     text: `Creating ${resources.length} dev resources…\n`,
   }).start();
-
-  if (!token) {
-    throw new Error(
-      '"FIGMA_TOKEN" is a required environment variable. See [`CONTRIBUTING.md`](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#updating-dev-resources) for more information.',
-    );
-  }
 
   // https://www.figma.com/developers/api#post-dev-resources-endpoint
   const response = await fetch(`https://api.figma.com/v1/dev_resources/`, {
     method: 'POST',
     headers: {
-      'X-FIGMA-TOKEN': token,
+      // Verified to exist in run.ts.
+      //
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      'X-FIGMA-TOKEN': process.env.FIGMA_TOKEN!,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({

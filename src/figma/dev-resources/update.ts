@@ -14,23 +14,18 @@ export default async (
     return;
   }
 
-  const token = process.env.FIGMA_TOKEN;
-
   const spinner = yoctoSpinner({
     text: `Updating ${resources.length} dev resources…\n`,
   }).start();
-
-  if (!token) {
-    throw new Error(
-      '"FIGMA_TOKEN" is a required environment variable. See [`CONTRIBUTING.md`](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#updating-dev-resources) for more information.',
-    );
-  }
 
   // https://www.figma.com/developers/api#post-dev-resources-endpoint
   const response = await fetch(`https://api.figma.com/v1/dev_resources/`, {
     method: 'PUT',
     headers: {
-      'X-FIGMA-TOKEN': token,
+      // Verified to exist in run.ts.
+      //
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      'X-FIGMA-TOKEN': process.env.FIGMA_TOKEN!,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -49,7 +44,7 @@ export default async (
   if (resourcesResponse.errors && resourcesResponse.errors?.length > 0) {
     // "If there are any dev resources that cannot be updated, you
     // may still get a 200 response. These resources will show up in
-    // the errors array.""
+    // the errors array."
     //
     // https://www.figma.com/developers/api#put-dev-resources-endpoint
 
