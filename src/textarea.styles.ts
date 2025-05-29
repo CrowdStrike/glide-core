@@ -62,6 +62,21 @@ export default [
       resize: vertical;
       transition: border-color 200ms ease-in-out;
 
+      /*
+        Because 'field-sizing: content' is used, it allows the
+        element to grow to fill the content. This is problematic in
+        our case because it means our textarea could force its
+        container to scroll when a user enters long, unbroken text.
+        This issue was discussed at https://issues.chromium.org/issues/340291325,
+        but for the select element. Using 'max-width: 100%' won't
+        solve the issue, and we can't use a fixed max-width, as we
+        won't know the layouts our consumers will use our components
+        in. So setting this CSS property allows for the textarea to
+        naturally break the value up by words and prevent horizontal
+        scrolling.
+      */
+      word-break: break-word;
+
       ${fieldSizingContent};
 
       &:focus {
