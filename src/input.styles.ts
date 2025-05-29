@@ -47,17 +47,19 @@ export default [
       display: flex;
       min-inline-size: 3.75rem;
       padding-inline: var(--glide-core-spacing-base-sm);
+      transition: border-color 200ms ease-in-out;
 
-      &.focused,
-      &:has(.input:hover) {
+      &.focused {
         border-color: var(--glide-core-color-interactive-stroke-focus);
-        transition: border-color 200ms ease-in-out;
       }
 
-      &:hover,
-      &:has(.input:hover) {
-        border-color: var(--glide-core-color-interactive-stroke-primary--hover);
-        transition: border-color 200ms ease-in-out;
+      &:not(.readonly) {
+        &:hover,
+        &:has(.input:hover) {
+          border-color: var(
+            --glide-core-color-interactive-stroke-primary--hover
+          );
+        }
       }
 
       &.error {

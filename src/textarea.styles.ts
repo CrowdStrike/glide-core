@@ -84,7 +84,6 @@ export default [
       }
 
       &:focus-visible,
-      &:focus-visible[readonly],
       &:hover {
         border-color: var(--glide-core-color-interactive-stroke-primary--hover);
       }
