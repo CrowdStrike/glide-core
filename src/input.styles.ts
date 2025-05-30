@@ -53,7 +53,7 @@ export default [
         border-color: var(--glide-core-color-interactive-stroke-focus);
       }
 
-      &:not(.readonly) {
+      &:not(.disabled, .readonly) {
         &:hover,
         &:has(.input:hover) {
           border-color: var(
