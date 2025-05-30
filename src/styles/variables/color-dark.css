@@ -113,6 +113,7 @@
   --glide-core-color-severity-surface-high: #2c241a;
   --glide-core-color-severity-surface-medium: #2a271a;
   --glide-core-color-severity-surface-low: #2c2c2c;
+  --glide-core-color-severity-surface-unknown: #a1a1a1;
   --glide-core-color-severity-stroke-critical: #e67873;
   --glide-core-color-severity-stroke-high: #e7a649;
   --glide-core-color-severity-stroke-medium: #f0cf4f;
