@@ -37,13 +37,58 @@ for (const story of stories.Input) {
           );
         });
 
-        test(':focus', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.locator('glide-core-input').focus();
+        test.describe('disabled=${true}', () => {
+          test(':focus', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await page
+              .locator('glide-core-input')
+              .evaluate<void, Input>((element) => {
+                element.disabled = true;
+              });
+
+            await page.locator('glide-core-input').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test(':hover', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-input')
+              .evaluate<void, Input>((element) => {
+                element.disabled = true;
+              });
+
+            await page.locator('glide-core-input').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
+        test.describe('disabled=${false}', async () => {
+          test(':focus', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-input').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test(':hover', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-input').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
         test('hide-label', async ({ page }, test) => {
@@ -54,15 +99,6 @@ for (const story of stories.Input) {
             .evaluate<void, Input>((element) => {
               element.hideLabel = true;
             });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test(':hover', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.locator('glide-core-input').hover();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
@@ -188,6 +224,60 @@ for (const story of stories.Input) {
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
           );
+        });
+
+        test.describe('readonly=${true}', () => {
+          test(':focus', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-input')
+              .evaluate<void, Input>((element) => {
+                element.readonly = true;
+              });
+
+            await page.locator('glide-core-input').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test(':hover', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-input')
+              .evaluate<void, Input>((element) => {
+                element.readonly = true;
+              });
+
+            await page.locator('glide-core-input').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
+        test.describe('readonly=${false}', async () => {
+          test(':focus', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-input').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test(':hover', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-input').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
         test('required', async ({ page }, test) => {
