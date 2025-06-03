@@ -59,7 +59,7 @@ const meta: Meta = {
         label=${arguments_.label || nothing}
         orientation=${arguments_.orientation === 'horizontal'
           ? nothing
-          : arguments_.horizontal}
+          : arguments_.orientation}
         variant=${arguments_.variant || nothing}
       >
         ${when(
