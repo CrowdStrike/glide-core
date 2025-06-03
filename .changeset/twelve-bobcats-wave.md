@@ -1,0 +1,41 @@
+---
+'@crowdstrike/glide-core': patch
+---
+
+Padding and color updates to align closer to the designs.
+
+- All form elements
+  - Increased padding between labels and controls.
+  - When `orientation="vertical"`, all labels now have a fixed height of 20px.
+- Accordion
+  - Updated the box shadow and padding.
+- Button
+  - Reduced the padding and removed the explicit line-height.
+- Button Group
+  - Lightened the divider line between Buttons.
+  - Reduced the minimum width and icon-label padding.
+- Checkbox and Checkbox Group
+  - Reduced the padding between elements.
+- Icon Button
+  - Increased the size for Primary and Secondary variants.
+- Input
+  - Increased the prefix icon-to-value padding.
+  - Adjusted the vertical label height.
+- Menu
+  - Buttons and Links are now 28px tall.
+  - Reduced the icon-to-label padding.
+- Modal
+  - Reduced the padding and removed the explicit line-height.
+- Popover
+  - Reduced the padding.
+- Radio Group
+  - Reduced the padding between elements.
+  - Matched the disabled label color to the border color.
+  - Updated the invalid state to use an outline instead of border, removing the layout shift.
+- Split Button
+  - Reduced the icon-to-label padding.
+  - Removed the explicit line-height.
+- Tab Group
+  - The selected tab now displays in bold.
+- Textarea
+  - Adjusted the vertical label height.

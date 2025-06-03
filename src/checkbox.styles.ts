@@ -9,7 +9,7 @@ export default [
   css`
     .label-and-input-and-checkbox {
       align-items: center;
-      column-gap: var(--glide-core-spacing-base-sm);
+      column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-default);

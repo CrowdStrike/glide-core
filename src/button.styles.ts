@@ -21,7 +21,7 @@ export default [
       display: inline-flex;
       font-family: var(--glide-core-typography-family-primary);
       font-weight: var(--glide-core-typography-weight-bold);
-      gap: 0.625rem;
+      gap: var(--glide-core-spacing-base-xs);
       justify-content: center;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-md);
@@ -40,11 +40,11 @@ export default [
       }
 
       &.prefix-icon {
-        padding-inline-start: 0.875rem;
+        padding-inline-start: var(--glide-core-spacing-base-md);
       }
 
       &.suffix-icon {
-        padding-inline-end: 0.875rem;
+        padding-inline-end: var(--glide-core-spacing-base-md);
       }
 
       &.primary {
@@ -139,15 +139,13 @@ export default [
       &.large {
         block-size: 2.125rem;
         font-size: var(--glide-core-typography-size-body-large);
-        line-height: 1.5rem;
-        min-inline-size: 5.1875rem;
+        min-inline-size: 2.75rem;
       }
 
       &.small {
         block-size: 1.75rem;
         font-size: var(--glide-core-typography-size-body-small);
-        line-height: 1rem;
-        min-inline-size: 4.375rem;
+        min-inline-size: 2.5625rem;
       }
     }
   `,

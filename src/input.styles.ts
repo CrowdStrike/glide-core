@@ -151,7 +151,7 @@ export default [
     }
 
     ::slotted([slot='prefix-icon']) {
-      padding-inline-end: var(--glide-core-spacing-base-xxs);
+      padding-inline-end: var(--glide-core-spacing-base-xs);
     }
 
     .empty .clear-icon-button {

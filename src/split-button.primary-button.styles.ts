@@ -20,9 +20,8 @@ export default [
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-large);
       font-weight: var(--glide-core-typography-weight-bold);
-      gap: 0.625rem;
+      gap: var(--glide-core-spacing-base-xs);
       justify-content: center;
-      line-height: 1.5rem;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-md);
       position: relative;

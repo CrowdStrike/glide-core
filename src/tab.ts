@@ -93,6 +93,7 @@ export default class Tab extends LitElement {
       class=${classMap({
         component: true,
         disabled: this.disabled,
+        selected: this.selected,
       })}
       data-test="component"
     >

@@ -15,6 +15,8 @@ export default [
     }
 
     .component {
+      --private-transition-duration: 250ms;
+
       display: contents;
     }
 
@@ -55,9 +57,7 @@ export default [
 
       &.animated {
         @media (prefers-reduced-motion: no-preference) {
-          transition:
-            inline-size 250ms,
-            translate 250ms;
+          transition: translate var(--private-transition-duration);
         }
       }
     }

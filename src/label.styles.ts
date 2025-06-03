@@ -10,9 +10,9 @@ export default [
   css`
     .component {
       &.horizontal {
-        --private-column-gap: var(--glide-core-spacing-base-sm);
+        --private-column-gap: var(--glide-core-spacing-base-md);
 
-        column-gap: var(--glide-core-spacing-base-sm);
+        column-gap: var(--glide-core-spacing-base-md);
         display: grid;
         grid-template-columns: auto minmax(auto, 1fr);
       }
@@ -60,6 +60,10 @@ export default [
       &.left,
       &.right {
         justify-content: flex-end;
+      }
+
+      &.vertical:not(.hidden-label) {
+        block-size: 1.25rem;
       }
     }
 
@@ -144,7 +148,7 @@ export default [
     .control-and-summary {
       align-items: center;
       display: flex;
-      gap: var(--glide-core-spacing-base-sm);
+      gap: var(--glide-core-spacing-base-xs);
     }
 
     .control {

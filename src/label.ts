@@ -107,6 +107,7 @@ export default class Label extends LitElement {
           left: this.split === 'left',
           middle: this.split === 'middle',
           right: this.split === 'right',
+          vertical: this.orientation === 'vertical',
         })}
         part="private-tooltips"
       >
