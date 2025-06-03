@@ -10,7 +10,7 @@ export default [
       border: 1px solid
         var(--glide-core-color-static-surface-container-secondary);
       border-radius: var(--glide-core-rounding-base-radius-sm);
-      box-shadow: var(--glide-core-effect-raised);
+      box-shadow: var(--glide-core-effect-lifted);
       font-family: var(--glide-core-typography-family-primary);
     }
 
@@ -26,7 +26,7 @@ export default [
       line-height: var(--glide-core-typography-height-heading-h4);
       list-style: none;
       padding-block: var(--glide-core-spacing-base-xs);
-      padding-inline: var(--glide-core-spacing-base-sm);
+      padding-inline: var(--glide-core-spacing-base-xs);
       user-select: none;
 
       &:focus {
@@ -84,10 +84,13 @@ export default [
       padding-block-end: var(--glide-core-spacing-base-sm);
 
       /* Hardcoded spacing here is intentional so that it better aligns with the Accordion label */
-      padding-inline: 2rem var(--glide-core-spacing-base-sm);
+      padding-inline: calc(
+          var(--glide-core-spacing-base-sm) + var(--glide-core-spacing-base-md)
+        )
+        var(--glide-core-spacing-base-sm);
 
       &.indented {
-        padding-inline-start: 3.5rem;
+        padding-inline-start: 3.25rem;
       }
     }
 

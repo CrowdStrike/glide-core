@@ -120,7 +120,7 @@ export default [
       max-inline-size: 23.75rem;
       min-block-size: 2rem;
       min-inline-size: 5rem;
-      padding: var(--glide-core-spacing-base-sm);
+      padding: var(--glide-core-spacing-base-xs);
     }
   `,
 ];
