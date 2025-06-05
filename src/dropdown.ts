@@ -1254,9 +1254,6 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #optionsAndFeedbackElementRef = createRef<HTMLElement>();
 
-  // Used to set the previously active option as active when Dropdown is opened, and
-  // when filtering and the user filters out all options then changes the filter query
-  // to filter some
   #previouslyActiveOption?: DropdownOption | null;
 
   #primaryButtonElementRef = createRef<HTMLButtonElement>();
