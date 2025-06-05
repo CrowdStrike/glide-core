@@ -1416,11 +1416,9 @@ export default class Dropdown extends LitElement implements FormControl {
           // whether to show themselves as selected using a checkmark) via their internal
           // `lastSelectedAndEnabledOption` getter.
           //
-          // However, an additional selected Dropdown Option can be added to Dropdown's default
-          // slot at any time. And it may now be the last selected option. But what was the last
-          // selected option won't know that a new selected option was added and that it's is no
-          // longer the last. So we force an update of its `lastSelectedAndEnabledOption` getter
-          // and a rerender.
+          // An additional selected option can be added to Dropdown's default slot at any time.
+          // And it may now be the last selected option. But what was the last selected option
+          // won't know it's no longer the last. So we force selected options to rerender.
           option.requestUpdate();
         }
       }
@@ -2268,11 +2266,9 @@ export default class Dropdown extends LitElement implements FormControl {
           // whether to show themselves as selected using a checkmark) via their internal
           // `lastSelectedAndEnabledOption` getter.
           //
-          // However, it's possible that previously last selected option was just disabled
-          // and there's another selected option that's enabled. But that option won't know
-          // it's now the last selected option until it reruns its `lastSelectedAndEnabledOption`
-          // getter. But it doesn't know that it needs to rerun that getter. So will tell it
-          // to by forcing a rerender.
+          // The previously last selected option may have been the one that was disabled
+          // and another selected option may be enabled. But the enabled option won't know
+          // it's now the last selected option. So we force selected options to rerender.
           option.requestUpdate();
         }
       }
@@ -2309,10 +2305,9 @@ export default class Dropdown extends LitElement implements FormControl {
           // whether to show themselves as selected using a checkmark) via their internal
           // `lastSelectedAndEnabledOption` getter.
           //
-          // However, others option may be enabled and selected, and what was previously the
-          // last selected and enabled option may no longer be the last. But the option won't
-          // know that because it doesn't know that a later option was enabled. So we force an
-          // update its `lastSelectedAndEnabledOption` getter and a rerender.
+          // What was previously the last selected and enabled option may no longer be the last.
+          // But it won't know that because it doesn't know another option was enabled. So we
+          // force selected options to rerender.
           option.requestUpdate();
         }
       }

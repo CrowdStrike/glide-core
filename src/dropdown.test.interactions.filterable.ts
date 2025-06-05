@@ -773,7 +773,6 @@ it('clears its input field when single-select and its selected option is removed
   host.querySelector('glide-core-dropdown-option')?.remove();
 
   await aTimeout(0); // Wait for `#onDefaultSlotChange()`.
-  await host.updateComplete; // Now wait for the forced update in `#onDefaultSlotChange()`.
 
   const input = host.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
