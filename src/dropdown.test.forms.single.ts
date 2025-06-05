@@ -31,9 +31,11 @@ it('can be reset', async () => {
 
   await host.updateComplete;
 
-  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+  const internalLabel = host.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
 
-  expect(label?.textContent?.trim()).to.equal('Placeholder');
+  expect(internalLabel?.textContent?.trim()).to.equal('Placeholder');
   expect(host.value).to.deep.equal([]);
 });
 
@@ -65,9 +67,11 @@ it('can be reset to the initially selected option', async () => {
 
   form.reset();
 
-  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+  const internalLabel = host.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
 
-  expect(label?.textContent?.trim()).to.equal('Two');
+  expect(internalLabel?.textContent?.trim()).to.equal('Two');
   expect(host.value).to.deep.equal(['two']);
 });
 

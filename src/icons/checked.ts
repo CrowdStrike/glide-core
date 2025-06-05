@@ -18,6 +18,7 @@ export default html`
   >
     <path
       class="check"
+      data-test="check"
       d="M20 6L9 17L4 12"
       stroke="currentColor"
       stroke-width="2"

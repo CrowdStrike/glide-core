@@ -30,6 +30,52 @@ it('has a selected option label when an option is initially selected', async () 
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
 });
 
+it('has an Edit button when its last selected option is editable', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const editButton = host.shadowRoot?.querySelector(
+    '[data-test="edit-button"]',
+  );
+
+  expect(editButton?.checkVisibility()).to.be.true;
+});
+
+it('does not have an Edit button when its last selected option is not editable', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        selected
+        editable
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const editButton = host.shadowRoot?.querySelector(
+    '[data-test="edit-button"]',
+  );
+
+  expect(editButton?.checkVisibility()).to.not.be.ok;
+});
+
 it('sets its internal `label` to the last initially selected option', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
@@ -45,9 +91,11 @@ it('sets its internal `label` to the last initially selected option', async () =
     </glide-core-dropdown>`,
   );
 
-  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+  const internalLabel = host.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
 
-  expect(label?.textContent?.trim()).to.equal('Two');
+  expect(internalLabel?.textContent?.trim()).to.equal('Two');
 });
 
 it('sets `value` to that of the last initially selected option', async () => {
@@ -185,8 +233,7 @@ it('only shows the last selected option as selected when multiple are selected i
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await aTimeout(0); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 

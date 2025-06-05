@@ -37,10 +37,12 @@ it('can be reset', async () => {
 
   await host.updateComplete;
 
-  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+  const internalLabel = host.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
 
   expect(host.value).to.deep.equal([]);
-  expect(label?.textContent?.trim()).to.equal('Placeholder');
+  expect(internalLabel?.textContent?.trim()).to.equal('Placeholder');
 });
 
 it('can be reset to its initially selected options', async () => {

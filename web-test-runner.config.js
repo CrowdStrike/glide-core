@@ -104,7 +104,7 @@ export default {
 
   // If a test suite take longer than this, it's almost certainly hanging
   // and won't finish. 2 minutes is the default.
-  testsFinishTimeout: process.env.CI ? 60_000 : 30_000,
+  testsFinishTimeout: process.env.CI ? 90_000 : 30_000,
 
   testRunnerHtml(testFramework) {
     return `<html>

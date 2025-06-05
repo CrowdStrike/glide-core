@@ -64,9 +64,7 @@ it('shows a fallback on focus when there are no options', async () => {
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
-
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await aTimeout(0); // Wait for Floating UI
 
   const feedback = host.shadowRoot?.querySelector(
     '[data-test="optionless-feedback"]',

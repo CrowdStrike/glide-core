@@ -114,8 +114,7 @@ it('shows Select All', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await aTimeout(0); // Wait for Floating UI
 
   const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
@@ -237,9 +236,11 @@ it('sets its internal label to `placeholder` when no option is selected', async 
     </glide-core-dropdown>`,
   );
 
-  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+  const internalLabel = host.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
 
-  expect(label?.textContent?.trim()).to.equal('Placeholder');
+  expect(internalLabel?.textContent?.trim()).to.equal('Placeholder');
 });
 
 it('has no internal label when an option is selected', async () => {
@@ -254,9 +255,11 @@ it('has no internal label when an option is selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+  const internalLabel = host.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
 
-  expect(label?.checkVisibility()).to.not.be.ok;
+  expect(internalLabel?.checkVisibility()).to.not.be.ok;
 });
 
 it('has a "multiselect" icon for each selected option with a value', async () => {

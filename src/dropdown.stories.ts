@@ -25,7 +25,7 @@ const meta: Meta = {
   ],
   parameters: {
     actions: {
-      handles: ['change', 'input', 'invalid', 'toggle'],
+      handles: ['change', 'edit', 'input', 'invalid', 'toggle'],
     },
     docs: {
       story: {
@@ -94,7 +94,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "add" | "change" | "input" | "invalid" | "toggle", handler: (event: Event) => void): void',
+            '(event: "change" | "input" | "invalid" | "toggle", handler: (event: Event) => void): void',
         },
       },
     },
@@ -129,7 +129,15 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: `
-async (query: string): Promise<DropdownOption[] | void> => {
+// By default, \`filter()\` is implemented similar to the first example below. It filters against
+// Dropdown Options already present in Dropdown's default slot.
+//
+// You can override \`filter()\` to change what gets filtered out by returning the options you want
+// visible. The rest will be hidden:
+
+const dropdown = document.querySelector('glide-core-dropdown');
+
+dropdown.filter = async (query: string): Promise<DropdownOption[] | void> => {
   const options = [...this.querySelectorAll('glide-core-dropdown-option)];
 
   return options.filter(({ label }) => {
@@ -137,10 +145,32 @@ async (query: string): Promise<DropdownOption[] | void> => {
   });
 }
 
-// When overriding this method, return the options you want visible. The rest will be hidden.
-//
-// If you fetch when filtering, this is the place to do it. Just make sure you've updated
-// Dropdown's default slot with the new set of options before you query for and filter them.
+// Alternatively, you can override \`filter()\` to support server-side filtering:
+
+class Component extends LitElement {
+  @state()
+  options = [{ label: 'One', key: 'one' }, { label: 'Two', key: 'two' }];
+
+  firstUpdated() {
+    this.#dropdownRef.value.filter = async (query: string): Promise<DropdownOption[] | void> => {
+      this.options = window.fetch(query);
+    }
+  }
+
+  render() {
+    return html\`
+      <glide-core-dropdown label="Label" \${ref(this.#dropdownRef)}>
+        \${repeat(
+          this.options,
+          ({ key }) => key),
+          ({ label }) => {
+            return html\`<glide-core-dropdown-option label=\${label}></glide-core-dropdown-option>\`;
+          }
+        )}
+      </glide-core-dropdown>
+    \`;
+  }
+}
 `,
         },
       },
