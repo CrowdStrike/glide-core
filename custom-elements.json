@@ -4576,6 +4576,24 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/menu.button.styles.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/menu.link.styles.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/menu.options.styles.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/menu.styles.ts",
       "declarations": [],
       "exports": [

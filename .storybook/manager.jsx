@@ -1,10 +1,10 @@
 import '../src/styles/fonts.css';
 import '../src/styles/variables.css';
-import { addons, types, useStorybookApi } from '@storybook/manager-api';
-import { create } from '@storybook/theming/create';
+import { addons, types, useStorybookApi } from 'storybook/manager-api';
+import { create } from 'storybook/theming/create';
 import { html } from 'lit';
-import { STORY_RENDERED } from '@storybook/core-events';
-import { IconButton } from '@storybook/components';
+import { STORY_RENDERED } from 'storybook/internal/core-events';
+import { IconButton } from 'storybook/internal/components';
 import { GithubIcon } from '@storybook/icons';
 import logo from './assets/logo.png';
 import React from 'react';

@@ -1,11 +1,11 @@
 import './button.js';
 import './icons/storybook.js';
 import './options.js';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, nothing } from 'lit';
-import { UPDATE_STORY_ARGS } from '@storybook/core-events';
-import { addons } from '@storybook/preview-api';
-import { withActions } from '@storybook/addon-actions/decorator';
+import { addons } from 'storybook/preview-api';
+import { withActions } from 'storybook/actions/decorator';
+import { UPDATE_STORY_ARGS } from 'storybook/internal/core-events';
 import Option from './option.js';
 import MenuComponent from './menu.js';
 

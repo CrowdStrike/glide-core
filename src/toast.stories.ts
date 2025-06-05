@@ -2,12 +2,12 @@ import './button.js';
 import './link.js';
 import './toast.js';
 import { html, nothing } from 'lit';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { repeat } from 'lit/directives/repeat.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { addons } from '@storybook/preview-api';
-import { withActions } from '@storybook/addon-actions/decorator';
-import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from 'storybook/preview-api';
+import { withActions } from 'storybook/actions/decorator';
+import { UPDATE_STORY_ARGS } from 'storybook/internal/core-events';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import uniqueId from './library/unique-id.js';
 

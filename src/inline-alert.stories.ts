@@ -1,6 +1,6 @@
 import './inline-alert.js';
 import { html, nothing } from 'lit';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 const meta: Meta = {
   title: 'Inline Alert',

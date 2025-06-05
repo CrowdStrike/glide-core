@@ -1,6 +1,6 @@
 import { html, nothing } from 'lit';
-import { withActions } from '@storybook/addon-actions/decorator';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import { withActions } from 'storybook/actions/decorator';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import LinkComponent from './link.js';
 
 const meta: Meta = {

@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, nothing } from 'lit';
-import { UPDATE_STORY_ARGS } from '@storybook/core-events';
-import { addons } from '@storybook/preview-api';
+import { UPDATE_STORY_ARGS } from 'storybook/internal/core-events';
+import { addons } from 'storybook/preview-api';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { withActions } from '@storybook/addon-actions/decorator';
+import { withActions } from 'storybook/actions/decorator';
 import CheckboxComponent from './checkbox.js';
 
 const meta: Meta = {

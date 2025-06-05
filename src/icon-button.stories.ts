@@ -1,8 +1,8 @@
 import './icon-button.js';
 import './icons/storybook.js';
 import { html, nothing } from 'lit';
-import { withActions } from '@storybook/addon-actions/decorator';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import { withActions } from 'storybook/actions/decorator';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 const meta: Meta = {
   title: 'Icon Button',

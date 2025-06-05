@@ -1,10 +1,10 @@
 import './form-controls-layout.js';
 import './radio-group.js';
-import { UPDATE_STORY_ARGS } from '@storybook/core-events';
-import { addons } from '@storybook/preview-api';
+import { UPDATE_STORY_ARGS } from 'storybook/internal/core-events';
+import { addons } from 'storybook/preview-api';
 import { html, nothing } from 'lit';
-import { withActions } from '@storybook/addon-actions/decorator';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import { withActions } from 'storybook/actions/decorator';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import CheckboxGroupComponent from './checkbox-group.js';
 import DropdownComponent from './dropdown.js';
 import InputComponent from './input.js';
