@@ -12,10 +12,6 @@ export default [
     }
 
     .component {
-      --private-gap: var(--glide-core-spacing-base-sm);
-      --private-padding-inline: var(--glide-core-spacing-base-sm);
-      --private-padding-block: var(--glide-core-spacing-base-xxs);
-
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);

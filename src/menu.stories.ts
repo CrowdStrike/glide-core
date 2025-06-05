@@ -3,11 +3,11 @@ import './icons/storybook.js';
 import './menu.button.js';
 import './menu.link.js';
 import './menu.options.js';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, nothing } from 'lit';
-import { UPDATE_STORY_ARGS } from '@storybook/core-events';
-import { addons } from '@storybook/preview-api';
-import { withActions } from '@storybook/addon-actions/decorator';
+import { UPDATE_STORY_ARGS } from 'storybook/internal/core-events';
+import { addons } from 'storybook/preview-api';
+import { withActions } from 'storybook/actions/decorator';
 import MenuComponent from './menu.js';
 
 const meta: Meta = {

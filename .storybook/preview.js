@@ -1,10 +1,12 @@
-/** @type { import('@storybook/web-components').Preview } */
+/** @type { import('@storybook/web-components-vite').Preview } */
 
 import '../src/styles/fonts.css';
 import '../src/styles/variables.css';
 import './overrides.css';
-import { create } from '@storybook/theming';
+import { create } from 'storybook/theming';
 import { html } from 'lit';
+import prettier from 'prettier/standalone';
+import prettierHtmlPlugin from 'prettier/plugins/html';
 
 export default {
   tags: ['autodocs'],
@@ -43,8 +45,6 @@ export default {
       disableSaveFromUI: true,
     },
     docs: {
-      // TODO: New with 8.5.0 but not working. Set to `true` and retest with each release.
-      codePanel: false,
       canvas: {
         sourceState: 'shown',
       },
@@ -55,7 +55,7 @@ export default {
           fontBase: '"Nunito", sans-serif',
           fontCode: 'monospace',
         }),
-        transform(code, context) {
+        async transform(code, context) {
           if (!code) {
             return;
           }
@@ -222,7 +222,15 @@ export default {
           }
 
           // Clean up boolean attributes before returning: `disabled=""` → `disabled`.
-          return $container.innerHTML.replaceAll('=""', '');
+          code = $container.innerHTML.replaceAll('=""', '');
+
+          return await prettier.format(code, {
+            parser: 'html',
+            plugins: [prettierHtmlPlugin],
+
+            // TODO: explain why
+            htmlWhitespaceSensitivity: 'ignore',
+          });
         },
       },
     },

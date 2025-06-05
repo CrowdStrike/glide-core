@@ -5,12 +5,7 @@ import packageJson from '../package.json';
 
 const config = {
   stories: ['../src/*.stories.ts'],
-  addons: [
-    '@storybook/addon-actions',
-    '@storybook/addon-controls',
-    '@storybook/addon-docs',
-    '@storybook/addon-toolbars',
-  ],
+  addons: ['@storybook/addon-docs'],
   core: {
     disableTelemetry: true,
     disableWhatsNewNotifications: true,

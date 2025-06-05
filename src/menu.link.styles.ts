@@ -10,10 +10,10 @@ export default [
       box-sizing: border-box;
       display: flex;
       font: inherit;
-      gap: var(--private-gap);
+      gap: var(--glide-core-spacing-base-sm);
       inline-size: 100%;
-      padding-block: var(--private-padding-block);
-      padding-inline: var(--private-padding-inline);
+      padding-block: var(--glide-core-spacing-base-xxs);
+      padding-inline: var(--glide-core-spacing-base-sm);
       text-decoration: none;
       transition: background-color 100ms ease-in-out;
       user-select: none;
