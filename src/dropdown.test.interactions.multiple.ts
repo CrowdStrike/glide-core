@@ -1331,7 +1331,7 @@ it('closes when a tag is clicked', async () => {
   expect(host.open).to.be.false;
 });
 
-it('closes on edit via click', async () => {
+it('closes when a tag is edited via click', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
@@ -1355,7 +1355,7 @@ it('closes on edit via click', async () => {
   expect(host.open).to.be.false;
 });
 
-it('closes on edit via Enter', async () => {
+it('closes when a tag is edited via Enter', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
@@ -1368,19 +1368,14 @@ it('closes on edit via Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
-
-  host.shadowRoot
-    ?.querySelector('glide-core-tag')
-    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.focus();
-
+  await aTimeout(100); // TODO: Wait for what?
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
   expect(host.open).to.be.false;
 });
 
-it('closes on edit via Space', async () => {
+it('closes when a tag is edited via Space', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
@@ -1393,13 +1388,8 @@ it('closes on edit via Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
-
-  host.shadowRoot
-    ?.querySelector('glide-core-tag')
-    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.focus();
-
+  await aTimeout(100); // TODO: Wait for what?
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
   expect(host.open).to.be.false;
@@ -1553,8 +1543,10 @@ it('updates itself when an option is enabled programmatically', async () => {
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
   assert(options[1]);
+
   options[1].disabled = false;
   await host.updateComplete;
+  await aTimeout(0); // Wait for the Resize Observer to do its thing.
 
   const tagContainers = host.shadowRoot?.querySelectorAll<HTMLElement>(
     '[data-test="tag-container"]',

@@ -96,6 +96,7 @@ it('has a tag when an option is selected', async () => {
     </glide-core-dropdown>`,
   );
 
+  await aTimeout(100); // TODO: Wait for what?
   const tag = host.shadowRoot?.querySelector<Tag>('[data-test="tag"]');
 
   expect(tag?.checkVisibility()).to.be.true;

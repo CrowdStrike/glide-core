@@ -301,20 +301,6 @@ it('closes when an option is selected via Enter', async () => {
   expect(host.open).to.be.false;
 });
 
-it('closes when an option is selected via Enter', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" open>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  await aTimeout(0); // Wait for Floating UI
-  host.querySelector('glide-core-dropdown-option')?.focus();
-  await sendKeys({ press: 'Enter' });
-
-  expect(host.open).to.be.false;
-});
-
 it('closes when an option is selected via Space', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>

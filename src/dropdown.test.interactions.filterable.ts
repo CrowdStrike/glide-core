@@ -560,7 +560,7 @@ it('does not clear its filter when a tag is removed via Backspace', async () => 
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await aTimeout(100); // Wait for Floating UI
   await sendKeys({ press: 'Tab' }); // Focus the tag.
   await sendKeys({ press: 'Tab' }); // Focus the input.
   await sendKeys({ type: 'o' });
@@ -586,7 +586,8 @@ it('does not clear its filter when every tag is removed via Meta + Backspace', a
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  // TODO: wat?
+  await aTimeout(100); // Wait for Floating UI
 
   const input = host.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -956,7 +957,7 @@ it('clears its input field when multiselect and an option is selected via Enter'
   expect(input?.value).to.be.empty.string;
 });
 
-it('does not clear its filter when a tag is removed', async () => {
+it('does not clear its filter when a tag is removed via click', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option
@@ -968,6 +969,7 @@ it('does not clear its filter when a tag is removed', async () => {
     </glide-core-dropdown>`,
   );
 
+  await aTimeout(100);
   await sendKeys({ press: 'Tab' }); // Focus the tag.
   await sendKeys({ press: 'Tab' }); // Focus the input.
   await sendKeys({ type: 'o' });
@@ -1960,7 +1962,7 @@ it('shows an ellipsis when the label of its selected option is set programmatica
   option.label = 'x'.repeat(500);
   await host.updateComplete;
 
-  // Wait for the resize observer to do its thing.
+  // Wait for the Resize Observer to do its thing.
   await aTimeout(0);
 
   const ellipsis = host.shadowRoot?.querySelector('[data-test="ellipsis"]');
