@@ -15,7 +15,7 @@
   "error": "Error:",
   "informational": "Informational:",
   "loading": "Loading",
-  "add": "add",
+  "add": "Add",
   "announcedCharacterCount": "Character count {current} of {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "Clear {label} entry",
