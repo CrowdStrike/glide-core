@@ -8,10 +8,8 @@ import { playwrightLauncher } from '@web/test-runner-playwright';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 
 export default {
-  browsers: [
-    // https://github.com/modernweb-dev/web/issues/2588
-    playwrightLauncher(),
-  ],
+  browsers: [playwrightLauncher()],
+  // TODO: say why / 2
   concurrency: process.env.CI ? os.cpus().length : os.cpus().length / 2,
   coverage: true,
   coverageConfig: {
