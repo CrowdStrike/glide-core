@@ -25,7 +25,7 @@ const meta: Meta = {
   ],
   parameters: {
     actions: {
-      handles: ['change', 'edit', 'input', 'invalid', 'toggle'],
+      handles: ['add', 'change', 'edit', 'input', 'invalid', 'toggle'],
     },
     docs: {
       story: {
@@ -36,6 +36,7 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': '',
+    'add-button': false,
     'addEventListener(event, handler)': '',
     'checkValidity()': '',
     disabled: false,
@@ -88,13 +89,37 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
+    'add-button': {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: {
+          summary: 'boolean',
+          detail: `
+// Only applicable if Dropdown is filterable. Use this attribute when you want the user
+// to be able to specify a custom Dropdown Option to be added to Dropdown.
+//
+// An Add button will appear when the user is filtering if the filter query doesn't
+// match the \`label\` of an existing Dropdown Option.
+//
+// When the user clicks the Add button, an "add" event will be dispatched by Dropdown.
+// The event will have a \`detail\` property set to the user's filter query.
+//
+// Listen for "add" and, in your handler, add a new Dropdown Option based on the filter
+// query to Dropdown's default slot.
+`,
+        },
+      },
+    },
     'addEventListener(event, handler)': {
       control: false,
       table: {
         type: {
           summary: 'method',
-          detail:
-            '(event: "change" | "input" | "invalid" | "toggle", handler: (event: Event) => void): void',
+          detail: `
+// Only "add" is a \`CustomEvent\`. The \`detail\` property of that event is set to the user's filter query.
+
+(event: "add" | "change" | "input" | "invalid" | "toggle", handler: (event: Event | CustomEvent<string>) => void): void
+`,
         },
       },
     },
@@ -470,6 +495,18 @@ class Component extends LitElement {
         }
       });
 
+      dropdown.addEventListener('add', (event: Event) => {
+        if (event instanceof CustomEvent && typeof event.detail === 'string') {
+          const option = document.createElement('glide-core-dropdown-option');
+
+          option.label = event.detail;
+          option.selected = true;
+          option.value = event.detail.toLowerCase();
+
+          dropdown.append(option);
+        }
+      });
+
       const observer = new MutationObserver(() => {
         if (dropdown instanceof DropdownComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
@@ -526,6 +563,7 @@ class Component extends LitElement {
       placeholder=${arguments_.placeholder || nothing}
       tooltip=${arguments_.tooltip || nothing}
       variant=${arguments_.variant || nothing}
+      ?add-button=${arguments_['add-button']}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
       ?loading=${arguments_.loading}
@@ -617,6 +655,7 @@ export const WithIcons: StoryObj = {
         : arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
       variant=${arguments_.variant || nothing}
+      ?add-button=${arguments_['add-button']}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
       ?loading=${arguments_.loading}

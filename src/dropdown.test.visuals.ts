@@ -22,6 +22,24 @@ for (const story of stories.Dropdown) {
           );
         });
 
+        test('filter("add")', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-dropdown')
+            .evaluate<void, Dropdown>((element) => {
+              element.addButton = true;
+              element.filterable = true;
+              element.open = true;
+            });
+
+          await page.getByRole('combobox').fill('add');
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('filter("noMatchingOptions")', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -45,6 +63,7 @@ for (const story of stories.Dropdown) {
           await page
             .locator('glide-core-dropdown')
             .evaluate<void, Dropdown>((element) => {
+              element.addButton = true;
               element.filterable = true;
               element.open = true;
             });

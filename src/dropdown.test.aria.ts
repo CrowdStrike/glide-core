@@ -29,6 +29,44 @@ test('disabled=${false}', async ({ page }) => {
   `);
 });
 
+test.describe('filter("add")', () => {
+  test('open=${true}', async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.addButton = true;
+        element.filterable = true;
+        element.open = true;
+      });
+
+    await page.getByRole('combobox').fill('add');
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      - text: Label
+      - combobox "Label 1 items" [expanded]
+      - listbox "add":
+        - option "add (Add)"
+    `);
+  });
+
+  test('open=${false}', async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.filterable = true;
+      });
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      - text: Label
+      - combobox "Label"
+    `);
+  });
+});
+
 test.describe('filter("noMatchingOptions")', () => {
   test('open=${true}', async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
@@ -44,8 +82,8 @@ test.describe('filter("noMatchingOptions")', () => {
 
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
-      - combobox "Label 0 items" [expanded]
-      - text: No matching options
+      - combobox "Label 0 items" [expanded]: noMatchingOptions
+      - listbox "noMatchingOptions": No matching options
     `);
   });
 
@@ -72,6 +110,7 @@ test.describe('filter("o")', () => {
     await page
       .locator('glide-core-dropdown')
       .evaluate<void, Dropdown>((element) => {
+        element.addButton = true;
         element.filterable = true;
         element.open = true;
       });
@@ -80,10 +119,11 @@ test.describe('filter("o")', () => {
 
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
-      - combobox "Label 2 items" [expanded]
+      - combobox "Label 3 items" [expanded]
       - listbox "o":
         - option "One"
         - option "Two"
+        - option "o (Add)"
     `);
   });
 

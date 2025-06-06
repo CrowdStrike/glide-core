@@ -120,6 +120,7 @@ export default [
 
     .options-and-feedback {
       --private-border-width: 1px;
+      --private-option-height: 1.75rem;
 
       background-color: var(
         --glide-core-private-color-dialog-and-modal-surface-container
@@ -146,8 +147,6 @@ export default [
     }
 
     .options {
-      --private-option-height: 1.75rem;
-
       box-sizing: border-box;
       max-block-size: calc(
         var(--private-option-height) * 9 + var(--glide-core-spacing-base-xxxs) *
@@ -166,7 +165,10 @@ export default [
 
     .default-slot {
       display: block;
-      padding: var(--glide-core-spacing-base-xxxs);
+
+      &:not(.optionless) {
+        padding: var(--glide-core-spacing-base-xxxs);
+      }
     }
 
     .select-all {
@@ -329,6 +331,55 @@ export default [
         color: var(--glide-core-color-interactive-text-placeholder);
         font-family: var(--glide-core-typography-family-primary);
       }
+    }
+
+    .add-button-container {
+      padding: var(--glide-core-spacing-base-xxxs);
+
+      /*
+        "sticky" is a little hack so it's absolutely positioned but its space
+        in layout is preserved, so it doesn't overlap the last option.
+      */
+      position: sticky;
+
+      &.bordered {
+        border-block-start: 1px solid
+          var(--glide-core-color-static-stroke-secondary);
+        padding-block-start: var(--glide-core-spacing-base-xxxs);
+      }
+    }
+
+    .add-button {
+      align-items: center;
+      background-color: transparent;
+      block-size: var(--private-option-height);
+      border-radius: var(--glide-core-spacing-base-sm);
+      border-width: 0;
+      display: flex;
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      inline-size: 100%;
+      max-inline-size: 21.875rem;
+      padding-inline: 0.625rem;
+      transition: background-color 100ms ease-in-out;
+      user-select: none;
+      white-space: nowrap;
+
+      &.active {
+        background-color: var(
+          --glide-core-color-interactive-surface-container--hover
+        );
+      }
+    }
+
+    .add-button-label {
+      font-weight: var(--glide-core-typography-weight-bold);
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .add-button-description {
+      color: var(--glide-core-color-interactive-text-placeholder);
     }
 
     .description {
