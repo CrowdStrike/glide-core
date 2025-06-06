@@ -1,5 +1,61 @@
 # @crowdstrike/glide-core
 
+## 0.28.0
+
+### Minor Changes
+
+- [#912](https://github.com/CrowdStrike/glide-core/pull/912) [`dab4bc8`](https://github.com/CrowdStrike/glide-core/commit/dab4bc878a42b7f7f8e054f152f1375c194d8fc5) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown's `add-button-label` attribute has been removed. Dropdown no longer supports an Add Button. It was previously unused and will be replaced by support for adding options directly from Dropdown's input field when filterable.
+
+### Patch Changes
+
+- [#920](https://github.com/CrowdStrike/glide-core/pull/920) [`6c1c2b0`](https://github.com/CrowdStrike/glide-core/commit/6c1c2b0ba945e293e93a0b75cb1dfe1f5b4288ab) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Colors (Light)
+
+  ```diff
+  + --glide-core-color-severity-surface-unknown: #6d6d6d;
+  ```
+
+  ## Colors (Dark)
+
+  ```diff
+  + --glide-core-color-severity-surface-unknown: #a1a1a1;
+  ```
+
+- [#897](https://github.com/CrowdStrike/glide-core/pull/897) [`c04aef6`](https://github.com/CrowdStrike/glide-core/commit/c04aef6b60a6e21fab0f1c97d5995b0ec3ff82a2) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Added a Slider component.
+
+- [#919](https://github.com/CrowdStrike/glide-core/pull/919) [`e63656e`](https://github.com/CrowdStrike/glide-core/commit/e63656ed9a62a043c828f77fb610d9a4340894ca) Thanks [@ynotdraw](https://github.com/ynotdraw)! - - Input when `disabled` no longer shows an active border on hover.
+
+  - Input and Textarea when `readonly` no longer show an active border on hover or focus.
+  - Input when invalid and hovered no longer shows an active border.
+
+- [#929](https://github.com/CrowdStrike/glide-core/pull/929) [`6e35bd8`](https://github.com/CrowdStrike/glide-core/commit/6e35bd850081d08aa564bf9d60213d34a6655c19) Thanks [@clintcs](https://github.com/clintcs)! - ## Dropdown
+
+  - The user's system preference for reduced motion is now respected when Dropdown is scrolled using the arrow keys.
+  - The first enabled Dropdown Option is now activated when the currently active Dropdown Option is disabled programmatically.
+
+  ### Single-select
+
+  - When a Dropdown Option is selected and a new Dropdown Option with a `selected` attribute is added to Dropdown's default slot, only the last selected Dropdown Option now appears as selected.
+  - Dropdown's `value` and input field (if Dropdown is filterable) are now set to the `value` and `label` of the next last selected and enabled Dropdown Option when the previously last selected Dropdown Option is disabled programmatically. If no Dropdown Option is selected and enabled, Dropdown will clear its `value` and input field.
+
+  ### Filterable
+
+  - `aria-activedescendant` is now set internally to an empty string when every Dropdown Option has been filtered out.
+  - There's no longer a stray ellipsis at the end of Dropdown's input field when Dropdown's input field is visually truncated then subsequently cleared by the user.
+  - A tooltip is no longer shown on Dropdown's input field when a Dropdown Option with a long label is selected then Dropdown is closed.
+  - The value of Dropdown's input field no longer changes to the `label` of a selected Dropdown Option when its `label` is changed programmatically and it isn't the last selected Dropdown Option.
+  - Single-select Dropdown's input field no longer retains the `label` of the previously selected Dropdown Option when the `label` of the now-selected Dropdown Option is an empty string.
+  - When the currently and previously active Dropdown Options are filtered out, the first Dropdown Option was activated even if it was disabled. Now the first enabled Dropdown Option is activated instead.
+
+- [#918](https://github.com/CrowdStrike/glide-core/pull/918) [`92eaaee`](https://github.com/CrowdStrike/glide-core/commit/92eaaee47ccfb1011b5ff0f129365c1f3d0c76f1) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now supports adding new options when filtering.
+
+  When the `add-button` attribute is present, an Add button will appear when the user's filter query doesn't match the `label` of an existing Dropdown Option.
+
+  Dropdown will dispatch an "add" event when the button is clicked. The event's `detail` property will be set to the user's filter query. Listen for "add" and, in its handler, add a new selected Dropdown Option based on the filter query to Dropdown's default slot.
+
+- [#917](https://github.com/CrowdStrike/glide-core/pull/917) [`414f63a`](https://github.com/CrowdStrike/glide-core/commit/414f63a1fe53ac523938f305cfa258805d101490) Thanks [@ynotdraw](https://github.com/ynotdraw)! - When Textarea contains a long, unbroken string it no longer causes its width-constrained container to become scrollable.
+
 ## 0.27.0
 
 ### Minor Changes
