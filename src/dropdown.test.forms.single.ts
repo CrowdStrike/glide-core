@@ -1,8 +1,49 @@
-import { expect, fixture, html } from '@open-wc/testing';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
 import Dropdown from './dropdown.js';
+import { click } from './library/mouse.js';
 
-it('can be reset', async () => {
+it('can be reset after an option is selected via click', async () => {
+  const form = document.createElement('form');
+
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  await aTimeout(0); // Wait for Floating UI
+  await click(options[0]);
+
+  form.reset();
+  await host.updateComplete;
+
+  const internalLabel = host.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
+
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.false;
+  expect(options[0]?.ariaSelected).to.equal('false');
+  expect(options[1]?.ariaSelected).to.equal('false');
+  expect(internalLabel?.textContent?.trim()).to.equal('Placeholder');
+  expect(host.value).to.deep.equal([]);
+});
+
+it('can be reset after an option is selected programmatically', async () => {
   const form = document.createElement('form');
 
   const host = await fixture<Dropdown>(
@@ -22,37 +63,40 @@ it('can be reset', async () => {
     },
   );
 
-  host
-    .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector('[data-test="component"]')
-    ?.dispatchEvent(new Event('click'));
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  assert(options[0]);
+  options[0].selected = true;
 
   form.reset();
-
   await host.updateComplete;
 
   const internalLabel = host.shadowRoot?.querySelector(
     '[data-test="internal-label"]',
   );
 
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.false;
+  expect(options[0]?.ariaSelected).to.equal('false');
+  expect(options[1]?.ariaSelected).to.equal('false');
   expect(internalLabel?.textContent?.trim()).to.equal('Placeholder');
   expect(host.value).to.deep.equal([]);
 });
 
-it('can be reset to the initially selected option', async () => {
+it('can be reset after an option is deselected via click', async () => {
   const form = document.createElement('form');
 
   const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
+        selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
         value="two"
-        selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     {
@@ -60,19 +104,65 @@ it('can be reset to the initially selected option', async () => {
     },
   );
 
-  host
-    .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector('[data-test="component"]')
-    ?.dispatchEvent(new Event('click'));
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  await aTimeout(0); // Wait for Floating UI
+  await click(options[0]);
 
   form.reset();
+  await host.updateComplete;
 
   const internalLabel = host.shadowRoot?.querySelector(
     '[data-test="internal-label"]',
   );
 
-  expect(internalLabel?.textContent?.trim()).to.equal('Two');
-  expect(host.value).to.deep.equal(['two']);
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.false;
+  expect(options[0]?.ariaSelected).to.equal('true');
+  expect(options[1]?.ariaSelected).to.equal('false');
+  expect(internalLabel?.textContent?.trim()).to.equal('One');
+  expect(host.value).to.deep.equal(['one']);
+});
+
+it('can be reset after an option is deselected programmatically', async () => {
+  const form = document.createElement('form');
+
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  assert(options[0]);
+  options[0].selected = false;
+
+  form.reset();
+  await host.updateComplete;
+
+  const internalLabel = host.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
+
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.false;
+  expect(options[0]?.ariaSelected).to.equal('true');
+  expect(options[1]?.ariaSelected).to.equal('false');
+  expect(internalLabel?.textContent?.trim()).to.equal('One');
+  expect(host.value).to.deep.equal(['one']);
 });
 
 it('has `formData` value when an option is selected', async () => {

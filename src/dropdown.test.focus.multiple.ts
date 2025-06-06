@@ -105,8 +105,7 @@ it('focuses the second tag when the first one is removed', async () => {
   tags?.[0]?.click();
   await host.updateComplete;
 
-  // Wait for the timeout in `#onTagRemove`.
-  await aTimeout(0);
+  await aTimeout(0); // Wait for the timeout in `#onTagRemove()`
 
   expect(host.shadowRoot?.activeElement).to.equal(tags?.[1]);
 });
@@ -136,8 +135,7 @@ it('focuses the third tag when the second one is removed', async () => {
   tags?.[1]?.click();
   await host.updateComplete;
 
-  // Wait for the timeout in `#onTagRemove`.
-  await aTimeout(0);
+  await aTimeout(0); // Wait for the timeout in `#onTagRemove()`
 
   expect(host.shadowRoot?.activeElement).to.equal(tags?.[2]);
 });
@@ -167,8 +165,7 @@ it('focuses the second tag when the third tag removed', async () => {
   tags?.[2]?.click();
   await host.updateComplete;
 
-  // Wait for the timeout in `#onTagRemove`.
-  await aTimeout(0);
+  await aTimeout(0); // Wait for the timeout in `#onTagRemove()`
 
   expect(host.shadowRoot?.activeElement).to.equal(tags?.[1]);
 });
@@ -186,9 +183,7 @@ it('focuses itself when the last tag is removed', async () => {
   host.shadowRoot?.querySelector<Tag>('[data-test="tag"]')?.click();
 
   await host.updateComplete;
-
-  // Wait for the timeout in `#onTagRemove`.
-  await aTimeout(0);
+  await aTimeout(0); // Wait for the timeout in `#onTagRemove()`
 
   expect(document.activeElement).to.equal(host);
 });

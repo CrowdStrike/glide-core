@@ -158,7 +158,7 @@ export default class DropdownOption extends LitElement {
   /**
    * @default false
    */
-  @property({ reflect: true, type: Boolean })
+  @property({ type: Boolean })
   get selected(): boolean {
     return this.#selected;
   }
@@ -170,9 +170,6 @@ export default class DropdownOption extends LitElement {
       this.#checkboxElementRef.value.checked = isSelected;
     }
 
-    // Prefixed with "private" because Dropdown uses it internally, to track the set of
-    // selected options in the case of multiselect. Dropdown itself then dispatches in
-    // response to this event a "change" event after updating its `this.value`.
     this.dispatchEvent(new Event('private-selected-change', { bubbles: true }));
   }
 

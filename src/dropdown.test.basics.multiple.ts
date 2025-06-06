@@ -35,12 +35,13 @@ it('is accessible', async () => {
   await expect(host).to.be.accessible();
 });
 
-it('sets `value` to that of its selected options', async () => {
+it('can have selected options', async () => {
   const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" open multiple>
+    html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"
         value="one"
+        selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
@@ -52,54 +53,28 @@ it('sets `value` to that of its selected options', async () => {
       <glide-core-dropdown-option
         label="Three"
         value="three"
-        selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  expect(host.value).to.deep.equal(['two', 'three']);
-});
-
-it('has selected option labels when options are selected', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" multiple>
-      <glide-core-dropdown-option
-        label="One"
-        selected
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        selected
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
   const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
+  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.true;
+  expect(options[2]?.selected).to.be.false;
   expect(labels?.length).to.equal(2);
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
   expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
-});
-
-it('has a tag when an option is selected', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" multiple>
-      <glide-core-dropdown-option
-        label="One"
-        selected
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const tag = host.shadowRoot?.querySelector<Tag>('[data-test="tag"]');
-
-  expect(tag?.checkVisibility()).to.be.true;
-  expect(tag?.label).to.equal('One');
+  expect(host.value).to.deep.equal(['one', 'two']);
+  expect(tags?.length).to.equal(2);
+  expect(tags?.[0]?.label).to.equal('One');
+  expect(tags?.[1]?.label).to.equal('Two');
 });
 
 it('shows Select All', async () => {
@@ -366,4 +341,57 @@ it('does not include in its `value` disabled options that are selected', async (
   );
 
   expect(host.value).to.deep.equal([]);
+});
+
+it('only selects the first option with a matching value when multiple options have the same value and `value` is set', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" multiple .value=${['one']}>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  const labels = host.shadowRoot?.querySelectorAll(
+    '[data-test="selected-option-label"]',
+  );
+
+  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.false;
+  expect(labels?.length).to.equal(1);
+  expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+  expect(host.value).to.deep.equal(['one']);
+  expect(tags?.length).to.equal(1);
+  expect(tags?.[0]?.label).to.equal('One');
+});
+
+it('selects multiple options with the same value when `value` is set programmatically', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" multiple .value=${['one', 'one']}>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.true;
 });
