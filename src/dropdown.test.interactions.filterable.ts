@@ -888,7 +888,7 @@ it('deselects all options on Meta + Backspace when the insertion point is at the
   expect(options[0]?.selected).to.be.false;
 });
 
-it('sets its input field to the `label` of its selected option when single-select`', async () => {
+it('updates its input field when single-select and an option is selected`', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -906,6 +906,31 @@ it('sets its input field to the `label` of its selected option when single-selec
   await click(options[0]);
 
   expect(input?.value).to.equal(options[0]?.label);
+});
+
+it('updates its input field when single-select and `value` is set programmatically', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.value = ['one'];
+  await host.updateComplete;
+
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('One');
 });
 
 it('clears its input field when single-select and `value` is emptied programmatically', async () => {

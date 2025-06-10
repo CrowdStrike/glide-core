@@ -320,19 +320,6 @@ export default class Dropdown extends LitElement implements FormControl {
 
     this.#value = value;
 
-    // When an option is selected, `#inputElementRef.value.value` is set the `label`
-    // of the selected option. If Dropdown's `value` has been emptied, it means an
-    // option is no longer selected. So the `value` of `#inputElementRef.value` should
-    // be emptied too.
-    if (
-      !this.multiple &&
-      this.value.length === 0 &&
-      this.#inputElementRef.value
-    ) {
-      this.#inputElementRef.value.value = '';
-      this.inputValue = '';
-    }
-
     // `#onOptionsSelectedChange()` is called when an option is selected. It updates
     // `this.selectedAndEnabledOptions`. Deselecting every option before reselecting
     // those in `value` ensures tags appear in the same order as in `value`.
@@ -363,6 +350,28 @@ export default class Dropdown extends LitElement implements FormControl {
         option.selected = true;
         this.#isSelectionFromValueSetter = false;
       }
+    }
+
+    // When an option is selected, `#inputElementRef.value.value` is set the `label`
+    // of the selected option. If Dropdown's `value` has been emptied, it means an
+    // option is no longer selected. So the `value` of `#inputElementRef.value` should
+    // be emptied too.
+    if (
+      !this.multiple &&
+      this.value.length === 0 &&
+      this.#inputElementRef.value
+    ) {
+      this.#inputElementRef.value.value = '';
+      this.inputValue = '';
+    } else if (
+      !this.multiple &&
+      this.lastSelectedAndEnabledOption?.label &&
+      this.#inputElementRef.value
+    ) {
+      this.#inputElementRef.value.value =
+        this.lastSelectedAndEnabledOption.label;
+
+      this.inputValue = this.lastSelectedAndEnabledOption.label;
     }
   }
 
