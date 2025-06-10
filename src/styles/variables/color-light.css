@@ -18,6 +18,7 @@
   --glide-core-color-static-text-heading: #424242;
   --glide-core-color-static-text-onsolid: #ffffff;
   --glide-core-color-static-text-onsolid-secondary: #8a8a8a;
+  --glide-core-color-static-text-onsolid-tertiary: #212121;
   --glide-core-color-static-icon-default: #212121;
   --glide-core-color-static-icon-secondary: #424242;
   --glide-core-color-static-icon-heading: #424242;
@@ -114,6 +115,7 @@
   --glide-core-color-severity-surface-high: #fffaf2;
   --glide-core-color-severity-surface-medium: #fffcf2;
   --glide-core-color-severity-surface-low: #f9f9f9;
+  --glide-core-color-severity-surface-low-solid: #c9c9c9;
   --glide-core-color-severity-surface-unknown: #6d6d6d;
   --glide-core-color-severity-stroke-critical: #f4c0bd;
   --glide-core-color-severity-stroke-high: #ffbf66;
