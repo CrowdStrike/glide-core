@@ -1,5 +1,31 @@
 # @crowdstrike/glide-core
 
+## 0.28.1
+
+### Patch Changes
+
+- [#933](https://github.com/CrowdStrike/glide-core/pull/933) [`4bf9e25`](https://github.com/CrowdStrike/glide-core/commit/4bf9e251775fe26db3d5ef88861c8c3746eb92e3) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Colors (Light)
+
+  ```diff
+  + --glide-core-color-static-text-onsolid-tertiary: #212121;
+  + --glide-core-color-severity-surface-low-solid: #c9c9c9;
+  ```
+
+  ## Colors (Dark)
+
+  ```diff
+  + --glide-core-color-static-text-onsolid-tertiary: #202020;
+  + --glide-core-color-severity-surface-low-solid: #434343;
+  ```
+
+  ## Spacing
+
+  ```diff
+  + --glide-core-spacing-indent-level-5: 7rem;
+  ```
+
 ## 0.28.0
 
 ### Minor Changes
