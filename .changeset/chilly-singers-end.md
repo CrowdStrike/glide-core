@@ -12,7 +12,7 @@
 - Removing a tag via Enter no longer submits the form.
 - Disabled Dropdown Options are now enabled when selected programmatically.
 
-- The first option is now activated option when `multiple` is set to `false` programmatically and Dropdown is reopened after Select All was previously active. Previously, no option was activated.
+- The first option is now activated when `multiple` is set to `false` programmatically and Dropdown is reopened after Select All was previously active. Previously, no option was activated.
 
 - When a Dropdown Option is disabled programmatically and more than one selected Dropdown Option has the same `value`, Dropdown now only removes the value corresponding to the disabled Dropdown Option from `value`.
 

@@ -375,7 +375,7 @@ it('only selects the first option with a matching value when multiple options ha
   expect(tags?.[0]?.label).to.equal('One');
 });
 
-it('selects multiple options with the same value when `value` is set programmatically', async () => {
+it('selects multiple options with the same value when `value` is set', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple .value=${['one', 'one']}>
       <glide-core-dropdown-option

@@ -2715,7 +2715,7 @@ export default class Dropdown extends LitElement implements FormControl {
             // is meant to appear to the user as selected. We only show to the user selected options
             // as selected when they are enabled. We do that because we think users don't exactly know
             // what it means for an option that appears as disabled to also appear selected. Because
-            // disables states often appear visually the same or similar to read-only ones, it's not
+            // disabled states often appear visually the same or similar to read-only ones, it's not
             // obvious that a disabled option won't be submitted with the form.
             //
             //
