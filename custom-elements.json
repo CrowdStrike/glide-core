@@ -2221,8 +2221,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "selected",
-              "reflects": true
+              "attribute": "selected"
             },
             {
               "kind": "field",

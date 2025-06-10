@@ -37,7 +37,7 @@ const meta: Meta = {
     ) {
       textarea.reportValidity();
 
-      // `reportValidity` scrolls the element into view, which means the "autodocs"
+      // `reportValidity()` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.
       document.documentElement.scrollTop = 0;
 

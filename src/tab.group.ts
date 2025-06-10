@@ -362,7 +362,7 @@ export default class TabGroup extends LitElement {
 
     if (this.#tabListElementRef.value) {
       this.isDisableOverflowEndButton =
-        this.#tabListElementRef.value.scrollLeft +
+        Math.round(this.#tabListElementRef.value.scrollLeft) +
           this.#tabListElementRef.value.clientWidth >=
         this.#tabListElementRef.value.scrollWidth;
     }

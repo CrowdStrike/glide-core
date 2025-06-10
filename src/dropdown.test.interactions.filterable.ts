@@ -560,7 +560,6 @@ it('does not clear its filter when a tag is removed via Backspace', async () => 
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
   await sendKeys({ press: 'Tab' }); // Focus the tag.
   await sendKeys({ press: 'Tab' }); // Focus the input.
   await sendKeys({ type: 'o' });
@@ -585,8 +584,6 @@ it('does not clear its filter when every tag is removed via Meta + Backspace', a
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
-
-  await aTimeout(0); // Wait for Floating UI
 
   const input = host.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -760,7 +757,7 @@ it('updates its input field when made filterable programmatically', async () => 
   expect(input?.value).to.equal('One');
 });
 
-it('clears its input field when made multiselect programmatically', async () => {
+it('updates itself when made multiselect programmatically and an option is selected', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
@@ -780,6 +777,46 @@ it('clears its input field when made multiselect programmatically', async () => 
   );
 
   expect(input?.value).to.be.empty.string;
+});
+
+it('updates itself when made single-select programmatically and an option is selected', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" multiple filterable>
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+      <div slot="icon:three">✓</div>
+
+      <glide-core-dropdown-option label="One" value="one" selected>
+        <div slot="icon:one">✓</div>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two" value="two" selected>
+        <div slot="icon:two">✓</div>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Three" value="three" disabled selected>
+        <div slot="icon:three">✓</div>
+      </glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.multiple = false;
+  await host.updateComplete;
+
+  const icons = host.querySelectorAll('div');
+
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  const inputTooltip = host.shadowRoot?.querySelector<Tooltip>(
+    '[data-test="input-tooltip"]',
+  );
+
+  expect(host.value).to.deep.equal(['two']);
+  expect(icons[1]?.checkVisibility()).to.be.true;
+  expect(input?.value).to.equal('Two');
+  expect(inputTooltip?.label).to.equal('Two');
 });
 
 it('does not select options on Space', async () => {
@@ -851,7 +888,7 @@ it('deselects all options on Meta + Backspace when the insertion point is at the
   expect(options[0]?.selected).to.be.false;
 });
 
-it('sets its input field to the `label` of its selected option when single-select`', async () => {
+it('updates its input field when single-select and an option is selected`', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -869,6 +906,31 @@ it('sets its input field to the `label` of its selected option when single-selec
   await click(options[0]);
 
   expect(input?.value).to.equal(options[0]?.label);
+});
+
+it('updates its input field when single-select and `value` is set programmatically', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.value = ['one'];
+  await host.updateComplete;
+
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('One');
 });
 
 it('clears its input field when single-select and `value` is emptied programmatically', async () => {
@@ -956,7 +1018,7 @@ it('clears its input field when multiselect and an option is selected via Enter'
   expect(input?.value).to.be.empty.string;
 });
 
-it('does not clear its filter when a tag is removed', async () => {
+it('does not clear its filter when a tag is removed via click', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option
@@ -1960,7 +2022,7 @@ it('shows an ellipsis when the label of its selected option is set programmatica
   option.label = 'x'.repeat(500);
   await host.updateComplete;
 
-  // Wait for the resize observer to do its thing.
+  // Wait for the Resize Observer to do its thing.
   await aTimeout(0);
 
   const ellipsis = host.shadowRoot?.querySelector('[data-test="ellipsis"]');

@@ -12,6 +12,7 @@ export default {
     // https://github.com/modernweb-dev/web/issues/2588
     playwrightLauncher(),
   ],
+  // Half the available cores locally to leave room for work unrelated to testing.
   concurrency: process.env.CI ? os.cpus().length : os.cpus().length / 2,
   coverage: true,
   coverageConfig: {

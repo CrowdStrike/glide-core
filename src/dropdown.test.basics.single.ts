@@ -12,22 +12,40 @@ it('is accessible ', async () => {
   await expect(host).to.be.accessible();
 });
 
-it('has a selected option label when an option is initially selected', async () => {
+it('can have a selected option', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
+        value="one"
         selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
   const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.true;
+  expect(options[2]?.selected).to.be.false;
   expect(labels?.length).to.equal(1);
-  expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+  expect(labels?.[0]?.textContent?.trim()).to.equal('Two,');
+  expect(host.value).to.deep.equal(['two']);
 });
 
 it('has an Edit button when its last selected option is editable', async () => {
