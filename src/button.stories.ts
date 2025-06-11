@@ -23,6 +23,22 @@ const meta: Meta = {
     actions: {
       handles: ['click'],
     },
+    docs: {
+      story: {
+        autoplay: true,
+      },
+    },
+  },
+  play(context) {
+    context.canvasElement
+      .querySelector('form')
+      ?.addEventListener('submit', (event: Event) => {
+        event.preventDefault();
+
+        // We reload the page to give the impression of a submission while keeping
+        // the user on the same page.
+        window.location.reload();
+      });
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/prefer-nullish-coalescing */
