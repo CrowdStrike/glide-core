@@ -4,7 +4,7 @@ import SplitButtonSecondaryButton from './split-button.secondary-button.js';
 it('focuses itself when `focus()` is called', async () => {
   const host = await fixture<SplitButtonSecondaryButton>(html`
     <glide-core-split-button-secondary-button label="Label">
-      <glide-core-menu-button label="Label"></glide-core-menu-button>
+      <glide-core-option label="Label"></glide-core-option>
     </glide-core-split-button-secondary-button>
   `);
 

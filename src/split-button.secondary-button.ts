@@ -1,4 +1,4 @@
-import './menu.options.js';
+import './options.js';
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -6,14 +6,13 @@ import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import Menu from './menu.js';
-import MenuButton from './menu.button.js';
-import MenuLink from './menu.link.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './split-button.secondary-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
+import Option from './option.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,7 +29,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {MenuButton | MenuLink}
+ * @slot {Option}
  */
 @customElement('glide-core-split-button-secondary-button')
 @final
@@ -69,32 +68,12 @@ export default class SplitButtonSecondaryButton extends LitElement {
     this.#buttonElementRef.value?.click();
   }
 
-  override firstUpdated() {
-    // A "click" handler on Menu would suffice for checking Menu's `open` property
-    // and synchronizing it with `menuOpen` if Menu didn't close itself on `document`
-    // click and when focus is lost.
-    //
-    // Thus an observer. Which only assumes that `open` is reflected and doesn't
-    // depend on knowledge of Menu's internals.
-    const observer = new MutationObserver(() => {
-      if (this.#menuElementRef.value) {
-        this.menuOpen = this.#menuElementRef.value.open;
-      }
-    });
-
-    if (this.#menuElementRef.value) {
-      observer.observe(this.#menuElementRef.value, {
-        attributes: true,
-        attributeFilter: ['open'],
-      });
-    }
-  }
-
   override render() {
     return html`
       <glide-core-menu
         placement=${this.menuPlacement}
         ?open=${this.menuOpen}
+        @toggle=${this.#onMenuToggle}
         ${ref(this.#menuElementRef)}
       >
         <button
@@ -114,11 +93,11 @@ export default class SplitButtonSecondaryButton extends LitElement {
           ${chevronIcon}
         </button>
 
-        <glide-core-menu-options>
-          <slot ${assertSlot([MenuButton, MenuLink])}>
-            <!-- @type {MenuButton | MenuLink} -->
+        <glide-core-options>
+          <slot ${assertSlot([Option])}>
+            <!-- @type {Option} -->
           </slot>
-        </glide-core-menu-options>
+        </glide-core-options>
       </glide-core-menu>
     `;
   }
@@ -126,4 +105,10 @@ export default class SplitButtonSecondaryButton extends LitElement {
   #buttonElementRef = createRef<HTMLButtonElement>();
 
   #menuElementRef = createRef<Menu>();
+
+  #onMenuToggle(event: Event) {
+    if (event.target instanceof Menu) {
+      this.menuOpen = event.target.open;
+    }
+  }
 }
