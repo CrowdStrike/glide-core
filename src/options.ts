@@ -5,32 +5,32 @@ import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 import { range } from 'lit/directives/range.js';
 import packageJson from '../package.json' with { type: 'json' };
-import MenuButton from './menu.button.js';
-import MenuLink from './menu.link.js';
-import styles from './menu.options.styles.js';
-import assertSlot from './library/assert-slot.js';
+import styles from './options.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import uniqueId from './library/unique-id.js';
+import assertSlot from './library/assert-slot.js';
+import Option from './option.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-menu-options': MenuOptions;
+    'glide-core-options': Options;
   }
 }
 
-// This component exists because Menu's target and its menu both need to be in
-// the light DOM so ARIA attributes can be associated with the IDs they reference.
+// This component exists because Menu's target and its menu (`"role="menu"` or
+// `role="listbox"`) both need to be in the light DOM so the target and menu can
+// reference each other's IDs in ARIA attributes.
 //
 // Tooltip is in a similar situation but has no default slot. So we can simply take
 // the value of its `label` attribute, pass it to Tooltip Container, then dump
-// Tooltp Container into Tooltip's light DOM for consumers. We can't do the same
-// for Menu because it necessarily has a default slot for Menu Buttons and Menu Links.
+// Tooltip Container into Tooltip's light DOM for consumers. We can't do the same
+// for Menu because it necessarily has a default slot for Option(s) and arbitrary
+// content.
 //
-// One alternative solution is to require that consumers wrap their default slot content
-// in any element. But doing so would be arguably more awkward than asking them to slot
-// an element specifically for that purpose. It would also beget more questions, adding
-// to our support load.
+// An alternative solution would be to require that consumers wrap their default
+// slot content in any element. But doing so would be arguably more awkward than
+// asking them to slot an element specifically for that purpose.
 
 /**
  * @attr {string} [aria-activedescendant='']
@@ -39,8 +39,7 @@ declare global {
  * @readonly
  * @attr {string} [id]
  *
- * @readonly
- * @attr {string} [role='menu']
+ * @attr {'menu'|'listbox'} [role='menu']
  *
  * @readonly
  * @attr {number} [tabindex=-1]
@@ -48,11 +47,11 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {MenuButton | MenuLink}
+ * @slot {Option | Text}
  */
-@customElement('glide-core-menu-options')
+@customElement('glide-core-options')
 @final
-export default class MenuOptions extends LitElement {
+export default class Options extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -70,17 +69,19 @@ export default class MenuOptions extends LitElement {
   @property({ attribute: 'aria-labelledby', reflect: true, useDefault: true })
   ariaLabelledby = '';
 
-  // On the host instead of inside the shadow DOM so screenreaders can find it
-  // when Menu uses it with `aria-activedescendant`.
+  // On the host instead of inside the shadow root so screenreaders can find the
+  // ID when Menu's target uses it with `aria-controls`.
   @property({ reflect: true })
   override readonly id: string = uniqueId();
 
   @property({ type: Boolean })
   privateLoading = false;
 
+  // On the host because otherwise VoiceOver won't recongize it as belonging to Menu.
   @property({ reflect: true })
-  override readonly role = 'menu';
+  override role: 'menu' | 'listbox' = 'menu';
 
+  // On the host because `role` is on the host.
   @property({ attribute: 'tabindex', reflect: true, type: Number })
   override readonly tabIndex = -1;
 
@@ -88,16 +89,17 @@ export default class MenuOptions extends LitElement {
   readonly version: string = packageJson.version;
 
   override render() {
+    // Without `role="none" VoiceOver doesn't announce how many options are available.
     return html`<div class="component" role="none">
       <slot
         class=${classMap({
           'default-slot': true,
           loading: this.privateLoading,
         })}
-        ${assertSlot([MenuButton, MenuLink, Text])}
-        @slotchange=${this.#onSlotChange}
+        @slotchange=${this.#onDefaultSlotChange}
+        ${assertSlot([Option, Text], true)}
       >
-        <!-- @type {MenuButton | MenuLink} -->
+        <!-- @type {Option | Text} -->
       </slot>
 
       ${when(this.privateLoading, () => {
@@ -108,7 +110,7 @@ export default class MenuOptions extends LitElement {
     </div>`;
   }
 
-  #onSlotChange() {
+  #onDefaultSlotChange() {
     this.dispatchEvent(new Event('private-slot-change', { bubbles: true }));
   }
 }
