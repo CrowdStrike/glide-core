@@ -2,11 +2,12 @@ import { html, LitElement } from 'lit';
 import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 import packageJson from '../package.json' with { type: 'json' };
-import MenuButton from './menu.button.js';
 import { LocalizeController } from './library/localize.js';
-import MenuLink from './menu.link.js';
-import MenuOptions from './menu.options.js';
+import Options from './options.js';
+import Option from './option.js';
+import Input from './input.js';
 import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -18,6 +19,14 @@ declare global {
     'glide-core-menu': Menu;
   }
 }
+
+// TODO: think about custom elements in menu options: how it would affect the component and also submenus
+// TODO: submenu icon padding should extend to top of option
+// TODO: handle disabled options everywhere, like i did in Dropdown
+// TODO: comboboxes can't contain menuitem?
+// TODO: Design needs to be happy with submenu positoning. they're next to the submenu item not the item
+// TODO: storybook comment about how default slot should not contain interactive elements other than Options
+// TODO: support role="searchbox" when filtering with menu
 
 /**
  * @attr {boolean} [loading=false]
@@ -54,10 +63,8 @@ export default class Menu extends LitElement {
   set loading(isLoading: boolean) {
     this.#isLoading = isLoading;
 
-    const options = this.querySelector('glide-core-menu-options');
-
-    if (options && this.#targetElement) {
-      options.privateLoading = isLoading;
+    if (this.#optionsElement && this.#targetElement) {
+      this.#optionsElement.privateLoading = isLoading;
 
       this.#targetElement.ariaDescription = isLoading
         ? this.#localize.term('loading')
@@ -108,6 +115,10 @@ export default class Menu extends LitElement {
     } else if (hasChanged) {
       this.#hide();
 
+      for (const submenu of this.#submenus) {
+        submenu.open = false;
+      }
+
       this.dispatchEvent(
         new Event('toggle', { bubbles: true, composed: true }),
       );
@@ -135,16 +146,16 @@ export default class Menu extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    // 1. The consumer has a click handler on a button.
-    // 2. The user clicks the button.
-    // 3. The button's click handler is called and sets `this.open` to `true`.
-    // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
+    // 1. The consumer has a "click" handler on Menu's target.
+    // 2. The user clicks the target.
+    // 3. The handler is called and sets `this.open` to `true`.
+    // 4. The "click" event bubbles up and is handled by `#onDocumentClick()`.
     // 5. That handler sets `open` to `false` because the click came from outside Menu.
-    // 6. Menu is opened then closed in the same frame and so never opens.
+    // 6. Menu is opened then closed in the same tick and so never opens.
     //
-    // `capture` ensures `#onDocumentClick` is called before #3, so the button click
-    // handler setting `open` to `true` isn't overwritten by this handler setting `open`
-    // to `false`.
+    // `capture` ensures `#onDocumentClick()` is called before #3, so that `this.open`
+    // being set `true` in the consumer's handler isn't overwritten by this handler
+    // setting it to `false`.
     document.addEventListener('click', this.#onDocumentClick, {
       capture: true,
     });
@@ -164,10 +175,8 @@ export default class Menu extends LitElement {
   }
 
   override firstUpdated() {
-    const options = this.querySelector('glide-core-menu-options');
-
-    if (options && this.#targetElement) {
-      options.privateLoading = this.loading;
+    if (this.#optionsElement && this.#targetElement) {
+      this.#optionsElement.privateLoading = this.loading;
 
       this.#targetElement.ariaDescription = this.loading
         ? this.#localize.term('loading')
@@ -176,42 +185,24 @@ export default class Menu extends LitElement {
 
     if (this.#defaultSlotElementRef.value) {
       // `popover` is used so the options can break out of Modal or another container
-      // that has `overflow: hidden`. And elements with `popover` are positioned
-      // relative to the viewport. Thus Floating UI in addition to `popover`.
+      // that has `overflow: hidden`. Elements with `popover` are positioned relative
+      // to the viewport. Thus Floating UI in addition to `popover`.
       //
-      // Set here instead of in the template to escape Lit Analzyer, which isn't
+      // "manual" is set here instead of in the template to escape Lit Analyzer, which isn't
       // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
       //
-      // "auto" means only one popover can be open at a time. Consumers, however, may
-      // have popovers in own components that need to be open while this one is open.
+      // "manual" instead of "auto" because the latter means only one popover can be open
+      // at a time. Consumers, however, may have popovers in own components that need to be
+      // open while this one is open.
       //
       // "auto" also automatically opens the popover when its target is clicked. We want
-      // it to remain closed when clicked when there are no menu options.
+      // it to remain closed when clicked when there are no options or the target is disabled.
       this.#defaultSlotElementRef.value.popover = 'manual';
 
       if (this.open && !this.isTargetDisabled) {
         this.#show();
       }
     }
-
-    // Menu's "click" handler on `document` listens for clicks in the capture phase. There's
-    // a comment in `connectedCallback()` explaining why. `#isTargetSlotMouseUp` must be set
-    // before that handler is called so it has the information it needs to determine whether
-    // or not to close Menu.
-    this.#targetSlotElementRef.value?.addEventListener(
-      'mouseup',
-      this.#onTargetSlotMouseup,
-    );
-
-    this.#defaultSlotElementRef.value?.addEventListener(
-      'mousedown',
-      this.#onDefaultSlotMousedown,
-    );
-
-    this.#defaultSlotElementRef.value?.addEventListener(
-      'mouseup',
-      this.#onDefaultSlotMouseup,
-    );
   }
 
   private get isTargetDisabled() {
@@ -227,20 +218,24 @@ export default class Menu extends LitElement {
   }
 
   override render() {
-    // The linter wants a "focus" handler on the slot and apparently "focusin" doesn't satisfy it.
+    // The linter wants a "focus" handler on the slot and "focusin" doesn't satisfy it.
     //
     /* eslint-disable lit-a11y/mouse-events-have-key-events */
     return html`
       <div
-        class="component"
         @focusout=${this.#onComponentFocusout}
         ${ref(this.#componentElementRef)}
       >
         <slot
-          class="target-slot"
+          class=${classMap({
+            'target-slot': true,
+            open: this.open,
+          })}
           name="target"
           @click=${this.#onTargetSlotClick}
           @keydown=${this.#onSlotKeydown}
+          @mouseup=${this.#onTargetSlotMouseUp}
+          @input=${this.#onSlotInput}
           @slotchange=${this.#onTargetSlotChange}
           ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
@@ -256,10 +251,12 @@ export default class Menu extends LitElement {
           @click=${this.#onDefaultSlotClick}
           @focusin=${this.#onDefaultSlotFocusin}
           @keydown=${this.#onSlotKeydown}
-          @mouseover=${this.#onDefaultSlotMouseover}
-          @private-disabled=${this.#onOptionsDisabled}
-          @private-slot-change=${this.#onOptionsSlotChange}
-          ${assertSlot([MenuOptions])}
+          @mousedown=${this.#onDefaultSlotMouseDown}
+          @mouseover=${this.#onDefaultSlotMouseOver}
+          @mouseup=${this.#onDefaultSlotMouseUp}
+          @private-disabled-change=${this.#onDefaultSlotDisabledChange}
+          @private-slot-change=${this.#onDefaultSlotSlotChange}
+          @toggle=${this.#onDefaultSlotToggle}
           ${ref(this.#defaultSlotElementRef)}
         >
           <!--
@@ -277,17 +274,44 @@ export default class Menu extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
+  // TODO: say how this is used
   #isDefaultSlotClick = false;
 
   #isLoading = false;
 
   #isOpen = false;
 
+  // Set in `#onDefaultSlotToggle()`. Used in `#onSlotKeydown()` to guard against
+  // redispatching the event to a submenu when one isn't open.
+  #isSubmenuOpen = false;
+
+  // Set in `#onTargetSlotMouseUp()` and `#onDocumentClick()`, and used in `#onDocumentClick()`:
+  //
+  // 1. Menu is open.
+  // 2. User clicks Menu's target.
+  // 3. `#onDocumentClick()` sets `this.open` to `false.`
+  // 4. `#onTargetSlotClick()` sets `this.open` to true`.
+  // 5. Menu never closes.
+  //
+  // Setting `#isTargetSlotMouseUp` to `true` in `#onTargetSlotMouseUp()` gives
+  // `#onDocumentClick()` the information it needs to not set `this.open` to `false.
+  //
+  // A more straightforward approach would be to set an `#isTargetSlotClick` property
+  // in `#onTargetSlotClick()`. But `#onDocumentClick()` listens for clicks in their
+  // capture phase. So `#onDocumentClick()` would be called before `#onTargetSlotClick()`.
+  //
+  // Note too that `#onDocumentClick()` sets `#isTargetSlotMouseUp` to false instead of
+  // `#onTargetSlotClick()` doing it. That's so `#isTargetSlotMouseUp` is set to `false`
+  // even if the user mouses down on Menu's target then moves his mouse to something
+  // else before mousing up.
   #isTargetSlotMouseUp = false;
 
   #localize = new LocalizeController(this);
 
   #offset: number | undefined;
+
+  // Used in various situations to reactivate the previously active option.
+  #previouslyActiveOption?: Option | null;
 
   #shadowRoot?: ShadowRoot;
 
@@ -297,25 +321,119 @@ export default class Menu extends LitElement {
     return this.#optionElements?.find(({ privateActive }) => privateActive);
   }
 
-  // An arrow function field instead of a method so `this` is closed over and
-  // set to the component instead of `document`.
-  #onDefaultSlotMousedown = (event: Event) => {
-    if (event.target === this.#defaultSlotElementRef.value) {
-      // So the `#onFocusout` handler, which closes Menu, isn't called when
-      // the border or padding on `.default-slot` is clicked.
-      event.preventDefault();
+  get #activeOptionSubmenu() {
+    return this.#activeOption?.querySelector('glide-core-menu');
+  }
+
+  get #firstEnabledOption() {
+    return this.#optionElements?.find(({ disabled }) => !disabled);
+  }
+
+  get #lastEnabledOption() {
+    return this.#optionElements?.findLast(({ disabled }) => !disabled);
+  }
+
+  get #isSubmenu() {
+    return Boolean(
+      this.closest('glide-core-menu')?.parentElement?.closest(
+        'glide-core-menu',
+      ),
+    );
+  }
+
+  get #isTopLevelTargetCombobox(): boolean {
+    let isKeepLooking = true;
+
+    // eslint-disable-next-line @typescript-eslint/no-this-alias, unicorn/no-this-assignment
+    let topLevelMenu: Menu = this;
+
+    while (isKeepLooking) {
+      const menu = topLevelMenu.parentElement?.closest('glide-core-menu');
+      isKeepLooking = Boolean(menu);
+
+      if (menu) {
+        topLevelMenu = menu;
+      }
     }
-  };
+
+    const target = topLevelMenu?.querySelector('[slot="target"]');
+    return target instanceof Input || Boolean(target?.role === 'combobox');
+  }
+
+  get #isTargetSpanOrDivOrSvg() {
+    return (
+      this.#targetElement instanceof HTMLSpanElement ||
+      this.#targetElement instanceof HTMLDivElement ||
+      this.#targetElement instanceof SVGElement
+    );
+  }
+
+  get #openSubmenu() {
+    return this.#submenus.find(({ open }) => open);
+  }
+
+  get #optionsElement() {
+    return this.#defaultSlotElementRef.value
+      ?.assignedElements({ flatten: true })
+      ?.find((element): element is Options => element instanceof Options);
+  }
+
+  get #optionElements() {
+    // TODO: make sure to handle case where slot is placed inside options
+    // TODO: rework comment
+    // If we're dealing with a slot, then the consumer of this component has
+    // placed a slot inside Menu Options, in which case we need to get its
+    // assigned elements instead.
+
+    // TODO: explain. case where a slot is in Menu's default slot.
+    if (this.#optionsElement) {
+      return [...this.#optionsElement.children]
+        .flatMap((element) => {
+          return element instanceof HTMLSlotElement
+            ? element.assignedElements()
+            : element;
+        })
+        ?.filter((element): element is Option => {
+          return element instanceof Option;
+        });
+    }
+  }
+
+  get #submenus() {
+    return [
+      ...this.querySelectorAll<Menu>(
+        // The "content" slot case.
+        ':scope > glide-core-options > glide-core-option > [slot="content"] > glide-core-menu',
+      ),
+      ...this.querySelectorAll<Menu>(
+        // The "content" slot fallback case.
+        ':scope > glide-core-options > glide-core-option > [slot="submenu"]',
+      ),
+    ];
+  }
+
+  get #targetElement() {
+    const element = this.#targetSlotElementRef.value
+      ?.assignedElements({ flatten: true })
+      .at(0);
+
+    if (element instanceof HTMLElement || element instanceof SVGElement) {
+      return element;
+    }
+  }
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
-  #onDefaultSlotMouseup = () => {
-    this.#isDefaultSlotClick = true;
-  };
+  #onDocumentClick = (event: Event) => {
+    // TODO: only the main menu needs a document click handler. or do all need one so they all close?
+    // TODO: explain issubmenu condition
+    // TODO: think about this isTrusted business.
+    if (this.#isSubmenu || !event.isTrusted) {
+      // TDOO: say why. no need to run this code. multiple menus on the page.
+      return;
+    }
 
-  // An arrow function field instead of a method so `this` is closed over and
-  // set to the component instead of `document`.
-  #onDocumentClick = () => {
+    // TODO: it's for more reasons than this:
     // So Menu isn't closed when the border or padding on `.default-slot` is clicked.
     //
     // Checking that the click's `event.target` is equal to `#defaultSlotElementRef.value`
@@ -323,25 +441,25 @@ export default class Menu extends LitElement {
     // `event.target` will be that component. Same for the conditions below.
     if (this.#isDefaultSlotClick) {
       this.#isDefaultSlotClick = false;
+
       return;
     }
 
     if (this.#isTargetSlotMouseUp) {
+      // TODO: say why set here instead of in targetClick
       this.#isTargetSlotMouseUp = false;
       return;
     }
 
-    this.open = false;
-
     if (this.#optionsElement) {
       this.#optionsElement.ariaActivedescendant = '';
     }
-  };
 
-  // An arrow function field instead of a method so `this` is closed over and
-  // set to the component instead of `document`.
-  #onTargetSlotMouseup = () => {
-    this.#isTargetSlotMouseUp = true;
+    for (const submenu of this.#submenus) {
+      submenu.open = false;
+    }
+
+    this.open = false;
   };
 
   #focus(options?: FocusOptions) {
@@ -363,19 +481,25 @@ export default class Menu extends LitElement {
       this.#targetElement.ariaExpanded = 'false';
     }
 
+    if (this.#activeOption) {
+      this.#previouslyActiveOption = this.#activeOption;
+      this.#activeOption.privateActive = false;
+    }
+
     this.#defaultSlotElementRef.value?.hidePopover();
   }
 
   #onComponentFocusout(event: FocusEvent) {
+    // TODO: what if focus is moved from an SVG, which isn't an HTMLElement?
     const isMenuFocused =
       event.relatedTarget instanceof HTMLElement &&
       this.#shadowRoot?.contains(event.relatedTarget);
 
-    const isOptionsFocused = event.relatedTarget instanceof MenuOptions;
+    const isOptionsFocused = event.relatedTarget instanceof Options;
 
-    const isOptionFocused =
-      event.relatedTarget instanceof MenuButton ||
-      event.relatedTarget instanceof MenuLink;
+    const isOptionFocused = this.#optionElements?.some(
+      (option) => option === event.relatedTarget,
+    );
 
     if (!isMenuFocused && !isOptionsFocused && !isOptionFocused) {
       this.open = false;
@@ -383,73 +507,63 @@ export default class Menu extends LitElement {
   }
 
   #onDefaultSlotClick(event: Event) {
-    // So Menu isn't closed when the border or padding on `.default-slot` is clicked.
+    // SVGs don't have a `closest()` method. But they are valid targets because the
+    // consumer and add a `role="button"` to them. So, when we're dealing with an
+    // SVG, we get its parent element, which will have a `closest()` method.
+    const target =
+      event.target instanceof SVGElement
+        ? event.target.parentElement
+        : event.target;
+
+    const isOptionClick = event.target instanceof Option;
+
+    const isSubmenuTargetClick =
+      target instanceof Element && Boolean(target.closest('[slot="target"]'));
+
+    const isSubmenuMenuClick = target instanceof Menu;
+
     if (
+      // `isOptionClick` is guarded against so Menu doesn't close when Menu's border or
+      // padding is clicked. Or, for example, when a horizontal rule or option grouping
+      // element is clicked.
+      isOptionClick &&
       !event.defaultPrevented &&
-      event.target !== this.#defaultSlotElementRef.value
+      !isSubmenuTargetClick &&
+      !isSubmenuMenuClick
     ) {
       this.open = false;
     }
   }
 
-  #onDefaultSlotFocusin(event: FocusEvent) {
-    const isButtonOrLink =
-      event.target instanceof MenuButton || event.target instanceof MenuLink;
-
+  #onDefaultSlotDisabledChange(event: Event) {
     if (
-      isButtonOrLink &&
-      this.#activeOption &&
-      this.#optionsElement &&
-      !event.target.disabled
+      this.#activeOption === event.target &&
+      event.target instanceof Option &&
+      event.target.disabled &&
+      this.#optionElements
     ) {
-      // The order in which these are set matters when `this.#activeOption` and
-      // `event.target` are the same element. Setting `this.#activeOption.privateActive`
-      // second will result in no active option.
-      this.#activeOption.privateActive = false;
-      event.target.privateActive = true;
-
-      this.#optionsElement.ariaActivedescendant = event.target.id;
-    }
-  }
-
-  #onDefaultSlotMouseover(event: Event) {
-    if (
-      (event.target instanceof MenuLink ||
-        event.target instanceof MenuButton) &&
-      !event.target.disabled
-    ) {
-      if (this.#optionElements) {
-        for (const option of this.#optionElements) {
-          option.privateActive = option === event.target;
-        }
-      }
-
-      if (this.#optionsElement) {
-        this.#optionsElement.ariaActivedescendant = event.target.id;
-      }
-    }
-  }
-
-  #onOptionsDisabled() {
-    if (this.#optionElements && this.#activeOption) {
       const activeOptionIndex = this.#optionElements.indexOf(
         this.#activeOption,
       );
 
       this.#activeOption.privateActive = false;
 
-      const nextOption = this.#optionElements?.find((option, index) => {
-        return !option.disabled && index > activeOptionIndex;
+      const nextOption = this.#optionElements?.find(({ disabled }, index) => {
+        return !disabled && index > activeOptionIndex;
       });
 
       if (nextOption) {
+        this.#previouslyActiveOption = nextOption;
         nextOption.privateActive = true;
+
         return;
       }
 
-      const previousOption = this.#optionElements.findLast((option, index) => {
-        return !option.disabled && index < activeOptionIndex;
-      });
+      const previousOption = this.#optionElements.findLast(
+        ({ disabled }, index) => {
+          return !disabled && index < activeOptionIndex;
+        },
+      );
 
       if (previousOption) {
         previousOption.privateActive = true;
@@ -457,79 +571,310 @@ export default class Menu extends LitElement {
     }
   }
 
-  #onOptionsSlotChange() {
-    const firstOption = this.#optionElements?.find(
-      (option) => !option.disabled,
-    );
+  // TODO: say why this handler is needed
+  #onDefaultSlotFocusin(event: FocusEvent) {
+    // TODO: handle SVG case
+    // TODO: is this named correctly?
+    const isTargetSubmenuMenuTarget =
+      event.target instanceof Element &&
+      event.target.closest('glide-core-menu') !== this;
 
-    if (!this.#activeOption && firstOption) {
-      firstOption.privateActive = true;
+    if (
+      !isTargetSubmenuMenuTarget &&
+      event.target instanceof Option &&
+      !event.target.disabled &&
+      this.#activeOption &&
+      this.#optionsElement
+    ) {
+      this.#activeOption.privateActive = false;
+      this.#optionsElement.ariaActivedescendant = event.target.id;
+
+      event.target.privateActive = true;
     }
   }
 
-  #onSlotKeydown(event: KeyboardEvent) {
-    const isSpanOrDiv =
-      this.#targetElement instanceof HTMLSpanElement ||
-      this.#targetElement instanceof HTMLDivElement;
+  #onDefaultSlotMouseDown(event: Event) {
+    // So the `#onFocusout()` handler, which closes Menu, isn't called when the
+    // border or padding on `.default-slot` is clicked. Also so clicking an option
+    // doesn't move focus to the option. TODO: say more
+    //
+    // TODO: if this stays, remoev focus() calls
+    event.preventDefault();
+  }
 
-    if ([' ', 'Enter'].includes(event.key) && this.open) {
-      this.#isDefaultSlotClick = true;
+  #onDefaultSlotMouseOver(event: Event) {
+    const isOwnOption = this.#optionElements?.some(
+      (option) => option === event.target,
+    );
 
-      // Enter and Space will produce a "click" event. But so will `#activeOption?.click()`
-      // below. Canceling this click simplifies logic elsewhere in this component so that we
-      // don't have to account for two successive clicks. Emitting a single click is also
-      // likely less confusing to consumers.
-      event.preventDefault();
+    // This handler is also called when a submenu option is hovered. If that's
+    // the case, we don't want to deactivate the currently active option.
+    if (
+      isOwnOption &&
+      event.target &&
+      event.target instanceof Option &&
+      !event.target.disabled
+    ) {
+      this.#previouslyActiveOption = this.#activeOption;
 
-      if (event.key === ' ' && isSpanOrDiv) {
-        event.preventDefault(); // Prevent page scroll.
+      if (this.#activeOption) {
+        this.#activeOption.privateActive = false;
       }
 
-      // For VoiceOver. Options normally don't receive focus. But VoiceOver
-      // can focus them programmatically. So we move focus back to the target
-      // now that Menu is closed.
-      this.#focus();
+      event.target.privateActive = true;
 
-      this.#activeOption?.click();
+      if (this.#optionsElement) {
+        this.#optionsElement.ariaActivedescendant = event.target.id;
+      }
+    }
+  }
+
+  #onDefaultSlotMouseUp() {
+    this.#isDefaultSlotClick = true;
+  }
+
+  #onDefaultSlotSlotChange() {
+    const wasActiveOptionRemoved = this.#optionElements?.every(
+      (option) => option !== this.#activeOption,
+    );
+
+    if (wasActiveOptionRemoved && this.#firstEnabledOption) {
+      this.#firstEnabledOption.privateActive = true;
+    }
+  }
+
+  #onDefaultSlotToggle(event: Event) {
+    this.#isSubmenuOpen = this.#submenus.some(({ open }) => open);
+
+    if (event.target instanceof Menu) {
+      for (const submenu of this.#submenus) {
+        const isOwnSubmenu = this.#submenus.includes(event.target);
+
+        // Menu can have more than one option with a submenu. If this event was a result of
+        // a submenu being opened and another submenu is open, we close the already open submenu.
+        //
+        // Submenus of a submenu also dispatch "toggle" events. So we guard against closing them
+        // via `isOwnSubmenu`.
+        if (
+          isOwnSubmenu &&
+          submenu !== event.target &&
+          submenu.open &&
+          event.target.open
+        ) {
+          submenu.open = false;
+        }
+      }
+    }
+  }
+
+  // This handler in addition to the "keydown" one because entering characters into
+  // the input field should open Menu. An "input" handler is an easy way to filter
+  // out non-character input.
+  #onSlotInput() {
+    this.open = true;
+  }
+
+  // TODO: say why this handler is on both slots
+  #onSlotKeydown(event: KeyboardEvent) {
+    // If the event's target isn't this Menu's target, then the event came from the target
+    // of a submenu, in which case it shouldn't have an effect on the parent Menu.
+    //
+    // This also prevents a loop where the event is redispatched on the submenu then picked
+    // up again by its parent Menu, and on and on.
+    if (event.target !== this.#targetElement) {
+      return;
+    }
+
+    // TODO: can i get rid of this field now that I have openSubmenu
+    if (this.#isSubmenuOpen) {
+      const subevent = new KeyboardEvent(event.type, {
+        bubbles: true,
+        key: event.key,
+        metaKey: event.metaKey,
+        shiftKey: event.shiftKey,
+        cancelable: true,
+      });
+
+      // TODO: say why open submenu instead of active option submenu
+      //
+      // Normally this rule makes sense. But here we're not dispatching an event for consumers, so
+      // it doesn't belong in the JSDoc comment. We're simply redispatching an event from the user.
+      //
+      // eslint-disable-next-line @crowdstrike/glide-core/event-dispatch-from-this
+      this.#openSubmenu
+        ?.querySelector('[slot="target"]')
+        ?.dispatchEvent(subevent);
+
+      // TODO: explain
+      subevent.stopPropagation();
+      // subevent.stopImmediatePropagation();
+
+      // The event is canceled under certain conditions in a couple situations:
+      //
+      // 1. When the user presses ArrowRight or ArrowLeft, top-level Menu's target is an input field,
+      //    and the active option has submenu. The event is canceled to prevent the insertion point
+      //    from moving in addition to the submenu opening or closing.
+      //
+      // 2. When the user presses ArrowRight or ArrowLeft and Menu's target is not an input field.
+      //    The event is canceled to prevent the page from scrolling to the left or right.
+      //
+      // 3. When the user presses ArrowUp, ArrowDown, PageUp, Page Down, Home, or End. The event is
+      //    canceled to prevent page scroll and to prevent the insertion point from moving.
+      //
+      // The dispatch above is synchronous. The handling (the blocks below) of the dispatched event is
+      // also synchronous. That means this entire handler will have run again for the submenu the moment
+      // the subevent is dispatched above. So the submenu (or sub-submenu) will have had a chance to
+      // cancel the event by the time we've arrived here. The reason the submenu
+      //
+      // Canceling the event if its subevent is canceled allows the cancelation to propagate back up
+      // to original event: the one dispatched on the top-level Menu's target.
+      if (subevent.defaultPrevented) {
+        event.preventDefault();
+      }
 
       return;
     }
 
-    if ([' ', 'Enter'].includes(event.key) && !this.open && isSpanOrDiv) {
-      event.preventDefault(); // Prevent page scroll when Space is pressed.
+    if (
+      [' ', 'Enter'].includes(event.key) &&
+      !this.open &&
+      this.#isTargetSpanOrDivOrSvg
+    ) {
+      event.preventDefault(); // Prevent page scroll.
 
-      // `<span>`s and `<div>`s don't emit "click" events on Enter and Space.
-      // If they did, it would get picked up by `#onTargetSlotClick` and we
-      // wouldn't need this.
+      // SPANs, DIVs, and SVGs don't emit "click" events on Enter and Space. If they did,
+      // Menu would be opened by `#onTargetSlotClick()` and we wouldn't have to open it here.
       this.open = true;
 
       return;
     }
 
-    if (['Escape'].includes(event.key) && this.open) {
-      // Prevent Safari from leaving full screen.
+    if (event.key === ' ' && !this.open && this.#isTopLevelTargetCombobox) {
+      // Normally, pressing Space produces a "click" event and Menu is opened via
+      // `#onTargetSlotClick()`. Pressing Space in an input field, however, doesn't
+      // produce a "click" event. So we have to open Menu in this handler.
+      //
+      // The event is canceled because, as elsewhere, a single user interaction should
+      // produce multiple interface changes. So, if Menu is closed, pressing Space
+      // shouldn't both insert a space and open Menu.
       event.preventDefault();
+
+      this.open = true;
+    }
+
+    if (
+      ['ArrowUp', 'ArrowDown'].includes(event.key) &&
+      !this.open &&
+      this.#optionsElement
+    ) {
+      // - Prevent page scroll when Menu's target is not a combobox.
+      // - Prevent the insertion point from moving when Menu's target is a combobox.
+      event.preventDefault();
+
+      this.open = true;
+
+      if (
+        this.#previouslyActiveOption &&
+        !this.#previouslyActiveOption.disabled
+      ) {
+        this.#previouslyActiveOption.privateActive = true;
+
+        this.#optionsElement.ariaActivedescendant =
+          this.#previouslyActiveOption.id;
+      } else if (this.#firstEnabledOption) {
+        this.#firstEnabledOption.privateActive = true;
+        this.#optionsElement.ariaActivedescendant = this.#firstEnabledOption.id;
+      }
+
+      return;
+    }
+
+    if (this.open && event.key === 'Escape') {
+      event.preventDefault(); // Prevent Safari from leaving full screen.
 
       this.open = false;
 
       // For VoiceOver. Options normally don't receive focus. But VoiceOver
       // can focus them programmatically. So we move focus back to the target
       // now that Menu is closed.
-      this.#focus();
+      // TODO: explain
+      // TODO: check if option has focus before calling this?
+      // TODO: why exclude submenu. and how does this work if i'm stopping propagation?
+      if (!this.#isSubmenu) {
+        this.#focus();
+      }
 
       return;
     }
 
-    if (
-      ['ArrowUp', 'ArrowDown'].includes(event.key) &&
-      !this.open &&
-      this.#activeOption &&
-      this.#optionsElement
-    ) {
+    if (this.open && event.key === 'ArrowRight' && !event.metaKey) {
+      if (this.#activeOptionSubmenu) {
+        // If the active option has a submenu, the user expects ArrowRight to open the
+        // submenu and not to also move the insertion point.
+        event.preventDefault();
+        this.#activeOptionSubmenu.open = true;
+
+        // TODO: say why second condition
+        // Submenus don't know if the top-level Menu's target is a combobox.
+      } else if (!this.#isTopLevelTargetCombobox) {
+        event.preventDefault(); // Prevent page scroll.
+      }
+
+      return;
+    }
+
+    if (this.open && event.key === 'ArrowLeft' && !event.metaKey) {
+      if (this.#isSubmenu) {
+        // If we're in a submenu, the user expects ArrowLeft to close the submenu and not
+        // to also move the insertion point.
+        event.preventDefault();
+        this.open = false;
+
+        // TODO:  say why here and above why this condition
+      } else if (!this.#isTopLevelTargetCombobox) {
+        event.preventDefault(); // Prevent page scroll.
+      }
+
+      return;
+    }
+
+    // TODO: explain defaultPrevented. still needed?
+    if (this.open && event.key === 'Enter' && !event.defaultPrevented) {
+      if (!this.#isTopLevelTargetCombobox) {
+        // TODO: adjust comment to account for combobox
+        // Enter and Space will produce a "click" event. But so will `#activeOption?.click()`
+        // below. Canceling this click simplifies logic elsewhere in this component so that we
+        // don't have to account for two successive clicks. Emitting a single click is also
+        // likely less confusing to consumers.
+        event.preventDefault();
+
+        // TODO: why is this conditional here and not after the click below?
+        // TODO: explain this better. why is menu closed? also, should this apply to role="combobox"?
+        // For VoiceOver. Options normally don't receive focus. But VoiceOver
+        // can focus them programmatically. So we move focus back to the target
+        // now that Menu is closed.
+        // TODO: only call if an option has focus?
+        this.#focus();
+      }
+
+      // TODO: say why. so the click event comes from the option doesnt cause document click to close dropdown then regular click handler to reopen it.
+      this.#isDefaultSlotClick = true;
+      this.#activeOption?.click();
+      this.#isDefaultSlotClick = false;
+
+      return;
+    }
+
+    // Menu's target being a combobox is exclude because pressing Space in
+    // a combobox is meant to produce that character.
+    if (this.open && event.key === ' ' && !this.#isTopLevelTargetCombobox) {
+      // TODO: how is page scroll prevented if it's not a span or div?
       event.preventDefault(); // Prevent page scroll.
 
-      this.open = true;
-      this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
+      // TODO: say why. so the click event comes from the option.
+      this.#isDefaultSlotClick = true;
+      this.#activeOption?.click();
+      this.#isDefaultSlotClick = false;
 
       return;
     }
@@ -539,22 +884,26 @@ export default class Menu extends LitElement {
         this.#activeOption,
       );
 
-      // All the logic below could just as well go in a `@keydown` in Menu Button
-      // and Menu Link. It's here to mirror the tests, which necessarily test against
-      // Menu as a whole because more than one Button or Link is required to test
-      // these interactions.
       if (event.key === 'ArrowUp' && !event.metaKey) {
-        event.preventDefault(); // Prevent page scroll.
-
         const previousOption = this.#optionElements.findLast(
           (option, index) => {
             return !option.disabled && index < activeOptionIndex;
           },
         );
 
+        if (this.#isTopLevelTargetCombobox && previousOption) {
+          // Prevent the insertion point from moving to the beginning of the input field.
+          event.preventDefault();
+        } else if (!this.#isTopLevelTargetCombobox) {
+          // Prevent page scroll.
+          event.preventDefault();
+        }
+
         if (previousOption && this.#optionsElement) {
+          this.#previouslyActiveOption = this.#activeOption;
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = previousOption.id;
+
           previousOption.privateActive = true;
         }
 
@@ -562,15 +911,23 @@ export default class Menu extends LitElement {
       }
 
       if (event.key === 'ArrowDown' && !event.metaKey) {
-        event.preventDefault(); // Prevent page scroll.
-
         const nextOption = this.#optionElements.find((option, index) => {
           return !option.disabled && index > activeOptionIndex;
         });
 
+        if (this.#isTopLevelTargetCombobox && nextOption) {
+          // Prevent the insertion point from moving to the end of the input field.
+          event.preventDefault();
+        } else if (!this.#isTopLevelTargetCombobox) {
+          // Prevent page scroll.
+          event.preventDefault();
+        }
+
         if (nextOption && this.#optionsElement) {
+          this.#previouslyActiveOption = this.#activeOption;
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = nextOption.id;
+
           nextOption.privateActive = true;
         }
 
@@ -579,19 +936,17 @@ export default class Menu extends LitElement {
 
       if (
         (event.key === 'ArrowUp' && event.metaKey) ||
-        event.key === 'Home' ||
-        event.key === 'PageUp'
+        ['Home', 'PageUp'].includes(event.key)
       ) {
         event.preventDefault(); // Prevent page scroll.
 
-        const firstOption = [...this.#optionElements]
-          .reverse()
-          .findLast((option) => !option.disabled);
-
-        if (firstOption && this.#optionsElement) {
+        if (this.#firstEnabledOption && this.#optionsElement) {
+          this.#previouslyActiveOption = this.#activeOption;
           this.#activeOption.privateActive = false;
-          this.#optionsElement.ariaActivedescendant = firstOption.id;
-          firstOption.privateActive = true;
+          this.#firstEnabledOption.privateActive = true;
+
+          this.#optionsElement.ariaActivedescendant =
+            this.#firstEnabledOption.id;
         }
 
         return;
@@ -599,19 +954,17 @@ export default class Menu extends LitElement {
 
       if (
         (event.key === 'ArrowDown' && event.metaKey) ||
-        event.key === 'End' ||
-        event.key === 'PageDown'
+        ['End', 'PageDown'].includes(event.key)
       ) {
         event.preventDefault(); // Prevent page scroll.
 
-        const lastOption = [...this.#optionElements].findLast(
-          (option) => !option.disabled,
-        );
-
-        if (lastOption && this.#optionsElement) {
+        if (this.#lastEnabledOption && this.#optionsElement) {
+          this.#previouslyActiveOption = this.#activeOption;
           this.#activeOption.privateActive = false;
-          this.#optionsElement.ariaActivedescendant = lastOption.id;
-          lastOption.privateActive = true;
+          this.#lastEnabledOption.privateActive = true;
+
+          this.#optionsElement.ariaActivedescendant =
+            this.#lastEnabledOption.id;
         }
 
         return;
@@ -630,31 +983,26 @@ export default class Menu extends LitElement {
 
     if (this.#targetElement && this.#optionsElement) {
       observer.observe(this.#targetElement, {
-        attributes: true,
         attributeFilter: ['aria-disabled', 'disabled'],
       });
 
+      // TODO: test that existing ID is retained
+      this.#targetElement.id = this.#targetElement.id || uniqueId();
+      this.#optionsElement.ariaLabelledby = this.#targetElement.id;
       this.#targetElement.ariaHasPopup = 'true';
-      this.#targetElement.id = uniqueId();
 
       this.#targetElement.setAttribute(
         'aria-controls',
         this.#optionsElement.id,
       );
 
-      this.#optionsElement.ariaLabelledby = this.#targetElement.id;
-    }
-
-    const isSpanOrDiv =
-      this.#targetElement instanceof HTMLSpanElement ||
-      this.#targetElement instanceof HTMLDivElement;
-
-    // We think consumers should always use a `<button>` as Menu's target. But
-    // we've found that's not always the case. So for consumers' convenience, to
-    // reduce support on our end, and to ensure accessibility we decided to bake
-    // support for other elements into Menu.
-    if (isSpanOrDiv && this.#targetElement instanceof HTMLElement) {
-      this.#targetElement.tabIndex = 0;
+      if (this.#isTargetSpanOrDivOrSvg) {
+        // We want consumers to always use a `<button>` as Menu's target. But we've
+        // found that's not always the case. So for their convenience and to ensure
+        // accessibility we ensure it's set up correctly.
+        this.#targetElement.role = 'button';
+        this.#targetElement.tabIndex = 0;
+      }
     }
 
     if (this.open && !this.isTargetDisabled) {
@@ -665,59 +1013,51 @@ export default class Menu extends LitElement {
   }
 
   #onTargetSlotClick(event: Event) {
-    if (event.defaultPrevented) {
+    const isDisabledSubmenuOption =
+      event.target instanceof Element &&
+      event.target.closest('glide-core-option')?.disabled;
+
+    // The `event.defaultPrevented` condition because consumers can cancel the event
+    // to prevent Menu from opening. Select cancels the event as well.
+    //
+    // TODO: explain submenu condition
+    if (
+      event.defaultPrevented ||
+      isDisabledSubmenuOption ||
+      this.isTargetDisabled
+    ) {
       return;
     }
 
-    if (this.isTargetDisabled) {
-      this.#hide();
-      return;
-    }
-
-    if (this.#optionElements && this.#optionElements.length > 0) {
+    // If the target is a combobox, Menu doesn't close on click because the user may be
+    // clicked the input field to select or change its text.
+    if (
+      this.#optionElements &&
+      this.#optionElements.length > 0 &&
+      this.#isTopLevelTargetCombobox
+    ) {
+      this.open = true;
+    } else if (this.#optionElements && this.#optionElements.length > 0) {
       this.open = !this.open;
     }
   }
 
-  get #optionsElement() {
-    const firstAssignedElement = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .at(0);
-
-    return firstAssignedElement instanceof MenuOptions
-      ? firstAssignedElement
-      : null;
-  }
-
-  get #optionElements() {
-    // A cleaner approach, which would obviate all the optional chaining and
-    // conditions throughout, would be to return an empty array if `children`
-    // is `undefined`. The problem is test coverage. `MenuOptions`
-    // throws when its default slot is empty. So the branch where `children` is
-    // `undefined` is never reached.
-    let elements: HTMLCollection | Element[] | undefined =
-      this.#defaultSlotElementRef.value?.assignedElements()?.at(0)?.children;
-
-    const element = elements?.[0];
-
-    // If we're dealing with a slot, then the consumer of this component has
-    // placed a slot inside Menu Options, in which case we need to get its
-    // assigned elements instead. Tree Menu is one consumer that does this.
-    if (element instanceof HTMLSlotElement) {
-      elements = element.assignedElements();
-    }
-
-    if (elements) {
-      return [...elements].filter(
-        (element): element is MenuLink | MenuButton => {
-          return element instanceof MenuLink || element instanceof MenuButton;
-        },
-      );
-    }
+  #onTargetSlotMouseUp() {
+    this.#isTargetSlotMouseUp = true;
   }
 
   #show() {
     this.#cleanUpFloatingUi?.();
+
+    if (
+      this.#previouslyActiveOption &&
+      !this.#previouslyActiveOption.disabled
+    ) {
+      this.#previouslyActiveOption.privateActive = true;
+    } else if (this.#firstEnabledOption) {
+      this.#firstEnabledOption.privateActive = true;
+      this.#previouslyActiveOption = this.#firstEnabledOption;
+    }
 
     if (this.#targetElement && this.#defaultSlotElementRef.value) {
       this.#cleanUpFloatingUi = autoUpdate(
@@ -756,9 +1096,5 @@ export default class Menu extends LitElement {
         },
       );
     }
-  }
-
-  get #targetElement() {
-    return this.#targetSlotElementRef.value?.assignedElements().at(0);
   }
 }

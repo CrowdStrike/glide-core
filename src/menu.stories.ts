@@ -1,8 +1,8 @@
 import './button.js';
+import './input.js';
 import './icons/storybook.js';
-import './menu.button.js';
-import './menu.link.js';
-import './menu.options.js';
+import './options.js';
+import './option.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html, nothing } from 'lit';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
@@ -17,9 +17,8 @@ const meta: Meta = {
     (story) =>
       html`<script type="ignore">
           import '@crowdstrike/glide-core/menu.js';
-          import '@crowdstrike/glide-core/menu.options.js';
-          import '@crowdstrike/glide-core/menu.link.js';
-          import '@crowdstrike/glide-core/menu.button.js';
+          import '@crowdstrike/glide-core/options.js';
+          import '@crowdstrike/glide-core/option.js';
         </script>
 
         ${story()}`,
@@ -28,11 +27,7 @@ const meta: Meta = {
     actions: {
       // Menu Button and Link are selected so "click" events from Menu's target
       // aren't picked up, muddying the Actions tab.
-      handles: [
-        'click glide-core-menu-button',
-        'click glide-core-menu-link',
-        'toggle',
-      ],
+      handles: ['click', 'toggle'],
     },
     docs: {
       story: {
@@ -49,15 +44,12 @@ const meta: Meta = {
     open: false,
     placement: 'bottom-start',
     version: '',
-    '<glide-core-menu-options>[slot="default"]': '',
-    '<glide-core-menu-options>.version': '',
-    '<glide-core-menu-button>.label': 'One',
-    '<glide-core-menu-button>.disabled': false,
-    '<glide-core-menu-button>.version': '',
-    '<glide-core-menu-link>.label': 'Three',
-    '<glide-core-menu-link>.disabled': false,
-    '<glide-core-menu-link>.href': '/',
-    '<glide-core-menu-link>.version': '',
+    '<glide-core-options>[slot="default"]': '',
+    '<glide-core-options>.version': '',
+    '<glide-core-option>.label': 'One',
+    '<glide-core-option>.disabled': false,
+    '<glide-core-option>.version': '',
+    '<glide-core-option>.href': '/',
   },
   argTypes: {
     'slot="default"': {
@@ -143,7 +135,7 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '<glide-core-menu-options>[slot="default"]': {
+    '<glide-core-options>[slot="default"]': {
       name: 'slot="default"',
       control: false,
       table: {
@@ -154,7 +146,7 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-menu-options>.version': {
+    '<glide-core-options>.version': {
       control: false,
       name: 'version',
       table: {
@@ -231,7 +223,12 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-menu')
       ?.addEventListener('toggle', (event: Event) => {
-        if (event.target instanceof MenuComponent) {
+        // TODO: explain
+        const isSubmenu =
+          event.target instanceof Element &&
+          event.target.closest('glide-core-menu');
+
+        if (event.target instanceof MenuComponent && !isSubmenu) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -244,13 +241,13 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-menu')
       ?.addEventListener('click', (event: Event) => {
-        const menuLink =
+        const optionLink =
           event.target instanceof Element &&
-          event.target.closest('glide-core-menu-link');
+          event.target.closest('glide-core-option');
 
         // If the URL is anything but `/`, then the user has changed the URL and wants
         // to navigate to it.
-        if (menuLink && menuLink.href === '/' && window.top) {
+        if (optionLink && optionLink.href === '/' && window.top) {
           event.preventDefault();
 
           // The Storybook user expects to navigate when the link is clicked but
@@ -272,69 +269,260 @@ const meta: Meta = {
     >
       <glide-core-button label="Toggle" slot="target"></glide-core-button>
 
-      <glide-core-menu-options>
-        <glide-core-menu-button
-          label=${arguments_['<glide-core-menu-button>.label']}
-          ?disabled=${arguments_['<glide-core-menu-button>.disabled']}
-        ></glide-core-menu-button>
-        <glide-core-menu-button label="Two"></glide-core-menu-button>
-        <glide-core-menu-link
-          label=${arguments_['<glide-core-menu-link>.label']}
-          href=${arguments_['<glide-core-menu-link>.href']}
-          ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
-        ></glide-core-menu-link>
-      </glide-core-menu-options>
+      <glide-core-options>
+        <glide-core-option label="One">
+          <div
+            slot="content"
+            style="display: flex; inline-size: 100%; justify-content: space-between;"
+          >
+            One
+            <glide-core-menu>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                slot="target"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6.6665 8C6.6665 7.26362 7.26346 6.66667 7.99984 6.66667C8.73622 6.66667 9.33317 7.26362 9.33317 8C9.33317 8.73638 8.73622 9.33333 7.99984 9.33333C7.26346 9.33333 6.6665 8.73638 6.6665 8Z"
+                  fill="#212121"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6.6665 3.33333C6.6665 2.59695 7.26346 2 7.99984 2C8.73622 2 9.33317 2.59695 9.33317 3.33333C9.33317 4.06971 8.73622 4.66667 7.99984 4.66667C7.26346 4.66667 6.6665 4.06971 6.6665 3.33333Z"
+                  fill="#212121"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6.6665 12.6667C6.6665 11.9303 7.26346 11.3333 7.99984 11.3333C8.73622 11.3333 9.33317 11.9303 9.33317 12.6667C9.33317 13.403 8.73622 14 7.99984 14C7.26346 14 6.6665 13.403 6.6665 12.6667Z"
+                  fill="#212121"
+                />
+              </svg>
+
+              <glide-core-options>
+                <glide-core-option label="One"></glide-core-option>
+                <glide-core-option label="Two"></glide-core-option>
+
+                <glide-core-option label="Three">
+                  <glide-core-menu>
+                    <div slot="target">
+                      <glide-core-example-icon
+                        name="edit"
+                      ></glide-core-example-icon>
+                    </div>
+
+                    <glide-core-options>
+                      <glide-core-option label="One"></glide-core-option>
+                      <glide-core-option label="Two"></glide-core-option>
+                      <glide-core-option label="Three"></glide-core-option>
+                    </glide-core-options>
+                  </glide-core-menu>
+                </glide-core-option>
+              </glide-core-options>
+            </glide-core-menu>
+          </div>
+        </glide-core-option>
+
+        <glide-core-option label="Two">
+          <glide-core-menu slot="submenu">
+            <div slot="target">
+              <glide-core-example-icon
+                name="drag-dots"
+              ></glide-core-example-icon>
+            </div>
+
+            <glide-core-options>
+              <glide-core-option label="One"></glide-core-option>
+
+              <glide-core-option label="Two">
+                <glide-core-menu slot="submenu">
+                  <div slot="target">
+                    <glide-core-example-icon
+                      name="drag-dots"
+                    ></glide-core-example-icon>
+                  </div>
+
+                  <glide-core-options>
+                    <glide-core-option label="One"></glide-core-option>
+                    <glide-core-option label="Two"></glide-core-option>
+                    <glide-core-option label="Three"></glide-core-option>
+                  </glide-core-options>
+                </glide-core-menu>
+              </glide-core-option>
+
+              <glide-core-option label="Three">
+                <glide-core-menu slot="submenu">
+                  <div slot="target">
+                    <glide-core-example-icon
+                      name="calendar"
+                    ></glide-core-example-icon>
+                  </div>
+
+                  <glide-core-options>
+                    <glide-core-option label="One"></glide-core-option>
+                    <glide-core-option label="Two"></glide-core-option>
+                    <glide-core-option label="Three"></glide-core-option>
+                  </glide-core-options>
+                </glide-core-menu>
+              </glide-core-option>
+            </glide-core-options> </glide-core-menu
+        ></glide-core-option>
+
+        <glide-core-option label="Three" href="/"></glide-core-option>
+      </glide-core-options>
     </glide-core-menu>`;
   },
 };
 
 export default meta;
 
-export const Menu: StoryObj = {
-  tags: ['!autodocs'],
-};
+export const Menu: StoryObj = {};
 
-export const WithIcons: StoryObj = {
+export const WithFiltering: StoryObj = {
   render(arguments_) {
-    return html`<glide-core-menu
-      offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
-      placement=${arguments_.placement === 'bottom-start'
-        ? nothing
-        : arguments_.placement}
-      ?loading=${arguments_.loading}
-      ?open=${arguments_.open}
-    >
-      <glide-core-button label="Toggle" slot="target"></glide-core-button>
+    return html`<script type="ignore">
+        document.querySelector('glide-core-input')
+          ?.addEventListener('input', (event: Event) => {
 
-      <glide-core-menu-options>
-        <glide-core-menu-button
-          label="Edit"
-          ?disabled=${arguments_['<glide-core-menu-button>.disabled']}
-        >
-          <glide-core-example-icon
-            slot="icon"
-            name="edit"
-          ></glide-core-example-icon>
-        </glide-core-menu-button>
 
-        <glide-core-menu-button label="Move">
-          <glide-core-example-icon
-            slot="icon"
-            name="move"
-          ></glide-core-example-icon>
-        </glide-core-menu-button>
+          });
+      </script>
 
-        <glide-core-menu-link
-          label="Share"
-          href="/"
-          ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
-        >
-          <glide-core-example-icon
-            slot="icon"
-            name="share"
-          ></glide-core-example-icon>
-        </glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`;
+      <glide-core-menu
+        id="yes"
+        offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
+        placement=${arguments_.placement === 'bottom-start'
+          ? nothing
+          : arguments_.placement}
+        ?loading=${arguments_.loading}
+        ?open=${arguments_.open}
+      >
+        <glide-core-input
+          label="Filter"
+          slot="target"
+          hide-label
+        ></glide-core-input>
+
+        <glide-core-button label="Button"></glide-core-button>
+
+        <glide-core-options>
+          <glide-core-option label="One">
+            <div
+              slot="content"
+              style="display: flex; inline-size: 100%; justify-content: space-between;"
+            >
+              One
+              <glide-core-menu>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  slot="target"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M6.6665 8C6.6665 7.26362 7.26346 6.66667 7.99984 6.66667C8.73622 6.66667 9.33317 7.26362 9.33317 8C9.33317 8.73638 8.73622 9.33333 7.99984 9.33333C7.26346 9.33333 6.6665 8.73638 6.6665 8Z"
+                    fill="#212121"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M6.6665 3.33333C6.6665 2.59695 7.26346 2 7.99984 2C8.73622 2 9.33317 2.59695 9.33317 3.33333C9.33317 4.06971 8.73622 4.66667 7.99984 4.66667C7.26346 4.66667 6.6665 4.06971 6.6665 3.33333Z"
+                    fill="#212121"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M6.6665 12.6667C6.6665 11.9303 7.26346 11.3333 7.99984 11.3333C8.73622 11.3333 9.33317 11.9303 9.33317 12.6667C9.33317 13.403 8.73622 14 7.99984 14C7.26346 14 6.6665 13.403 6.6665 12.6667Z"
+                    fill="#212121"
+                  />
+                </svg>
+
+                <glide-core-options>
+                  <glide-core-option label="One"></glide-core-option>
+                  <glide-core-option label="Two"></glide-core-option>
+
+                  <glide-core-option label="Three">
+                    <glide-core-menu>
+                      <div slot="target">
+                        <glide-core-example-icon
+                          name="edit"
+                        ></glide-core-example-icon>
+                      </div>
+
+                      <glide-core-options>
+                        <glide-core-option label="One"></glide-core-option>
+                        <glide-core-option label="Two"></glide-core-option>
+                        <glide-core-option label="Three"></glide-core-option>
+                      </glide-core-options>
+                    </glide-core-menu>
+                  </glide-core-option>
+                </glide-core-options>
+              </glide-core-menu>
+            </div>
+          </glide-core-option>
+
+          <glide-core-option label="Two">
+            <glide-core-example-icon
+              name="drag-dots"
+              slot="icon"
+            ></glide-core-example-icon>
+
+            <glide-core-menu slot="submenu">
+              <div slot="target">
+                <glide-core-example-icon
+                  name="drag-dots"
+                ></glide-core-example-icon>
+              </div>
+
+              <glide-core-options>
+                <glide-core-option label="One"></glide-core-option>
+
+                <glide-core-option label="Two" disabled>
+                  <glide-core-menu slot="submenu">
+                    <div slot="target">
+                      <glide-core-example-icon
+                        name="drag-dots"
+                      ></glide-core-example-icon>
+                    </div>
+
+                    <glide-core-options>
+                      <glide-core-option label="One"></glide-core-option>
+                      <glide-core-option label="Two"></glide-core-option>
+                      <glide-core-option label="Three"></glide-core-option>
+                    </glide-core-options>
+                  </glide-core-menu>
+                </glide-core-option>
+
+                <glide-core-option label="Three">
+                  <glide-core-menu slot="submenu">
+                    <div slot="target">
+                      <glide-core-example-icon
+                        name="calendar"
+                      ></glide-core-example-icon>
+                    </div>
+
+                    <glide-core-options>
+                      <glide-core-option label="One"></glide-core-option>
+                      <glide-core-option label="Two"></glide-core-option>
+                      <glide-core-option label="Three"></glide-core-option>
+                    </glide-core-options>
+                  </glide-core-menu>
+                </glide-core-option>
+              </glide-core-options> </glide-core-menu
+          ></glide-core-option>
+
+          <glide-core-option label="Three" href="/"></glide-core-option>
+        </glide-core-options>
+      </glide-core-menu>`;
   },
 };
