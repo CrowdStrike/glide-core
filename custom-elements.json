@@ -4576,652 +4576,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/menu.button.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/menu.button.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/menu.button.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "MenuButton",
-          "slots": [
-            {
-              "name": "icon",
-              "description": "",
-              "type": {
-                "text": "Element"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "id",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateActive",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "privateActive"
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menuitem'",
-              "attribute": "role",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "attribute": "tabindex",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "click"
-            }
-          ],
-          "events": [
-            {
-              "name": "private-disabled",
-              "type": {
-                "text": "Event"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "id"
-            },
-            {
-              "name": "privateActive",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateActive"
-            },
-            {
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menuitem'",
-              "fieldName": "role"
-            },
-            {
-              "name": "tabindex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "fieldName": "tabIndex"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-menu-button",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "MenuButton",
-            "module": "src/menu.button.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-menu-button",
-          "declaration": {
-            "name": "MenuButton",
-            "module": "src/menu.button.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/menu.link.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/menu.link.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/menu.link.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "MenuLink",
-          "slots": [
-            {
-              "name": "icon",
-              "description": "",
-              "type": {
-                "text": "Element"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "href",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "id",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateActive",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "privateActive"
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menuitem'",
-              "attribute": "role",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "attribute": "tabindex",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "click"
-            }
-          ],
-          "events": [
-            {
-              "name": "private-disabled",
-              "type": {
-                "text": "Event"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "href"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "id"
-            },
-            {
-              "name": "privateActive",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateActive"
-            },
-            {
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menuitem'",
-              "fieldName": "role"
-            },
-            {
-              "name": "tabindex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "fieldName": "tabIndex"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-menu-link",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "MenuLink",
-            "module": "src/menu.link.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-menu-link",
-          "declaration": {
-            "name": "MenuLink",
-            "module": "src/menu.link.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/menu.options.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/menu.options.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/menu.options.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "MenuOptions",
-          "slots": [
-            {
-              "name": "",
-              "description": "",
-              "type": {
-                "text": "MenuButton | MenuLink"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
-            },
-            {
-              "kind": "field",
-              "name": "ariaActivedescendant",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "aria-activedescendant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabelledby",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "aria-labelledby",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "id",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateLoading",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "privateLoading"
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menu'",
-              "attribute": "role",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "attribute": "tabindex",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            }
-          ],
-          "events": [
-            {
-              "name": "private-slot-change",
-              "type": {
-                "text": "Event"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "aria-activedescendant",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "ariaActivedescendant"
-            },
-            {
-              "name": "aria-labelledby",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "ariaLabelledby"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "id"
-            },
-            {
-              "name": "privateLoading",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateLoading"
-            },
-            {
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menu'",
-              "fieldName": "role"
-            },
-            {
-              "name": "tabindex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "fieldName": "tabIndex"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-menu-options",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "MenuOptions",
-            "module": "src/menu.options.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-menu-options",
-          "declaration": {
-            "name": "MenuOptions",
-            "module": "src/menu.options.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/menu.styles.ts",
       "declarations": [],
       "exports": [
@@ -5245,7 +4599,35 @@
           "slots": [
             {
               "name": "target",
-              "description": "The element to which the popover will anchor. Can be any focusable element.",
+              "description": "The element to which Menu will anchor. Can be any focusable element unless it's the target of a sub-Menu, in which case the element shouldn't be focusable. If you want Menu to be filterable, put an Input in this slot. Listen for Input's \"input\" event, then add and remove Option(s) from Menu's default slot based on Input's value.",
+              "required": {
+                "tag": "required",
+                "name": "",
+                "type": "",
+                "optional": false,
+                "description": "",
+                "problems": [],
+                "source": [
+                  {
+                    "number": 9,
+                    "source": "            @required",
+                    "tokens": {
+                      "start": "            ",
+                      "delimiter": "",
+                      "postDelimiter": "",
+                      "tag": "@required",
+                      "postTag": "",
+                      "name": "",
+                      "postName": "",
+                      "type": "",
+                      "postType": "",
+                      "description": "",
+                      "end": "",
+                      "lineEnd": ""
+                    }
+                  }
+                ]
+              },
               "type": {
                 "text": "Element"
               }
@@ -5282,7 +4664,7 @@
                 ]
               },
               "type": {
-                "text": "MenuOptions"
+                "text": "Element"
               }
             }
           ],
@@ -5338,6 +4720,15 @@
             },
             {
               "kind": "field",
+              "name": "privateOpenedViaKeyboard",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateOpenedViaKeyboard"
+            },
+            {
+              "kind": "field",
               "name": "version",
               "type": {
                 "text": "string"
@@ -5387,6 +4778,14 @@
               },
               "default": "'bottom-start'",
               "fieldName": "placement"
+            },
+            {
+              "name": "privateOpenedViaKeyboard",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateOpenedViaKeyboard"
             },
             {
               "name": "version",
@@ -5782,6 +5181,515 @@
           "declaration": {
             "name": "Modal",
             "module": "src/modal.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/option.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/option.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/option.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Option",
+          "slots": [
+            {
+              "name": "content",
+              "description": "This is the unhappy path. It's the escape hatch where you can render arbitrary content and lay it out however you need to. If you go this route, \\`slot=\"icon\"\\` and \\`slot=\"submenu\"\\` will become unavailable. And the \\`label\\` and \\`description\\` attributes won't be rendered. The \\`label\\` attribute is still required. We'll show it in a tooltip when your content overflows. If you need a second line of text in the tooltip, provide you can provide it via the \\`description\\` attribute.",
+              "type": {
+                "text": "Element | Text"
+              }
+            },
+            {
+              "name": "icon",
+              "description": "",
+              "type": {
+                "text": "Element"
+              }
+            },
+            {
+              "name": "submenu",
+              "description": "",
+              "type": {
+                "text": "Menu"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "description",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "href",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateActive",
+              "attribute": "privateActive"
+            },
+            {
+              "kind": "field",
+              "name": "privateTooltipOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateTooltipOpen"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "'menuitem' | 'option'"
+              },
+              "default": "'menuitem'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selected"
+            },
+            {
+              "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "attribute": "tabindex",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "click"
+            }
+          ],
+          "events": [
+            {
+              "name": "private-disabled-change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "label",
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "description"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "href"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "privateActive",
+              "fieldName": "privateActive"
+            },
+            {
+              "name": "privateTooltipOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateTooltipOpen"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "'menuitem' | 'option'"
+              },
+              "default": "'menuitem'",
+              "fieldName": "role"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selected"
+            },
+            {
+              "name": "tabindex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "fieldName": "tabIndex"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-option",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "Option",
+            "module": "src/option.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-option",
+          "declaration": {
+            "name": "Option",
+            "module": "src/option.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/options.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/options.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/options.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Options",
+          "slots": [
+            {
+              "name": "",
+              "description": "",
+              "type": {
+                "text": "Option | Text"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "ariaActivedescendant",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "aria-activedescendant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "aria-labelledby",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateLoading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateLoading"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "'menu' | 'listbox'"
+              },
+              "default": "'menu'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "attribute": "tabindex",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "private-slot-change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "aria-activedescendant",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "ariaActivedescendant"
+            },
+            {
+              "name": "aria-labelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "ariaLabelledby"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "privateLoading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateLoading"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "'menu' | 'listbox'"
+              },
+              "default": "'menu'",
+              "fieldName": "role"
+            },
+            {
+              "name": "tabindex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "fieldName": "tabIndex"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-options",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "Options",
+            "module": "src/options.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-options",
+          "declaration": {
+            "name": "Options",
+            "module": "src/options.ts"
           }
         }
       ]
@@ -7524,7 +7432,7 @@
               "name": "",
               "description": "",
               "type": {
-                "text": "MenuButton | MenuLink"
+                "text": "Option"
               }
             }
           ],

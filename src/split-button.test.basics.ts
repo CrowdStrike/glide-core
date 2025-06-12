@@ -1,7 +1,7 @@
 import './split-button.primary-button.js';
 import './split-button.primary-link.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import './menu.button.js';
+import './option.js';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import SplitButton from './split-button.js';
@@ -29,7 +29,7 @@ it('is accessible', async () => {
         label="Label"
         slot="secondary-button"
       >
-        <glide-core-menu-button label="Label"></glide-core-menu-button>
+        <glide-core-option label="Label"></glide-core-option>
       </glide-core-split-button-secondary-button>
     </glide-core-split-button>
   `);
@@ -57,7 +57,7 @@ it('throws when its default slot is empty', async () => {
           label="Label"
           slot="secondary-button"
         >
-          <glide-core-menu-button label="Label"></glide-core-menu-button>
+          <glide-core-option label="Label"></glide-core-option>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>`,
     );
@@ -74,7 +74,7 @@ it('throws when its default slot is the wrong type', async () => {
           label="Label"
           slot="secondary-button"
         >
-          <glide-core-menu-button label="Label"></glide-core-menu-button>
+          <glide-core-option label="Label"></glide-core-option>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>`,
     );

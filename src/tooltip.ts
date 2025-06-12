@@ -397,7 +397,8 @@ export default class Tooltip extends LitElement {
   }
 
   #onComponentMouseOut(event: MouseEvent) {
-    // The timeout gives consumers a chance to cancel the event.
+    // The timeout gives consumers a chance to cancel the event to prevent Tooltip
+    // from closing.
     setTimeout(() => {
       if (!event.defaultPrevented) {
         this.#scheduleClose();
@@ -408,7 +409,8 @@ export default class Tooltip extends LitElement {
   }
 
   #onComponentMouseOver(event: MouseEvent) {
-    // The timeout gives consumers a chance to cancel the event.
+    // The timeout gives consumers a chance to cancel the event to prevent Tooltip
+    // from opening.
     setTimeout(() => {
       if (!event.defaultPrevented) {
         this.#cancelClose();
