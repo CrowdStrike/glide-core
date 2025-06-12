@@ -18,6 +18,8 @@ import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
+// TODO: remove "prefix" and "suffix" from slots
+
 declare global {
   interface HTMLElementTagNameMap {
     'glide-core-input': Input;
@@ -39,6 +41,7 @@ declare global {
  * @attr {string} [placeholder]
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
+ * @attr {'combobox'|'textbox'} [role='textbox']
  * @attr {boolean} [spellcheck=false]
  * @attr {string} [tooltip]
  * @attr {'date'|'email'|'number'|'password'|'search'|'tel'|'text'|'time'|'url'} [type='text']
@@ -151,6 +154,10 @@ export default class Input extends LitElement implements FormControl {
 
   @property({ reflect: true, type: Boolean })
   required = false;
+
+  @property({ reflect: true })
+  // TODO: what other roles. throw if type isn't text and role is combobox?
+  override role: 'combobox' | 'textbox' = 'textbox';
 
   // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
   @property({ reflect: true, type: Boolean, useDefault: true })
@@ -311,17 +318,18 @@ export default class Input extends LitElement implements FormControl {
             aria-describedby="meta"
             aria-invalid=${this.#isShowValidationFeedback ||
             this.#isMaxCharacterCountExceeded}
+            autocapitalize=${this.autocapitalize}
+            autocomplete=${this.autocomplete}
             class="input"
             data-test="input"
             id="input"
+            placeholder=${ifDefined(this.placeholder)}
+            role=${this.role}
+            spellcheck=${this.spellcheck}
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'
               : this.type}
             .value=${this.value}
-            placeholder=${ifDefined(this.placeholder)}
-            autocapitalize=${this.autocapitalize}
-            autocomplete=${this.autocomplete}
-            spellcheck=${this.spellcheck}
             ?required=${this.required}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}

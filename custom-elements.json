@@ -3773,6 +3773,16 @@
             },
             {
               "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "'combobox' | 'textbox'"
+              },
+              "default": "'textbox'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "spellcheck",
               "type": {
                 "text": "boolean"
@@ -4061,6 +4071,14 @@
               },
               "default": "false",
               "fieldName": "required"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "'combobox' | 'textbox'"
+              },
+              "default": "'textbox'",
+              "fieldName": "role"
             },
             {
               "name": "spellcheck",
@@ -4525,444 +4543,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/menu.button.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/menu.button.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/menu.button.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "MenuButton",
-          "slots": [
-            {
-              "name": "icon",
-              "description": "",
-              "type": {
-                "text": "Element"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "id",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateActive",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "privateActive"
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menuitem'",
-              "attribute": "role",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "attribute": "tabindex",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "click"
-            }
-          ],
-          "events": [
-            {
-              "name": "private-disabled",
-              "type": {
-                "text": "Event"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "id"
-            },
-            {
-              "name": "privateActive",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateActive"
-            },
-            {
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menuitem'",
-              "fieldName": "role"
-            },
-            {
-              "name": "tabindex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "fieldName": "tabIndex"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-menu-button",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "MenuButton",
-            "module": "src/menu.button.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-menu-button",
-          "declaration": {
-            "name": "MenuButton",
-            "module": "src/menu.button.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/menu.link.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/menu.link.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/menu.link.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "MenuLink",
-          "slots": [
-            {
-              "name": "icon",
-              "description": "",
-              "type": {
-                "text": "Element"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "href",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "id",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateActive",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "privateActive"
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menuitem'",
-              "attribute": "role",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "attribute": "tabindex",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "click"
-            }
-          ],
-          "events": [
-            {
-              "name": "private-disabled",
-              "type": {
-                "text": "Event"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "href"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "id"
-            },
-            {
-              "name": "privateActive",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateActive"
-            },
-            {
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'menuitem'",
-              "fieldName": "role"
-            },
-            {
-              "name": "tabindex",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true,
-              "default": "-1",
-              "fieldName": "tabIndex"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-menu-link",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "MenuLink",
-            "module": "src/menu.link.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-menu-link",
-          "declaration": {
-            "name": "MenuLink",
-            "module": "src/menu.link.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/menu.options.styles.ts",
       "declarations": [],
       "exports": [
@@ -4982,13 +4562,13 @@
         {
           "kind": "class",
           "description": "",
-          "name": "MenuOptions",
+          "name": "DropMenuOptions",
           "slots": [
             {
               "name": "",
               "description": "",
               "type": {
-                "text": "MenuButton | MenuLink"
+                "text": "DropMenuOption"
               }
             }
           ],
@@ -5047,7 +4627,6 @@
               "type": {
                 "text": "string"
               },
-              "readonly": true,
               "default": "'menu'",
               "attribute": "role",
               "reflects": true
@@ -5120,7 +4699,6 @@
               "type": {
                 "text": "string"
               },
-              "readonly": true,
               "default": "'menu'",
               "fieldName": "role"
             },
@@ -5155,7 +4733,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "MenuOptions",
+            "name": "DropMenuOptions",
             "module": "src/menu.options.ts"
           }
         },
@@ -5163,7 +4741,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-menu-options",
           "declaration": {
-            "name": "MenuOptions",
+            "name": "DropMenuOptions",
             "module": "src/menu.options.ts"
           }
         }
@@ -7457,7 +7035,7 @@
               "name": "",
               "description": "",
               "type": {
-                "text": "MenuButton | MenuLink"
+                "text": "Element"
               }
             }
           ],

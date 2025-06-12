@@ -6,11 +6,6 @@ export default [
     ${opacityAndScaleAnimation('.default-slot:popover-open')}
   `,
   css`
-    :host {
-      /* Contains elements with "padding", "margin", and "width". Inline by default. */
-      display: inline-block;
-    }
-
     .component {
       color: var(--glide-core-color-static-text-default);
       display: flex;
