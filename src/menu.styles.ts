@@ -6,19 +6,17 @@ export default [
     ${opacityAndScaleAnimation('.default-slot:popover-open')}
   `,
   css`
-    :host {
-      /* Contains elements with "padding", "margin", and "width". Inline by default. */
-      display: inline-block;
-    }
-
-    .component {
-      color: var(--glide-core-color-static-text-default);
-      display: flex;
-    }
-
     .target-slot {
-      display: flex;
       position: relative;
+
+      &.open {
+        color: var(--glide-core-color-interactive-text-link--hover);
+      }
+
+      &::slotted(:is([disabled], [aria-disabled='true'])) {
+        color: var(--glide-core-color-interactive-icon-default--disabled);
+        cursor: auto;
+      }
     }
 
     .default-slot {
@@ -30,6 +28,7 @@ export default [
       border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-effect-floating);
       box-sizing: border-box;
+      color: var(--glide-core-color-static-text-default);
       inline-size: max-content;
       inset: unset;
       margin-block: 0;
