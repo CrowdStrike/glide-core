@@ -100,7 +100,7 @@ export default class SplitButtonSecondaryButton extends LitElement {
         <button
           aria-label=${ifDefined(this.label)}
           class=${classMap({
-            component: true,
+            button: true,
             active: this.menuOpen,
             disabled: this.disabled,
             [this.privateVariant]: true,

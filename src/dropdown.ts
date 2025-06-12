@@ -2876,7 +2876,7 @@ export default class Dropdown extends LitElement implements FormControl {
 
         // Because the tag has been removed via `option.selected = false` above and focus
         // isn't moved until after the click, a "click" event will never be dispatched.
-        // Otherwise, we could reset `#isEditingOrRemovingTag` in `#onDropdownClick`.
+        // Otherwise, we could reset `#isEditingOrRemovingTag` in `#onDropdownClick()`.
         this.#isEditingOrRemovingTag = false;
       });
     } else {

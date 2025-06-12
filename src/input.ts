@@ -26,6 +26,8 @@ declare global {
 
 /**
  * @attr {string} label
+ * @attr {string} [aria-controls]
+ * @attr {'true'|'false'|null} [aria-expanded=null]
  * @attr {'on'|'off'|'none'|'sentences'|'words'|'characters'} [autocapitalize='on']
  * @attr {'on'|'off'} [autocomplete='on']
  * @attr {boolean} [clearable=false]
@@ -54,6 +56,8 @@ declare global {
  * @fires {Event} change
  * @fires {Event} input
  * @fires {Event} invalid
+ *
+ * @prop {'true' | 'false' | null} ariaExpanded
  *
  * @readonly
  * @prop {HTMLFormElement | null} form
@@ -95,6 +99,15 @@ export default class Input extends LitElement implements FormControl {
   @property({ reflect: true })
   @required
   label?: string;
+
+  @property({ attribute: 'aria-controls', reflect: true })
+  ariaControls?: string;
+
+  @property({ attribute: 'aria-expanded', reflect: true })
+  override ariaExpanded: 'true' | 'false' | null = null;
+
+  @property({ attribute: 'aria-expanded', reflect: true })
+  override ariaHasPopup: 'true' | 'false' | null = null;
 
   @property({ reflect: true, useDefault: true })
   override autocapitalize:
@@ -308,20 +321,23 @@ export default class Input extends LitElement implements FormControl {
           </slot>
 
           <input
+            aria-controls=${ifDefined(this.ariaControls)}
             aria-describedby="meta"
+            aria-expanded=${ifDefined(this.ariaExpanded ?? undefined)}
+            aria-haspopup=${ifDefined(this.ariaHasPopup ?? undefined)}
             aria-invalid=${this.#isShowValidationFeedback ||
             this.#isMaxCharacterCountExceeded}
+            autocapitalize=${this.autocapitalize}
+            autocomplete=${this.autocomplete}
             class="input"
             data-test="input"
             id="input"
+            placeholder=${ifDefined(this.placeholder)}
+            spellcheck=${this.spellcheck}
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'
               : this.type}
             .value=${this.value}
-            placeholder=${ifDefined(this.placeholder)}
-            autocapitalize=${this.autocapitalize}
-            autocomplete=${this.autocomplete}
-            spellcheck=${this.spellcheck}
             ?required=${this.required}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}
@@ -537,7 +553,8 @@ export default class Input extends LitElement implements FormControl {
     });
   }
 
-  @state() private hasFocus = false;
+  @state()
+  private hasFocus = false;
 
   @state()
   private isBlurring = false;
