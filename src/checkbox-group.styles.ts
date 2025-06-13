@@ -20,9 +20,9 @@ export default [
       inline-size: min-content;
 
       &.invalid {
-        border: 1px solid var(--glide-core-color-advisory-stroke-error-primary);
         border-radius: var(--glide-core-rounding-base-radius-sm);
-        padding: var(--glide-core-spacing-base-xxs) 0.375rem;
+        outline: 1px solid var(--glide-core-color-advisory-stroke-error-primary);
+        outline-offset: 0.25rem;
       }
     }
 

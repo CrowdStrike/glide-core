@@ -6,6 +6,7 @@ Padding and color updates to align closer to the designs.
 
 - All form elements
   - When `orientation="vertical"`, all labels now have a fixed height of 20px.
+  - When `orientation="vertical"`, removed the padding between the label and control.
 - Accordion
   - Updated the box shadow and padding.
 - Button
@@ -15,6 +16,7 @@ Padding and color updates to align closer to the designs.
   - Reduced the minimum width and icon-label padding.
 - Checkbox and Checkbox Group
   - Reduced the padding between elements.
+  - Updated the invalid state to use an outline instead of border, removing the layout shift.
 - Icon Button
   - Increased the size for Primary and Secondary variants.
 - Input
@@ -25,6 +27,7 @@ Padding and color updates to align closer to the designs.
   - Reduced the icon-to-label padding.
 - Modal
   - Reduced the padding and removed the explicit line-height.
+  - Reduced the gap between header action items.
 - Popover
   - Reduced the padding.
 - Radio Group
