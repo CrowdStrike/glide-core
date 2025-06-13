@@ -323,7 +323,6 @@ export default class Tooltip extends LitElement {
           <div
             class=${classMap({
               content: true,
-              reversed: this.effectivePlacement === 'left',
             })}
           >
             <slot class="default-slot" name="private">
