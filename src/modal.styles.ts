@@ -117,7 +117,7 @@ export default [
     .header-actions {
       align-items: center;
       display: flex;
-      gap: 0.625rem;
+      gap: var(--glide-core-spacing-base-xs);
 
       ::slotted(*) {
         /*
