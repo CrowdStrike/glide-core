@@ -162,10 +162,6 @@ export default [
       &.disabled::slotted(*) {
         cursor: not-allowed;
       }
-
-      &.vertical:not(.hidden-label) {
-        margin-block-start: var(--glide-core-spacing-base-xxs);
-      }
     }
 
     .summary {
