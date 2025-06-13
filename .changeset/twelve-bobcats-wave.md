@@ -44,3 +44,6 @@ Padding and color updates to align closer to the designs.
   - Adjusted the vertical label height.
 - Toast
   - Updated to have a fixed width of 388px.
+- Tooltip
+  - Reduced the padding.
+  - The shortcut is now always on the right and top-aligned.
