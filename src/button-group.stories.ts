@@ -286,7 +286,7 @@ export const WithIcons: StoryObj = {
         label=${arguments_.label || nothing}
         orientation=${arguments_.orientation === 'horizontal'
           ? nothing
-          : arguments_.horizontal}
+          : arguments_.orientation}
         variant=${arguments_.variant || nothing}
       >
         <glide-core-button-group-button
