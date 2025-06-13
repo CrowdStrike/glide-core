@@ -6,8 +6,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import Menu from './menu.js';
-import MenuButton from './menu.button.js';
-import MenuLink from './menu.link.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './split-button.secondary-button.styles.js';
 import assertSlot from './library/assert-slot.js';
@@ -30,7 +28,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {MenuButton | MenuLink}
+ * @slot {Element}
  */
 @customElement('glide-core-split-button-secondary-button')
 @final
@@ -115,8 +113,8 @@ export default class SplitButtonSecondaryButton extends LitElement {
         </button>
 
         <glide-core-menu-options>
-          <slot ${assertSlot([MenuButton, MenuLink])}>
-            <!-- @type {MenuButton | MenuLink} -->
+          <slot ${assertSlot([Element])}>
+            <!-- @type {Element} -->
           </slot>
         </glide-core-menu-options>
       </glide-core-menu>

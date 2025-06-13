@@ -1,6 +1,4 @@
 import './icons/storybook.js';
-import './menu.button.js';
-import './menu.link.js';
 import './split-button.js';
 import './split-button.primary-button.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
@@ -21,8 +19,6 @@ const meta: Meta = {
           import '@crowdstrike/glide-core/split-button.js';
           import '@crowdstrike/glide-core/split-button.primary-link.js';
           import '@crowdstrike/glide-core/split-button.secondary-button.js';
-          import '@crowdstrike/glide-core/menu.button.js';
-          import '@crowdstrike/glide-core/menu.link.js';
         </script>
 
         ${story()}
@@ -30,14 +26,7 @@ const meta: Meta = {
   ],
   parameters: {
     actions: {
-      // Menu Button and Link are selected so "click" events from Menu's target
-      // aren't picked up, muddying the Actions tab.
-      handles: [
-        'click glide-core-menu-button',
-        'click glide-core-menu-button',
-        'click glide-core-split-button-primary-button',
-        'toggle',
-      ],
+      handles: ['click', 'toggle'],
     },
     docs: {
       story: {
@@ -49,13 +38,12 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-split-button')
       ?.addEventListener('click', (event: Event) => {
-        const menuLink =
-          event.target instanceof Element &&
-          event.target.closest('glide-core-menu-link');
+        const link =
+          event.target instanceof Element && event.target.closest('a');
 
         // If the URL is anything but `/`, then the user has changed the URL and wants
         // to navigate to it.
-        if (menuLink && menuLink.href === '/' && window.top) {
+        if (link && link.href === '/' && window.top) {
           event.preventDefault();
 
           // The Storybook user expects to navigate when the link is clicked but
@@ -136,9 +124,9 @@ const meta: Meta = {
             '<glide-core-split-button-secondary-button>.menu-open'
           ]}
         >
-          <glide-core-menu-button label="One"></glide-core-menu-button>
-          <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
+          <div role="menuitem">One</div>
+          <div role="menuitem">Two</div>
+          <a href="/" role="menuitem">Three</a>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;
@@ -306,7 +294,7 @@ const meta: Meta = {
       table: {
         category: 'Split Button Secondary Button',
         type: {
-          summary: 'MenuButton | MenuLink',
+          summary: 'Element',
         },
       },
       type: { name: 'function', required: true },
@@ -404,9 +392,9 @@ export const WithIcon: StoryObj = {
             '<glide-core-split-button-secondary-button>.disabled'
           ]}
         >
-          <glide-core-menu-button label="One"></glide-core-menu-button>
-          <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
+          <div>One</div>
+          <div>Two</div>
+          <a href="/">Three</a>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;
@@ -449,9 +437,9 @@ export const WithPrimaryLink: StoryObj = {
             '<glide-core-split-button-secondary-button>.disabled'
           ]}
         >
-          <glide-core-menu-button label="One"></glide-core-menu-button>
-          <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
+          <div role="menuitem">One</div>
+          <div role="menuitem">Two</div>
+          <a href="/" role="menuitem">Three</a>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;
