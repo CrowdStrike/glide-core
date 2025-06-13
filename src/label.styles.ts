@@ -10,9 +10,9 @@ export default [
   css`
     .component {
       &.horizontal {
-        --private-column-gap: var(--glide-core-spacing-base-md);
+        --private-column-gap: var(--glide-core-spacing-base-sm);
 
-        column-gap: var(--glide-core-spacing-base-md);
+        column-gap: var(--glide-core-spacing-base-sm);
         display: grid;
         grid-template-columns: auto minmax(auto, 1fr);
       }

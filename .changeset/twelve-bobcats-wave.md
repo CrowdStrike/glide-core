@@ -5,7 +5,6 @@
 Padding and color updates to align closer to the designs.
 
 - All form elements
-  - Increased padding between labels and controls.
   - When `orientation="vertical"`, all labels now have a fixed height of 20px.
 - Accordion
   - Updated the box shadow and padding.
