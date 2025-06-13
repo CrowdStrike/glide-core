@@ -191,7 +191,13 @@ export default class RadioGroupRadio extends LitElement {
 
   override render() {
     return html`
-      <div class="component" data-test="component">
+      <div
+        class=${classMap({
+          component: true,
+          disabled: this.disabled,
+        })}
+        data-test="component"
+      >
         <div
           class=${classMap({
             circle: true,

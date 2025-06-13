@@ -3,7 +3,6 @@ import { css } from 'lit';
 export default [
   css`
     .component {
-      align-items: center;
       background-color: var(
         --glide-core-private-color-tooltip-surface-container
       );
@@ -14,12 +13,8 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       inline-size: max-content;
       inset-block-start: 50%;
-      padding: var(--glide-core-spacing-base-xs)
-        var(--glide-core-spacing-base-sm);
-
-      &.reversed {
-        flex-direction: row-reverse;
-      }
+      padding: var(--glide-core-spacing-base-xxs)
+        var(--glide-core-spacing-base-xs);
     }
 
     .label {
@@ -34,18 +29,11 @@ export default [
     .shortcut {
       color: var(--glide-core-private-color-tooltip-text-shortcut);
       display: none;
+      margin-inline-start: var(--glide-core-spacing-base-xs);
       white-space: nowrap;
 
       &.visible {
         display: inline-block;
-      }
-
-      &.reversed {
-        margin-inline-end: var(--glide-core-spacing-base-xs);
-      }
-
-      &:not(.reversed) {
-        margin-inline-start: var(--glide-core-spacing-base-xs);
       }
     }
 

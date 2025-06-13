@@ -5,11 +5,12 @@ export default [
     .component {
       align-items: center;
       background-color: transparent;
+      block-size: 1.75rem;
       border: none;
       border-radius: var(--glide-core-spacing-base-sm);
       display: flex;
       font: inherit;
-      gap: var(--glide-core-spacing-base-sm);
+      gap: var(--glide-core-spacing-base-xs);
       inline-size: 100%;
       padding-block: var(--glide-core-spacing-base-xxs);
       padding-inline: var(--glide-core-spacing-base-sm);

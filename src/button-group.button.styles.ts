@@ -44,11 +44,11 @@ export default [
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-large);
       font-weight: var(--glide-core-typography-weight-bold);
-      gap: 0.625rem;
+      gap: var(--glide-core-spacing-base-xs);
       justify-content: center;
       line-height: 1;
       min-block-size: 1.125rem;
-      min-inline-size: 5.1875rem;
+      min-inline-size: 2.75rem;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-md);
       transition-duration: 150ms;
@@ -75,12 +75,12 @@ export default [
 
       &.horizontal {
         border-inline-end: 1px solid
-          var(--glide-core-color-static-surface-container-secondary);
+          var(--glide-core-color-static-stroke-primary);
       }
 
       &.vertical {
         border-block-end: 1px solid
-          var(--glide-core-color-static-surface-container-secondary);
+          var(--glide-core-color-static-stroke-primary);
 
         &.icon {
           &:not(.icon-only) {
@@ -108,16 +108,10 @@ export default [
           background-color: var(
             --glide-core-color-interactive-surface-container-active
           );
-          border-color: var(
-            --glide-core-color-interactive-surface-container-active
-          );
           color: var(--glide-core-private-color-button-text-primary);
 
           &:hover {
             background-color: var(
-              --glide-core-color-interactive-surface-container--hover
-            );
-            border-color: var(
               --glide-core-color-interactive-surface-container--hover
             );
             color: var(--glide-core-color-interactive-text-link);
@@ -129,7 +123,6 @@ export default [
         background-color: var(
           --glide-core-color-interactive-surface-container--hover
         );
-        border-color: transparent;
         box-shadow: var(--glide-core-effect-hovered);
         color: var(--glide-core-color-interactive-text-link);
       }
