@@ -19,6 +19,7 @@ Padding and color updates to align closer to the designs.
   - Updated the invalid state to use an outline instead of border, removing the layout shift.
 - Icon Button
   - Increased the size for Primary and Secondary variants.
+  - Increased the border-radius.
 - Input
   - Increased the prefix icon-to-value padding.
   - Adjusted the vertical label height.
