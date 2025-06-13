@@ -46,7 +46,7 @@ export default [
       font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       grid-template-columns: auto minmax(0, 1fr);
-      inline-size: 21.125rem;
+      inline-size: 24.25rem;
       padding: var(--glide-core-spacing-base-sm);
       transform: translateX(calc(100% + var(--private-toasts-padding)));
 

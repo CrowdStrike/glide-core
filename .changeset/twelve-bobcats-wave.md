@@ -42,3 +42,5 @@ Padding and color updates to align closer to the designs.
   - The selected tab now displays in bold.
 - Textarea
   - Adjusted the vertical label height.
+- Toast
+  - Updated to have a fixed width of 388px.
