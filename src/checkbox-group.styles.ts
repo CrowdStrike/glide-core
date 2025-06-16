@@ -20,7 +20,7 @@ export default [
       inline-size: min-content;
 
       &.invalid {
-        border-radius: var(--glide-core-rounding-base-radius-sm);
+        border-radius: var(--glide-core-rounding-base-radius-xs);
         outline: 1px solid var(--glide-core-color-advisory-stroke-error-primary);
         outline-offset: 0.25rem;
       }

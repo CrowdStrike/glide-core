@@ -17,6 +17,7 @@ Padding and color updates to align closer to the designs.
 - Checkbox and Checkbox Group
   - Reduced the padding between elements.
   - Updated the invalid state to use an outline instead of border, removing the layout shift.
+  - Reduced the border-radius when invalid.
 - Icon Button
   - Increased the size for Primary and Secondary variants.
   - Increased the border-radius.
@@ -35,6 +36,7 @@ Padding and color updates to align closer to the designs.
   - Reduced the padding between elements.
   - Matched the disabled label color to the border color.
   - Updated the invalid state to use an outline instead of border, removing the layout shift.
+  - Reduced the border-radius when invalid.
 - Split Button
   - Reduced the icon-to-label padding.
   - Removed the explicit line-height.

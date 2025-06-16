@@ -15,7 +15,7 @@ export default [
       gap: 0.375rem;
 
       &.invalid {
-        border-radius: var(--glide-core-rounding-base-radius-sm);
+        border-radius: var(--glide-core-rounding-base-radius-xs);
         color: var(--glide-core-color-advisory-stroke-error-primary);
         outline: 1px solid var(--glide-core-color-advisory-stroke-error-primary);
         outline-offset: 0.1875rem;
