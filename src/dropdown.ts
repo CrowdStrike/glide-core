@@ -1444,6 +1444,8 @@ export default class Dropdown extends LitElement implements FormControl {
 
   async #onDefaultSlotChange() {
     if (this.#isFirstDefaultSlotChange) {
+      this.tagOverflowLimit = this.selectedAndEnabledOptions.length;
+
       // It's a requirement of Design for Dropdown to automatically become filterable
       // when there are more than 10 options. But it's also a bad user experience for
       // Dropdown to suddenly become unfilterable when a developer using Dropdown reduces
@@ -1454,8 +1456,6 @@ export default class Dropdown extends LitElement implements FormControl {
       this.isFilterable = this.#optionElements.length > 10;
       this.#isFirstDefaultSlotChange = false;
     }
-
-    this.tagOverflowLimit = this.selectedAndEnabledOptions.length;
 
     // Set here in addition to in `#show()` because, every option may be removed by the
     // consumer while Dropdown is open. Many consumers do this while the user is filtering.
@@ -1520,7 +1520,9 @@ export default class Dropdown extends LitElement implements FormControl {
     // before setting the `value` of input field.
     await this.updateComplete;
 
-    if (!this.multiple) {
+    if (this.multiple && !this.#isFirstDefaultSlotChange) {
+      this.#setTagOverflowLimit();
+    } else if (!this.multiple) {
       for (const option of this.#optionElements) {
         if (option.selected) {
           // When Dropdown is single-select, a Dropdown Option only appears as selected when

@@ -991,6 +991,53 @@ it('updates its tags and overflow count when options are selected', async () => 
   expect(tagOverflowCount?.textContent?.trim()).to.equal('2');
 });
 
+it('updates its tags and overflow count when options are selected programmatically', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      style=${styleMap({
+        display: 'block',
+        maxWidth: '15rem',
+      })}
+      multiple
+      open
+    >
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await aTimeout(0); // Wait for the Resize Observer to do its thing
+
+  const thirdOption = document.createElement('glide-core-dropdown-option');
+
+  thirdOption.label = 'Three';
+  thirdOption.selected = true;
+
+  host.append(thirdOption);
+
+  await aTimeout(0); // Wait for `#onDefaultSlotChange()`.
+
+  const tagContainers = [
+    ...(host.shadowRoot?.querySelectorAll<HTMLElement>(
+      '[data-test="tag-container"]',
+    ) ?? []),
+  ].filter((element) => element.checkVisibility());
+
+  const tagOverflowCount = host.shadowRoot?.querySelector(
+    '[data-test="tag-overflow-count"]',
+  );
+
+  expect(tagContainers?.length).to.equal(1);
+  expect(tagOverflowCount?.textContent?.trim()).to.equal('2');
+});
+
 it('deselects an option when its tag is removed', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
