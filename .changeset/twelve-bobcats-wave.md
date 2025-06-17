@@ -22,7 +22,6 @@ Padding, color, and miscellaneous updates for greater design alignment.
 - Dropdown
   - The `+n more` text has been moved next to the selected tags.
 - Icon Button
-  - Increased the size for Primary and Secondary variants.
   - Increased the border-radius.
 - Input
   - Increased the prefix icon-to-value padding.

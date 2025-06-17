@@ -13,14 +13,14 @@ export default [
 
     .component {
       align-items: center;
-      block-size: var(--private-size, 2.125rem);
+      block-size: var(--private-size, 1.625rem);
       border-color: transparent;
       border-radius: var(--glide-core-rounding-base-radius-md);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
       display: inline-flex;
-      inline-size: var(--private-size, 2.125rem);
+      inline-size: var(--private-size, 1.625rem);
       justify-content: center;
       padding-inline: 0;
       transition-duration: 150ms;
