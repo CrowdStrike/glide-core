@@ -764,6 +764,25 @@ export default class Dropdown extends LitElement implements FormControl {
               },
             )}
             ${when(
+              this.multiple &&
+                this.selectedAndEnabledOptions.length > this.tagOverflowLimit,
+              () => {
+                return html`<div
+                  aria-hidden="true"
+                  class="tag-overflow-text"
+                  id="tag-overflow-text"
+                >
+                  +
+                  <span data-test="tag-overflow-count">
+                    ${this.selectedAndEnabledOptions.length -
+                    this.tagOverflowLimit}
+                  </span>
+
+                  more
+                </div>`;
+              },
+            )}
+            ${when(
               this.isShowSingleSelectIcon &&
                 this.lastSelectedAndEnabledOption?.value,
               () => {
@@ -897,26 +916,7 @@ export default class Dropdown extends LitElement implements FormControl {
               </div>
             </glide-core-tooltip>
 
-            <div class="tag-overflow-and-buttons">
-              ${when(
-                this.multiple &&
-                  this.selectedAndEnabledOptions.length > this.tagOverflowLimit,
-                () => {
-                  return html`<div
-                    aria-hidden="true"
-                    class="tag-overflow-text"
-                    id="tag-overflow-text"
-                  >
-                    +
-                    <span data-test="tag-overflow-count">
-                      ${this.selectedAndEnabledOptions.length -
-                      this.tagOverflowLimit}
-                    </span>
-
-                    more
-                  </div>`;
-                },
-              )}
+            <div class="buttons">
               ${when(
                 !this.multiple &&
                   this.lastSelectedAndEnabledOption?.editable &&
