@@ -1443,30 +1443,6 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   async #onDefaultSlotChange() {
-    if (this.#isFirstDefaultSlotChange) {
-      this.tagOverflowLimit = this.selectedAndEnabledOptions.length;
-
-      // It's a requirement of Design for Dropdown to automatically become filterable
-      // when there are more than 10 options. But it's also a bad user experience for
-      // Dropdown to suddenly become unfilterable when a developer using Dropdown reduces
-      // the number of options in the slot in response to the user filtering.
-      //
-      // So we lock in Dropdown as either filterable or unfilterable with the first slot
-      // change. Consumers can still force filterability using the `filterable` attribute.
-      this.isFilterable = this.#optionElements.length > 10;
-      this.#isFirstDefaultSlotChange = false;
-    }
-
-    // Set here in addition to in `#show()` because, every option may be removed by the
-    // consumer while Dropdown is open. Many consumers do this while the user is filtering.
-    this.hasNoAvailableOptions = this.#optionElements.length === 0;
-
-    for (const option of this.#optionElements) {
-      // Both here and in the `this.multiple` setter because the setter isn't called when
-      // an option is added to Dropdown after initial render.
-      option.privateMultiple = this.multiple;
-    }
-
     if (this.open) {
       const firstEnabledOption =
         this.#optionElementsNotHiddenIncludingSelectAll?.find(
@@ -1491,16 +1467,38 @@ export default class Dropdown extends LitElement implements FormControl {
       this.#selectAllElementRef.value.selected = this.areAllOptionsSelected;
     }
 
+    // Set here in addition to in `#show()` because, every option may be removed by the
+    // consumer while Dropdown is open. Many consumers do this while the user is filtering.
+    this.hasNoAvailableOptions = this.#optionElements.length === 0;
+
     this.selectedAndEnabledOptions = this.#optionElements.filter(
       (option): option is DropdownOption => {
         return option.selected && !option.disabled;
       },
     );
 
+    if (this.#isFirstDefaultSlotChange) {
+      // It's a requirement of Design for Dropdown to automatically become filterable
+      // when there are more than 10 options. But it's also a bad user experience for
+      // Dropdown to suddenly become unfilterable when a developer using Dropdown reduces
+      // the number of options in the slot in response to the user filtering.
+      //
+      // So we lock in Dropdown as either filterable or unfilterable with the first slot
+      // change. Consumers can still force filterability using the `filterable` attribute.
+      this.isFilterable = this.#optionElements.length > 10;
+      this.#isFirstDefaultSlotChange = false;
+    }
+
     if (this.multiple) {
       this.#value = this.selectedAndEnabledOptions
         .filter(({ value }) => Boolean(value))
         .map(({ value }) => value);
+
+      // We set the overflow limit to show every tag initially. `#setTagOverflowLimit()`
+      // then pares the limit back if necessary so no tags are overflowing.
+      this.tagOverflowLimit = this.selectedAndEnabledOptions.length;
+
+      this.#setTagOverflowLimit();
     } else {
       // With single-select, there's nothing to stop developers from adding a `selected`
       // attribute to more than one option. How native handles this when setting `value`
@@ -1512,71 +1510,65 @@ export default class Dropdown extends LitElement implements FormControl {
       this.isShowSingleSelectIcon = Boolean(
         this.lastSelectedAndEnabledOption?.value,
       );
-    }
 
-    // Dropdown becomes filterable if there are more than 10 options. But input field
-    // won't have rendered yet given we just set `this.isFilterable` above. So we
-    // piggyback off of `this.requestUpdate()` and then wait for the update to complete
-    // before setting the `value` of input field.
-    await this.updateComplete;
+      // Dropdown becomes filterable if there are more than 10 options. But input field
+      // won't have rendered yet given we just set `this.isFilterable` above. So we wait
+      // for it to render (or not) before setting the value of input field.
+      await this.updateComplete;
 
-    if (this.multiple && !this.#isFirstDefaultSlotChange) {
-      this.#setTagOverflowLimit();
-    } else if (!this.multiple) {
-      for (const option of this.#optionElements) {
-        if (option.selected) {
-          // When Dropdown is single-select, a Dropdown Option only appears as selected when
-          // it's the last selected option because only the `value` of the last selected option
-          // will be included in Dropdown's `value`. And what the user sees as selected should
-          // always be the same as what's submitted with the form.
-          //
-          // Dropdown Options determine whether they're the last selected option (and thus
-          // whether to show themselves as selected using a checkmark) via their internal
-          // `lastSelectedAndEnabledOption` getter.
-          //
-          // An additional selected option can be added to Dropdown's default slot at any time.
-          // And it may now be the last selected option. But what was the last selected option
-          // won't know it's no longer the last. So we force selected options to rerender.
-          option.requestUpdate();
-        }
+      if (
+        this.#inputElementRef.value &&
+        this.lastSelectedAndEnabledOption?.label
+      ) {
+        this.#inputElementRef.value.value =
+          this.lastSelectedAndEnabledOption.label;
+
+        this.inputValue = this.lastSelectedAndEnabledOption.label;
+
+        this.isInputOverflowing =
+          this.#inputElementRef.value.scrollWidth >
+          this.#inputElementRef.value.clientWidth;
+
+        // For the case where the selected option is programmatically removed from the DOM.
+        // Without this, the value of the input field would still be set to the selected
+        // option's `label`. And an ellipsis would still be shown if the `label` was long
+        // enough to be truncated.
+        //
+        // We guard against `this.isFiltering` so we don't clear the user's filter query
+        // when the user is filtering and an option is added or removed. This is particularly
+        // helpful when consumers fetch and render options from the server in response to their
+        // override of `this.filter()` being called.
+      } else if (this.#inputElementRef.value && !this.isFiltering) {
+        this.#inputElementRef.value.value = '';
+        this.inputValue = '';
+        this.isAddButtonVisible = false;
+
+        this.isInputOverflowing =
+          this.#inputElementRef.value.scrollWidth >
+          this.#inputElementRef.value.clientWidth;
       }
     }
 
-    if (
-      !this.multiple &&
-      this.#inputElementRef.value &&
-      this.lastSelectedAndEnabledOption?.label
-    ) {
-      this.#inputElementRef.value.value =
-        this.lastSelectedAndEnabledOption.label;
+    for (const option of this.#optionElements) {
+      // Both here and in the `this.multiple` setter because the setter isn't called when
+      // an option is added to Dropdown after initial render.
+      option.privateMultiple = this.multiple;
 
-      this.inputValue = this.lastSelectedAndEnabledOption.label;
-
-      this.isInputOverflowing =
-        this.#inputElementRef.value.scrollWidth >
-        this.#inputElementRef.value.clientWidth;
-
-      // For the case where the selected option is programmatically removed from the DOM.
-      // Without this, the value of the input field would still be set to the selected
-      // option's `label`. And an ellipsis would still be shown if the `label` was long
-      // enough to be truncated.
-      //
-      // We guard against `this.isFiltering` so we don't clear the user's filter query
-      // when the user is filtering and an option is added or removed. This is particularly
-      // helpful when consumers fetch and render options from the server in response to their
-      // override of `this.filter()` being called.
-    } else if (
-      !this.multiple &&
-      this.#inputElementRef.value &&
-      !this.isFiltering
-    ) {
-      this.#inputElementRef.value.value = '';
-      this.inputValue = '';
-      this.isAddButtonVisible = false;
-
-      this.isInputOverflowing =
-        this.#inputElementRef.value.scrollWidth >
-        this.#inputElementRef.value.clientWidth;
+      if (!this.multiple && option.selected) {
+        // When Dropdown is single-select, a Dropdown Option only appears as selected when
+        // it's the last selected option because only the `value` of the last selected option
+        // will be included in Dropdown's `value`. And what the user sees as selected should
+        // always be the same as what's submitted with the form.
+        //
+        // Dropdown Options determine whether they're the last selected option (and thus
+        // whether to show themselves as selected using a checkmark) via their internal
+        // `lastSelectedAndEnabledOption` getter.
+        //
+        // An additional selected option can be added to Dropdown's default slot at any time.
+        // And it may now be the last selected option. But what was the last selected option
+        // won't know it's no longer the last. So we force selected options to rerender.
+        option.requestUpdate();
+      }
     }
   }
 
@@ -2985,9 +2977,8 @@ export default class Dropdown extends LitElement implements FormControl {
       if (isOverflowing && this.tagOverflowLimit > 1) {
         this.tagOverflowLimit = this.tagOverflowLimit - 1;
 
-        // Wait for the update to complete. Then run through this logic again to
-        // see if Dropdown is still overflowing. Rinse and repeat until there's no
-        // overflow.
+        // Wait for the update to complete. Then run through this logic again to see
+        // if Dropdown is still overflowing. Rinse and repeat until there's no overflow.
         await this.updateComplete;
 
         this.#setTagOverflowLimit();
@@ -2996,17 +2987,15 @@ export default class Dropdown extends LitElement implements FormControl {
         !this.#isOverflowTest &&
         this.tagOverflowLimit < this.selectedAndEnabledOptions.length
       ) {
-        this.tagOverflowLimit = this.tagOverflowLimit + 1;
-
-        // The limit increase may cause an overflow. But we won't know until we
-        // try. If it does, the branch above will correct it when it calls this
-        // function again.
+        // The limit increase may cause an overflow. But we won't know until we rerun this
+        // method. If it does cause an overflow, the branch above will correct the overflow
+        // when it calls this function again.
         //
-        // `#isOverflowTest` is set so we don't wind up back in this branch after
-        // returning to the branch above, creating a loop.
+        // `#isOverflowTest` is set so we don't wind up back in this branch after returning
+        // to the branch above, creating a loop.
         this.#isOverflowTest = true;
 
-        await this.updateComplete;
+        this.tagOverflowLimit = this.tagOverflowLimit + 1;
         this.#setTagOverflowLimit();
       } else {
         this.#isOverflowTest = false;
