@@ -17,6 +17,9 @@ import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
+import Select from './select.js';
+
+// TODO: remove "prefix" and "suffix" from slots
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -260,6 +263,17 @@ export default class Input extends LitElement implements FormControl {
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
 
+  override firstUpdated() {
+    if (
+      this.parentElement instanceof Select &&
+      this.type === 'text' &&
+      this.#inputElementRef.value
+    ) {
+      // TODO: say why not offer property. nest roles and complexity of making sure consumers set the right role.
+      this.#inputElementRef.value.role = 'combobox';
+    }
+  }
+
   formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
@@ -311,17 +325,17 @@ export default class Input extends LitElement implements FormControl {
             aria-describedby="meta"
             aria-invalid=${this.#isShowValidationFeedback ||
             this.#isMaxCharacterCountExceeded}
+            autocapitalize=${this.autocapitalize}
+            autocomplete=${this.autocomplete}
             class="input"
             data-test="input"
             id="input"
+            placeholder=${ifDefined(this.placeholder)}
+            spellcheck=${this.spellcheck}
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'
               : this.type}
             .value=${this.value}
-            placeholder=${ifDefined(this.placeholder)}
-            autocapitalize=${this.autocapitalize}
-            autocomplete=${this.autocomplete}
-            spellcheck=${this.spellcheck}
             ?required=${this.required}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}
@@ -537,7 +551,8 @@ export default class Input extends LitElement implements FormControl {
     });
   }
 
-  @state() private hasFocus = false;
+  @state()
+  private hasFocus = false;
 
   @state()
   private isBlurring = false;

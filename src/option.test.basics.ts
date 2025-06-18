@@ -1,20 +1,20 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import MenuLink from './menu.link.js';
+import Option from './option.js';
 
 @customElement('glide-core-subclassed')
-class Subclassed extends MenuLink {}
+class Subclassed extends Option {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-menu-link')).to.equal(MenuLink);
+  expect(window.customElements.get('glide-core-option')).to.equal(Option);
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture(html`<glide-core-menu-link></glide-core-menu-link>`);
+    await fixture(html`<glide-core-option></glide-core-option>`);
   } catch {
     spy();
   }

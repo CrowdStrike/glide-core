@@ -6,7 +6,7 @@ export default [
     ${focusOutline('.component:focus-visible')}
   `,
   css`
-    .component {
+    .button {
       align-items: center;
       background-color: var(
         --glide-core-color-interactive-surface-container-active
