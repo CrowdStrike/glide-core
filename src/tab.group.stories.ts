@@ -101,7 +101,6 @@ const meta: Meta = {
         >
           ${unsafeHTML(arguments_['<glide-core-tab>[slot="default"]'])}
         </glide-core-tab>
-
         <glide-core-tab
           slot="nav"
           panel="2"

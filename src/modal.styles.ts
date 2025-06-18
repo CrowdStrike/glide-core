@@ -73,7 +73,7 @@ export default [
     .container {
       max-block-size: 75vh;
       max-inline-size: 80vw;
-      padding: 1.25rem;
+      padding: var(--glide-core-spacing-base-md);
 
       &.small {
         inline-size: 22.5rem;
@@ -117,7 +117,7 @@ export default [
     .header-actions {
       align-items: center;
       display: flex;
-      gap: 0.625rem;
+      gap: var(--glide-core-spacing-base-xs);
 
       ::slotted(*) {
         /*
@@ -165,10 +165,9 @@ export default [
     }
 
     .body {
-      line-height: 1;
       overflow: auto;
-      padding-block: 1rem;
-      padding-block-end: 0.625rem;
+      padding-block: var(--glide-core-spacing-base-xs);
+      padding-block-end: var(--glide-core-spacing-base-md);
 
       &:focus {
         outline: none;

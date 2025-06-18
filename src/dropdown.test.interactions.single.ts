@@ -1190,7 +1190,7 @@ it('does not show the icon of the last selected option when made single-select p
   expect(icons[1]?.checkVisibility()).to.not.be.ok;
 });
 
-it('only shows the last selected option as selected when a selected option is dynamically added', async () => {
+it('only shows the last selected option as selected when single-select and a selected option is dynamically added', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option

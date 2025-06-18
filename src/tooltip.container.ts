@@ -90,7 +90,6 @@ export default class TooltipContainer extends LitElement {
         aria-hidden=${this.screenreaderHidden}
         class=${classMap({
           component: true,
-          reversed: this.placement === 'left',
         })}
       >
         <div class="label">${this.label}</div>
@@ -98,7 +97,6 @@ export default class TooltipContainer extends LitElement {
         <kbd
           class=${classMap({
             shortcut: true,
-            reversed: this.placement === 'left',
             visible: this.shortcut.length > 0,
           })}
           data-test="shortcut"

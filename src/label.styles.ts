@@ -61,6 +61,10 @@ export default [
       &.right {
         justify-content: flex-end;
       }
+
+      &.vertical:not(.hidden-label) {
+        block-size: 1.25rem;
+      }
     }
 
     .optional-tooltip {
@@ -144,7 +148,7 @@ export default [
     .control-and-summary {
       align-items: center;
       display: flex;
-      gap: var(--glide-core-spacing-base-sm);
+      gap: var(--glide-core-spacing-base-xs);
     }
 
     .control {
@@ -157,10 +161,6 @@ export default [
 
       &.disabled::slotted(*) {
         cursor: not-allowed;
-      }
-
-      &.vertical:not(.hidden-label) {
-        margin-block-start: var(--glide-core-spacing-base-xxs);
       }
     }
 

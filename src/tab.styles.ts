@@ -22,6 +22,7 @@ export default [
       gap: 0.4375rem;
       justify-content: center;
       padding-block: 0.4375rem;
+      transition: font-weight var(--private-transition-duration) ease-in-out;
       user-select: none;
 
       &:hover {
@@ -32,6 +33,10 @@ export default [
         border: none;
         color: var(--glide-core-color-interactive-text-default--disabled);
         pointer-events: none;
+      }
+
+      &.selected {
+        font-weight: var(--glide-core-typography-weight-bold);
       }
     }
 

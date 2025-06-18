@@ -53,7 +53,7 @@ export default [
         border-radius: 50%;
         box-sizing: border-box;
         inline-size: 1rem;
-        margin-inline-end: 0.625rem;
+        margin-inline-end: var(--glide-core-spacing-base-xs);
         min-inline-size: 1rem;
         position: relative;
         transition:
@@ -103,6 +103,10 @@ export default [
             );
           }
         }
+      }
+
+      &.disabled {
+        color: var(--glide-core-color-interactive-text-default--disabled);
       }
     }
 

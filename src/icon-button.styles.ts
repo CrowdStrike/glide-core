@@ -15,7 +15,7 @@ export default [
       align-items: center;
       block-size: var(--private-size, 1.625rem);
       border-color: transparent;
-      border-radius: var(--glide-core-rounding-base-radius-sm);
+      border-radius: var(--glide-core-rounding-base-radius-md);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;

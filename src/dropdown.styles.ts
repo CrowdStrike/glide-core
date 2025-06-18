@@ -220,7 +220,7 @@ export default [
       }
     }
 
-    .tag-overflow-and-buttons {
+    .buttons {
       align-items: center;
       display: flex;
       margin-inline-start: auto;
@@ -229,7 +229,6 @@ export default [
     .tag-overflow-text {
       align-content: center;
       color: var(--glide-core-color-interactive-text-link);
-      margin-inline-end: var(--glide-core-spacing-base-md);
       white-space: nowrap;
     }
 
