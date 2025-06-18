@@ -11,9 +11,11 @@ Padding, color, and miscellaneous updates for greater design alignment.
   - Updated the box shadow and padding.
 - Button
   - Reduced the padding and removed the explicit line-height.
+  - Decreased the min-width.
 - Button Group
   - Lightened the divider line between Buttons.
   - Reduced the minimum width and icon-label padding.
+  - Decreased the min-width.
 - Checkbox
   - Reduced the padding between the checkbox and summary.
 - Checkbox Group
