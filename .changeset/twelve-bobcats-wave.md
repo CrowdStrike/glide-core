@@ -20,7 +20,6 @@ Padding, color, and miscellaneous updates for greater design alignment.
 - Checkbox
   - Reduced the padding between the checkbox and `summary`.
 - Checkbox Group
-  - Updated the invalid state to use an outline instead of border, removing the layout shift.
   - Reduced the border-radius when invalid.
 - Dropdown
   - The `+n more` text has been moved next to the selected tags.
@@ -39,7 +38,6 @@ Padding, color, and miscellaneous updates for greater design alignment.
 - Radio Group
   - Reduced the horizontal spacing between Radio Group Radio's buttons and their labels.
   - Matched the disabled label color to the border color.
-  - Updated the invalid state to use an outline instead of border, removing the layout shift.
   - Reduced the border-radius when invalid.
 - Split Button Primary Button
   - Reduced the spacing between Split Button Primary Button's icon and label.

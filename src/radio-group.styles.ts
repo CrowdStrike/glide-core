@@ -15,10 +15,12 @@ export default [
       gap: 0.375rem;
 
       &.invalid {
+        border: 1px solid var(--glide-core-color-advisory-stroke-error-primary);
         border-radius: var(--glide-core-rounding-base-radius-xs);
         color: var(--glide-core-color-advisory-stroke-error-primary);
-        outline: 1px solid var(--glide-core-color-advisory-stroke-error-primary);
-        outline-offset: 0.1875rem;
+        margin-block-end: -0.0625rem;
+        margin-inline-start: -0.0625rem;
+        padding: var(--glide-core-spacing-base-xxs) 0.375rem;
       }
     }
 
