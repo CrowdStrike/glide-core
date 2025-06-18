@@ -4,20 +4,21 @@
 
 Padding, color, and miscellaneous updates for greater design alignment.
 
-- All form elements
-  - When `orientation="vertical"`, all labels now have a fixed height of 20px.
+- All form control components
+  - All labels now have a fixed height of 20px when `orientation="vertical"`.
   - When `orientation="vertical"`, removed the padding between the label and control.
 - Accordion
-  - Updated the box shadow and padding.
+  - Updated the box shadow.
+  - Decreased the horizontal padding.
 - Button
-  - Reduced the padding and removed the explicit line-height.
+  - Reduced the horizontal padding.
   - Decreased the min-width.
 - Button Group
   - Lightened the divider line between Buttons.
   - Reduced the minimum width and icon-label padding.
   - Decreased the min-width.
 - Checkbox
-  - Reduced the padding between the checkbox and summary.
+  - Reduced the padding between the checkbox and `summary`.
 - Checkbox Group
   - Updated the invalid state to use an outline instead of border, removing the layout shift.
   - Reduced the border-radius when invalid.
@@ -26,24 +27,22 @@ Padding, color, and miscellaneous updates for greater design alignment.
 - Icon Button
   - Increased the border-radius.
 - Input
-  - Increased the prefix icon-to-value padding.
-  - Adjusted the vertical label height.
+  - Increased the spacing between the prefix icon and the input field.
 - Menu
-  - Buttons and Links are now 28px tall.
+  - Buttons and Links now have a height of 28px.
   - Reduced the icon-to-label padding.
 - Modal
-  - Reduced the padding and removed the explicit line-height.
+  - Reduced the horizontal and vertical padding.
   - Reduced the gap between header action items.
 - Popover
   - Reduced the padding.
 - Radio Group
-  - Reduced the padding between elements.
+  - Reduced the horizontal spacing between Radio Group Radio's buttons and their labels.
   - Matched the disabled label color to the border color.
   - Updated the invalid state to use an outline instead of border, removing the layout shift.
   - Reduced the border-radius when invalid.
-- Split Button
-  - Reduced the icon-to-label padding.
-  - Removed the explicit line-height.
+- Split Button Primary Button
+  - Reduced the spacing between Split Button Primary Button's icon and label.
 - Tab Group
   - The selected tab now displays in bold.
 - Textarea
