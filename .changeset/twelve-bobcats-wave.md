@@ -43,8 +43,6 @@ Padding, color, and miscellaneous updates for greater design alignment.
   - Reduced the spacing between Split Button Primary Button's icon and label.
 - Tab Group
   - The selected tab now displays in bold.
-- Textarea
-  - Adjusted the vertical label height.
 - Toast
   - Updated to have a fixed width of 388px.
 - Tooltip
