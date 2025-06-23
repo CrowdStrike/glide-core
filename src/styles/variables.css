@@ -6,6 +6,8 @@
 */
 @import './variables/color-light.css';
 @import './variables/color-dark.css';
+@import './variables/animation.css';
+@import './variables/duration.css';
 @import './variables/miscellaneous.css';
 @import './variables/rounding.css';
 @import './variables/spacing.css';

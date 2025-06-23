@@ -21,7 +21,7 @@ export default [
 
       &.invalid {
         border: 1px solid var(--glide-core-color-advisory-stroke-error-primary);
-        border-radius: var(--glide-core-rounding-base-radius-xs);
+        border-radius: var(--glide-core-rounding-base-radius-xxs);
         padding: var(--glide-core-spacing-base-xxs) 0.375rem;
       }
     }
