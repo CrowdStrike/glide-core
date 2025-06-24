@@ -42,7 +42,7 @@ export default (selector: string) => {
         );
         background-size: 400% 100%;
         block-size: 1rem;
-        border-radius: var(--glide-core-rounding-base-radius-xs);
+        border-radius: var(--glide-core-rounding-base-radius-xxs);
       }
     }
   `;

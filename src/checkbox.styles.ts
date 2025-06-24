@@ -42,7 +42,7 @@ export default [
       );
       block-size: 100%;
       border: 1px solid var(--glide-core-color-interactive-stroke-contrast);
-      border-radius: var(--glide-core-rounding-base-radius-xs);
+      border-radius: var(--glide-core-rounding-base-radius-xxs);
       box-sizing: border-box;
       color: var(
         --glide-core-private-color-checkbox-surface-background-selected--default

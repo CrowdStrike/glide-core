@@ -1,6 +1,7 @@
 /* Generated file. Do not edit directly. */
 :root {
-  --glide-core-rounding-base-radius-xs: 0.25rem;
+  --glide-core-rounding-base-radius-xxs: 0.25rem;
+  --glide-core-rounding-base-radius-xs: 0.375rem;
   --glide-core-rounding-base-radius-sm: 0.5rem;
   --glide-core-rounding-base-radius-md: 0.75rem;
   --glide-core-rounding-base-radius-round: 12.5rem;
