@@ -28,9 +28,13 @@ it('selects the first tab when none is selected', async () => {
   `);
 
   const tabs = host.querySelectorAll('glide-core-tab');
+  const panels = host.querySelectorAll('glide-core-tab-panel');
 
   expect(tabs[0]?.selected).to.be.true;
   expect(tabs[1]?.selected).to.be.false;
+
+  expect(panels[0]?.ariaHidden).to.equal('false');
+  expect(panels[1]?.ariaHidden).to.equal('true');
 });
 
 it('sets the width of its selected tab indicator to that of the selected tab', async () => {
@@ -62,6 +66,29 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
   expect(selectedTabIndicator.clientWidth).to.equal(firstTab.clientWidth);
 });
 
+it('deselects all but its last selected tab when multiple are selected', async () => {
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1" selected>One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tabs = host.querySelectorAll('glide-core-tab');
+  const panels = host.querySelectorAll('glide-core-tab-panel');
+
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[0]?.tabIndex).to.equal(-1);
+  expect(tabs[1]?.selected).to.be.true;
+  expect(tabs[1]?.tabIndex).to.equal(0);
+
+  expect(panels[0]?.ariaHidden).to.equal('true');
+  expect(panels[1]?.ariaHidden).to.equal('false');
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
@@ -74,7 +101,7 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws when its default slot is thw wrong type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
       <glide-core-tab-group>
