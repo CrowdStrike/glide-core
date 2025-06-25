@@ -116,6 +116,7 @@
   --glide-core-color-severity-surface-low: #2c2c2c;
   --glide-core-color-severity-surface-low-solid: #434343;
   --glide-core-color-severity-surface-unknown: #a1a1a1;
+  --glide-core-color-severity-surface-other: #a6b7c0;
   --glide-core-color-severity-stroke-critical: #e67873;
   --glide-core-color-severity-stroke-high: #e7a649;
   --glide-core-color-severity-stroke-medium: #f0cf4f;
@@ -127,7 +128,7 @@
   --glide-core-color-severity-icon-critical: #e67873;
   --glide-core-color-severity-icon-high: #ffb64f;
   --glide-core-color-severity-icon-medium: #f0cf4f;
-  --glide-core-color-severity-icon-low: #727272;
+  --glide-core-color-severity-icon-low: #b8b8b8;
   --glide-core-color-effect-blur-elevation-floating-blur: 1.5rem;
   --glide-core-color-effect-color-elevation-hovered: #4a72b1e5;
   --glide-core-color-effect-color-elevation-lifted: #ffffff00;
