@@ -1,5 +1,135 @@
 # @crowdstrike/glide-core
 
+## 0.29.0
+
+### Minor Changes
+
+- [#941](https://github.com/CrowdStrike/glide-core/pull/941) [`a4732b5`](https://github.com/CrowdStrike/glide-core/commit/a4732b5b201e43b4e36ce6bd2ae57b2c97dfcf7d) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ### Rounding
+
+  Existing usages of `--glide-core-rounding-base-radius-xs` should be updated to `--glide-core-rounding-base-radius-xxs` to maintain the same rounding.
+
+  ```diff
+  + --glide-core-rounding-base-radius-xxs: 0.25rem;
+
+  - --glide-core-rounding-base-radius-xs: 0.25rem;
+  + --glide-core-rounding-base-radius-xs: 0.375rem;
+  ```
+
+  ### Duration
+
+  ```diff
+  + --glide-core-duration-fast-01: 40ms;
+  + --glide-core-duration-fast-02: 75ms;
+  + --glide-core-duration-moderate-01: 150ms;
+  + --glide-core-duration-moderate-02: 250ms;
+  + --glide-core-duration-slow-01: 400ms;
+  + --glide-core-duration-slow-02: 900ms;
+  ```
+
+  ### Animation
+
+  ```diff
+  + --glide-core-animation-swoop: cubic-bezier(0.5, 0, 0, 1);
+  + --glide-core-animation-swoop-in: cubic-bezier(0.05, 0.5, 0.15, 1);
+  + --glide-core-animation-swoop-out: cubic-bezier(0.45, 0.1, 0.9, 0.5);
+  + --glide-core-animation-linear: cubic-bezier(0, 0, 1, 1);
+  + --glide-core-animation-bounce: cubic-bezier(0, 0.4, 0, 1.4);
+  + --glide-core-animation-smooth: cubic-bezier(0.8, 0.05, 0.25, 0.95);
+  ```
+
+- [#932](https://github.com/CrowdStrike/glide-core/pull/932) [`f306d39`](https://github.com/CrowdStrike/glide-core/commit/f306d3956831eb58a30ce62216ec2f2b65e08b9b) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown Option's `selected` attribute is no longer reflected to match native and to resolve a bug when `reset()` is called on its form. This may be a breaking change for you if you have a mutation observer or CSS selector that targets `selected`—or if you call `getAttribute('selected')` on a Dropdown Option.
+
+### Patch Changes
+
+- [#932](https://github.com/CrowdStrike/glide-core/pull/932) [`f306d39`](https://github.com/CrowdStrike/glide-core/commit/f306d3956831eb58a30ce62216ec2f2b65e08b9b) Thanks [@clintcs](https://github.com/clintcs)! - ### Dropdown
+
+  - The tag overflow button is now updated when a selected Dropdown Option is enabled or disabled.
+  - Dropdown now reverts its `value` and Dropdown Options revert back to their initial `selected` state when `reset()` is called on the form.
+  - Selected Dropdown Options whose `value` is an empty string now appear as selected.
+  - Only the last selected option is presented to screenreaders as selected when single-select and multiple options are initially selected.
+  - Tags now appear in the order that Dropdown Options are selected by the user.
+  - Removing a tag via Enter no longer submits the form.
+  - Disabled Dropdown Options are now enabled when selected programmatically.
+  - The first option is now activated when `multiple` is set to `false` programmatically and Dropdown is reopened after Select All was previously active. Previously, no option was activated.
+  - When a Dropdown Option is disabled programmatically and more than one selected Dropdown Option has the same `value`, Dropdown now only removes the value corresponding to the disabled Dropdown Option from `value`.
+  - When `value` is set programmatically, only the first Dropdown Option with a matching value is now selected instead of every Dropdown Option with a matching value.
+  - Dropdown's input field is now populated with the `label` of the last selected Dropdown Option when filterable and `multiple` is set to `false` programmatically.
+
+  ### Tab Group
+
+  - The trailing overflow button is no longer incorrectly enabled in a rare case.
+
+- [#942](https://github.com/CrowdStrike/glide-core/pull/942) [`3c92638`](https://github.com/CrowdStrike/glide-core/commit/3c92638d4603d58c4a5d68e831dd2978a41186d2) Thanks [@clintcs](https://github.com/clintcs)! - - Tabs can now be deselected programmatically.
+
+  - Tab Group now selects the first Tab when its selected Tab is deselected.
+  - Tab Group now deselects all but the last selected Tab when multiple Tabs have a `selected` attribute.
+
+- [#943](https://github.com/CrowdStrike/glide-core/pull/943) [`f513058`](https://github.com/CrowdStrike/glide-core/commit/f5130589d5c65f445f003cd13a6bc57dea70fbe0) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ### Colors (Light)
+
+  ```diff
+  + --glide-core-color-severity-surface-other: #a6b7c0;
+  ```
+
+  ### Colors (Dark)
+
+  ```diff
+  + --glide-core-color-severity-surface-other: #a6b7c0;
+
+  - --glide-core-color-severity-icon-low: #727272;
+  + --glide-core-color-severity-icon-low: #b8b8b8;
+  ```
+
+- [#939](https://github.com/CrowdStrike/glide-core/pull/939) [`b5b68f5`](https://github.com/CrowdStrike/glide-core/commit/b5b68f56082c40ab42bcf67e22531e3c81835523) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Padding, color, and miscellaneous updates for greater design alignment.
+
+  - All form control components
+    - All labels now have a fixed height of 20px when `orientation="vertical"`.
+    - When `orientation="vertical"`, removed the padding between the label and control.
+  - Accordion
+    - Updated the box shadow.
+    - Decreased the horizontal padding.
+  - Button
+    - Reduced the horizontal padding.
+    - Decreased the min-width.
+  - Button Group
+    - Lightened the divider line between Buttons.
+    - Reduced the minimum width and icon-label padding.
+    - Decreased the min-width.
+  - Checkbox
+    - Reduced the padding between the checkbox and `summary`.
+  - Checkbox Group
+    - Reduced the border-radius when invalid.
+  - Dropdown
+    - The `+n more` text has been moved next to the selected tags.
+  - Icon Button
+    - Increased the border-radius.
+  - Input
+    - Increased the spacing between the prefix icon and the input field.
+  - Menu
+    - Buttons and Links now have a height of 28px.
+    - Reduced the icon-to-label padding.
+  - Modal
+    - Reduced the horizontal and vertical padding.
+    - Reduced the gap between header action items.
+  - Popover
+    - Reduced the padding.
+  - Radio Group
+    - Reduced the horizontal spacing between Radio Group Radio's buttons and their labels.
+    - Matched the disabled label color to the border color.
+    - Reduced the border-radius when invalid.
+  - Split Button Primary Button
+    - Reduced the spacing between Split Button Primary Button's icon and label.
+  - Tab Group
+    - The selected tab now displays in bold.
+  - Toast
+    - Updated to have a fixed width of 388px.
+  - Tooltip
+    - Reduced the padding.
+    - The shortcut is now always on the right and top-aligned.
+
 ## 0.28.1
 
 ### Patch Changes
