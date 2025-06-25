@@ -7,7 +7,7 @@ import {
   html,
   waitUntil,
 } from '@open-wc/testing';
-import Tab from './tab.js';
+import './tab.js';
 import { click } from './library/mouse.js';
 import TabGroup from './tab.group.js';
 import './tab.panel.js';
@@ -28,7 +28,7 @@ it('sets the selected tab using the `selected` attribute', async () => {
   expect(tabs[1]?.selected).to.be.true;
 });
 
-it('sets the selected tab by setting `selected` programmatically', async () => {
+it('selects a tab that is selected programmatically', async () => {
   const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab panel="1" slot="nav" selected>One</glide-core-tab>
@@ -38,15 +38,47 @@ it('sets the selected tab by setting `selected` programmatically', async () => {
     </glide-core-tab-group>
   `);
 
-  const tab = host.querySelector<Tab>('glide-core-tab:nth-of-type(2)');
-
-  assert(tab);
-  tab.selected = true;
-
   const tabs = host.querySelectorAll('glide-core-tab');
+  const panels = host.querySelectorAll('glide-core-tab-panel');
+
+  assert(tabs[1]);
+  tabs[1].selected = true;
 
   expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[0]?.tabIndex).to.equal(-1);
   expect(tabs[1]?.selected).to.be.true;
+  expect(tabs[1]?.tabIndex).to.equal(0);
+
+  expect(panels[0]?.ariaHidden).to.equal('true');
+  expect(panels[1]?.ariaHidden).to.equal('false');
+});
+
+it('selects its first tab when its selected tab is deselected programmatically', async () => {
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tabs = host.querySelectorAll('glide-core-tab');
+  const panels = host.querySelectorAll('glide-core-tab-panel');
+
+  assert(tabs[1]);
+
+  tabs[1].selected = false;
+  await tabs[1].updateComplete;
+
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[0]?.tabIndex).to.equal(0);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
+
+  expect(panels[0]?.ariaHidden).to.equal('false');
+  expect(panels[1]?.ariaHidden).to.equal('true');
 });
 
 it('changes tabs on click', async () => {
@@ -550,4 +582,46 @@ it('sets aria attributes on tabs and panels when new ones are added', async () =
 
   expect(tab.getAttribute('aria-controls')).to.equal(panel.id);
   expect(panel.getAttribute('aria-labelledby')).to.equal(tab.id);
+});
+
+it('deselects all but its last selected tab when multiple are selected', async () => {
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tab = document.createElement('glide-core-tab');
+  tab.selected = true;
+  tab.slot = 'nav';
+  tab.panel = '3';
+  tab.textContent = 'Three';
+
+  const panel = document.createElement('glide-core-tab-panel');
+  panel.name = '3';
+  panel.textContent = 'Three';
+
+  host.append(tab);
+  host.append(panel);
+
+  // Wait for `#onNavSlotChange()` and `#onDefaultSlotChange()`.
+  await aTimeout(0);
+
+  const tabs = host.querySelectorAll('glide-core-tab');
+  const panels = host.querySelectorAll('glide-core-tab-panel');
+
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[0]?.tabIndex).to.equal(-1);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
+  expect(tabs[2]?.selected).to.be.true;
+  expect(tabs[2]?.tabIndex).to.equal(0);
+
+  expect(panels[0]?.ariaHidden).to.equal('true');
+  expect(panels[1]?.ariaHidden).to.equal('true');
+  expect(panels[2]?.ariaHidden).to.equal('false');
 });

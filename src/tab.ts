@@ -62,7 +62,7 @@ export default class Tab extends LitElement {
     const hasChanged = isSelected !== this.#isSelected;
     this.#isSelected = isSelected;
 
-    if (isSelected && hasChanged) {
+    if (hasChanged) {
       this.dispatchEvent(
         new Event('private-selected', {
           bubbles: true,

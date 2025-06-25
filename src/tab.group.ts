@@ -46,15 +46,6 @@ export default class TabGroup extends LitElement {
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
-  override firstUpdated() {
-    const selectedTab =
-      this.#tabElements.find((tab) => tab.selected) ?? this.#tabElements[0];
-
-    if (selectedTab) {
-      this.#selectedTab = selectedTab;
-    }
-  }
-
   override render() {
     return html`<div
       class="component"
@@ -159,11 +150,17 @@ export default class TabGroup extends LitElement {
 
   #resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  #selectedTab: Tab | null = null;
-
   #selectedTabIndicatorElementRef = createRef<HTMLElement>();
 
   #tabListElementRef = createRef<HTMLElement>();
+
+  get #firstTab() {
+    return this.#tabElements.at(0);
+  }
+
+  get #lastSelectedTab() {
+    return this.#tabElements.findLast(({ selected }) => selected);
+  }
 
   get #panelElements() {
     return [
@@ -180,7 +177,6 @@ export default class TabGroup extends LitElement {
     const clickedTab = target.closest('glide-core-tab');
 
     if (
-      clickedTab &&
       clickedTab instanceof Tab &&
       !clickedTab.disabled &&
       // Tab Panels can themselves include a Tab Group. We want to ensure
@@ -188,9 +184,6 @@ export default class TabGroup extends LitElement {
       // a Tab Panel.
       this.#tabElements.includes(clickedTab)
     ) {
-      this.#selectedTab = clickedTab;
-      this.#updateSelectedTabAndPanel();
-      this.#updateSelectedTabIndicator();
       clickedTab.selected = true;
     }
   }
@@ -202,14 +195,11 @@ export default class TabGroup extends LitElement {
 
     if (
       ['Enter', ' '].includes(event.key) &&
-      tab &&
       tab instanceof Tab &&
       !tab.disabled
     ) {
-      this.#selectedTab = tab;
-      this.#updateSelectedTabAndPanel();
-      this.#updateSelectedTabIndicator();
-      event.preventDefault();
+      tab.selected = true;
+      event.preventDefault(); // Prevent page scroll when Space is pressed
     }
 
     if (
@@ -271,7 +261,7 @@ export default class TabGroup extends LitElement {
 
         this.#setOverflowButtonsState();
 
-        event.preventDefault();
+        event.preventDefault(); // Prevent page scroll
       }
     }
   }
@@ -281,9 +271,26 @@ export default class TabGroup extends LitElement {
   }
 
   #onNavSlotChange() {
+    if (this.#lastSelectedTab) {
+      this.#lastSelectedTab.tabIndex = 0;
+
+      for (const tab of this.#tabElements) {
+        if (tab.selected && tab !== this.#lastSelectedTab) {
+          tab.selected = false;
+          tab.tabIndex = -1;
+        }
+      }
+    } else if (this.#firstTab) {
+      this.#firstTab.selected = true;
+      this.#firstTab.tabIndex = 0;
+    }
+
+    for (const panel of this.#panelElements) {
+      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
+    }
+
     this.#setAriaAttributes();
-    this.#updateSelectedTabAndPanel();
-    this.#updateSelectedTabIndicator();
     this.#setOverflowButtonsState();
   }
 
@@ -307,7 +314,7 @@ export default class TabGroup extends LitElement {
     // focus goes back to the last selected tab.
     // The `focusout` event is used since it bubbles up from the tab.
     for (const [, tabElement] of this.#tabElements.entries()) {
-      tabElement.tabIndex = tabElement === this.#selectedTab ? 0 : -1;
+      tabElement.tabIndex = tabElement === this.#lastSelectedTab ? 0 : -1;
     }
   }
 
@@ -327,12 +334,26 @@ export default class TabGroup extends LitElement {
 
   #onTabSelected(event: Event) {
     if (event.target instanceof Tab && event.target.selected) {
-      this.#selectedTab = event.target;
-      this.#updateSelectedTabAndPanel();
-      this.#updateSelectedTabIndicator();
-
       event.target.privateSelect();
+      event.target.tabIndex = 0;
+
+      for (const tab of this.#tabElements) {
+        if (tab !== event.target) {
+          tab.selected = false;
+          tab.tabIndex = -1;
+        }
+      }
+    } else if (this.#firstTab && !this.#lastSelectedTab) {
+      this.#firstTab.privateSelect();
+      this.#firstTab.tabIndex = 0;
     }
+
+    for (const panel of this.#panelElements) {
+      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
+    }
+
+    this.#updateSelectedTabIndicator();
   }
 
   #setAriaAttributes() {
@@ -353,14 +374,10 @@ export default class TabGroup extends LitElement {
       this.isShowOverflowButtons =
         this.#tabListElementRef.value.scrollWidth >
         this.#tabListElementRef.value.clientWidth;
-    }
 
-    if (this.#tabListElementRef.value) {
       this.isDisableOverflowStartButton =
         this.#tabListElementRef.value.scrollLeft <= 0;
-    }
 
-    if (this.#tabListElementRef.value) {
       this.isDisableOverflowEndButton =
         Math.round(this.#tabListElementRef.value.scrollLeft) +
           this.#tabListElementRef.value.clientWidth >=
@@ -368,41 +385,27 @@ export default class TabGroup extends LitElement {
     }
   }
 
-  #updateSelectedTabAndPanel() {
-    for (const tabElement of this.#tabElements) {
-      tabElement.selected = this.#selectedTab === tabElement;
-      tabElement.tabIndex = this.#selectedTab === tabElement ? 0 : -1;
-    }
-
-    for (const panel of this.#panelElements) {
-      const selectedTabPanelName = this.#selectedTab?.getAttribute('panel');
-      const thisPanelName = panel.getAttribute('name');
-
-      panel.privateIsSelected = thisPanelName === selectedTabPanelName;
-      panel.tabIndex = thisPanelName === selectedTabPanelName ? 0 : -1;
-    }
-  }
-
   #updateSelectedTabIndicator() {
     if (
-      this.#selectedTab &&
+      this.#lastSelectedTab &&
       this.#tabElements.length > 0 &&
       this.#selectedTabIndicatorElementRef.value
     ) {
       const selectedTabInlinePadding = Number.parseInt(
         window
-          .getComputedStyle(this.#selectedTab)
+          .getComputedStyle(this.#lastSelectedTab)
           .getPropertyValue('padding-inline-start'),
       );
 
       const selectedTabIndicatorTranslateLeft =
-        this.#selectedTab === this.#tabElements.at(0)
+        this.#lastSelectedTab === this.#tabElements.at(0)
           ? selectedTabInlinePadding
-          : // `this.#tabElements.at(0)` is guaranteed to be defined by the guard at the
+          : this.#lastSelectedTab.offsetLeft -
+            // `this.#tabElements.at(0)` is guaranteed to be defined by the guard at the
             // top of this function.
             //
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.#selectedTab.offsetLeft - this.#tabElements.at(0)!.offsetLeft;
+            this.#tabElements.at(0)!.offsetLeft;
 
       this.#selectedTabIndicatorElementRef.value.style.setProperty(
         '--private-selected-tab-indicator-translate',
@@ -410,13 +413,13 @@ export default class TabGroup extends LitElement {
       );
 
       const selectedTabIndicatorWidthAdjustment =
-        this.#selectedTab === this.#tabElements.at(0) ||
-        this.#selectedTab === this.#tabElements.at(-1)
+        this.#lastSelectedTab === this.#tabElements.at(0) ||
+        this.#lastSelectedTab === this.#tabElements.at(-1)
           ? selectedTabInlinePadding
           : 0;
 
       const { width: selectedTabWidth } =
-        this.#selectedTab.getBoundingClientRect();
+        this.#lastSelectedTab.getBoundingClientRect();
 
       this.#selectedTabIndicatorElementRef.value.style.setProperty(
         '--private-selected-tab-indicator-width',
