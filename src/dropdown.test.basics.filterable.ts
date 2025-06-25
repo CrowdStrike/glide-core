@@ -12,10 +12,6 @@ it('is accessible', async () => {
 
   await expect(host).to.be.accessible({
     ignoredRules: [
-      // Axe doesn't like that our item count element doesn't have a `role`. Yet
-      // it does label `<input>` and is announced correctly, at least by VoiceOver.
-      'aria-prohibited-attr',
-
       // Axe doesn't search within slots when determining whether an element
       // has an ID that matches `aria-activedescendant` exists.
       'aria-valid-attr-value',

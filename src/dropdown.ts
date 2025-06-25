@@ -871,6 +871,7 @@ export default class Dropdown extends LitElement implements FormControl {
                   class="item-count"
                   data-test="item-count"
                   id="item-count"
+                  role="status"
                 ></span>
               </div>
             </glide-core-tooltip>
