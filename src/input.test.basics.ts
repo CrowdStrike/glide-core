@@ -2,6 +2,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Input from './input.js';
+import './select.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Input {}
@@ -27,7 +28,7 @@ it('has a search icon', async () => {
   expect(icon?.checkVisibility()).to.be.true;
 });
 
-it('has a max character and current character count', async () => {
+it('has max character and current character counts', async () => {
   const host = await fixture<Input>(html`
     <glide-core-input label="Label" maxlength="5"></glide-core-input>
   `);
@@ -63,6 +64,20 @@ it('has a character count for screenreaders', async () => {
   expect(characterCount?.textContent?.trim()).to.equal(
     'Character count 0 of 5',
   );
+});
+
+it('changes its role when used in Select', async () => {
+  const host = await fixture(html`
+    <glide-core-select label="Label">
+      <glide-core-input label="Label" slot="target"></glide-core-input>
+    </glide-core-select>
+  `);
+
+  const input = host
+    .querySelector('glide-core-input')
+    ?.shadowRoot?.querySelector('[data-test="input"]');
+
+  expect(input?.role).to.equal('combobox');
 });
 
 it('has `this.readonly && !this.disabled` coverage', async () => {

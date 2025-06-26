@@ -78,6 +78,9 @@ export default {
             const isScriptTag = $element.tagName === 'SCRIPT';
             const isStyleTag = $element.tagName === 'STYLE';
 
+            // TODO: explain?
+            const hasRole = Boolean($element.role);
+
             // IDs are only for internal use and so are removed. You'll find comments in
             // the Radio Group story explaining why they're needed.
             $element.removeAttribute('id');
@@ -91,7 +94,12 @@ export default {
               }
             } else if (isStyleTag) {
               $element.remove();
-            } else if (!isCoreElement && !isSlotted && !isScriptTag) {
+            } else if (
+              !isCoreElement &&
+              !isSlotted &&
+              !isScriptTag &&
+              !hasRole
+            ) {
               if ($element.children.length === 0) {
                 // `<div style="margin: 0.625rem;">Panel</div>` → `Panel`
                 $element.replaceWith($element.textContent);

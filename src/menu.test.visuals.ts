@@ -1,7 +1,6 @@
 import { expect, test } from '@playwright/test';
 import type Menu from './menu.js';
-import type MenuButton from './menu.button.js';
-import type MenuLink from './menu.link.js';
+import type Option from './option.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -14,6 +13,7 @@ for (const story of stories.Menu) {
 
           await page
             .locator('glide-core-menu')
+            .first()
             .evaluate<void, Menu>((element) => {
               element.loading = true;
               element.open = true;
@@ -29,6 +29,7 @@ for (const story of stories.Menu) {
 
           await page
             .locator('glide-core-menu')
+            .first()
             .evaluate<void, Menu>((element) => {
               element.offset = 50;
               element.open = true;
@@ -44,6 +45,22 @@ for (const story of stories.Menu) {
 
           await page
             .locator('glide-core-menu')
+            .first()
+            .evaluate<void, Menu>((element) => {
+              element.open = true;
+            });
+
+          await page
+            .locator('glide-core-menu')
+            .first()
+            .evaluate<void, Menu>((element) => {
+              element.open = true;
+            });
+
+          await page
+            .locator('glide-core-menu >> glide-core-menu')
+            // TODO: remove first() if other submenus are mreoved
+            .first()
             .evaluate<void, Menu>((element) => {
               element.open = true;
             });
@@ -53,19 +70,20 @@ for (const story of stories.Menu) {
           );
         });
 
-        test('<glide-core-menu-button>.disabled"', async ({ page }, test) => {
+        test('<glide-core-option>.disabled', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
             .locator('glide-core-menu')
+            .first()
             .evaluate<void, Menu>((element) => {
               element.open = true;
             });
 
           await page
-            .locator('glide-core-menu-button')
+            .locator('glide-core-option')
             .first()
-            .evaluate<void, MenuButton>((element) => {
+            .evaluate<void, Option>((element) => {
               element.disabled = true;
             });
 
@@ -74,53 +92,17 @@ for (const story of stories.Menu) {
           );
         });
 
-        test('<glide-core-menu-button>:hover"', async ({ page }, test) => {
+        test('<glide-core-option>:hover', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
             .locator('glide-core-menu')
-            .evaluate<void, Menu>((element) => {
-              element.open = true;
-            });
-
-          await page.locator('glide-core-menu-button').first().hover();
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test('<glide-core-menu-link>.disabled"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-menu')
-            .evaluate<void, Menu>((element) => {
-              element.open = true;
-            });
-
-          await page
-            .locator('glide-core-menu-link')
             .first()
-            .evaluate<void, MenuLink>((element) => {
-              element.disabled = true;
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test('<glide-core-menu-link>:hover"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-menu')
             .evaluate<void, Menu>((element) => {
               element.open = true;
             });
 
-          await page.locator('glide-core-menu-link').first().hover();
+          await page.locator('glide-core-option').first().hover();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
