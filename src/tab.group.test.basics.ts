@@ -1,4 +1,11 @@
-import { assert, expect, fixture, html } from '@open-wc/testing';
+import {
+  assert,
+  aTimeout,
+  expect,
+  fixture,
+  html,
+  waitUntil,
+} from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
@@ -45,12 +52,50 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
   const host = await fixture(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
 
       <glide-core-tab-panel name="1">One</glide-core-tab-panel>
       <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
     </glide-core-tab-group>
   `);
+
+  const firstTab = host
+    .querySelector('glide-core-tab:last-of-type')
+    ?.shadowRoot?.querySelector('[data-test="component"]');
+
+  const selectedTabIndicator = host.shadowRoot?.querySelector(
+    '[data-test="selected-tab-indicator"]',
+  );
+
+  assert(firstTab);
+  assert(selectedTabIndicator);
+
+  // Wait for the Resize Observer
+  await waitUntil(() => {
+    return selectedTabIndicator.clientWidth === firstTab.clientWidth;
+  });
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
+});
+
+it('offsets the width of its tab indicator when its first tab is selected', async () => {
+  // The selected tab indicator transitions its width and position. The transitions
+  // are disabled to simplify and speed up the test.
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1" selected>One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  await aTimeout(0); // Wait for the Resize Observer
 
   const firstTab = host
     .querySelector('glide-core-tab')
@@ -63,7 +108,88 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
   assert(firstTab);
   assert(selectedTabIndicator);
 
-  expect(selectedTabIndicator.clientWidth).to.equal(firstTab.clientWidth);
+  // Wait for the Resize Observer
+  await waitUntil(() => {
+    return selectedTabIndicator.clientWidth === firstTab.clientWidth;
+  });
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
+});
+
+it('offsets the width of its tab indicator when its middle tab is selected', async () => {
+  // The selected tab indicator transitions its width and position. The transitions
+  // are disabled to simplify and speed up the test.
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  await aTimeout(0); // Wait for the Resize Observer
+
+  const middleTab = host
+    .querySelector('glide-core-tab:nth-of-type(2)')
+    ?.shadowRoot?.querySelector('[data-test="component"]');
+
+  const selectedTabIndicator = host.shadowRoot?.querySelector(
+    '[data-test="selected-tab-indicator"]',
+  );
+
+  assert(middleTab);
+  assert(selectedTabIndicator);
+
+  // Wait for the Resize Observer
+  await waitUntil(() => {
+    return selectedTabIndicator.clientWidth === middleTab.clientWidth;
+  });
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
+});
+
+it('offsets the width of its tab indicator when its last tab is selected', async () => {
+  // The selected tab indicator transitions its width and position. The transitions
+  // are disabled to simplify and speed up the test.
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3" selected>three</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  await aTimeout(0); // Wait for the Resize Observer
+
+  const lastTab = host
+    .querySelector('glide-core-tab:last-of-type')
+    ?.shadowRoot?.querySelector('[data-test="component"]');
+
+  const selectedTabIndicator = host.shadowRoot?.querySelector(
+    '[data-test="selected-tab-indicator"]',
+  );
+
+  assert(lastTab);
+  assert(selectedTabIndicator);
+
+  // Wait for the Resize Observer
+  await waitUntil(() => {
+    return selectedTabIndicator.clientWidth === lastTab.clientWidth;
+  });
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
 });
 
 it('deselects all but its last selected tab when multiple are selected', async () => {

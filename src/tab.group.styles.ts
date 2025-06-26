@@ -17,6 +17,7 @@ export default [
     .component {
       --private-transition-duration: 250ms;
 
+      /* https://github.com/CrowdStrike/glide-core/pull/476#issue-2659854067 */
       display: contents;
     }
 
@@ -57,7 +58,9 @@ export default [
 
       &.animated {
         @media (prefers-reduced-motion: no-preference) {
-          transition: translate var(--private-transition-duration);
+          transition:
+            inline-size var(--private-transition-duration),
+            translate var(--private-transition-duration);
         }
       }
     }

@@ -291,6 +291,8 @@ it('hides its overflow buttons when overall tab content is reduced', async () =>
       !host.shadowRoot?.querySelector('[data-test="overflow-end-button"]')
     );
   });
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
 });
 
 it('disables its overflow buttons on scroll', async () => {
@@ -519,7 +521,7 @@ it('can be nested', async () => {
   expect(panels[3]?.ariaHidden).to.equal('true');
 });
 
-it('updates the width of its selected tab indicator when the width of a tab changes', async () => {
+it('updates the width of its selected tab indicator when the label of a tab changes', async () => {
   // The selected tab indicator transitions its width and position. The transitions
   // are disabled to simplify and speed up the test.
   await emulateMedia({ reducedMotion: 'reduce' });
@@ -545,13 +547,23 @@ it('updates the width of its selected tab indicator when the width of a tab chan
   );
 
   assert(firstTab);
+  assert(selectedTabIndicator);
+
+  // Wait for the Resize Observer
+  await waitUntil(() => {
+    return selectedTabIndicator?.clientWidth === firstTabInitialWidth;
+  });
+
   firstTab.innerHTML = 'One (But Longer)';
 
+  // Wait for the Resize Observer
   await waitUntil(() => {
     return selectedTabIndicator?.clientWidth !== firstTabInitialWidth;
   });
 
   expect(selectedTabIndicator?.clientWidth).to.equal(firstTab.clientWidth);
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
 });
 
 it('sets aria attributes on tabs and panels when new ones are added', async () => {
