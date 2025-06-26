@@ -352,8 +352,6 @@ export default class TabGroup extends LitElement {
       panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
-
-    this.#updateSelectedTabIndicator();
   }
 
   #setAriaAttributes() {
@@ -391,11 +389,22 @@ export default class TabGroup extends LitElement {
       this.#tabElements.length > 0 &&
       this.#selectedTabIndicatorElementRef.value
     ) {
-      const selectedTabInlinePadding = Number.parseInt(
-        window
-          .getComputedStyle(this.#lastSelectedTab)
-          .getPropertyValue('padding-inline-start'),
-      );
+      const isFirstTab = this.#lastSelectedTab === this.#tabElements.at(0);
+      const isLastTab = this.#lastSelectedTab === this.#tabElements.at(-1);
+
+      const selectedTabInlinePadding = isFirstTab
+        ? Number.parseInt(
+            window
+              .getComputedStyle(this.#lastSelectedTab)
+              .getPropertyValue('padding-inline-start'),
+          )
+        : isLastTab
+          ? Number.parseInt(
+              window
+                .getComputedStyle(this.#lastSelectedTab)
+                .getPropertyValue('padding-inline-end'),
+            )
+          : 0;
 
       const selectedTabIndicatorTranslateLeft =
         this.#lastSelectedTab === this.#tabElements.at(0)
@@ -412,18 +421,12 @@ export default class TabGroup extends LitElement {
         `${selectedTabIndicatorTranslateLeft}px`,
       );
 
-      const selectedTabIndicatorWidthAdjustment =
-        this.#lastSelectedTab === this.#tabElements.at(0) ||
-        this.#lastSelectedTab === this.#tabElements.at(-1)
-          ? selectedTabInlinePadding
-          : 0;
-
       const { width: selectedTabWidth } =
         this.#lastSelectedTab.getBoundingClientRect();
 
       this.#selectedTabIndicatorElementRef.value.style.setProperty(
         '--private-selected-tab-indicator-width',
-        `${selectedTabWidth - selectedTabIndicatorWidthAdjustment}px`,
+        `${selectedTabWidth - selectedTabInlinePadding}px`,
       );
     }
   }

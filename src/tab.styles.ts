@@ -22,7 +22,6 @@ export default [
       gap: 0.4375rem;
       justify-content: center;
       padding-block: 0.4375rem;
-      transition: font-weight var(--private-transition-duration) ease-in-out;
       user-select: none;
 
       &:hover {
