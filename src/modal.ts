@@ -18,6 +18,7 @@ import severityMediumIcon from './icons/severity-medium.js';
 import severityCriticalIcon from './icons/severity-critical.js';
 import final from './library/final.js';
 import required from './library/required.js';
+import onResize from './library/on-resize.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -37,6 +38,7 @@ globalStylesheet.insertRule(`
 /**
  * @attr {string} label
  * @attr {boolean} [back-button=false]
+ * @attr {string} [description]
  * @attr {boolean} [open=false]
  * @attr {'critical'|'informational'|'medium'} [severity]
  * @attr {'small'|'medium'|'large'|'xlarge'} [size='medium']
@@ -68,6 +70,9 @@ export default class Modal extends LitElement {
 
   @property({ attribute: 'back-button', type: Boolean, reflect: true })
   backButton = false;
+
+  @property({ reflect: true })
+  description?: string;
 
   /**
    * @default false
@@ -180,6 +185,8 @@ export default class Modal extends LitElement {
       'mouseup',
       this.#onContainerMousedown,
     );
+
+    this.#bodyElementRef.value?.addEventListener('scroll', this.#onScroll);
   }
 
   // The contents `<dialog>` are wrapped in a `<div>` so we can separate backdrop clicks
@@ -189,89 +196,115 @@ export default class Modal extends LitElement {
   // is on the `<div>`, so padding clicks come from inside it and Modal remains open.
   override render() {
     return html`<dialog
-      class="component"
+      class=${classMap({
+        component: true,
+        small: this.size === 'small',
+        medium: this.size === 'medium',
+        large: this.size === 'large',
+        xlarge: this.size === 'xlarge',
+      })}
       data-test="component"
       @keydown=${this.#onComponentKeyDown}
       ${ref(this.#componentElementRef)}
+      ${onResize(this.#onScroll)})}
     >
-      <div
-        class=${classMap({
-          container: true,
-          small: this.size === 'small',
-          medium: this.size === 'medium',
-          large: this.size === 'large',
-          xlarge: this.size === 'xlarge',
-        })}
-        ${ref(this.#containerElementRef)}
-      >
-        <header class="header">
-          <h2 class="label" data-test="heading" id="heading">
-            ${when(
-              this.severity,
-              () =>
-                html`<span
-                  aria-label="${this.#localize.term(
-                    this.severity === 'informational'
-                      ? 'severityInformational'
-                      : this.severity === 'critical'
-                        ? 'severityCritical'
-                        : 'severityMedium',
-                  )} - "
-                  class=${classMap({
-                    severity: true,
-                    critical: this.severity === 'critical',
-                    informational: this.severity === 'informational',
-                    medium: this.severity === 'medium',
-                  })}
-                  data-test="severity"
-                >
-                  ${this.severity && icons[this.severity]}
-                </span>`,
-            )}
-            ${when(
-              this.backButton && !this.severity,
-              () =>
-                html`<glide-core-modal-icon-button
-                  class="back-button"
-                  data-test="back-button"
-                  label=${this.#localize.term('close')}
-                  @click=${this.#onCloseButtonClick}
-                  ${ref(this.#backButtonElementRef)}
-                >
-                  ${icons.back}
-                </glide-core-modal-icon-button>`,
-            )}
-            ${this.label}
-          </h2>
+      <div class="container" ${ref(this.#containerElementRef)}>
+        <header
+          class=${classMap({ header: true, scrolled: this.isScrolledFromTop })}
+        >
+          <div class="label-and-actions">
+            <h2 class="label" data-test="heading" id="heading">
+              ${when(
+                this.severity,
+                () =>
+                  html`<span
+                    aria-label="${this.#localize.term(
+                      this.severity === 'informational'
+                        ? 'severityInformational'
+                        : this.severity === 'critical'
+                          ? 'severityCritical'
+                          : 'severityMedium',
+                    )} - "
+                    class=${classMap({
+                      severity: true,
+                      critical: this.severity === 'critical',
+                      informational: this.severity === 'informational',
+                      medium: this.severity === 'medium',
+                    })}
+                    data-test="severity"
+                  >
+                    ${this.severity && icons[this.severity]}
+                  </span>`,
+              )}
+              ${when(
+                this.backButton && !this.severity,
+                () =>
+                  html`<glide-core-modal-icon-button
+                    class="back-button"
+                    data-test="back-button"
+                    label=${this.#localize.term('close')}
+                    @click=${this.#onCloseButtonClick}
+                    ${ref(this.#backButtonElementRef)}
+                  >
+                    ${icons.back}
+                  </glide-core-modal-icon-button>`,
+              )}
+              ${this.label}
+            </h2>
 
-          <div class="header-actions" role="toolbar">
-            <slot
-              name="header-actions"
-              ${assertSlot([ModalIconButton], true)}
-              ${ref(this.#headerActionsSlotElementRef)}
-            >
-              <!-- @type {ModalIconButton} -->
-            </slot>
+            <div class="header-actions" role="toolbar">
+              <slot
+                name="header-actions"
+                ${assertSlot([ModalIconButton], true)}
+                ${ref(this.#headerActionsSlotElementRef)}
+              >
+                <!-- @type {ModalIconButton} -->
+              </slot>
 
-            <glide-core-modal-icon-button
-              class="close-button"
-              data-test="close-button"
-              label=${this.#localize.term('close')}
-              @click=${this.#onCloseButtonClick}
-              ${ref(this.#closeButtonElementRef)}
-            >
-              ${xIcon}
-            </glide-core-modal-icon-button>
+              <glide-core-modal-icon-button
+                class="close-button"
+                data-test="close-button"
+                label=${this.#localize.term('close')}
+                @click=${this.#onCloseButtonClick}
+                ${ref(this.#closeButtonElementRef)}
+              >
+                ${xIcon}
+              </glide-core-modal-icon-button>
+            </div>
           </div>
+
+          ${when(
+            this.description,
+            () =>
+              html`<h3
+                class="description"
+                data-test="description"
+                id="description"
+              >
+                ${this.description}
+              </h3>`,
+          )}
         </header>
 
-        <article aria-labelledby="heading" class="body" role="region">
+        <article
+          aria-labelledby=${this.description
+            ? 'heading description'
+            : 'heading'}
+          class="body"
+          role="region"
+          ${ref(this.#bodyElementRef)}
+        >
           <slot ${assertSlot()}>
             <!-- @type {Element | string} -->
           </slot>
         </article>
 
-        <footer>
+        <footer
+          class=${classMap({
+            footer: true,
+            scrolled: this.isScrolledFromBottom,
+          })}
+        >
           <menu
             aria-hidden=${!this.hasTertiarySlotContent &&
             !this.hasSecondarySlotContent &&
@@ -323,7 +356,15 @@ export default class Modal extends LitElement {
 
   @state() private hasTertiarySlotContent = false;
 
+  @state()
+  private isScrolledFromBottom = false;
+
+  @state()
+  private isScrolledFromTop = false;
+
   #backButtonElementRef = createRef<ModalIconButton>();
+
+  #bodyElementRef = createRef<HTMLElement>();
 
   #closeButtonElementRef = createRef<ModalIconButton>();
 
@@ -382,6 +423,28 @@ export default class Modal extends LitElement {
         this.open = false;
       }
     });
+  };
+
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
+  #onScroll = () => {
+    if (this.open && this.#bodyElementRef.value) {
+      if (
+        this.#bodyElementRef.value.scrollHeight >
+        this.#bodyElementRef.value.clientHeight
+      ) {
+        this.isScrolledFromTop = this.#bodyElementRef.value.scrollTop > 0;
+
+        this.isScrolledFromBottom =
+          this.#bodyElementRef.value.scrollHeight -
+            this.#bodyElementRef.value.scrollTop -
+            this.#bodyElementRef.value.clientHeight >
+          0;
+      } else {
+        this.isScrolledFromTop = false;
+        this.isScrolledFromBottom = false;
+      }
+    }
   };
 
   #hide() {

@@ -49,6 +49,22 @@ export default [
         }
       }
 
+      &.small {
+        inline-size: 25rem;
+      }
+
+      &.medium {
+        inline-size: 37.5rem;
+      }
+
+      &.large {
+        inline-size: 56.25rem;
+      }
+
+      &.xlarge {
+        inline-size: 71.875rem;
+      }
+
       &:focus {
         outline: none;
       }
@@ -71,31 +87,41 @@ export default [
     }
 
     .container {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
       max-block-size: 75vh;
-      max-inline-size: 80vw;
-      padding: var(--glide-core-spacing-base-md);
-
-      &.small {
-        inline-size: 22.5rem;
-      }
-
-      &.medium {
-        inline-size: 35rem;
-      }
-
-      &.large {
-        inline-size: 53.75rem;
-      }
-
-      &.xlarge {
-        inline-size: 69.375rem;
-      }
     }
 
     .header {
+      background-color: var(
+        --glide-core-private-color-dialog-and-modal-surface-container
+      );
+      padding-block: var(--glide-core-spacing-base-md)
+        var(--glide-core-spacing-base-xs);
+      padding-inline: var(--glide-core-spacing-base-md);
+      transition: box-shadow var(--glide-core-duration-slow-01)
+        var(--glide-core-animation-linear);
+
+      /* So the box shadow isn't covered up by the body content. */
+      z-index: 1;
+
+      &.scrolled {
+        box-shadow: 0 10px 8px -8px
+          var(--glide-core-color-effect-color-scroll-shadow);
+      }
+    }
+
+    .label-and-actions {
       align-items: center;
       display: flex;
       justify-content: space-between;
+    }
+
+    .description {
+      color: var(--glide-core-color-static-text-default);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-regular);
+      margin-block: 0;
     }
 
     .label {
@@ -165,12 +191,30 @@ export default [
     }
 
     .body {
-      overflow: auto;
-      padding-block: var(--glide-core-spacing-base-xs);
-      padding-block-end: var(--glide-core-spacing-base-md);
+      overflow-y: auto;
+      padding-inline: var(--glide-core-spacing-base-md);
 
       &:focus {
         outline: none;
+      }
+    }
+
+    .footer {
+      background-color: var(
+        --glide-core-private-color-dialog-and-modal-surface-container
+      );
+      padding-block: var(--glide-core-spacing-base-xs)
+        var(--glide-core-spacing-base-md);
+      padding-inline: var(--glide-core-spacing-base-md);
+      transition: box-shadow var(--glide-core-duration-slow-01)
+        var(--glide-core-animation-linear);
+
+      /* So the box shadow isn't covered up by the body content. */
+      z-index: 1;
+
+      &.scrolled {
+        box-shadow: 0 -10px 8px -8px
+          var(--glide-core-color-effect-color-scroll-shadow);
       }
     }
 

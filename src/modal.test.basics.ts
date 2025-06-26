@@ -1,6 +1,6 @@
 import './button.js';
 import './modal.icon-button.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Modal from './modal.js';
@@ -16,7 +16,9 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const host = await fixture(
-    html`<glide-core-modal label="Label">Content</glide-core-modal>`,
+    html`<glide-core-modal label="Label" description="description"
+      >Content</glide-core-modal
+    >`,
   );
 
   await expect(host).to.be.accessible();
@@ -44,6 +46,20 @@ it('can have a back button', async () => {
   );
 
   expect(button?.checkVisibility()).to.be.true;
+});
+
+it('can have a description', async () => {
+  const host = await fixture<Modal>(
+    html`<glide-core-modal label="Label" description="description" open>
+      Content
+    </glide-core-modal>`,
+  );
+
+  expect(
+    host.shadowRoot
+      ?.querySelector('[data-test="description"]')
+      ?.textContent?.trim(),
+  ).to.equal('description');
 });
 
 it('can have a severity', async () => {
@@ -173,4 +189,33 @@ it('has `severity="medium" coverage', async () => {
       Content
     </glide-core-modal>`,
   );
+});
+
+it('has #onScroll() coverage', async () => {
+  const host = await fixture<Modal>(
+    html`<glide-core-modal label="Label" open>
+      <div
+        style="height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;"
+      >
+        <button>button</button>
+      </div>
+    </glide-core-modal>`,
+  );
+
+  const button = host?.querySelector('button');
+  assert(button);
+
+  // Wait for the scroll to finish.
+  await new Promise<void>((resolve) => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries && entries[0]?.isIntersecting) {
+        observer.disconnect();
+        resolve();
+      }
+    });
+
+    observer.observe(button);
+
+    button.scrollIntoView({ behavior: 'instant' });
+  });
 });
