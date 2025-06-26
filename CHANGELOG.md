@@ -1,5 +1,14 @@
 # @crowdstrike/glide-core
 
+## 0.29.1
+
+### Patch Changes
+
+- [#944](https://github.com/CrowdStrike/glide-core/pull/944) [`9dd78cc`](https://github.com/CrowdStrike/glide-core/commit/9dd78cc0f3717996e54e7a85ba182347b0a43981) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Dropdown's item count is no longer reported as an error with axe accessibility tools.
+
+- [#946](https://github.com/CrowdStrike/glide-core/pull/946) [`dea3cac`](https://github.com/CrowdStrike/glide-core/commit/dea3cacd7627b5b22282a899cc299f9ab09e0667) Thanks [@clintcs](https://github.com/clintcs)! - - Tab Group's selected tab indicator is no longer slightly too wide when the last Tab is selected.
+  - Tab Group no longer flashes its selected Tab indicator when the user switches between Tabs.
+
 ## 0.29.0
 
 ### Minor Changes
