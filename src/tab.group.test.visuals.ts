@@ -76,6 +76,17 @@ for (const story of stories['Tab Group']) {
             `${test.titlePath.join('.')}.png`,
           );
         });
+
+        test('<glide-core-tab>:click', async ({ page }, test) => {
+          // await page.emulateMedia({ reducedMotion: 'reduce' });
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-tab').last().click();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+            // { animations: 'disabled' },
+          );
+        });
       });
     }
   });

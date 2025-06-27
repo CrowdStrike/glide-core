@@ -334,6 +334,7 @@ export default class TabGroup extends LitElement {
 
   #onTabSelected(event: Event) {
     if (event.target instanceof Tab && event.target.selected) {
+      // this.#updateSelectedTabIndicator();
       event.target.privateSelect();
       event.target.tabIndex = 0;
 
