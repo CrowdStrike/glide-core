@@ -9,7 +9,6 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import TabComponent from './tab.js';
-
 const meta: Meta = {
   title: 'Tab Group',
   decorators: [
@@ -20,7 +19,6 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/tab.panel.js';
         import '@crowdstrike/glide-core/tab.js';
       </script>
-
       ${story()}
     `,
   ],
@@ -99,7 +97,7 @@ const meta: Meta = {
           panel="1"
           ?selected=${arguments_['<glide-core-tab>.1.selected']}
         >
-          ${unsafeHTML(arguments_['<glide-core-tab>[slot="default"]'])}
+          Details
         </glide-core-tab>
         <glide-core-tab
           slot="nav"
@@ -107,14 +105,15 @@ const meta: Meta = {
           ?disabled=${arguments_['<glide-core-tab>.disabled']}
           ?selected=${arguments_['<glide-core-tab>.2.selected']}
         >
-          With Icon
-
+          ExPRT Rating Details
           <glide-core-example-icon
             slot="icon"
             name="checkmark"
           ></glide-core-example-icon>
         </glide-core-tab>
-
+        <glide-core-tab slot="nav" panel="3"> CVSS Attributes </glide-core-tab>
+        <glide-core-tab slot="nav" panel="4"> References </glide-core-tab>
+        <glide-core-tab slot="nav" panel="5"> Remediation </glide-core-tab>
         <glide-core-tab-panel
           name="1"
           style=${arguments_['<glide-core-tab-panel>[--padding-inline-end]'] ||
@@ -133,6 +132,9 @@ const meta: Meta = {
           ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
         </glide-core-tab-panel>
         <glide-core-tab-panel name="2"> With Icon </glide-core-tab-panel>
+        <glide-core-tab-panel name="3"> 3 </glide-core-tab-panel>
+        <glide-core-tab-panel name="4"> 4 </glide-core-tab-panel>
+        <glide-core-tab-panel name="5"> 5 </glide-core-tab-panel>
       </glide-core-tab-group>
     `;
   },
@@ -346,13 +348,10 @@ const meta: Meta = {
     },
   },
 };
-
 export default meta;
-
 export const Tabs: StoryObj = {
   tags: ['!autodocs'],
 };
-
 export const WithOverflow: StoryObj = {
   render(arguments_) {
     return html`
@@ -428,7 +427,6 @@ export const WithOverflow: StoryObj = {
           >
             Ten
           </glide-core-tab>
-
           <glide-core-tab-panel
             name="1"
             style=${styleMap({
