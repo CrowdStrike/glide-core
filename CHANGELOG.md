@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.29.2
+
+### Patch Changes
+
+- [#950](https://github.com/CrowdStrike/glide-core/pull/950) [`71be895`](https://github.com/CrowdStrike/glide-core/commit/71be89526115ef656b89c7412877a2385f52ba66) Thanks [@clintcs](https://github.com/clintcs)! - Tooltip now supports a `description` attribute. `description` can be used to place text below Tooltip's `label`.
+
 ## 0.29.1
 
 ### Patch Changes
