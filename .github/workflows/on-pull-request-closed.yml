@@ -11,6 +11,22 @@ defaults:
     shell: bash -eu -o pipefail {0}
 
 jobs:
+  remove-sticky-comments:
+    # The links in the comments will become stale when Cloudflare artifacts are removed
+    # in the job below. So we remove them rather than have someone discover that they're
+    # stale upon clicking them.
+    name: Remove Storybook and Visual Test Report comments
+    runs-on: ubuntu-latest
+    steps:
+      - uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728
+        with:
+          header: storybook
+          delete: true
+      - uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728
+        with:
+          header: visual-test-report
+          delete: true
+
   remove-cloudflare-artifacts:
     name: Remove Cloudflare artifacts
     # Ubuntu instead of MacOS because the performance difference is
