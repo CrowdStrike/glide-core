@@ -57,6 +57,7 @@ const meta: Meta = {
     label: 'Label',
     'slot="target"': '',
     'addEventListener(event, handler)': '',
+    description: '',
     disabled: false,
     offset: 4,
     open: false,
@@ -90,6 +91,12 @@ const meta: Meta = {
           detail: '(event: "toggle", handler: (event: Event) => void): void',
         },
       },
+    },
+    description: {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
     },
     disabled: {
       table: {
@@ -180,10 +187,11 @@ const meta: Meta = {
       });
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-tooltip
         label=${arguments_.label}
+        description=${arguments_.description || nothing}
         offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
         placement=${arguments_.placement === 'bottom'
           ? nothing

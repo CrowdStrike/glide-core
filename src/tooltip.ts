@@ -29,6 +29,7 @@ declare global {
 
 /**
  * @attr {string} label
+ * @attr {string} [description]
  * @attr {boolean} [disabled=false]
  * @attr {number} [offset=4]
  * @attr {boolean} [open=false]
@@ -72,6 +73,26 @@ export default class Tooltip extends LitElement {
 
     if (container) {
       container.label = label;
+    }
+  }
+
+  /**
+   * @default undefined
+   */
+  @property({ reflect: true })
+  get description(): string | undefined {
+    return this.#description;
+  }
+
+  set description(description: string) {
+    this.#description = description;
+
+    const container = this.querySelector(
+      'glide-core-private-tooltip-container',
+    );
+
+    if (container) {
+      container.description = description;
     }
   }
 
@@ -252,6 +273,7 @@ export default class Tooltip extends LitElement {
     );
 
     container.label = this.label;
+    container.description = this.description;
     container.screenreaderHidden = this.screenreaderHidden;
     container.shortcut = this.shortcut;
 
@@ -344,6 +366,8 @@ export default class Tooltip extends LitElement {
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
   #closeTimeoutId?: ReturnType<typeof setTimeout>;
+
+  #description?: string;
 
   #isDisabled = false;
 

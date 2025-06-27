@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { map } from 'lit/directives/map.js';
+import { when } from 'lit/directives/when.js';
 import styles from './tooltip.container.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
@@ -32,6 +33,7 @@ declare global {
 // an attribute (`label`). We'd be forced to allow arbitrary content via a slot.
 
 /**
+ * @attr {string} [description]
  * @attr {boolean} [disabled=false]
  * @attr {string} [label]
  * @attr {'bottom'|'left'|'right'|'top'} [placement]
@@ -47,6 +49,9 @@ export default class TooltipContainer extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true })
+  description?: string;
 
   /**
    * @default false
@@ -92,24 +97,30 @@ export default class TooltipContainer extends LitElement {
           component: true,
         })}
       >
-        <div class="label">${this.label}</div>
+        <div class="label-and-shortcut">
+          <div class="label">${this.label}</div>
 
-        <kbd
-          class=${classMap({
-            shortcut: true,
-            visible: this.shortcut.length > 0,
-          })}
-          data-test="shortcut"
-        >
-          ${this.shortcut.length === 1
-            ? this.shortcut.at(0)
-            : map(this.shortcut, (shortcut, index) => {
-                return html`
-                  <kbd>${shortcut}</kbd>
-                  ${index === this.shortcut.length - 1 ? '' : ' + '}
-                `;
-              })}
-        </kbd>
+          <kbd
+            class=${classMap({
+              shortcut: true,
+              visible: this.shortcut.length > 0,
+            })}
+            data-test="shortcut"
+          >
+            ${this.shortcut.length === 1
+              ? this.shortcut.at(0)
+              : map(this.shortcut, (shortcut, index) => {
+                  return html`
+                    <kbd>${shortcut}</kbd>
+                    ${index === this.shortcut.length - 1 ? '' : ' + '}
+                  `;
+                })}
+          </kbd>
+        </div>
+
+        ${when(this.description, () => {
+          return html`<div class="description">${this.description}</div>`;
+        })}
       </div>
     `;
   }
