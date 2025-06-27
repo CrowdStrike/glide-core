@@ -14,7 +14,7 @@ import TooltipContainer from './tooltip.container.js';
 
 it('passes down certain properties to its container', async () => {
   const host = await fixture<Tooltip>(
-    html`<glide-core-tooltip label="One">
+    html`<glide-core-tooltip label="Label" description="Description">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
@@ -25,7 +25,8 @@ it('passes down certain properties to its container', async () => {
     );
   });
 
-  host.label = 'Two';
+  host.label = 'Label';
+  host.description = 'Description';
   host.screenreaderHidden = true;
   host.shortcut = ['CMD', 'O'];
 
@@ -33,7 +34,7 @@ it('passes down certain properties to its container', async () => {
     'glide-core-private-tooltip-container',
   );
 
-  expect(container?.label).to.equal('Two');
+  expect(container?.label).to.equal('Label');
   expect(container?.screenreaderHidden).to.be.true;
   expect(container?.shortcut).to.deep.equal(['CMD', 'O']);
 });
@@ -313,7 +314,6 @@ it('sets `aria-describedby` on its target when enabled', async () => {
   host.disabled = false;
 
   const button = host.querySelector('button');
-
   const container = host.querySelector('glide-core-private-tooltip-container');
 
   expect(button?.getAttribute('aria-describedby')).to.equal(container?.id);

@@ -14,7 +14,7 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const host = await fixture<Tooltip>(
-    html`<glide-core-tooltip label="Label">
+    html`<glide-core-tooltip label="Label" description="Description">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
@@ -43,6 +43,7 @@ it('passes down certain properties to its container', async () => {
   const host = await fixture<Tooltip>(
     html`<glide-core-tooltip
       label="Label"
+      description="Description"
       .shortcut=${['CMD', 'K']}
       screenreader-hidden
     >
@@ -61,6 +62,7 @@ it('passes down certain properties to its container', async () => {
   );
 
   expect(container?.label).to.equal('Label');
+  expect(container?.description).to.equal('Description');
   expect(container?.screenreaderHidden).to.be.true;
   expect(container?.shortcut).to.deep.equal(['CMD', 'K']);
 });
@@ -115,7 +117,6 @@ it('sets `aria-describedby` when not hidden from screenreaders', async () => {
   );
 
   const button = host.querySelector('button');
-
   const container = host.querySelector('glide-core-private-tooltip-container');
 
   expect(button?.getAttribute('aria-describedby')).to.equal(container?.id);

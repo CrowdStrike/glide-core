@@ -7,7 +7,6 @@ export default [
         --glide-core-private-color-tooltip-surface-container
       );
       border-radius: var(--glide-core-spacing-base-xs);
-      display: flex;
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
@@ -17,10 +16,22 @@ export default [
         var(--glide-core-spacing-base-xs);
     }
 
+    .label-and-shortcut {
+      display: flex;
+    }
+
     .label {
       color: var(--glide-core-color-static-text-onsolid);
-      display: block;
       hyphens: auto;
+      max-inline-size: 11.25rem;
+      min-inline-size: 1.875rem;
+      overflow-wrap: anywhere;
+    }
+
+    .description {
+      color: var(--glide-core-color-static-text-onsolid);
+      hyphens: auto;
+      margin-block-start: var(--glide-core-spacing-base-xs);
       max-inline-size: 11.25rem;
       min-inline-size: 1.875rem;
       overflow-wrap: anywhere;

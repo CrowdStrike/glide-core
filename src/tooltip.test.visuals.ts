@@ -7,6 +7,21 @@ for (const story of stories.Tooltip) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
+        test('description', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-tooltip')
+            .evaluate<void, Tooltip>((element) => {
+              element.description = 'Description';
+              element.open = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('offset', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -81,23 +96,45 @@ for (const story of stories.Tooltip) {
           );
         });
 
-        test('shortcut', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test.describe('shortcut', () => {
+          test('description=""', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-tooltip')
-            .evaluate<void, Tooltip>((element) => {
-              element.shortcut = ['CMD', 'K'];
+            await page
+              .locator('glide-core-tooltip')
+              .evaluate<void, Tooltip>((element) => {
+                element.shortcut = ['CMD', 'K'];
 
-              // `open` will synchronously trigger a "toggle" event. So `shortcut` needs
-              // to be set first. Otherwise, the story (via its `play()` method) will set
-              // `shortcut` back to its initial value: an empty array.
-              element.open = true;
-            });
+                // `open` will synchronously trigger a "toggle" event. So `shortcut` needs
+                // to be set first. Otherwise, the story (via its `play()` method) will set
+                // `shortcut` back to its initial value: an empty array.
+                element.open = true;
+              });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('description="Description"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-tooltip')
+              .evaluate<void, Tooltip>((element) => {
+                element.description = 'Description';
+                element.shortcut = ['CMD', 'K'];
+
+                // `open` will synchronously trigger a "toggle" event. So `shortcut` needs
+                // to be set first. Otherwise, the story (via its `play()` method) will set
+                // `shortcut` back to its initial value: an empty array.
+                element.open = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
       });
     }

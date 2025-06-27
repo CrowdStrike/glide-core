@@ -9499,6 +9499,15 @@
             },
             {
               "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "description",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -9542,6 +9551,13 @@
             }
           ],
           "attributes": [
+            {
+              "name": "description",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "description"
+            },
             {
               "name": "disabled",
               "type": {
@@ -9696,6 +9712,16 @@
             },
             {
               "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "description",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -9782,6 +9808,14 @@
               "default": "undefined",
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "description"
             },
             {
               "name": "disabled",
