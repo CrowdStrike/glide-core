@@ -323,6 +323,18 @@ export default class TabGroup extends LitElement {
       clearTimeout(this.#resizeTimeout);
     }
 
+    // TODO
+    //
+    // This only needs to be called here so the indicator is updated when the content of
+    // Tab's slots changes.
+    //
+    // Tab's default slot will soon be replaced by a `label` attribute. When that happens,
+    // this call can be removed, and `#updateSelectedTabIndicator()` can be instead called
+    // when Tab dispatches "private-label-change" and "private-icon-slotchange" events.
+    //
+    // Those changes will certainly require slightly more code. But they'll make it much
+    // clearer why `#updateSelectedTabIndicator()` is being called. Additionally, Tab Group
+    // will no longer be doing unncessary work every time the viewport is resized.
     this.#updateSelectedTabIndicator();
 
     // Toggling the overflow buttons will itself cause a resize. So we
@@ -347,6 +359,8 @@ export default class TabGroup extends LitElement {
       this.#firstTab.privateSelect();
       this.#firstTab.tabIndex = 0;
     }
+
+    this.#updateSelectedTabIndicator();
 
     for (const panel of this.#panelElements) {
       panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
