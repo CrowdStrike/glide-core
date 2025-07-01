@@ -31,8 +31,8 @@ importers:
         specifier: ^9.28.0
         version: 9.28.0
       '@figma/rest-api-spec':
-        specifier: ^0.27.0
-        version: 0.27.0
+        specifier: ^0.32.0
+        version: 0.32.0
       '@html-eslint/eslint-plugin':
         specifier: ^0.41.0
         version: 0.41.0(eslint@9.28.0)
@@ -594,8 +594,8 @@ packages:
   '@esm-bundle/chai@4.3.4-fix.0':
     resolution: {integrity: sha512-26SKdM4uvDWlY8/OOOxSB1AqQWeBosCX3wRYUZO7enTAj03CtVxIiCimYVG2WpULcyV51qapK4qTovwkUr5Mlw==}
 
-  '@figma/rest-api-spec@0.27.0':
-    resolution: {integrity: sha512-jRGYwBLdybit9X7puOmztx8XUt1dq9a7jtBO2KEK4OrxP8GKGX5yY2+efV/XNRHnqTbzFue0qdZklSBs/EaGNw==}
+  '@figma/rest-api-spec@0.32.0':
+    resolution: {integrity: sha512-ExfduYguRIGuBBIDOQ8ev3nRwSYj/JspEe0xwCBkPzu22A3jhsjNr6X+8H1YPPrXzHnFENkamocdDw4XeneIcA==}
 
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
@@ -5094,7 +5094,7 @@ snapshots:
     dependencies:
       '@types/chai': 4.3.20
 
-  '@figma/rest-api-spec@0.27.0': {}
+  '@figma/rest-api-spec@0.32.0': {}
 
   '@floating-ui/core@1.6.8':
     dependencies:
