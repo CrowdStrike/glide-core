@@ -11,6 +11,16 @@ export default [
     :host {
       /* https://github.com/CrowdStrike/glide-core/pull/307/files#r1718545771 */
       display: inline-block;
+
+      /*
+        We've found that many consumers put Tooltip in a container that has
+        "white-space: nowrap", preventing Tooltip's "label" and "description"
+        from wrapping.
+
+        It's easy enough for them to add "white-space: normal" to Tooltip's
+        host. But it reduces our support load to add it for them.
+      */
+      white-space: normal;
     }
 
     .component {
