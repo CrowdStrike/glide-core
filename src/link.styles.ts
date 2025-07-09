@@ -10,7 +10,7 @@ export default [
       border-radius: var(--glide-core-rounding-base-radius-xxs);
       color: var(--glide-core-color-interactive-text-link);
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-small);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       text-decoration: none;
 
