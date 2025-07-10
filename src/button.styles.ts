@@ -14,7 +14,7 @@ export default [
     .component {
       align-items: center;
       border-color: transparent;
-      border-radius: var(--glide-core-rounding-base-radius-md);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
@@ -25,9 +25,9 @@ export default [
       justify-content: center;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-md);
-      transition-duration: 150ms;
+      transition-duration: var(--glide-core-duration-moderate-02);
       transition-property: color, background-color, border-color, fill, stroke;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-timing-function: var(--glide-core-animation-swoop-in);
       user-select: none;
 
       &:focus {

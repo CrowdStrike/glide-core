@@ -15,7 +15,7 @@ export default [
       align-items: center;
       block-size: var(--private-size, 1.625rem);
       border-color: transparent;
-      border-radius: var(--glide-core-rounding-base-radius-md);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
@@ -23,9 +23,9 @@ export default [
       inline-size: var(--private-size, 1.625rem);
       justify-content: center;
       padding-inline: 0;
-      transition-duration: 150ms;
+      transition-duration: var(--glide-core-duration-moderate-02);
       transition-property: color, background-color, border-color, fill, stroke;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-timing-function: var(--glide-core-animation-swoop-in);
 
       &:focus {
         outline: none;
@@ -106,6 +106,7 @@ export default [
         background-color: transparent;
         block-size: var(--private-size, 1rem);
         border-color: transparent;
+        border-radius: var(--glide-core-rounding-base-radius-xxs);
         color: var(
           --private-icon-color,
           var(--glide-core-color-interactive-icon-default)
@@ -122,10 +123,16 @@ export default [
         }
 
         &:not(:disabled):active {
+          background-color: var(
+            --glide-core-color-interactive-surface-container-clickable
+          );
           color: var(--glide-core-color-interactive-icon-active);
         }
 
         &:not(:active):hover:not(:disabled) {
+          background-color: var(
+            --glide-core-color-interactive-surface-container-clickable
+          );
           color: var(
             --private-hovered-icon-color,
             var(--glide-core-color-interactive-icon-active--hover)
