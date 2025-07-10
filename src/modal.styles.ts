@@ -105,7 +105,7 @@ export default [
       /* So the box shadow isn't covered up by the body content. */
       z-index: 1;
 
-      &.scrolled {
+      &.shadow {
         box-shadow: 0 10px 8px -8px
           var(--glide-core-color-effect-color-scroll-shadow);
       }
@@ -212,7 +212,7 @@ export default [
       /* So the box shadow isn't covered up by the body content. */
       z-index: 1;
 
-      &.scrolled {
+      &.shadow {
         box-shadow: 0 -10px 8px -8px
           var(--glide-core-color-effect-color-scroll-shadow);
       }

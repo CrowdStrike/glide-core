@@ -78,6 +78,7 @@ const meta: Meta = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        description=${arguments_.description || nothing}
         severity=${arguments_.severity || nothing}
         size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button=${arguments_['back-button']}
@@ -359,6 +360,7 @@ export const WithTertiaryTooltipAndButton: StoryObj = {
     `;
   },
 };
+
 export const KitchenSink: StoryObj = {
   /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
   render(arguments_) {

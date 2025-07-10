@@ -173,20 +173,6 @@ export default class Modal extends LitElement {
       this.#onContainerClick,
       { capture: true },
     );
-
-    // For the case where the user accidentally mouses down on the Modal's backdrop,
-    // then moves the mouse inside Modal before mousing up. Without this handler, Modal
-    // would close instead of remaining open. The reason it's needed in addition to
-    // the "click" handler is because programmatic clicks don't generate "mousedown"
-    // events. And we ran into a case where a consumer was calling `click()` on an
-    // element inside Modal, inadvertently closing it. Otherwise, this event handler
-    // would suffice.
-    this.#containerElementRef.value?.addEventListener(
-      'mouseup',
-      this.#onContainerMousedown,
-    );
-
-    this.#bodyElementRef.value?.addEventListener('scroll', this.#onScroll);
   }
 
   // The contents `<dialog>` are wrapped in a `<div>` so we can separate backdrop clicks
@@ -206,11 +192,15 @@ export default class Modal extends LitElement {
       data-test="component"
       @keydown=${this.#onComponentKeyDown}
       ${ref(this.#componentElementRef)}
-      ${onResize(this.#onScroll)})}
+      ${onResize(this.#onScrollAndResize.bind(this))})}
     >
-      <div class="container" ${ref(this.#containerElementRef)}>
+      <div
+        class="container"
+        @mouseup=${this.#onContainerMouseup}
+        ${ref(this.#containerElementRef)}
+      >
         <header
-          class=${classMap({ header: true, scrolled: this.isScrolledFromTop })}
+          class=${classMap({ header: true, shadow: this.isScrolledFromTop })}
         >
           <div class="label-and-actions">
             <h2 class="label" data-test="heading" id="heading">
@@ -286,23 +276,24 @@ export default class Modal extends LitElement {
           )}
         </header>
 
-        <article
+        <div
           aria-labelledby=${this.description
             ? 'heading description'
             : 'heading'}
           class="body"
           role="region"
+          @scroll=${this.#onScrollAndResize}
           ${ref(this.#bodyElementRef)}
         >
           <slot ${assertSlot()}>
             <!-- @type {Element | string} -->
           </slot>
-        </article>
+        </div>
 
         <footer
           class=${classMap({
             footer: true,
-            scrolled: this.isScrolledFromBottom,
+            shadow: this.isScrolledFromBottom,
           })}
         >
           <menu
@@ -392,10 +383,6 @@ export default class Modal extends LitElement {
     this.#isContainerClick = true;
   };
 
-  #onContainerMousedown = () => {
-    this.#isContainerClick = true;
-  };
-
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = () => {
@@ -425,28 +412,6 @@ export default class Modal extends LitElement {
     });
   };
 
-  // An arrow function field instead of a method so `this` is closed over and
-  // set to the component instead of `document`.
-  #onScroll = () => {
-    if (this.open && this.#bodyElementRef.value) {
-      if (
-        this.#bodyElementRef.value.scrollHeight >
-        this.#bodyElementRef.value.clientHeight
-      ) {
-        this.isScrolledFromTop = this.#bodyElementRef.value.scrollTop > 0;
-
-        this.isScrolledFromBottom =
-          this.#bodyElementRef.value.scrollHeight -
-            this.#bodyElementRef.value.scrollTop -
-            this.#bodyElementRef.value.clientHeight >
-          0;
-      } else {
-        this.isScrolledFromTop = false;
-        this.isScrolledFromBottom = false;
-      }
-    }
-  };
-
   #hide() {
     document.documentElement.classList.remove(
       'private-glide-core-modal-lock-scroll',
@@ -468,10 +433,41 @@ export default class Modal extends LitElement {
     }
   }
 
+  // For the case where the user accidentally mouses down on the Modal's backdrop,
+  // then moves the mouse inside Modal before mousing up. Without this handler, Modal
+  // would close instead of remaining open. The reason it's needed in addition to
+  // the "click" handler is because programmatic clicks don't generate "mousedown"
+  // events. And we ran into a case where a consumer was calling `click()` on an
+  // element inside Modal, inadvertently closing it. Otherwise, this event handler
+  // would suffice.
+  #onContainerMouseup() {
+    this.#isContainerClick = true;
+  }
+
   #onPrimarySlotChange() {
     this.hasPrimarySlotContent = Boolean(
       this.#primarySlotElementRef.value?.assignedElements().length,
     );
+  }
+
+  #onScrollAndResize() {
+    if (this.open && this.#bodyElementRef.value) {
+      if (
+        this.#bodyElementRef.value.scrollHeight >
+        this.#bodyElementRef.value.clientHeight
+      ) {
+        this.isScrolledFromTop = this.#bodyElementRef.value.scrollTop > 0;
+
+        this.isScrolledFromBottom =
+          this.#bodyElementRef.value.scrollHeight -
+            this.#bodyElementRef.value.scrollTop -
+            this.#bodyElementRef.value.clientHeight >
+          0;
+      } else {
+        this.isScrolledFromTop = false;
+        this.isScrolledFromBottom = false;
+      }
+    }
   }
 
   #onSecondarySlotChange() {
