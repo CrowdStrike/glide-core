@@ -106,7 +106,7 @@ export default class Input extends LitElement implements FormControl {
   @property({ attribute: 'aria-expanded', reflect: true })
   override ariaExpanded: 'true' | 'false' | null = null;
 
-  @property({ attribute: 'aria-expanded', reflect: true })
+  @property({ attribute: 'aria-haspopup', reflect: true })
   override ariaHasPopup: 'true' | 'false' | null = null;
 
   @property({ reflect: true, useDefault: true })
