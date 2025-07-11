@@ -3659,7 +3659,7 @@
                 "text": "'true' | 'false' | null"
               },
               "default": "null",
-              "attribute": "aria-expanded",
+              "attribute": "aria-haspopup",
               "reflects": true
             },
             {
@@ -3989,6 +3989,14 @@
             },
             {
               "name": "aria-expanded",
+              "type": {
+                "text": "'true' | 'false' | null"
+              },
+              "default": "null",
+              "fieldName": "ariaExpanded"
+            },
+            {
+              "name": "aria-haspopup",
               "type": {
                 "text": "'true' | 'false' | null"
               },

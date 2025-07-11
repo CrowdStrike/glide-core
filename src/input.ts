@@ -28,6 +28,7 @@ declare global {
  * @attr {string} label
  * @attr {string} [aria-controls]
  * @attr {'true'|'false'|null} [aria-expanded=null]
+ * @attr {'true'|'false'|null} [aria-haspopup=null]
  * @attr {'on'|'off'|'none'|'sentences'|'words'|'characters'} [autocapitalize='on']
  * @attr {'on'|'off'} [autocomplete='on']
  * @attr {boolean} [clearable=false]
@@ -56,8 +57,6 @@ declare global {
  * @fires {Event} change
  * @fires {Event} input
  * @fires {Event} invalid
- *
- * @prop {'true' | 'false' | null} ariaExpanded
  *
  * @readonly
  * @prop {HTMLFormElement | null} form
