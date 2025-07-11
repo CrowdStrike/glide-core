@@ -13,25 +13,47 @@ export default [
     https://bugs.webkit.org/show_bug.cgi?id=275341#c1
     */
     :host(:first-of-type) .component.horizontal {
-      border-end-start-radius: 0.6875rem;
-      border-start-start-radius: 0.6875rem;
+      /*
+        Button Group Button's border radius needs to be slightly
+        smaller than the parent's border radius, otherwise the
+        Button won't appear to fill the Group when selected or
+        hovered.
+      */
+      border-end-start-radius: calc(
+        var(--glide-core-rounding-base-radius-sm) - 1px
+      );
+      border-start-start-radius: calc(
+        var(--glide-core-rounding-base-radius-sm) - 1px
+      );
     }
 
     :host(:first-of-type) .component.vertical {
-      border-start-end-radius: 0.6875rem;
-      border-start-start-radius: 0.6875rem;
+      border-start-end-radius: calc(
+        var(--glide-core-rounding-base-radius-sm) - 1px
+      );
+      border-start-start-radius: calc(
+        var(--glide-core-rounding-base-radius-sm) - 1px
+      );
     }
 
     :host(:last-of-type) .component.horizontal {
-      border-end-end-radius: 0.6875rem;
+      border-end-end-radius: calc(
+        var(--glide-core-rounding-base-radius-sm) - 1px
+      );
       border-inline-end: none;
-      border-start-end-radius: 0.6875rem;
+      border-start-end-radius: calc(
+        var(--glide-core-rounding-base-radius-sm) - 1px
+      );
     }
 
     :host(:last-of-type) .component.vertical {
       border-block-end: none;
-      border-end-end-radius: 0.6875rem;
-      border-end-start-radius: 0.6875rem;
+      border-end-end-radius: calc(
+        var(--glide-core-rounding-base-radius-sm) - 1px
+      );
+      border-end-start-radius: calc(
+        var(--glide-core-rounding-base-radius-sm) - 1px
+      );
     }
 
     .component {
@@ -51,9 +73,9 @@ export default [
       min-inline-size: 2.75rem;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-md);
-      transition-duration: 150ms;
+      transition-duration: var(--glide-core-duration-moderate-02);
       transition-property: color, background-color, fill, stroke;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-timing-function: var(--glide-core-animation-swoop-in);
       user-select: none;
       white-space: nowrap;
 
