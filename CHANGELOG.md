@@ -1,5 +1,70 @@
 # @crowdstrike/glide-core
 
+## 0.29.3
+
+### Patch Changes
+
+- [#962](https://github.com/CrowdStrike/glide-core/pull/962) [`373e268`](https://github.com/CrowdStrike/glide-core/commit/373e26872375df7f7e3144392b68ffda9e28e2c2) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ### Colors (Light)
+
+  ```diff
+  +  --glide-core-color-effect-color-scroll-shadow: #0000001a;
+  ```
+
+  ### Colors (Dark)
+
+  ```diff
+  +  --glide-core-color-effect-color-scroll-shadow: #ffffff0d;
+  ```
+
+- [#964](https://github.com/CrowdStrike/glide-core/pull/964) [`c3722c6`](https://github.com/CrowdStrike/glide-core/commit/c3722c6934ee821c2c7de3249df00f17640f3018) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Button and Icon Button received a few updates to align with the latest designs:
+
+  - The border radius has decreased. Visual tests will report buttons being less round.
+  - Users may notice a slower transition to the hovered state. The transition duration has increased and the timing function has been updated.
+  - Icon Button's tertiary variant has a subtle background color and border radius on hover and when active.
+
+- [#959](https://github.com/CrowdStrike/glide-core/pull/959) [`7c9c831`](https://github.com/CrowdStrike/glide-core/commit/7c9c8317e4c70e42b795a255adbf268567c43b60) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tooltip's `label` and `description` now wrap even when placed in a container that has `white-space: nowrap`.
+
+- [#965](https://github.com/CrowdStrike/glide-core/pull/965) [`d3b795f`](https://github.com/CrowdStrike/glide-core/commit/d3b795f57b7bc692a4a41565ed3163b10dc77fca) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Button Group and Button Group Button received a few updates to align with the latest designs:
+
+  - The border radius has decreased. Visual tests will report buttons being less round.
+  - Users may notice a slower transition to the hovered state. The transition duration has increased and the timing function has been updated.
+
+- [#963](https://github.com/CrowdStrike/glide-core/pull/963) [`0a95a6f`](https://github.com/CrowdStrike/glide-core/commit/0a95a6f85e74cb18a8907208d6e28e0bdd6a996d) Thanks [@clintcs](https://github.com/clintcs)! - - Input now passes `aria-controls`, `aria-expanded`, and `aria-haspopup` down to its underlying input field.
+
+  - Tooltip can now be stopped from opening and closing by canceling "mouseover" and "mouseout" events on its target.
+
+- [#962](https://github.com/CrowdStrike/glide-core/pull/962) [`373e268`](https://github.com/CrowdStrike/glide-core/commit/373e26872375df7f7e3144392b68ffda9e28e2c2) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Modal received a few updates to align with the latest designs:
+
+  - A new `description` attribute has been added.
+  - The internal padding was decreased. Visual tests will report a slightly reduced overall height.
+  - The width of the Modal has increased:
+    - Small increased from 360px to 400px.
+    - Medium increased from 560px to 600px.
+    - Large increased from 860px to 900px
+    - XLarge increased from 1110px 1150px.
+  - The header remains fixed at the top when the content scrolls.
+  - The footer remains fixed at the bottom when the content scrolls.
+  - New visual feedback was added for scrollable content:
+    - A shadow appears below the header when the content is scrolled down.
+    - A shadow appears above the footer when more content is available below.
+    - Shadows automatically hide when reaching their respective scroll boundaries.
+
+- [#964](https://github.com/CrowdStrike/glide-core/pull/964) [`c3722c6`](https://github.com/CrowdStrike/glide-core/commit/c3722c6934ee821c2c7de3249df00f17640f3018) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ### Duration
+
+  ```diff
+  -  --glide-core-duration-fast-01: 40ms;
+  +  --glide-core-duration-fast-01: 50ms;
+
+  -  --glide-core-duration-fast-02: 75ms;
+  +  --glide-core-duration-fast-02: 100ms;
+  ```
+
+- [#961](https://github.com/CrowdStrike/glide-core/pull/961) [`32cc4f0`](https://github.com/CrowdStrike/glide-core/commit/32cc4f02477f83a7a5dd882425290a119845572e) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Link's font size has increased from 12px to 14px.
+
 ## 0.29.2
 
 ### Patch Changes
