@@ -8,7 +8,7 @@ export default [
   css`
     .component {
       border: 1px solid var(--glide-core-color-interactive-stroke-primary);
-      border-radius: var(--glide-core-spacing-base-sm);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       display: inline-block;
     }
 
