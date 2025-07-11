@@ -5596,6 +5596,15 @@
             },
             {
               "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "description",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "open",
               "type": {
                 "text": "boolean"
@@ -5658,6 +5667,13 @@
               },
               "default": "false",
               "fieldName": "backButton"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "description"
             },
             {
               "name": "open",

@@ -78,6 +78,7 @@ const meta: Meta = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        description=${arguments_.description || nothing}
         severity=${arguments_.severity || nothing}
         size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button=${arguments_['back-button']}
@@ -92,6 +93,7 @@ const meta: Meta = {
     'slot="default"': 'Content',
     'addEventListener(event, handler)': '',
     'back-button': false,
+    description: '',
     open: false,
     severity: '',
     size: 'medium',
@@ -135,6 +137,12 @@ const meta: Meta = {
           summary: 'boolean',
         },
       },
+    },
+    description: {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
     },
     severity: {
       control: { type: 'select' },
@@ -244,6 +252,7 @@ export const WithHeaderActions: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        description=${arguments_.description || nothing}
         severity=${arguments_.severity || nothing}
         size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
@@ -276,6 +285,7 @@ export const WithPrimaryButton: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        description=${arguments_.description || nothing}
         severity=${arguments_.severity || nothing}
         size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
@@ -299,6 +309,7 @@ export const WithSecondaryButton: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        description=${arguments_.description || nothing}
         severity=${arguments_.severity || nothing}
         size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
@@ -326,6 +337,7 @@ export const WithTertiaryTooltipAndButton: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        description=${arguments_.description || nothing}
         severity=${arguments_.severity || nothing}
         size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
@@ -359,6 +371,7 @@ export const KitchenSink: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        description=${arguments_.description || nothing}
         severity=${arguments_.severity || nothing}
         size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"

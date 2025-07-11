@@ -22,6 +22,21 @@ for (const story of stories.Modal) {
           );
         });
 
+        test('description', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-modal')
+            .evaluate<void, Modal>((element) => {
+              element.description = 'Description';
+              element.open = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test(':focus', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
