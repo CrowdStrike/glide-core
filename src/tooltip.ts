@@ -290,17 +290,17 @@ export default class Tooltip extends LitElement {
       <div
         class="component"
         data-test="component"
-        @mouseover=${this.#onComponentMouseover}
-        @mouseout=${this.#onComponentMouseout}
+        @mouseover=${this.#onComponentMouseOver}
+        @mouseout=${this.#onComponentMouseOut}
       >
         <div class="target-slot-container">
           <slot
             class="target-slot"
             data-test="target-slot"
             name="target"
-            @focusin=${this.#onTargetSlotFocusin}
-            @focusout=${this.#onTargetSlotFocusout}
-            @keydown=${this.#onTargetSlotKeydown}
+            @focusin=${this.#onTargetSlotFocusIn}
+            @focusout=${this.#onTargetSlotFocusOut}
+            @keydown=${this.#onTargetSlotKeyDown}
             @slotchange=${this.#onTargetSlotChange}
             ${assertSlot()}
             ${ref(this.#targetSlotElementRef)}
@@ -396,25 +396,35 @@ export default class Tooltip extends LitElement {
     this.#cleanUpFloatingUi?.();
   }
 
-  #onComponentMouseout() {
-    this.#scheduleClose();
+  #onComponentMouseOut(event: MouseEvent) {
+    // The timeout gives consumers a chance to cancel the event.
+    setTimeout(() => {
+      if (!event.defaultPrevented) {
+        this.#scheduleClose();
 
-    clearTimeout(this.#openTimeoutId);
+        clearTimeout(this.#openTimeoutId);
+      }
+    });
   }
 
-  #onComponentMouseover() {
-    this.#cancelClose();
+  #onComponentMouseOver(event: MouseEvent) {
+    // The timeout gives consumers a chance to cancel the event.
+    setTimeout(() => {
+      if (!event.defaultPrevented) {
+        this.#cancelClose();
 
-    // The open and close delays are stored in data attributes so tests can
-    // configure them. Tests configure them, rather than using fake timers,
-    // because they need real timers so they can await Floating UI's setup.
-    //
-    // Conditionals here and in `#scheduleClose` based on `window.navigator.webdriver`
-    // would be a lot nicer. But one of that condition's branches would never get hit
-    // in tests. So we'd fail to meet our coverage thresholds.
-    this.#openTimeoutId = setTimeout(() => {
-      this.open = true;
-    }, Number(this.#tooltipElementRef.value?.dataset.openDelay));
+        // The open and close delays are stored in data attributes so tests can
+        // configure them. Tests configure them, rather than using fake timers,
+        // because they need real timers so they can await Floating UI's setup.
+        //
+        // Conditionals here and in `#scheduleClose()` based on `window.navigator.webdriver`
+        // would be a lot nicer. But one of that condition's branches would never get hit
+        // in tests. So we'd fail to meet our coverage thresholds.
+        this.#openTimeoutId = setTimeout(() => {
+          this.open = true;
+        }, Number(this.#tooltipElementRef.value?.dataset.openDelay));
+      }
+    });
   }
 
   #onTargetSlotChange() {
@@ -429,15 +439,15 @@ export default class Tooltip extends LitElement {
     }
   }
 
-  #onTargetSlotFocusin() {
+  #onTargetSlotFocusIn() {
     this.open = true;
   }
 
-  #onTargetSlotFocusout() {
+  #onTargetSlotFocusOut() {
     this.open = false;
   }
 
-  #onTargetSlotKeydown(event: KeyboardEvent) {
+  #onTargetSlotKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       // Prevent Safari from leaving full screen.
       event.preventDefault();

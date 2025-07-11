@@ -244,7 +244,7 @@ const meta: Meta = {
         type: {
           summary: 'string',
           detail:
-            '// Set `value` when you need something other than `label` to identify the selected button',
+            '// Set `value` when you need something other than `label` to identify which Button Group Button was clicked',
         },
       },
     },

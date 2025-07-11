@@ -3635,6 +3635,35 @@
             },
             {
               "kind": "field",
+              "name": "ariaControls",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "aria-controls",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaExpanded",
+              "type": {
+                "text": "'true' | 'false' | null"
+              },
+              "default": "null",
+              "attribute": "aria-expanded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaHasPopup",
+              "type": {
+                "text": "'true' | 'false' | null"
+              },
+              "default": "null",
+              "attribute": "aria-expanded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "autocapitalize",
               "type": {
                 "text": "| 'on'\n    | 'off'\n    | 'none'\n    | 'sentences'\n    | 'words'\n    | 'characters'"
@@ -3950,6 +3979,21 @@
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "aria-controls",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "ariaControls"
+            },
+            {
+              "name": "aria-expanded",
+              "type": {
+                "text": "'true' | 'false' | null"
+              },
+              "default": "null",
+              "fieldName": "ariaHasPopup"
             },
             {
               "name": "autocapitalize",

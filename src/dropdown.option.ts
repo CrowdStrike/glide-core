@@ -379,21 +379,25 @@ export default class DropdownOption extends LitElement {
         },
         () => {
           return html`
-          <div class=${classMap({
-            option: true,
-            count: Boolean(this.count),
-            disabled: this.disabled,
-            editable: this.editable,
-          })}
-          >
-              <slot class=${classMap({
-                'icon-slot': true,
-              })} name="icon">
-              <!--
-                An icon before the label
-                @type {Element}
-              -->
-            </slot>
+            <div
+              class=${classMap({
+                option: true,
+                count: Boolean(this.count),
+                disabled: this.disabled,
+                editable: this.editable,
+              })}
+            >
+              <slot
+                class=${classMap({
+                  'icon-slot': true,
+                })}
+                name="icon"
+              >
+                <!--
+                  An icon before the label
+                  @type {Element}
+                -->
+              </slot>
 
               <glide-core-tooltip
                 class="tooltip"
@@ -405,9 +409,12 @@ export default class DropdownOption extends LitElement {
                 screenreader-hidden
                 @toggle=${this.#onTooltipToggle}>
 
-                <div class="label" data-test="label" slot="target" ${ref(
-                  this.#labelElementRef,
-                )}>
+                <div
+                  class="label"
+                  data-test="label"
+                  slot="target"
+                  ${ref(this.#labelElementRef)}
+                >
                   ${this.label}
                 </div>
               </glide-core-tooltip>
