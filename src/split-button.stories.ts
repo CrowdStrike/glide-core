@@ -1,6 +1,4 @@
 import './icons/storybook.js';
-import './menu.button.js';
-import './menu.link.js';
 import './split-button.js';
 import './split-button.primary-button.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
@@ -8,6 +6,7 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import Option from './option.js';
 import SplitButtonPrimaryLinkComponent from './split-button.primary-link.js';
 import SplitButtonSecondaryButtonComponent from './split-button.secondary-button.js';
 
@@ -21,8 +20,7 @@ const meta: Meta = {
           import '@crowdstrike/glide-core/split-button.js';
           import '@crowdstrike/glide-core/split-button.primary-link.js';
           import '@crowdstrike/glide-core/split-button.secondary-button.js';
-          import '@crowdstrike/glide-core/menu.button.js';
-          import '@crowdstrike/glide-core/menu.link.js';
+          import '@crowdstrike/glide-core/option.secondary-button.js';
         </script>
 
         ${story()}
@@ -30,14 +28,9 @@ const meta: Meta = {
   ],
   parameters: {
     actions: {
-      // Menu Button and Link are selected so "click" events from Menu's target
-      // aren't picked up, muddying the Actions tab.
-      handles: [
-        'click glide-core-menu-button',
-        'click glide-core-menu-button',
-        'click glide-core-split-button-primary-button',
-        'toggle',
-      ],
+      // "glide-core-option" is selected so "click" events from Split Button Primary Button
+      // and Split Button Secondary Button aren't picked up, muddying the Actions tab.
+      handles: ['click glide-core-option', 'toggle'],
     },
     docs: {
       story: {
@@ -49,13 +42,13 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-split-button')
       ?.addEventListener('click', (event: Event) => {
-        const menuLink =
-          event.target instanceof Element &&
-          event.target.closest('glide-core-menu-link');
-
         // If the URL is anything but `/`, then the user has changed the URL and wants
         // to navigate to it.
-        if (menuLink && menuLink.href === '/' && window.top) {
+        if (
+          event.target instanceof Option &&
+          event.target.href === '/' &&
+          window.top
+        ) {
           event.preventDefault();
 
           // The Storybook user expects to navigate when the link is clicked but
@@ -94,7 +87,7 @@ const meta: Meta = {
             storyId: context.id,
             updatedArgs: {
               ['<glide-core-split-button-secondary-button>.menu-open']:
-                !event.target.menuOpen,
+                event.target.menuOpen,
             },
           });
         }
@@ -136,9 +129,15 @@ const meta: Meta = {
             '<glide-core-split-button-secondary-button>.menu-open'
           ]}
         >
-          <glide-core-menu-button label="One"></glide-core-menu-button>
-          <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
+          <glide-core-option
+            label=${arguments_['<glide-core-option>.label']}
+            ?disabled=${arguments_['<glide-core-option>.disabled']}
+          ></glide-core-option>
+          <glide-core-option label="Two"></glide-core-option>
+          <glide-core-option
+            label="Three"
+            href=${arguments_['<glide-core-option>.href'] || nothing}
+          ></glide-core-option>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;
@@ -165,6 +164,16 @@ const meta: Meta = {
     '<glide-core-split-button-secondary-button>.menu-open': false,
     '<glide-core-split-button-secondary-button>.menu-placement': 'bottom-end',
     '<glide-core-split-button-secondary-button>.version': '',
+    '<glide-core-option>.label': 'One',
+    '<glide-core-option>.addEventListener(event, handler)': '',
+    '<glide-core-option>.description': '',
+    '<glide-core-option>.disabled': false,
+    '<glide-core-option>.href': '/',
+    '<glide-core-option>[slot="default"]': '',
+    '<glide-core-option>[slot="icon"]': '',
+    '<glide-core-option>[slot="submenu"]': '',
+    '<glide-core-option>.value': '',
+    '<glide-core-option>.version': '',
   },
   argTypes: {
     'slot="default"': {
@@ -306,7 +315,7 @@ const meta: Meta = {
       table: {
         category: 'Split Button Secondary Button',
         type: {
-          summary: 'MenuButton | MenuLink',
+          summary: 'Option',
         },
       },
       type: { name: 'function', required: true },
@@ -347,6 +356,106 @@ const meta: Meta = {
       control: false,
       table: {
         category: 'Split Button Secondary Button',
+        defaultValue: {
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
+    '<glide-core-option>.label': {
+      name: 'label',
+      table: {
+        category: 'Option',
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-option>.addEventListener(event, handler)': {
+      name: 'addEventListener(event, handler)',
+      control: false,
+      table: {
+        category: 'Option',
+        type: {
+          summary: 'method',
+          detail: '(event: "click", handler: (event: Event) => void): void',
+        },
+      },
+    },
+    '<glide-core-option>.description': {
+      name: 'description',
+      table: {
+        category: 'Option',
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
+    },
+    '<glide-core-option>.disabled': {
+      name: 'disabled',
+      table: {
+        category: 'Option',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-option>.href': {
+      name: 'href',
+      table: {
+        category: 'Option',
+        type: { summary: 'string' },
+      },
+    },
+    '<glide-core-option>[slot="default"]': {
+      name: 'slot="default"',
+      control: false,
+      table: {
+        category: 'Option',
+        type: {
+          summary: 'Element | Text',
+        },
+      },
+      type: { name: 'function' },
+    },
+    '<glide-core-option>[slot="icon"]': {
+      name: 'slot="icon"',
+      control: false,
+      table: {
+        category: 'Option',
+        type: {
+          summary: 'Element',
+        },
+      },
+      type: { name: 'function' },
+    },
+    '<glide-core-option>[slot="submenu"]': {
+      name: 'slot="submenu"',
+      control: false,
+      table: {
+        category: 'Option',
+        type: {
+          summary: 'Menu',
+        },
+      },
+      type: { name: 'function' },
+    },
+    '<glide-core-option>.value': {
+      name: 'value',
+      table: {
+        category: 'Option',
+        defaultValue: {
+          summary: '""',
+        },
+        type: {
+          summary: 'string',
+          detail:
+            '// Set `value` when you need something other than `label` to identify which Option was clicked',
+        },
+      },
+    },
+    '<glide-core-option>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Option',
         defaultValue: {
           summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
@@ -404,9 +513,15 @@ export const WithIcon: StoryObj = {
             '<glide-core-split-button-secondary-button>.disabled'
           ]}
         >
-          <glide-core-menu-button label="One"></glide-core-menu-button>
-          <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
+          <glide-core-option
+            label=${arguments_['<glide-core-option>.label']}
+            ?disabled=${arguments_['<glide-core-option>.disabled']}
+          ></glide-core-option>
+          <glide-core-option label="Two"></glide-core-option>
+          <glide-core-option
+            label="Three"
+            href=${arguments_['<glide-core-option>.href'] || nothing}
+          ></glide-core-option>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;
@@ -449,9 +564,15 @@ export const WithPrimaryLink: StoryObj = {
             '<glide-core-split-button-secondary-button>.disabled'
           ]}
         >
-          <glide-core-menu-button label="One"></glide-core-menu-button>
-          <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
+          <glide-core-option
+            label=${arguments_['<glide-core-option>.label']}
+            ?disabled=${arguments_['<glide-core-option>.disabled']}
+          ></glide-core-option>
+          <glide-core-option label="Two"></glide-core-option>
+          <glide-core-option
+            label="Three"
+            href=${arguments_['<glide-core-option>.href'] || nothing}
+          ></glide-core-option>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;
