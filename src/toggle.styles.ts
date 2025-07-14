@@ -27,6 +27,8 @@ export default [
       inline-size: var(--private-inline-size);
       justify-content: center;
       position: relative;
+      transition: background-color var(--glide-core-duration-moderate-02)
+        var(--glide-core-animation-swoop);
 
       &:has(input:checked:not(:disabled)) {
         background-color: var(
@@ -36,6 +38,12 @@ export default [
 
         &::before {
           transform: translateX(0);
+        }
+
+        &:hover {
+          background-color: var(
+            --glide-core-color-interactive-surface-container-active--hover
+          );
         }
       }
 
@@ -59,6 +67,12 @@ export default [
         }
       }
 
+      &:has(input:not(:disabled, :checked):hover) {
+        background-color: var(
+          --glide-core-color-interactive-surface-container-inactive--hover
+        );
+      }
+
       &::before {
         background: var(--glide-core-color-interactive-icon-onsolid);
         block-size: 0.875rem;
@@ -72,7 +86,8 @@ export default [
         inset-inline-end: 0;
         position: absolute;
         transform: translateX(calc(var(--private-inline-size) * -1 + 100%));
-        transition: 150ms transform;
+        transition: transform var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop);
       }
     }
 
