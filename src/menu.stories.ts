@@ -1,5 +1,4 @@
 import './button.js';
-import './input.js';
 import './icons/storybook.js';
 import './options.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
