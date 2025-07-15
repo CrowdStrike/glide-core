@@ -310,9 +310,8 @@ export default class TabGroup extends LitElement {
   }
 
   #onTabListFocusout() {
-    // Set the last selected tab as tabbable so that when pressing shift + tab on the tab panel
-    // focus goes back to the last selected tab.
-    // The `focusout` event is used since it bubbles up from the tab.
+    // Set the last selected tab as tabbable so that when pressing Shift + Tab on the
+    // Tab Panel focus goes back to the last selected tab.
     for (const [, tabElement] of this.#tabElements.entries()) {
       tabElement.tabIndex = tabElement === this.#lastSelectedTab ? 0 : -1;
     }
@@ -325,16 +324,18 @@ export default class TabGroup extends LitElement {
 
     // TODO
     //
-    // This only needs to be called here so the indicator is updated when the content of
-    // Tab's slots changes.
+    // This only needs to be called here so the indicator is updated when the content
+    // of Tab's slots changes.
     //
-    // Tab's default slot will soon be replaced by a `label` attribute. When that happens,
-    // this call can be removed, and `#updateSelectedTabIndicator()` can be instead called
-    // when Tab dispatches "private-label-change" and "private-icon-slotchange" events.
+    // Tab's default slot will soon be replaced by a `label` attribute. When that
+    // happens, this call can be removed, and `#updateSelectedTabIndicator()` can be
+    // instead called when Tab dispatches "private-label-change" and
+    // "private-icon-slotchange" events.
     //
-    // Those changes will certainly require slightly more code. But they'll make it much
-    // clearer why `#updateSelectedTabIndicator()` is being called. Additionally, Tab Group
-    // will no longer be doing unncessary work every time the viewport is resized.
+    // Those changes will certainly require slightly more code. But they'll make it
+    // much clearer why `#updateSelectedTabIndicator()` is being called. Additionally,
+    // Tab Group will no longer be doing unncessary work every time the viewport is
+    // resized.
     this.#updateSelectedTabIndicator();
 
     // Toggling the overflow buttons will itself cause a resize. So we
@@ -391,6 +392,8 @@ export default class TabGroup extends LitElement {
         this.#tabListElementRef.value.scrollLeft <= 0;
 
       this.isDisableOverflowEndButton =
+        // Rounded because `scrollLeft` is a float and `clientWidth` and `scrollWidth`
+        // are integers rounded up.
         Math.round(this.#tabListElementRef.value.scrollLeft) +
           this.#tabListElementRef.value.clientWidth >=
         this.#tabListElementRef.value.scrollWidth;

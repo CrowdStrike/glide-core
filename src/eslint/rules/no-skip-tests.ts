@@ -30,7 +30,7 @@ export const noSkipTests = createRule({
           node.callee.property.name === 'skip'
         ) {
           context.report({
-            node: node,
+            node,
             messageId: 'noSkip',
           });
         }

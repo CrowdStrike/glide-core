@@ -165,8 +165,8 @@ export default class Textarea extends LitElement implements FormControl {
 
   get validity(): ValidityState {
     if (this.required && !this.value && !this.disabled) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native
+      // validation feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
@@ -302,7 +302,7 @@ export default class Textarea extends LitElement implements FormControl {
 
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    // Ensures that getters referencing `this.validity.valid` are updated.
     this.requestUpdate();
 
     return isValid;
@@ -353,7 +353,8 @@ export default class Textarea extends LitElement implements FormControl {
       // We only want to focus the input if the "invalid" event resulted from either:
       //
       // 1. A form submission.
-      // 2. A call of `reportValidity()` that did not result from the input's "blur" event.
+      // 2. A call of `reportValidity()` that did not result from the input's "blur"
+      //    event.
       if (this.isCheckingValidity || this.isBlurring) {
         return;
       }

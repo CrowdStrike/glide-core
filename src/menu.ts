@@ -129,7 +129,8 @@ export default class Menu extends LitElement {
 
   // Used in `#show()` to open the active Option's tooltip when Menu is opened via
   // keyboard. Unlike mouse users, keyboard users can't hover an Option to reveal
-  // its tooltip. So we always open the tooltip for them when an Option becomes active.
+  // its tooltip. So we always open the tooltip for them when an Option becomes
+  // active.
   //
   // A property instead of a private field because `#onTargetAndDefaultSlotKeyDown()`
   // additionally uses this field to signal to sub-Menus that they've been opened
@@ -146,18 +147,19 @@ export default class Menu extends LitElement {
     // Guarding against `#isSubMenu` isn't strictly necessary. We guard against it
     // nonetheless to prevent subtle bugs being introduced later. It's hard to say what
     // those bugs would be. But given the complexity of event handling throughout, it
-    // seems prudent to only handle document clicks only where we need to: the top-level
-    // Menu.
+    // seems prudent to only handle document clicks only where we need to: the
+    // top-level Menu.
     //
-    // Additionally, not handling document clicks for sub-Menus makes things overall easier
-    // to understand because developers don't have to think about sub-Menus when looking
-    // at `#onDocumentClick()`.
+    // Additionally, not handling document clicks for sub-Menus makes things overall
+    // easier to understand because developers don't have to think about sub-Menus when
+    // looking at `#onDocumentClick()`.
     if (!this.#isSubMenu) {
       // 1. The consumer has a "click" handler on an element that isn't Menu's target.
       // 2. The user clicks that element.
       // 3. The handler is called. It sets `open` to `true`.
       // 4. The "click" bubbles up and is handled by `#onDocumentClick()`.
-      // 5. `#onDocumentClick()` sets `open` to `false` because the click came from outside Menu.
+      // 5. `#onDocumentClick()` sets `open` to `false` because the click came from
+      //    outside Menu.
       // 6. Menu is opened then immediately closed and so never opens.
       //
       // `capture` ensures `#onDocumentClick()` is called before #3, so that `open` set
@@ -218,9 +220,10 @@ export default class Menu extends LitElement {
           // the top-level Menu was opened second. So we'd have to toggle the sub-Menu
           // closed then open.
           //
-          // But what is the use case for having a sub-Menu open when the top-level Menu isn't
-          // open? It's possible one exists. Until a case presents itself, however, closing
-          // every initially sub-Menu when the top-level Menu isn't open is the simplest approach.
+          // But what is the use case for having a sub-Menu open when the top-level Menu
+          // isn't open? It's possible one exists. Until a case presents itself, however,
+          // closing every initially sub-Menu when the top-level Menu isn't open is the
+          // simplest approach.
           //
           // `#subMenus` is an array of only the current Menu's sub-Menus. So you may wonder
           // how nested sub-Menus get closed. They're closed via their `#hide()`, which
@@ -231,20 +234,22 @@ export default class Menu extends LitElement {
     }
 
     if (this.#defaultSlotElementRef.value) {
-      // `popover` so Options can break out of Modal or another container that has `overflow:
-      // hidden`. Elements with `popover` are positioned relative to the viewport. Thus
-      // Floating UI in addition to `popover` until anchor positioning is well supported.
+      // `popover` so Options can break out of Modal or another container that has
+      // `overflow: hidden`. Elements with `popover` are positioned relative to the
+      // viewport. Thus Floating UI in addition to `popover` until anchor positioning is
+      // well supported.
       //
-      // "manual" is set here instead of in the template to circumvent Lit Analyzer, which
-      // isn't aware of `popover` and doesn't provide a way to disable its "no-unknown-attribute"
-      // rule.
+      // "manual" is set here instead of in the template to circumvent Lit Analyzer,
+      // which isn't aware of `popover` and doesn't provide a way to disable its
+      // "no-unknown-attribute" rule.
       //
-      // "manual" instead of "auto" because the latter only allows one popover to be open at
-      // a time. And consumers may have other popovers that need to remain open while this
-      // popover is open.
+      // "manual" instead of "auto" because the latter only allows one popover to be open
+      // at a time. And consumers may have other popovers that need to remain open while
+      // this popover is open.
       //
-      // "auto" also automatically opens the popover when its target is clicked. We want it
-      // to remain closed when clicked when there are no Options or Menu's target is disabled.
+      // "auto" also automatically opens the popover when its target is clicked. We want
+      // it to remain closed when clicked when there are no Options or Menu's target is
+      // disabled.
       this.#defaultSlotElementRef.value.popover = 'manual';
 
       if (this.open && !this.isTargetDisabled) {
@@ -329,28 +334,30 @@ export default class Menu extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  // Set in `#onComponentFocusIn()` and `#onComponentFocusOut()`. Used in `#onComponentFocusOut()`
-  // to decide if Menu should close. Also used in `#onTargetAndDefaultSlotKeyDown()` to
-  // decide if we need to move focus.
+  // Set in `#onComponentFocusIn()` and `#onComponentFocusOut()`. Used in
+  // `#onComponentFocusOut()` to decide if Menu should close. Also used in
+  // `#onTargetAndDefaultSlotKeyDown()` to decide if we need to move focus.
   #hasVoiceOverMovedFocusToOptionsOrAnOption = false;
 
-  // Set in `#onTargetSlotMouseUp()`. Used in `#onDocumentClick()` to guard against Menu
-  // closing when any number of things that are not an Option are clicked. Those "click"
-  // events will be retargeted to Menu's host the moment they bubble out of Menu. So
-  // checking in `#onDocumentClick()` if the click's `event.target` came from inside Menu
-  // won't do.
+  // Set in `#onTargetSlotMouseUp()`. Used in `#onDocumentClick()` to guard against
+  // Menu closing when any number of things that are not an Option are clicked. Those
+  // "click" events will be retargeted to Menu's host the moment they bubble out of
+  // Menu. So checking in `#onDocumentClick()` if the click's `event.target` came
+  // from inside Menu won't do.
   #isDefaultSlotClick = false;
 
   #isLoading = false;
 
   #isOpen = false;
 
-  // Set in `#onDefaultSlotToggle()`. Used in `#onTargetAndDefaultSlotKeyDown()` to guard
-  // against redispatching the event to a sub-Menu when one isn't open. Also used in
-  // `connectedCallback()` to guard against listening for document clicks for sub-Menus.
+  // Set in `#onDefaultSlotToggle()`. Used in `#onTargetAndDefaultSlotKeyDown()` to
+  // guard against redispatching the event to a sub-Menu when one isn't open. Also
+  // used in `connectedCallback()` to guard against listening for document clicks for
+  // sub-Menus.
   #isSubMenuOpen = false;
 
-  // Set in `#onTargetSlotMouseUp()` and `#onDocumentClick()`. Used in `#onDocumentClick()`:
+  // Set in `#onTargetSlotMouseUp()` and `#onDocumentClick()`. Used in
+  // `#onDocumentClick()`:
   //
   // 1. Menu is open.
   // 2. User clicks Menu's target.
@@ -363,12 +370,13 @@ export default class Menu extends LitElement {
   //
   // The normal approach would be to set an `#isTargetSlotClick` property in
   // `#onTargetSlotClick()`. But `#onDocumentClick()` listens for "click" events in
-  // their capture phase. So `#onDocumentClick()` would be called before `#onTargetSlotClick()`.
+  // their capture phase. So `#onDocumentClick()` would be called before
+  // `#onTargetSlotClick()`.
   //
-  // Note too that `#onDocumentClick()` sets `#isTargetSlotMouseUp` to `false` instead of
-  // `#onTargetSlotClick()` doing it. That's so `#isTargetSlotMouseUp` is set to `false`
-  // even if the user mouses down on Menu's target then moves the mouse outside of Menu
-  // before mousing up.
+  // Note too that `#onDocumentClick()` sets `#isTargetSlotMouseUp` to `false`
+  // instead of `#onTargetSlotClick()` doing it. That's so `#isTargetSlotMouseUp`
+  // is set to `false` even if the user mouses down on Menu's target then moves the
+  // mouse outside of Menu before mousing up.
   #isTargetSlotMouseUp = false;
 
   #localize = new LocalizeController(this);
@@ -514,8 +522,8 @@ export default class Menu extends LitElement {
     this.open = false;
   };
 
-  // Private because consumers haver direct access to the target and can focus it without
-  // the help of Menu.
+  // Private because consumers haver direct access to the target and can focus it
+  // without the help of Menu.
   #focus(options?: FocusOptions) {
     if (this.#targetElement && 'focus' in this.#targetElement) {
       this.#targetElement?.focus(options);
@@ -601,12 +609,13 @@ export default class Menu extends LitElement {
     // closing.
     setTimeout(() => {
       // `event.target instanceof Option` because clicks can come from sub-Menu targets,
-      // arbitrary content in the default slot, and the default slot's border and padding.
+      // arbitrary content in the default slot, and the default slot's border and
+      // padding.
       //
       // When arbitrary content in the default slot is clicked, Menu should remain open
-      // because we don't know what the arbitrary content is. So inaction is best. Consumers
-      // can listen for clicks on the arbitrary content and close Menu themselves if they
-      // need to.
+      // because we don't know what the arbitrary content is. So inaction is best.
+      // Consumers can listen for clicks on the arbitrary content and close Menu
+      // themselves if they need to.
       //
       // When the default slot's padding is clicked, Menu should remain open because the
       // user most likely meant to click an Option but missed.
@@ -665,7 +674,8 @@ export default class Menu extends LitElement {
     // Imagine a case where the user opens Menu by clicking its target, then clicks an
     // Option. The user should be able to immediately press Space or Enter afterward
     // to reopen Menu. This might seem like an odd case to support. But, in practice,
-    // it's not uncommon for users to change modalities when interacting with something.
+    // it's not uncommon for users to change modalities when interacting with
+    // something.
     event.preventDefault();
   }
 
@@ -729,9 +739,9 @@ export default class Menu extends LitElement {
         // sub-Menu target, the browser will dispatch "mouseout" followed by "mouseover".
         //
         // The Option's tooltip will pick up both events and will remain open because the
-        // tooltip will be closed then immediately reopened. But we want the tooltip to close
-        // when a sub-Menu target is hovered. Canceling the event stops the tooltip from
-        // reopening.
+        // tooltip will be closed then immediately reopened. But we want the tooltip to
+        // close when a sub-Menu target is hovered. Canceling the event stops the tooltip
+        // from reopening.
         event.preventDefault();
       }
     }
@@ -794,7 +804,8 @@ export default class Menu extends LitElement {
     }
   }
 
-  // On both slots because VoiceOver can focus Options, causing them to emit "keydown" events.
+  // On both slots because VoiceOver can focus Options, causing them to emit
+  // "keydown" events.
   #onTargetAndDefaultSlotKeyDown(event: KeyboardEvent) {
     const isOwnTarget = event.target === this.#targetElement;
 
@@ -805,20 +816,21 @@ export default class Menu extends LitElement {
     const isArbitraryContent = !isOwnTarget && !isChildOfOptions;
 
     if (isArbitraryContent) {
-      // Arbitrary interactive content, either at the top or bottom of Menu, isn't a great
-      // pattern because the user has to move focus away from Menu's target to interact
-      // with the content. Then the user has to tab back to Menu's target to continue
-      // interacting with Menu. It's also not great because screenreader users won't know
-      // the content exists until they tab past Menu's target. Still, it's a pattern we
-      // have to support.
+      // Arbitrary interactive content, either at the top or bottom of Menu, isn't a
+      // great pattern because the user has to move focus away from Menu's target to
+      // interact with the content. Then the user has to tab back to Menu's target to
+      // continue interacting with Menu. It's also not great because screenreader users
+      // won't know the content exists until they tab past Menu's target. Still, it's a
+      // pattern we have to support.
       //
       // If the event originated from arbitrary content, then the arbitrary content has
       // focus and not Menu's target, and the user has signaled that his intention isn't
       // to interact with Menu itself. So we return.
       //
-      // Still, the page shouldn't scroll when the arbitrary content has focus and the user
-      // presses one of the following keys. The consumer could very well prevent page scroll
-      // himself. But there's a good chance he won't think to. So we do so for him.
+      // Still, the page shouldn't scroll when the arbitrary content has focus and the
+      // user presses one of the following keys. The consumer could very well prevent
+      // page scroll himself. But there's a good chance he won't think to. So we do so
+      // for him.
       const isKeyThatScrollsThePage = [
         'ArrowUp',
         'ArrowDown',
@@ -868,20 +880,23 @@ export default class Menu extends LitElement {
       });
 
       // The event is dispatched on `#openedSubMenu` instead of `#activeOptionSubMenu`
-      // because they may not be the same. And `#activeOptionSubMenu` may not even be open.
+      // because they may not be the same. And `#activeOptionSubMenu` may not even be
+      // open.
       //
-      // Imagine a situation where Menu has two Options ("One", "Two") each with a sub-Menu:
+      // Imagine a situation where Menu has two Options ("One", "Two") each with a
+      // sub-Menu:
       //
       // 1. User activates "Two" by hovering it.
       // 2. User opens the sub-Menu of "Two".
       // 3. User activates "One" by hovering it.
       // 4. User presses ArrowUp or ArrowDown.
       //
-      // `#activeOptionSubMenu` would be "One". But "One" isn't open and isn't the sub-Menu
-      // the user wants to interact with.
+      // `#activeOptionSubMenu` would be "One". But "One" isn't open and isn't the
+      // sub-Menu the user wants to interact with.
 
-      // Normally this rule makes sense. But here we're not dispatching an event for consumers.
-      // We're simply redispatching an event. So the event doesn't belong in the JSDoc comment.
+      // Normally this rule makes sense. But here we're not dispatching an event for
+      // consumers. We're simply redispatching an event. So the event doesn't belong in
+      // the JSDoc comment.
       //
       // eslint-disable-next-line @crowdstrike/glide-core/event-dispatch-from-this
       this.#openedSubMenu
@@ -894,33 +909,33 @@ export default class Menu extends LitElement {
       //    an Input, and the active Option has sub-Menu. The event is canceled to prevent
       //    the insertion point from moving in addition to the sub-Menu opening or closing.
       //
-      // 2. When the user presses ArrowUp, the top-level Menu's target is an Input, and an
-      //    Option that's not the first Option is active. The event is canceled to prevent
-      //    the insertion point from moving in addition to the previous Option being made active.
-      //    Similar for Home.
+      // 2. When the user presses ArrowUp, the top-level Menu's target is an Input, and
+      //    an Option that's not the first Option is active. The event is canceled to
+      //    prevent the insertion point from moving in addition to the previous Option
+      //    being made active. Similar for Home.
       //
       // 3. When the user presses ArrowDown, the top-level Menu's target is an Input, and
       //    an Option that's not the last Option is active. The event is canceled to prevent
-      //    the insertion point from moving in addition to the next Option being made active.
-      //    Similar for End.
+      //    the insertion point from moving in addition to the next Option being made
+      //    active. Similar for End.
       //
-      // 4. When the user presses ArrowRight, ArrowLeft, ArrowUp, ArrowDown, PageUp, PageDown,
-      //    Home, or End and Menu's target is not an Input. The event is canceled to prevent
-      //    the page from scrolling.
+      // 4. When the user presses ArrowRight, ArrowLeft, ArrowUp, ArrowDown, PageUp,
+      //    PageDown, Home, or End and Menu's target is not an Input. The event is canceled
+      //    to prevent the page from scrolling.
       //
       // The dispatch above is synchronous. The handling of the dispatched event is also
-      // synchronous. That means this entire handler will have run for the sub-Menu by the
-      // time we've arrived here. So the sub-Menu (or nested sub-Menu) will have had a
-      // chance to cancel the event.
+      // synchronous. That means this entire handler will have run for the sub-Menu by
+      // the time we've arrived here. So the sub-Menu (or nested sub-Menu) will have had
+      // a chance to cancel the event.
       //
       // Below, the super-Menu checks if the event that was dispatched on its sub-Menu
       // was canceled and, if so, cancels its own event. This happens all the way up to
-      // the top-level Menu, which then cancels its event to prevent the page from scrolling
-      // or the insertion point from moving.
+      // the top-level Menu, which then cancels its event to prevent the page from
+      // scrolling or the insertion point from moving.
       //
-      // Why can't the top-level Menu simply cancel its own event right away in one of the
-      // situations above? Because Menu, rightly, has limited knowledge of sub-Menus. It
-      // only knows that one of its own Option(s) has a sub-Menu and so dispatches the
+      // Why can't the top-level Menu simply cancel its own event right away in one of
+      // the situations above? Because Menu, rightly, has limited knowledge of sub-Menus.
+      // It only knows that one of its own Option(s) has a sub-Menu and so dispatches the
       // event to its sub-Menu.
       //
       // Imagine:
@@ -936,8 +951,8 @@ export default class Menu extends LitElement {
       // from moving. Instead sub-Menus communicate to the top-level Menu, by a cascade
       // of event cancelations, that its own event should be canceled.
       //
-      // While convoluted to explain in writing, this approach is quite simple in practice,
-      // and it preserves boundaries between a Menu and its sub-Menus.
+      // While convoluted to explain in writing, this approach is quite simple in
+      // practice, and it preserves boundaries between a Menu and its sub-Menus.
       if (subevent.defaultPrevented) {
         event.preventDefault();
       }
@@ -1025,8 +1040,8 @@ export default class Menu extends LitElement {
       return;
     }
 
-    // Everything below this point only applies when Option(s) and sub-Menus are usable.
-    // And they're not usable when Menu is loading.
+    // Everything below this point only applies when Option(s) and sub-Menus are
+    // usable. And they're not usable when Menu is loading.
     if (this.loading) {
       return;
     }
@@ -1076,9 +1091,9 @@ export default class Menu extends LitElement {
         // two successive clicks and Menu closing then immediately reopening.
         event.preventDefault();
 
-        // If VoiceOver has moved focus, the browser will move focus to `document.body` when
-        // Menu is closed after the active Option is clicked below. We move focus to the target
-        // instead so the VoiceOver user isn't kicked to the top of the page.
+        // If VoiceOver has moved focus, the browser will move focus to `document.body`
+        // when Menu is closed after the active Option is clicked below. We move focus to
+        // the target instead so the VoiceOver user isn't kicked to the top of the page.
         if (
           this.#hasVoiceOverMovedFocusToOptionsOrAnOption &&
           !this.#isSubMenu
@@ -1092,14 +1107,14 @@ export default class Menu extends LitElement {
       return;
     }
 
-    // `this.#isFilterable` is guarded against because pressing Space is meant to insert
-    // a space and not select an Option.
+    // `this.#isFilterable` is guarded against because pressing Space is meant to
+    // insert a space and not select an Option.
     if (this.open && event.key === ' ' && !this.#isFilterable) {
       event.preventDefault(); // Prevent page scroll
 
-      // If VoiceOver has moved focus, the browser will move focus to `document.body` when
-      // Menu is closed after the active Option is clicked below. We move focus to the target
-      // instead so the VoiceOver user isn't kicked to the top of the page.
+      // If VoiceOver has moved focus, the browser will move focus to `document.body`
+      // when Menu is closed after the active Option is clicked below. We move focus to
+      // the target instead so the VoiceOver user isn't kicked to the top of the page.
       if (this.#hasVoiceOverMovedFocusToOptionsOrAnOption && !this.#isSubMenu) {
         this.#focus();
       }
@@ -1346,8 +1361,8 @@ export default class Menu extends LitElement {
     if (isSubMenuTarget) {
       // Sub-Menu target clicks aren't let to propagate because they muddy the waters
       // for consumers. Consumers listen for "click" to know when an Option is clicked.
-      // And they listen for "toggle" to know when a Menu or sub-Menu is opened or closed.
-      // So sub-Menu target "click" events are just noise.
+      // And they listen for "toggle" to know when a Menu or sub-Menu is opened or
+      // closed. So sub-Menu target "click" events are just noise.
       event.stopPropagation();
     }
 
@@ -1368,9 +1383,10 @@ export default class Menu extends LitElement {
         return;
       }
 
-      // It's `0` when the event came from the user pressing Space or Enter. It's also `0`
-      // when a developer calls `click()` or dispatches the event progratically. It's not
-      // ideal that we show the Option's tooltip in those cases. But it should be okay.
+      // It's `0` when the event came from the user pressing Space or Enter. It's also
+      // `0` when a developer calls `click()` or dispatches the event progratically. It's
+      // not ideal that we show the Option's tooltip in those cases. But it should be
+      // okay.
       if (event.detail === 0) {
         this.privateOpenedViaKeyboard = true;
       }
@@ -1378,11 +1394,12 @@ export default class Menu extends LitElement {
       if (
         this.#optionElements &&
         this.#optionElements.length > 0 &&
-        // If Menu is filterable, Menu doesn't close on click because the user may have clicked
-        // the Input to select or change its text.
+        // If Menu is filterable, Menu doesn't close on click because the user may have
+        // clicked the Input to select or change its text.
         this.#isFilterable &&
-        // Only the top-level Menu is filterable. All other Menu targets are just buttons of one
-        // kind or another. So clicking them should always close the Menu in question.
+        // Only the top-level Menu is filterable. All other Menu targets are just buttons
+        // of one kind or another. So clicking them should always close the Menu in
+        // question.
         !this.#isSubMenu
       ) {
         this.open = true;

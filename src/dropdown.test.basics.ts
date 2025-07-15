@@ -6,16 +6,19 @@ import './dropdown.option.js';
 import expectWindowError from './library/expect-window-error.js';
 import type Tooltip from './tooltip.js';
 
-// You'll notice quite a few duplicated tests among the "*.single.ts", "*.multiple.ts",
-// and "*.filterable.ts" test suites. The thinking is that a test warrants
-// duplication whenever Dropdown's internal logic isn't shared among all three
-// of those states or if one state goes down a significantly different code path.
+// You'll notice quite a few duplicated tests among the "*.single.ts",
+// "*.multiple.ts", and "*.filterable.ts" test suites. The thinking is that
+// a test warrants duplication whenever Dropdown's internal logic isn't
+// shared among all three of those states or if one state goes down a much
+// different code path.
 //
 // There are still gaps. And there are exceptions to avoid excessive duplication
-// for the sake of organization. Many of the tests in `dropdown.test.interactions.ts`,
-// for example, don't apply to the filterable case and so aren't common among all
-// three states. They nonetheless reside there because moving them out and
-// duplicating them in both `dropdown.test.interactions.single.ts` and
+// for the sake of organization.
+//
+// Many of the tests in `dropdown.test.interactions.ts`, for example, don't
+// apply to the filterable case and so aren't common among all three states.
+// They nonetheless reside there because moving them out and duplicating them in
+// both `dropdown.test.interactions.single.ts` and
 // `dropdown.test.interactions.multiple.ts` would add a ton of test weight.
 
 @customElement('glide-core-subclassed')

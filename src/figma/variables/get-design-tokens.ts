@@ -171,10 +171,10 @@ function buildTokensFromVariables({
   const deletedButReferencedVariableNames: string[] = [];
 
   for (const variable of Object.values(variables)) {
-    // A remote variable¹ is a type of variable that is defined and managed in a separate file
-    // and can be used across multiple files or projects.
-    // We should not use remote variables in our Design System as we instead rely on
-    // local variables from the provided Figma file.
+    // A remote variable¹ is a type of variable that is defined and managed in a
+    // separate file and can be used across multiple files or projects. We should not
+    // use remote variables in our Design System as we instead rely on local
+    // variables from the provided Figma file.
     //
     // 1: https://www.figma.com/developers/api?fuid=1111467023992153920#variables-types
     if (variable.remote) {
@@ -226,8 +226,9 @@ function buildTokensFromVariables({
       // These are used for variables that don't need different values based on
       // the theme, for example. They contain a single set of values for each variable.
       //
-      // The naming convention we use is `{collection}.tokens.json` for modeless collections.
-      // Collections with modes should use kebab casing, e.g., `{collection}-{mode}.tokens.json`.
+      // The naming convention we use is `{collection}.tokens.json` for modeless
+      // collections. Collections with modes should use kebab casing, e.g.,
+      // `{collection}-{mode}.tokens.json`.
       //
       // Adjusting this naming convention will have consequences in other parts of the
       // export process, so take care in making changes here.
@@ -245,8 +246,8 @@ function buildTokensFromVariables({
 
       let tokenGroup: TokenGroup = tokens[tokenFileName];
 
-      // In Figma, variables can be organized by adding them to groups within a collection.
-      // Here's how that looks in Figma's UI:
+      // In Figma, variables can be organized by adding them to groups within a
+      // collection. Here's how that looks in Figma's UI:
       //
       // color-collection/
       // ├─ parent-group/
@@ -256,13 +257,12 @@ function buildTokensFromVariables({
       // │  ├─ child-group-2/
       // │  │  ├─ variable-3
       //
-      // In our API response, a Figma variable's name includes the group(s) it is part of,
-      // separated by a `/`. `parent-group/child-group-1/variable-1` would be the full name
-      // for `variable-1` in the example above.
+      // In our API response, a Figma variable's name includes the group(s) it is part
+      // of, separated by a `/`. `parent-group/child-group-1/variable-1` would be the
+      // full name for `variable-1` in the example above.
       //
-      // To make it easier to do a diff between Figma's UI and our generated
-      // token JSON files, we put them in a similar format, where each group is a separate
-      // key.
+      // To make it easier to do a diff between Figma's UI and our generated token JSON
+      // files, we put them in a similar format, where each group is a separate key.
       //
       // {
       //   "parent-group": {
@@ -323,7 +323,8 @@ function buildTokensFromVariables({
         },
       } as Extract<DesignToken, { $type: typeof $type }>;
 
-      // As mentioned above, the groups of a variable, separated by a `/`, are used as keys.
+      // As mentioned above, the groups of a variable, separated by a `/`, are used as
+      // keys.
       //
       // Going back to the example above of the `parent-group/child-group-1/variable-1`
       // full name, `parent-group` and `child-group-1` will be nested keys in the object,

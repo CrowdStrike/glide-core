@@ -57,9 +57,9 @@ export default class Option extends LitElement {
 
   static override styles = styles;
 
-  // Consumers may chose not to take the happy path and instead use the "content" slot.
-  // In that case, we don't render `label`. But `label` still needs to be supplied so
-  // we can pass it to Tooltip. That's why it's required.
+  // Consumers may chose not to take the happy path and instead use the "content"
+  // slot. In that case, we don't render `label`. But `label` still needs to be
+  // supplied so we can pass it to Tooltip. That's why it's required.
   /**
    * @default undefined
    */
@@ -90,8 +90,8 @@ export default class Option extends LitElement {
   set description(description: string) {
     this.#description = description;
 
-    // Wait for the description to render. A rerender won't be scheduled by Lit until after
-    // this setter finishes. So awaiting `this.updateComplete` won't fly.
+    // Wait for the description to render. A rerender won't be scheduled by Lit until
+    // after this setter finishes. So awaiting `this.updateComplete` won't fly.
     setTimeout(() => {
       this.#updateContentSlotOverflow();
     });
@@ -128,11 +128,11 @@ export default class Option extends LitElement {
     this.#isActive = isActive;
 
     // Options are arbitrarily shown and hidden when Menu is opened and closed. So
-    // calling the below method in the `label` or `description` setters isn't sufficient
+    // calling the below method in the `label` or `description` setters isn't enough
     // because `scrollWidth` and `clientWidth` of the `label` and `description` will
     // both be zero until Menu is open. Rather than expose a pseudo-private method for
-    // Menu to call on open, we simply check for overflow when an Option becomes active.
-    // But first we wait a tick for Menu to open.
+    // Menu to call on open, we simply check for overflow when an Option becomes
+    // active. But first we wait a tick for Menu to open.
     setTimeout(() => {
       this.#updateContentSlotOverflow();
     });
@@ -170,8 +170,9 @@ export default class Option extends LitElement {
     // You'd think this condition wouldn't be needed because `#onTooltipClick()` has a
     // `this.disabled` condition that stops propagation of the event. But Menu's
     // `#onDocumentClick()` handles "click" events in their capture phase, which means
-    // that handler will pick up the event and close Menu before `#onTooltipClick()` has
-    // stopped it from propagating. So we have to avoid dispatching the event altogether.
+    // that handler will pick up the event and close Menu before `#onTooltipClick()`
+    // has stopped it from propagating. So we have to avoid dispatching the event
+    // altogether.
     if (!this.disabled) {
       this.#tooltipElementRef.value?.click();
     }
@@ -196,8 +197,8 @@ export default class Option extends LitElement {
     // More importantly, even if the consumer doesn't have stray whitespace in the
     // default slot, but provides "icon" or "submenu" slots, then whitespace will
     // necessarily be introduced into the default slot via the whitespace around that
-    // content. And neither the "icon" or "default" slots nor the `label` or `description`
-    // attributes will be rendered.
+    // content. And neither the "icon" or "default" slots nor the `label` or
+    // `description` attributes will be rendered.
     //
     // A slot dedicated to arbitrary content is the only way we can avoid these false
     // positives.
@@ -329,7 +330,8 @@ export default class Option extends LitElement {
     // `this.ariaSelected` needs updating whenever `this.disabled`, `this.selected`, or
     // `this.role` changes.
     //
-    // It's updated here to avoid creating a getter and setter for each of those properties.
+    // It's updated here to avoid creating a getter and setter for each of those
+    // properties.
     this.ariaSelected =
       this.selected && this.role === 'option' && !this.disabled
         ? 'true'
@@ -376,17 +378,18 @@ export default class Option extends LitElement {
   #tooltipElementRef = createRef<HTMLElement>();
 
   get #contentSlotElements() {
-    // These are the elements that are checked for overflow in `#updateContentSlotOverflow()`.
+    // These are the elements that are checked for overflow in
+    // `#updateContentSlotOverflow()`.
     //
     // The slot fallback case is straightforward. And simply returning its assigned
     // elements is  sufficient. With the non-fallback case, however, consumers give us
     // arbitrary markup. So it may not be to the assigned element that's overflowing.
     // Instead, One or more children of the assigned element may be overflowing.
     //
-    // For example, the assigned element might be DIV. And that DIV might contain an icon
-    // and another DIV with some text. In this case, it's the nested DIV that's likely
-    // to overflow, similar to how this slot's fallback content has an icon with a DIV
-    // that can overflow.
+    // For example, the assigned element might be DIV. And that DIV might contain an
+    // icon and another DIV with some text. In this case, it's the nested DIV that's
+    // likely to overflow, similar to how this slot's fallback content has an icon with
+    // a DIV that can overflow.
     //
     // Thus we query for every element.
     if (this.#contentSlotElementRef.value) {
@@ -465,21 +468,23 @@ export default class Option extends LitElement {
       event.target instanceof Element &&
       event.target.closest('glide-core-option') !== this;
 
-    // Consumers rely on an Option's `value` property to determine which Option was clicked.
-    // Options, however, can have an icon or arbitrary content. So `event.target` may not
-    // always be the Option itself.
+    // Consumers rely on an Option's `value` property to determine which Option was
+    // clicked. Options, however, can have an icon or arbitrary content. So
+    // `event.target` may not always be the Option itself.
     //
-    // Stopping the event and calling `this.click()` retargets `event.target` to the Option,
-    // which means consumers don't have to call `event.target.closest('glide-core-option')`
-    // in their click handler to get the Option before checking its `value`.
+    // Stopping the event and calling `this.click()` retargets `event.target` to the
+    // Option, which means consumers don't have to call `closest('glide-core-option')`
+    // on `event.target` in their click handler to get the Option before checking its
+    // `value`.
     //
-    // `!isTooltipClick` because events that originate from inside the shadow DOM will be
-    // retarged to the host for us by the browser. Same for `!isContainerClick`.
+    // `!isTooltipClick` because events that originate from inside the shadow DOM will
+    // be retarged to the host for us by the browser. Same for `!isContainerClick`.
     //
-    // `!isTargetClick` because Menu needs to know if a target of a sub-Menu was clicked to
-    // avoid closing itself.
+    // `!isTargetClick` because Menu needs to know if a target of a sub-Menu was
+    // clicked to avoid closing itself.
     //
-    // `!isSubmenuOption` so we don't retarget sub-Menu Option clicks to their super-Menu Option.
+    // `!isSubmenuOption` so we don't retarget sub-Menu Option clicks to their super-
+    // Menu Option.
     if (
       !isTooltipClick &&
       !isContainerClick &&
@@ -505,9 +510,9 @@ export default class Option extends LitElement {
       // propagate would mean that consumers listening for the event on Menu would have
       // to filter out the one coming from Tooltip.
       //
-      // But first they'll probably file a bug. It's likely no consumer will be interested
-      // in knowing when an Option's tooltip is open. So it's probably best to stop the
-      // event from propagating.
+      // But first they'll probably file a bug. It's likely no consumer will be
+      // interested in knowing when an Option's tooltip is open. So it's probably best to
+      // stop the event from propagating.
       event.stopPropagation();
     }
   }

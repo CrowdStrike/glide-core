@@ -257,9 +257,9 @@ it('remains closed if hovered away from before its delay', async () => {
   tooltip.dataset.openDelay = '5';
   tooltip.dataset.closeDelay = '0';
 
-  // The assertions below intermittently fail with `hover()`. Seems to be a bug either
-  // in Web Test Runner or Playwright related to concurrency. Both assertions consistently
-  // pass when concurrency is disabled.
+  // The assertions below intermittently fail with `hover()`. Seems to be a bug
+  // either in Web Test Runner or Playwright related to concurrency. Both assertions
+  // consistently pass when concurrency is disabled.
   //
   // https://github.com/modernweb-dev/web/issues/2374
   target?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));

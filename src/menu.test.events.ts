@@ -228,8 +228,8 @@ it('cancels "click" events that come from a sub-Menu target whose parent Option 
   const event = await oneEvent(targets[1], 'click');
 
   // We're listening for "click" on the target directly. So the listener here will be
-  // called before `#onTargetSlotClick()`. Waiting a ticket gives `#onTargetSlotClick()`
-  // a chance to be called.
+  // called before `#onTargetSlotClick()`. Waiting a ticket gives
+  // `#onTargetSlotClick()` a chance to be called.
   await aTimeout(0);
 
   expect(event.defaultPrevented).to.be.true;

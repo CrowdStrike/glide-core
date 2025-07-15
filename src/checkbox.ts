@@ -147,7 +147,8 @@ export default class Checkbox extends LitElement implements FormControl {
   @property({ reflect: true, useDefault: true })
   name = '';
 
-  // Private because it's only meant to be used by Dropdown Option to offset the tooltip by the option's padding.
+  // Private because it's only meant to be used by Dropdown Option to offset the
+  // tooltip by the option's padding.
   @property({
     attribute: 'private-label-tooltip-offset',
     reflect: true,
@@ -176,7 +177,8 @@ export default class Checkbox extends LitElement implements FormControl {
   @property()
   privateSplit?: 'left' | 'middle' | 'right';
 
-  // Private because it's only meant to be used by Checkbox Group and Dropdown Option.
+  // Private because it's only meant to be used by Checkbox Group and Dropdown
+  // Option.
   @property({ attribute: 'private-variant' })
   privateVariant?: 'minimal';
 
@@ -271,8 +273,8 @@ export default class Checkbox extends LitElement implements FormControl {
     }
 
     if (this.required && !this.checked) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
@@ -485,7 +487,7 @@ export default class Checkbox extends LitElement implements FormControl {
     this.privateIsReportValidityOrSubmit = true;
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    // Ensures that getters referencing `this.validity.valid` are updated.
     this.requestUpdate();
 
     return isValid;
@@ -505,8 +507,8 @@ export default class Checkbox extends LitElement implements FormControl {
         this.#inputElementRef.value,
       );
     } else {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         {
           customError: true,
@@ -544,7 +546,8 @@ export default class Checkbox extends LitElement implements FormControl {
       // We only want to focus the input if the "invalid" event resulted from either:
       //
       // 1. A form submission.
-      // 2. A call of `reportValidity()` that did not result from the input's "blur" event.
+      // 2. A call of `reportValidity()` that did not result from the input's "blur"
+      //    event.
       if (this.isCheckingValidity || this.isBlurring) {
         return;
       }

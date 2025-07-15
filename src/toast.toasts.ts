@@ -71,7 +71,8 @@ export default class Toasts extends LitElement {
   override render() {
     // Lit-ally doesn't know that our "mouseover" listener is only an affordance for
     // mouse users. It also doesn't know that the purpose of the "click" listener on
-    // ".description" is only so that we can programmatically click the consumer's Toast.
+    // ".description" is only so that we can programmatically click the consumer's
+    // Toast.
     //
     /* eslint-disable lit-a11y/click-events-have-key-events, lit-a11y/mouse-events-have-key-events */
     return html`<div

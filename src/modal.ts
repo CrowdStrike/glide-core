@@ -124,12 +124,13 @@ export default class Modal extends LitElement {
     // 2. The user clicks the button.
     // 3. The button's click handler is called and sets `this.open` to `true`.
     // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
-    // 5. That handler sets `open` to `false` because the click came from outside Modal.
+    // 5. That handler sets `open` to `false` because the click came from outside
+    //    Modal.
     // 6. Modal is opened then closed in the same frame and so never opens.
     //
     // `capture` ensures `#onDocumentClick` is called before #3, so the button click
-    // handler setting `open` to `true` isn't overwritten by this handler setting `open`
-    // to `false`.
+    // handler setting `open` to `true` isn't overwritten by this handler setting
+    // `open` to `false`.
     document.addEventListener('click', this.#onDocumentClick, {
       capture: true,
     });
@@ -175,11 +176,12 @@ export default class Modal extends LitElement {
     );
   }
 
-  // The contents `<dialog>` are wrapped in a `<div>` so we can separate backdrop clicks
-  // from non-backdrop ones. We add "click" listeners to the `<div>` and the `document`.
-  // The former listener sets a boolean that the latter has a condition for. If the boolean
-  // is `false`, then we know the click came from the backdrop. That's also why the padding
-  // is on the `<div>`, so padding clicks come from inside it and Modal remains open.
+  // The contents `<dialog>` are wrapped in a `<div>` so we can separate backdrop
+  // clicks from non-backdrop ones. We add "click" listeners to the `<div>` and the
+  // `document`. The former listener sets a boolean that the latter has a condition
+  // for. If the boolean is `false`, then we know the click came from the backdrop.
+  // That's also why the padding is on the `<div>`, so padding clicks come from
+  // inside it and Modal remains open.
   override render() {
     return html`<dialog
       class=${classMap({
@@ -395,8 +397,8 @@ export default class Modal extends LitElement {
         // a `<label>`. Because clicking a `<label>` produces two "click" events.
         //
         // If we immediately set `#isContainerClick` to `false`, Modal will close when this
-        // handler is called the second time. So we wait a tick to ensure both "click" events
-        // have been dispatched.
+        // handler is called the second time. So we wait a tick to ensure both "click"
+        // events have been dispatched.
         setTimeout(() => {
           this.#isContainerClick = false;
         });

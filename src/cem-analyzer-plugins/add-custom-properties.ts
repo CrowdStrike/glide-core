@@ -36,7 +36,9 @@ export default () => {
       context,
       node,
     }: {
-      // `context` is in part meant for passing arbitrary data around like we're doing here.
+      // `context` is in part meant for passing arbitrary data around like we're doing
+      // here.
+      //
       // https://custom-elements-manifest.open-wc.org/analyzer/plugins/authoring/#context
       context: {
         stylesheets?: Record<

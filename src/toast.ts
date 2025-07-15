@@ -57,9 +57,9 @@ export default class Toast extends LitElement {
   @property({ type: Boolean })
   privateDismissingViaButton = false;
 
-  // `privateId` instead of `id` so consumers can specify their own `id` to determine,
-  // via `event.target.id`, which Toast was dismissed and then update whatever data
-  // structure they're using to render Toasts.
+  // `privateId` instead of `id` so consumers can specify their own `id` to
+  // determine, via `event.target.id`, which Toast was dismissed and then update
+  // whatever data structure they're using to render Toasts.
   @property()
   privateId = uniqueId();
 

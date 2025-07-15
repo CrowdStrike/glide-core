@@ -1,7 +1,8 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
 
-// These styles are shared between Split Button Primary Button and Split Button Primary Link.
+// These styles are shared between Split Button Primary Button and Split Button
+// Primary Link.
 export default [
   css`
     ${focusOutline('.component:focus-visible')}

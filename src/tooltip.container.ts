@@ -21,16 +21,17 @@ declare global {
 //
 // One alternative solution is to ask consumers to add this component to Tooltip's
 // default slot. But that would be additional work for them and would be a less
-// natural API because consumers would pass `label`, `shortcut`, and other attributes
-// to Tooltip Container instead of Tooltip.
+// natural API because consumers would pass `label`, `shortcut`, and other
+// attributes to Tooltip Container instead of Tooltip.
 //
 // Another is to require that consumers always wrap their default slot content
 // in an element, such as `<div>`. But an apparently stray `<div>` in our Storybook
-// code example would beget questions or may be removed by the consumer after copying
-// the code, resulting in an error from Tooltip and frustration.
+// code example would beget questions or may be removed by the consumer after
+// copying the code, resulting in an error from Tooltip and frustration.
 //
-// The latter solution would also prevent us from restricting allowed content by using
-// an attribute (`label`). We'd be forced to allow arbitrary content via a slot.
+// The latter solution would also prevent us from restricting allowed content by
+// using an attribute (`label`). We'd be forced to allow arbitrary content via a
+// slot.
 
 /**
  * @attr {string} [description]

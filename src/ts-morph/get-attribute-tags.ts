@@ -11,7 +11,8 @@ export default (
   }
 
   const attributes = [...declaration.attributes].sort((a, b) => {
-    // First required attributes sorted alphabetically. Then optional ones alphabetically.
+    // First required attributes sorted alphabetically. Then optional ones
+    // alphabetically.
     return 'required' in a && 'required' in b && a.name < b.name
       ? -1
       : 'required' in a && 'required' in b
