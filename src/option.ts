@@ -57,7 +57,7 @@ export default class Option extends LitElement {
 
   static override styles = styles;
 
-  // Consumers may chose not to take the happy path and nstead use the "content" slot.
+  // Consumers may chose not to take the happy path and instead use the "content" slot.
   // In that case, we don't render `label`. But `label` still needs to be supplied so
   // we can pass it to Tooltip. That's why it's required.
   /**
@@ -90,7 +90,7 @@ export default class Option extends LitElement {
   set description(description: string) {
     this.#description = description;
 
-    // Wait for the label to render. A rerender won't be scheduled by Lit until after
+    // Wait for the description to render. A rerender won't be scheduled by Lit until after
     // this setter finishes. So awaiting `this.updateComplete` won't fly.
     setTimeout(() => {
       this.#updateContentSlotOverflow();
@@ -383,7 +383,7 @@ export default class Option extends LitElement {
     // arbitrary markup. So it may not be to the assigned element that's overflowing.
     // Instead, One or more children of the assigned element may be overflowing.
     //
-    // For example, the assigned element might be DIV. And that DIV mith contain an icon
+    // For example, the assigned element might be DIV. And that DIV might contain an icon
     // and another DIV with some text. In this case, it's the nested DIV that's likely
     // to overflow, similar to how this slot's fallback content has an icon with a DIV
     // that can overflow.
