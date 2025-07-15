@@ -1057,7 +1057,7 @@ it('opens on Space when its target is a SPAN', async () => {
   ).to.equal(options[0]?.id);
 });
 
-it('does not open on Space is has no Options', async () => {
+it('does not open on Space when it has no Options', async () => {
   const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
