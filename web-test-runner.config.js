@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'node:url';
 import os from 'node:os';
-import chalk from 'chalk';
 import { defaultReporter } from '@web/test-runner';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fromRollup } from '@web/dev-server-rollup';
@@ -76,32 +75,7 @@ export default {
   reporters:
     process.env.NODE_ENV === 'production'
       ? [defaultReporter()]
-      : [
-          defaultReporter(),
-          'lcov',
-          {
-            start() {
-              if (process.env.NODE_ENV === 'development') {
-                // eslint-disable-next-line no-console
-                console.log(
-                  `Code coverage report: ${chalk.bgBlue(
-                    'http://localhost:8080',
-                  )}\n`,
-                );
-              }
-            },
-            onTestRunStarted() {
-              if (process.env.NODE_ENV === 'development') {
-                // eslint-disable-next-line no-console
-                console.log(
-                  `Code coverage report: ${chalk.bgBlue(
-                    'http://localhost:8080',
-                  )}\n`,
-                );
-              }
-            },
-          },
-        ],
+      : [defaultReporter(), 'lcov'],
 
   // If a test suite takes longer than this, it's almost certainly hanging and
   // won't finish. 2 minutes is the default. These timeouts can be reduced by
