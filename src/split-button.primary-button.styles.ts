@@ -10,8 +10,8 @@ export default [
     .component {
       align-items: center;
       block-size: 2.125rem;
-      border-radius: var(--glide-core-rounding-base-radius-md) 0 0
-        var(--glide-core-rounding-base-radius-md);
+      border-radius: var(--glide-core-rounding-base-radius-sm) 0 0
+        var(--glide-core-rounding-base-radius-sm);
       border-style: solid;
       border-width: 1px 0 1px 1px;
       box-sizing: border-box;
