@@ -50,7 +50,7 @@ it('can be removable', async () => {
   expect(button?.ariaLabel).to.equal('Remove tag: Label');
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

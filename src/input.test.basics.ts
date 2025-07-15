@@ -71,7 +71,7 @@ it('has `this.readonly && !this.disabled` coverage', async () => {
   `);
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

@@ -45,7 +45,7 @@ it('sets `aria-selected` when disabled', async () => {
   expect(host.ariaSelected).to.equal('false');
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

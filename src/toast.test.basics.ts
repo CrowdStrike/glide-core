@@ -108,7 +108,7 @@ it('can have a `duration` when not animated', async () => {
   expect(host.isConnected).to.be.false;
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

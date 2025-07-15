@@ -234,7 +234,7 @@ it('hides the tooltip of the active option when open', async () => {
   expect(tooltip?.open).to.be.false;
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

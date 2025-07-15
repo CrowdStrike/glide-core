@@ -20,7 +20,7 @@ it('is accessible', async () => {
   await expect(host).to.be.accessible();
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

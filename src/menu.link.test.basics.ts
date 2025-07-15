@@ -10,7 +10,7 @@ it('registers itself', async () => {
   expect(window.customElements.get('glide-core-menu-link')).to.equal(MenuLink);
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

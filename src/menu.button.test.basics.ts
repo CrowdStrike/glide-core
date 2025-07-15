@@ -12,7 +12,7 @@ it('registers itself', async () => {
   );
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

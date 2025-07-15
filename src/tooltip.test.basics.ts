@@ -133,7 +133,7 @@ it('does not set `aria-describedby` on its target when hidden from screenreaders
   expect(button?.getAttribute('aria-describedby')).to.be.null;
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {
