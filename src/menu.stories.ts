@@ -223,7 +223,7 @@ const meta: Meta = {
 // and \`description\` attributes won't be rendered.
 //
 // The \`label\` attribute is still required. We'll show it in a tooltip when your content overflows. If you
-// need a second line of text in the tooltip, provide you can provide it via the \`description\` attribute.
+// need a second line of text in the tooltip, you can provide it via the \`description\` attribute.
 `,
         },
       },
