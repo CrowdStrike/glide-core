@@ -58,6 +58,59 @@ for (const story of stories.Toggle) {
           );
         });
 
+        test.describe(':hover', () => {
+          test('disabled', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-toggle')
+              .evaluate<void, Toggle>((element) => {
+                element.disabled = true;
+              });
+
+            // We hover the input field instead of the host because the host is made
+            // to fill the width of the viewport by Label. So most of the host's width
+            // is empty space that's unresponsive to hover.
+            await page.getByRole('switch').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('checked=${true}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-toggle')
+              .evaluate<void, Toggle>((element) => {
+                element.checked = true;
+              });
+
+            // We hover the input field instead of the host because the host is made
+            // to fill the width of the viewport by Label. So most of the host's width
+            // is empty space that's unresponsive to hover.
+            await page.getByRole('switch').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('checked=${false}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            // We hover the input field instead of the host because the host is made
+            // to fill the width of the viewport by Label. So most of the host's width
+            // is empty space that's unresponsive to hover.
+            await page.getByRole('switch').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
         test.describe('orientation="horizontal"', () => {
           test('tooltip="Tooltip"', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
