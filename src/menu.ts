@@ -944,7 +944,7 @@ export default class Menu extends LitElement {
 
       // This is the one case where both a super-Menu and sub-Menu both handle an event
       // because it's the one case where two things need to happen. The sub-Menu needs to
-      // close itself. And the super-Menu needs open to the tooltip of its active Option.
+      // close itself. And the super-Menu needs to open the tooltip of its active Option.
       //
       // Note that this logic comes after the event dispatch above. That's because
       // `#isSubMenuOpen` will be `true` until the sub-Menu has handled the event and
