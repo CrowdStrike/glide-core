@@ -204,3 +204,15 @@ it('throws when subclassed', async () => {
 
   expect(spy.callCount).to.equal(1);
 });
+
+it('throws when `label` is undefined', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(html`<glide-core-option></glide-core-option>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
