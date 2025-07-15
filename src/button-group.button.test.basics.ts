@@ -98,7 +98,7 @@ it('is not tabbable when not selected', async () => {
   expect(radio?.tabIndex).to.equal(-1);
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

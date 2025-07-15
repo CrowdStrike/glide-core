@@ -101,7 +101,7 @@ it('has a severity icon instead of a back button when both are provided', async 
   ).to.not.be.ok;
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

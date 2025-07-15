@@ -6,7 +6,7 @@ import TabPanel from './tab.panel.js';
 @customElement('glide-core-subclassed')
 class Subclassed extends TabPanel {}
 
-it('throws when `name` is empty', async () => {
+it('throws when `name` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

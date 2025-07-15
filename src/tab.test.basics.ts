@@ -19,7 +19,7 @@ it('sets `ariaDisabled` and `tabIndex` when disabled', async () => {
   expect(host?.tabIndex).to.equal(-1);
 });
 
-it('throws when `panel` is empty', async () => {
+it('throws when `panel` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

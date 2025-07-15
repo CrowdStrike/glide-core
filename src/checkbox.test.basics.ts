@@ -66,7 +66,7 @@ it('has no tooltip when "minimal" with a short label', async () => {
   expect(tooltip?.disabled).to.be.true;
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

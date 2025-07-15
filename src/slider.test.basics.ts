@@ -18,7 +18,7 @@ it('sets a less than 1 `step` to 1', async () => {
   expect(host.step).to.equal(1);
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {

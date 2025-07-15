@@ -88,7 +88,7 @@ it('sets `privateVariant` on Checkboxes added after initial render', async () =>
   expect(checkboxes[2]?.privateVariant).to.equal('minimal');
 });
 
-it('throws when `label` is empty', async () => {
+it('throws when `label` is undefined', async () => {
   const spy = sinon.spy();
 
   try {
