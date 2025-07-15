@@ -199,7 +199,7 @@ export default class Menu extends LitElement {
           if (index !== 0) {
             // We have to close all but one sub-Menu so they don't overlap. And because it
             // wouldn't be clear to us or the user which open sub-Menu keyboard interactions
-            // should manipuldate.
+            // should manipulate.
             //
             // Keeping either the first or the last open sub-Menu open is reasonable. So we
             // arbitrarily keep the first one open.
@@ -605,7 +605,7 @@ export default class Menu extends LitElement {
       //
       // When arbitrary content in the default slot is clicked, Menu should remain open
       // because we don't know what the arbitrary content is. So inaction is best. Consumers
-      // can listen for clicks on the arbitrary content and close themselves Menu if they
+      // can listen for clicks on the arbitrary content and close Menu themselves if they
       // need to.
       //
       // When the default slot's padding is clicked, Menu should remain open because the
@@ -664,8 +664,8 @@ export default class Menu extends LitElement {
     //
     // Imagine a case where the user opens Menu by clicking its target, then clicks an
     // Option. The user should be able to immediately press Space or Enter afterward
-    // to reopen Menu. This might seem like an odd to case to support. But, in practice,
-    // it's not uncommon users to change modalities when interacting with something.
+    // to reopen Menu. This might seem like an odd case to support. But, in practice,
+    // it's not uncommon for users to change modalities when interacting with something.
     event.preventDefault();
   }
 
@@ -718,7 +718,7 @@ export default class Menu extends LitElement {
       }
 
       if (this.#isSubMenu) {
-        // Allowing the event to propagate from a sub-Menu its parent Option means it would
+        // Allowing the event to propagate from a sub-Menu's parent Option means it would
         // get picked up by the super-Menu Option's Tooltip "mouseover" handler. Then it
         // would open the super-Menu's tooltip.
         event.stopPropagation();
@@ -896,7 +896,7 @@ export default class Menu extends LitElement {
       //
       // 2. When the user presses ArrowUp, the top-level Menu's target is an Input, and an
       //    Option that's not the first Option is active. The event is canceled to prevent
-      //    the insertion point from moving in addition to previous Option being made active.
+      //    the insertion point from moving in addition to the previous Option being made active.
       //    Similar for Home.
       //
       // 3. When the user presses ArrowDown, the top-level Menu's target is an Input, and
