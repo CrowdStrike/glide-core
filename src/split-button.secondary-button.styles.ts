@@ -18,8 +18,8 @@ export default [
       border-inline-start-color: var(
         --glide-core-private-color-button-stroke-default
       );
-      border-radius: 0 var(--glide-core-rounding-base-radius-md)
-        var(--glide-core-rounding-base-radius-md) 0;
+      border-radius: 0 var(--glide-core-rounding-base-radius-sm)
+        var(--glide-core-rounding-base-radius-sm) 0;
       border-style: solid;
       border-width: 1px;
       box-sizing: border-box;
