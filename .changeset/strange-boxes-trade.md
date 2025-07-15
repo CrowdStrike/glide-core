@@ -11,7 +11,7 @@
 - Now remains open or closed when you listen for and cancel clicks on Menu's host.
 - Now allows arbitrary content in its default slot.
 - Now ignores navigation via arrow keys when its `loading` attribute is present.
-- Now adds `role="button"` to its target when its target is an SPAN or DIV.
+- Now adds `role="button"` to its target when its target is a SPAN or DIV.
 - Now adds `role="button"` and `tabindex="0"` to its target when its target is an SVG.
 - Now supports submenus:
 
