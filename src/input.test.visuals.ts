@@ -439,7 +439,7 @@ for (const story of stories.Input) {
               element.type = 'url';
             });
 
-          await page.getByRole('textbox').fill('www.crowdstrike.com');
+          await page.getByRole('textbox').fill('https://www.crowdstrike.com');
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
