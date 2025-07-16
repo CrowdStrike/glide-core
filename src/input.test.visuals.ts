@@ -333,7 +333,7 @@ for (const story of stories.Input) {
               element.type = 'email';
             });
 
-          await page.getByRole('textbox').fill('crowdstrike@email.com');
+          await page.getByRole('textbox').fill('crowdstrike@example.com');
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
