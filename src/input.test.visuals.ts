@@ -397,7 +397,7 @@ for (const story of stories.Input) {
               element.type = 'tel';
             });
 
-          await page.getByRole('textbox').fill('1234567890');
+          await page.getByRole('textbox').fill('555-0123');
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
