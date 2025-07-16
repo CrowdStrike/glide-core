@@ -72,6 +72,28 @@ for (const story of stories.Menu) {
           });
         });
 
+        test('<glide-core-option>.description', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-menu')
+            .first()
+            .evaluate<void, Menu>((element) => {
+              element.open = true;
+            });
+
+          await page
+            .locator('glide-core-option')
+            .first()
+            .evaluate<void, Option>((element) => {
+              element.description = 'Description';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('<glide-core-option>.disabled', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
