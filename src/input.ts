@@ -44,7 +44,7 @@ declare global {
  * @attr {boolean} [required=false]
  * @attr {boolean} [spellcheck=false]
  * @attr {string} [tooltip]
- * @attr {'date'|'email'|'number'|'password'|'search'|'tel'|'text'|'time'|'url'} [type='text']
+ * @attr {'color'|'date'|'email'|'number'|'password'|'search'|'tel'|'text'|'time'|'url'} [type='text']
  * @attr {string} [value='']
  *
  * @readonly
@@ -173,6 +173,7 @@ export default class Input extends LitElement implements FormControl {
 
   @property({ reflect: true, useDefault: true })
   type:
+    | 'color'
     | 'date'
     | 'email'
     | 'number'

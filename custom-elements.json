@@ -3822,7 +3822,7 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "| 'date'\n    | 'email'\n    | 'number'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'text'\n    | 'time'\n    | 'url'"
+                "text": "| 'color'\n    | 'date'\n    | 'email'\n    | 'number'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'text'\n    | 'time'\n    | 'url'"
               },
               "default": "'text'",
               "attribute": "type",
@@ -4131,7 +4131,7 @@
             {
               "name": "type",
               "type": {
-                "text": "| 'date'\n    | 'email'\n    | 'number'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'text'\n    | 'time'\n    | 'url'"
+                "text": "| 'color'\n    | 'date'\n    | 'email'\n    | 'number'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'text'\n    | 'time'\n    | 'url'"
               },
               "default": "'text'",
               "fieldName": "type"

@@ -332,6 +332,7 @@ const meta: Meta = {
     type: {
       control: { type: 'select' },
       options: [
+        'color',
         'date',
         'email',
         'number',
@@ -348,7 +349,7 @@ const meta: Meta = {
         },
         type: {
           summary:
-            'date | email | number | password | search | tel | text | time | url',
+            'color | date | email | number | password | search | tel | text | time | url',
         },
       },
     },

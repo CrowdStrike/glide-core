@@ -123,6 +123,22 @@ export default [
           outline: 2px solid var(--glide-core-color-interactive-stroke-focus);
         }
       }
+
+      &[type='color']::-webkit-color-swatch {
+        border: none;
+        border-radius: var(--glide-core-rounding-base-radius-xxs);
+      }
+
+      /*
+        Unfortunately Firefox requires a different selector. It also
+        sets the element to 100% height of its container, so we set
+        a fixed block-size to match the other browsers.
+      */
+      &[type='color']::-moz-color-swatch {
+        block-size: 1.5rem;
+        border: none;
+        border-radius: var(--glide-core-rounding-base-radius-xxs);
+      }
     }
 
     .suffix-icon {

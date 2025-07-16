@@ -294,6 +294,20 @@ for (const story of stories.Input) {
           );
         });
 
+        test('type="color"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-input')
+            .evaluate<void, Input>((element) => {
+              element.type = 'color';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('type="date"', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -310,6 +324,54 @@ for (const story of stories.Input) {
           );
         });
 
+        test('type="email"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-input')
+            .evaluate<void, Input>((element) => {
+              element.type = 'email';
+            });
+
+          await page.getByRole('textbox').fill('crowdstrike@example.com');
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('type="number"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-input')
+            .evaluate<void, Input>((element) => {
+              element.type = 'number';
+            });
+
+          await page.getByRole('spinbutton').fill('9');
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('type="password"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-input')
+            .evaluate<void, Input>((element) => {
+              element.type = 'password';
+            });
+
+          await page.getByRole('textbox').fill('password');
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('type="search"', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -320,6 +382,22 @@ for (const story of stories.Input) {
             });
 
           await page.getByRole('searchbox').fill('Test');
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('type="tel"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-input')
+            .evaluate<void, Input>((element) => {
+              element.type = 'tel';
+            });
+
+          await page.getByRole('textbox').fill('555-0123');
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
@@ -346,6 +424,22 @@ for (const story of stories.Input) {
             });
 
           await page.getByRole('textbox').fill('00:00');
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('type="url"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-input')
+            .evaluate<void, Input>((element) => {
+              element.type = 'url';
+            });
+
+          await page.getByRole('textbox').fill('https://www.crowdstrike.com');
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
