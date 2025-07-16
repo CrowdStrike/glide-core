@@ -4,7 +4,7 @@
 
 `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
 
-### Duration
+#### Duration
 
 ```diff
 -  --glide-core-duration-fast-01: 40ms;
