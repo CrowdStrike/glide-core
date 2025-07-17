@@ -9,7 +9,7 @@ const createRule = ESLintUtils.RuleCreator((name) => {
 // the more nested the commented code is. That makes comments for highly nested
 // code harder to read.
 export const commentMaximumLength = createRule({
-  name: 'no-only-tests',
+  name: 'comment-maximum-length',
   meta: {
     docs: {
       description: `Ensures comments aren't too long.`,
