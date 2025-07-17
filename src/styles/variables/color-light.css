@@ -40,7 +40,7 @@
   --glide-core-color-interactive-stroke-active--hover: #0051a1;
   --glide-core-color-interactive-stroke-active--disabled: #e5f1fc;
   --glide-core-color-interactive-stroke-contrast: #6d6d6d;
-  --glide-core-color-interactive-text-link: #0051a1;
+  --glide-core-color-interactive-text-link: #006ad4;
   --glide-core-color-interactive-text-link--disabled: #8a8a8a;
   --glide-core-color-interactive-text-default: #212121;
   --glide-core-color-interactive-text-default--active: #ffffff;
@@ -48,14 +48,14 @@
   --glide-core-color-interactive-text-placeholder: #6d6d6d;
   --glide-core-color-interactive-text-placeholder--disabled: #8a8a8a;
   --glide-core-color-interactive-text-onsolid: #ffffff;
-  --glide-core-color-interactive-text-link--hover: #0073e6;
-  --glide-core-color-interactive-icon-link: #0051a1;
+  --glide-core-color-interactive-text-link--hover: #338feb;
+  --glide-core-color-interactive-icon-link: #006ad4;
   --glide-core-color-interactive-icon-link--disabled: #8a8a8a;
   --glide-core-color-interactive-icon-default: #212121;
   --glide-core-color-interactive-icon-default--active: #ffffff;
   --glide-core-color-interactive-icon-default--disabled: #8a8a8a;
-  --glide-core-color-interactive-icon-active: #0073e6;
-  --glide-core-color-interactive-icon-active--hover: #0051a1;
+  --glide-core-color-interactive-icon-active: #338feb;
+  --glide-core-color-interactive-icon-active--hover: #338feb;
   --glide-core-color-interactive-icon-active--disabled: #e5f1fc;
   --glide-core-color-interactive-icon-onsolid: #ffffff;
   --glide-core-color-advisory-surface-info-container: #e5f1fc;
@@ -141,7 +141,7 @@
   --glide-core-color-effect-color-scroll-shadow: #0000001a;
   --glide-core-color-effect-position-elevation-floating-y: 0.25rem;
   --glide-core-private-color-button-surface-active: #0051a1;
-  --glide-core-private-color-button-stroke-default: #0051a1;
+  --glide-core-private-color-button-stroke-default: #006ad4;
   --glide-core-private-color-button-text-primary: #ffffff;
   --glide-core-private-color-button-icon-primary: #ffffff;
   --glide-core-private-color-checkbox-surface-background-selected--default: #ffffff;

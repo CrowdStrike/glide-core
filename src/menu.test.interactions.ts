@@ -1454,6 +1454,12 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.be.empty.string;
 
+  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
+  // in tests sometimes takes more than a tick when sub-Menus are present.
+  await waitUntil(() => {
+    return defaultSlots[1]?.checkVisibility();
+  });
+
   await click(targets[2]);
 
   expect(hosts[0]?.open).to.be.true;
