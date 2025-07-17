@@ -1666,7 +1666,12 @@ it('closes its sub-Menus when their targets are clicked', async () => {
     return (
       defaultSlots[0]?.checkVisibility() &&
       defaultSlots[1]?.checkVisibility() &&
-      defaultSlots[2]?.checkVisibility()
+      defaultSlots[2]?.checkVisibility() &&
+      // It's not clear why this condition is needed. Everything should be visible if
+      // all the above conditions are met. But the first assertion below intermittently
+      // fails in CI without checking first that the target we're about to click is
+      // visible.
+      targets[2]?.checkVisibility()
     );
   });
 
