@@ -12,7 +12,8 @@ ruleTester.run('prefer-shadow-root-mode', preferClosedShadowRoot, {
       code: "class Example extends LitElement { static override shadowRootOptions: ShadowRootInit = { ...LitElement.shadowRootOptions, mode: shadowRootMode, }; @property label = 'test' }",
     },
     {
-      // Ensures extra options like `delegatesFocusTrue` within shadowRootOptions works as expected
+      // Ensures extra options like `delegatesFocusTrue` within shadowRootOptions works
+      // as expected
       code: 'class Example extends LitElement { static override shadowRootOptions: ShadowRootInit = { ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }; }',
     },
     {

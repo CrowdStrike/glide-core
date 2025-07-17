@@ -243,11 +243,11 @@ export default class RadioGroup extends LitElement implements FormControl {
       // set, we need to manually set `value` on the group. That way when `form.reset()`
       // is called we know what value to reset back to.
       //
-      // `#isSettingValueAttributeInitially` is used to guard against the `value` the setter
-      // unchecking every radio but the last. We try our best not to change state set by the
-      // consumer. If a consumer checks multiple radios, either initially or programmatically,
-      // we leave them checked and simply don't show them as checked to the user. That way what
-      // the user sees matches what gets submitted with the form.
+      // `#isSettingValueAttributeInitially` is used to guard against the `value` the
+      // setter unchecking every radio but the last. We try our best not to change state
+      // set by the consumer. If a consumer checks multiple radios, either initially or
+      // programmatically, we leave them checked and simply don't show them as checked to
+      // the user. That way what the user sees matches what gets submitted with the form.
       this.#isSettingValueAttributeInitially = true;
       this.setAttribute('value', lastCheckedRadio.value);
       this.#isSettingValueAttributeInitially = false;
@@ -321,8 +321,8 @@ export default class RadioGroup extends LitElement implements FormControl {
     const isChecked = this.#radioElements.some(({ checked }) => checked);
 
     if (this.required && !isChecked && !this.disabled) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
@@ -440,7 +440,7 @@ export default class RadioGroup extends LitElement implements FormControl {
 
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    // Ensures that getters referencing `this.validity.valid` are updated.
     this.requestUpdate();
 
     return isValid;
@@ -572,7 +572,8 @@ export default class RadioGroup extends LitElement implements FormControl {
 
     // If the user clicks on a disabled radio, then attempts to use the keyboard, the
     // focus would normally be stuck on the disabled element. Since the general pattern
-    // is for focus to follow selection, it does so here, going to the last checked radio.
+    // is for focus to follow selection, it does so here, going to the last checked
+    // radio.
     if (event.target instanceof RadioGroupRadio && event.target.disabled) {
       const selectedRadio = this.#radioElements.find(({ checked }) => checked);
       selectedRadio?.focus();

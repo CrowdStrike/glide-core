@@ -75,28 +75,29 @@ export default defineConfig([
       '@crowdstrike/glide-core/private-state-decorators': 'error',
       '@crowdstrike/glide-core/no-protected-keyword': 'error',
       '@crowdstrike/glide-core/use-final-decorator': 'error',
+      '@crowdstrike/glide-core/comment-maximum-length': 'error',
 
-      // Only a few hand-picked rules because much of what the plugin offers either doesn't
-      // apply to us (SEO rules) or is covered by other tools (formatting and accessibility
-      // rules). The `sort-attrs` rule would be nice. But it doesn't sort attributes
-      // alphabetically like it claims to.
+      // Only a few hand-picked rules because much of what the plugin offers either
+      // doesn't apply to us (SEO rules) or is covered by other tools (formatting and
+      // accessibility rules). The `sort-attrs` rule would be nice. But it doesn't sort
+      // attributes alphabetically like it claims to.
       'html/no-duplicate-attrs': 'error',
       'html/no-duplicate-class': 'error',
       'html/no-duplicate-id': 'error',
       'html/no-obsolete-tags': 'error',
       'html/no-trailing-spaces': 'error',
 
-      // Enabling this rule would force us to `await` any function that returns a promise.
-      // One example is a function that itself `await`s `updateComplete`. The rule is a bit
-      // cumbersome in practice.
+      // Enabling this rule would force us to `await` any function that returns a
+      // promise. One example is a function that itself `await`s `updateComplete`. The
+      // rule is a bit cumbersome in practice.
       '@typescript-eslint/no-floating-promises': 'off',
 
       // Most of the methods this rule would cover are bound by Lit.
       '@typescript-eslint/unbound-method': 'off',
 
       // Non-null assertions are often misused. Linting against them increases the chance
-      // that developers use them intentionally and, if we're lucky, that they explain why
-      // given they have to disable a lint rule to do so.
+      // that developers use them intentionally and, if we're lucky, that they explain
+      // why given they have to disable a lint rule to do so.
       '@typescript-eslint/no-non-null-assertion': 'error',
 
       '@stylistic/padding-line-between-statements': [

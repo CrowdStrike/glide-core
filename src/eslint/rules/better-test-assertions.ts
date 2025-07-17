@@ -45,8 +45,8 @@ export const betterTestAssertions = createRule({
       MemberExpression(node) {
         // Covering every Chai property and combination thereof isn't worth our time or
         // the added code weight. So we instead cover only the most common ones. Similar
-        // for fixing violations automatically. Doing so isn't worth the effort or complexity
-        // given how easy these violations are to fix manually.
+        // for fixing violations automatically. Doing so isn't worth the effort or
+        // complexity given how easy these violations are to fix manually.
         if (
           isProbablyATest &&
           node.property.type === AST_NODE_TYPES.Identifier &&

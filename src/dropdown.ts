@@ -330,12 +330,13 @@ export default class Dropdown extends LitElement implements FormControl {
     }
 
     for (const optionValue of value) {
-      // We select only the first option with a given value so what the user sees as selected
-      // matches what is submitted with the form. If we were to select every matching option
-      // here, then the user would be under the impression that multiple instances of that
-      // value will be submitted with the form.
+      // We select only the first option with a given value so what the user sees as
+      // selected matches what is submitted with the form. If we were to select every
+      // matching option here, then the user would be under the impression that multiple
+      // instances of that value will be submitted with the form.
       //
-      // Imagine a case where there are two options whose value is "one" and `value` is `['one']`.
+      // Imagine a case where there are two options whose value is "one" and `value`
+      // is `['one']`.
       const option = this.#optionElements.find(
         (option) =>
           option.value === optionValue &&
@@ -442,12 +443,13 @@ export default class Dropdown extends LitElement implements FormControl {
       // 2. The user clicks the button.
       // 3. The button's click handler is called and it sets `this.open` to `true`.
       // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
-      // 5. That handler sets `open` to `false` because the click came from outside Dropdown.
+      // 5. That handler sets `open` to `false` because the click came from outside
+      //    Dropdown.
       // 6. Dropdown is opened then closed in the same frame and so never opens.
       //
       // `capture` ensures `#onDocumentClick` is called before #3, so the button click
-      // handler setting `open` to `true` isn't overwritten by this handler setting `open`
-      // to `false`.
+      // handler setting `open` to `true` isn't overwritten by this handler setting
+      // `open` to `false`.
       capture: true,
     });
   }
@@ -481,11 +483,12 @@ export default class Dropdown extends LitElement implements FormControl {
       // that has `overflow: hidden`. Elements with `popover` are positioned relative
       // to the viewport. Thus Floating UI in addition to `popover`.
       //
-      // Set here instead of in the template to escape Lit Analyzer, which isn't
-      // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+      // Set here instead of in the template to escape Lit Analyzer, which isn't aware
+      // of `popover` and doesn't have a way to disable its "no-unknown-attribute" rule.
       //
       // "auto" means only one popover can be open at a time. Consumers, however, may
-      // have popovers in their own components that need to be open while this one is open.
+      // have popovers in their own components that need to be open while this one is
+      // open.
       //
       // "auto" also automatically opens the popover when its target is clicked. We want
       // it to remain closed when clicked when there are no options. We also want it to
@@ -527,9 +530,9 @@ export default class Dropdown extends LitElement implements FormControl {
     // may conflict with the one derived from which options are selected.
     //
     // So we have a decision to make. On first render, do we defer to the initial
-    // `value` and select and deselect options below? Or do we defer to `#onDefaultSlotChange()`
-    // and let that method change `value` from its initial value based on which options
-    // are selected?
+    // `value` and select and deselect options below? Or do we defer to
+    // `#onDefaultSlotChange()` and let that method change `value` from its initial
+    // value based on which options are selected?
     //
     // It's largely a toss-up. But the latter seems like the logical choice given
     // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
@@ -619,38 +622,40 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   override render() {
-    // `hidden` is frowned upon because it adds a second source of truth for styling. However,
-    // it's the simplest way to hide slotted options and to later check if they're hidden.
-    // Select All is different because we can conditionally render it and check if it exists.
-    // `hidden` is used with it nonetheless for consistency and to simplify the logic that
-    // checks an option's visibility, such as in `#optionElementsNotHiddenIncludingSelectAll`.
+    // `hidden` is frowned upon because it adds a second source of truth for styling.
+    // However, it's the simplest way to hide slotted options and to later check if
+    // they're hidden. Select All is different because we can conditionally render it
+    // and check if it exists. `hidden` is used with it nonetheless for consistency and
+    // to simplify the logic that checks an option's visibility, such as in
+    // `#optionElementsNotHiddenIncludingSelectAll`.
 
-    // ".tag-overflow-text" is hidden from screen readers because it's redundant. The selected
-    // options are announced when Dropdown receives focus.
+    // ".tag-overflow-text" is hidden from screen readers because it's redundant. The
+    // selected options are announced when Dropdown receives focus.
 
-    // The linter checks that all ULs have LIs as children. It doesn't account for slots,
-    // which can contain LIs.
+    // The linter checks that all ULs have LIs as children. It doesn't account for
+    // slots, which can contain LIs.
 
-    // The linter wants a "focus" handler on the slot, but there's nothing to be done with
-    // one in this case.
+    // The linter wants a "focus" handler on the slot, but there's nothing to be done
+    // with one in this case.
 
     // The linter wants a "keydown" handler on '.dropdown'. Instead, there's one on
     // `.dropdown-and-options` because much of the logic in the handler also applies
-    // to options, which can receive focus, and "keydown" events won't be emitted on ".dropdown"
-    // when it doesn't have focus.
+    // to options, which can receive focus, and "keydown" events won't be emitted on
+    // ".dropdown" when it doesn't have focus.
 
-    // 'aria-selected="false"' on the Add button because every `"role="option"` must have that
-    // attribute. The attribute's value is hardcoded to "false" because the Add button can't be
-    // selected in the usual, persistent sense.
+    // 'aria-selected="false"' on the Add button because every `"role="option"` must
+    // have that attribute. The attribute's value is hardcoded to "false" because the
+    // Add button can't be selected in the usual, persistent sense.
     //
-    // Admittedly, it's a hack with respect to accessibility. But screenreader users should be
-    // able to understand what's going on.
+    // Admittedly, it's a hack with respect to accessibility. But screenreader users
+    // should be able to understand what's going on.
     //
-    // The alternative, an Add button that's not an option but instead tabbed to, would certainly
-    // be a worse user experience in general because users would have to tab out of the input
-    // field while filtering to add a new option. Then they would have to tab back to the input
-    // field to continue filtering. This would also likely be worse for screenreader users because
-    // they wouldn't discover the Add button until they move focus off the input field.
+    // The alternative, an Add button that's not an option but instead tabbed to, would
+    // certainly be a worse user experience in general because users would have to tab
+    // out of the input field while filtering to add a new option. Then they would have
+    // to tab back to the input field to continue filtering. This would also likely be
+    // worse for screenreader users because they wouldn't discover the Add button until
+    // they move focus off the input field.
 
     /* eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/click-events-have-key-events */
     return html`<div
@@ -1137,7 +1142,7 @@ export default class Dropdown extends LitElement implements FormControl {
     this.isReportValidityOrSubmit = true;
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    // Ensures that getters referencing `this.validity.valid` are updated.
     this.requestUpdate();
 
     return isValid;
@@ -1159,8 +1164,8 @@ export default class Dropdown extends LitElement implements FormControl {
           : this.#primaryButtonElementRef.value,
       );
     } else {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native
+      // validation feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         {
           customError: true,
@@ -1177,8 +1182,8 @@ export default class Dropdown extends LitElement implements FormControl {
   setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
 
-    // A validation message is required but unused because we disable native validation feedback.
-    // And an empty string isn't allowed. Thus a single space.
+    // A validation message is required but unused because we disable native
+    // validation feedback. And an empty string isn't allowed. Thus a single space.
     this.#internals.setValidity(
       flags,
       ' ',
@@ -1201,7 +1206,8 @@ export default class Dropdown extends LitElement implements FormControl {
       // We only want to focus the input if the "invalid" event resulted from either:
       //
       // 1. A form submission.
-      // 2. A call of `reportValidity()` that did not result from Checkbox's "blur" event.
+      // 2. A call of `reportValidity()` that did not result from Checkbox's "blur"
+      //    event.
       if (this.isCheckingValidity || this.isBlurring) {
         return;
       }
@@ -1249,11 +1255,12 @@ export default class Dropdown extends LitElement implements FormControl {
 
   // `itemCount` isn't immediately communicated to screenreaders so the number of
   // options isn't read twice when Dropdown receives focus. It's already read once
-  // without additional effort due to `role="combobox"` and `aria-controls="options"`.
+  // without additional effort due to `role="combobox"` and
+  // `aria-controls="options"`.
   //
-  // However, an updated count isn't read when the user filters, which is where `itemCount`
-  // comes in. `isCommunicateItemCountToScreenreaders` is used to toggle `itemCount`
-  // so it isn't read on focus.
+  // However, an updated count isn't read when the user filters, which is where
+  // `itemCount` comes in. `isCommunicateItemCountToScreenreaders` is used to toggle
+  // `itemCount` so it isn't read on focus.
   @state()
   private isCommunicateItemCountToScreenreaders = false;
 
@@ -1318,22 +1325,24 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #internals: ElementInternals;
 
-  // `#onDocumentClick()` listens for clicks in their capture phase. There's a comment
-  // in that method explaining why. `#isComponentClick` is set in `#onComponentMouseup()`
-  // before `#onDocumentClick()` is called so `#onDocumentClick()` has the information it
-  // needs to decide if it should close Dropdown.
+  // `#onDocumentClick()` listens for clicks in their capture phase. There's a
+  // comment in that method explaining why. `#isComponentClick` is set in
+  // `#onComponentMouseup()` before `#onDocumentClick()` is called so
+  // `#onDocumentClick()` has the information it needs to decide if it should
+  // close Dropdown.
   #isComponentClick = false;
 
   #isDisabled = false;
 
-  // Used to prevent Dropdown from reopening on click immediately after it's closed when a
-  // tag is edited. Also used to prevent form submissions when a tag is edited via Enter.
+  // Used to prevent Dropdown from reopening on click immediately after it's
+  // closed when a tag is edited. Also used to prevent form submissions when a
+  // tag is edited via Enter.
   #isEditingOrRemovingTag = false;
 
   #isFilterable = false;
 
-  // Used in `#onDefaultSlotChange()` to lock Dropdown into being automatically filterable
-  // or not based on the number of options present on first render.
+  // Used in `#onDefaultSlotChange()` to lock Dropdown into being automatically
+  // filterable or not based on the number of options present on first render.
   #isFirstDefaultSlotChange = true;
 
   #isMultiple = false;
@@ -1348,15 +1357,15 @@ export default class Dropdown extends LitElement implements FormControl {
   // or deselected.
   #isSelectionFromSelectAllOrNone = false;
 
-  // Used in `#onOptionsSelectedChange()` to guard against a loop of duplicate additions
-  // to `this.value` when `#onOptionsSelectedChange()` is called as a result of
-  // `this.value` being set.
+  // Used in `#onOptionsSelectedChange()` to guard against a loop of duplicate
+  // additions to `this.value` when `#onOptionsSelectedChange()` is called as a
+  // result of `this.value` being set.
   #isSelectionFromValueSetter = false;
 
-  // Used in `#onDropdownClick()`, which is opens and closes Dropdown. Space and Enter
-  // produce "click" events. This field gives `#onDropdownClick()` the information
-  // it needs to guard against opening or closing when the click comes from option
-  // selection or deselection.
+  // Used in `#onDropdownClick()`, which is opens and closes Dropdown. Space and
+  // Enter produce "click" events. This field gives `#onDropdownClick()` the
+  // information it needs to guard against opening or closing when the click comes
+  // from option selection or deselection.
   #isSelectionViaSpaceOrEnter = false;
 
   #localize = new LocalizeController(this);
@@ -1469,7 +1478,8 @@ export default class Dropdown extends LitElement implements FormControl {
     }
 
     // Set here in addition to in `#show()` because, every option may be removed by the
-    // consumer while Dropdown is open. Many consumers do this while the user is filtering.
+    // consumer while Dropdown is open. Many consumers do this while the user is
+    // filtering.
     this.hasNoAvailableOptions = this.#optionElements.length === 0;
 
     this.selectedAndEnabledOptions = this.#optionElements.filter(
@@ -1485,7 +1495,8 @@ export default class Dropdown extends LitElement implements FormControl {
       // the number of options in the slot in response to the user filtering.
       //
       // So we lock in Dropdown as either filterable or unfilterable with the first slot
-      // change. Consumers can still force filterability using the `filterable` attribute.
+      // change. Consumers can still force filterability using the `filterable`
+      // attribute.
       this.isFilterable = this.#optionElements.length > 10;
       this.#isFirstDefaultSlotChange = false;
     }
@@ -1536,9 +1547,9 @@ export default class Dropdown extends LitElement implements FormControl {
         // enough to be truncated.
         //
         // We guard against `this.isFiltering` so we don't clear the user's filter query
-        // when the user is filtering and an option is added or removed. This is particularly
-        // helpful when consumers fetch and render options from the server in response to their
-        // override of `this.filter()` being called.
+        // when the user is filtering and an option is added or removed. This is
+        // particularly helpful when consumers fetch and render options from the server in
+        // response to their override of `this.filter()` being called.
       } else if (this.#inputElementRef.value && !this.isFiltering) {
         this.#inputElementRef.value.value = '';
         this.inputValue = '';
@@ -1557,17 +1568,18 @@ export default class Dropdown extends LitElement implements FormControl {
 
       if (!this.multiple && option.selected) {
         // When Dropdown is single-select, a Dropdown Option only appears as selected when
-        // it's the last selected option because only the `value` of the last selected option
-        // will be included in Dropdown's `value`. And what the user sees as selected should
-        // always be the same as what's submitted with the form.
+        // it's the last selected option because only the `value` of the last selected
+        // option will be included in Dropdown's `value`. And what the user sees as
+        // selected should always be the same as what's submitted with the form.
         //
         // Dropdown Options determine whether they're the last selected option (and thus
         // whether to show themselves as selected using a checkmark) via their internal
         // `lastSelectedAndEnabledOption` getter.
         //
-        // An additional selected option can be added to Dropdown's default slot at any time.
-        // And it may now be the last selected option. But what was the last selected option
-        // won't know it's no longer the last. So we force selected options to rerender.
+        // An additional selected option can be added to Dropdown's default slot at any
+        // time. And it may now be the last selected option. But what was the last selected
+        // option won't know it's no longer the last. So we force selected options to
+        // rerender.
         option.requestUpdate();
       }
     }
@@ -1631,11 +1643,12 @@ export default class Dropdown extends LitElement implements FormControl {
       event.target === this.#inputElementRef.value ||
       event.target instanceof DropdownOption;
 
-    // If multiselect, and `event.target` isn't one of the above, then the event came from
-    // a tag and focus is on the tag. Arrowing up or down then pressing Enter would both
-    // remove the tag and select or deselect the active option or it would open Dropdown,
-    // and neither of which is probably what the user would expect. Similar situation for
-    // when a key is pressed and focus is on single-select's Edit button.
+    // If multiselect, and `event.target` isn't one of the above, then the event came
+    // from a tag and focus is on the tag. Arrowing up or down then pressing Enter
+    // would both remove the tag and select or deselect the active option or it would
+    // open Dropdown, and neither of which is probably what the user would expect.
+    // Similar situation for when a key is pressed and focus is on single-select's Edit
+    // button.
     if (this.multiple && !isFromPrimaryButtonOrInputOrAnOption) {
       return;
     }
@@ -1659,10 +1672,10 @@ export default class Dropdown extends LitElement implements FormControl {
       return;
     }
 
-    // `event.key` is checked in the below conditions instead of this one to trap every key
-    // press in this condition, which returns, so they're not handled elsewhere. Any other
-    // key, like ArrowDown and PageDown, not handled below is meant to have no effect when the
-    // Add button is active.
+    // `event.key` is checked in the below conditions instead of this one to trap every
+    // key press in this condition, which returns, so they're not handled elsewhere.
+    // Any other key, like ArrowDown and PageDown, not handled below is meant to have
+    // no effect when the Add button is active.
     if (this.isAddButtonActive && this.open) {
       if (
         (event.key === 'ArrowUp' && event.metaKey) ||
@@ -1692,9 +1705,9 @@ export default class Dropdown extends LitElement implements FormControl {
 
         // The user can jump to the Add button from any other option is active by pressing
         // Meta + ArrowDown, PageDown, or End. So he may not have arrived on the Add button
-        // via the last option. That's why, when `this.#previouslyActiveOption` is available,
-        // we move the user back to it. That way he doesn't have arrow up through what may be
-        // a long list of options to get back to where he was.
+        // via the last option. That's why, when `this.#previouslyActiveOption` is
+        // available, we move the user back to it. That way he doesn't have arrow up
+        // through what may be a long list of options to get back to where he was.
         const option =
           this.#previouslyActiveOption && !this.#previouslyActiveOption.hidden
             ? this.#previouslyActiveOption
@@ -1811,9 +1824,10 @@ export default class Dropdown extends LitElement implements FormControl {
           this.activeOption,
         );
 
-      // All the logic below could just as well go in a "keydown" handler on each Dropdown
-      // Option. It's here to mirror the tests, which necessarily test against Dropdown as
-      // a whole because more than one option is required to test these interactions.
+      // All the logic below could just as well go in a "keydown" handler on each
+      // Dropdown Option. It's here to mirror the tests, which necessarily test against
+      // Dropdown as a whole because more than one option is required to test these
+      // interactions.
       if (
         event.key === 'ArrowUp' &&
         !event.metaKey &&
@@ -2019,9 +2033,9 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   #onDropdownMousedown(event: FocusEvent) {
-    // Retain focus if anything inside Dropdown is about to be clicked, like the padding
-    // around the component. Clicking the padding will move focus to `document.body`,
-    // which is not what the user expects.
+    // Retain focus if anything inside Dropdown is about to be clicked, like the
+    // padding around the component. Clicking the padding will move focus to
+    // `document.body`, which is not what the user expects.
     //
     // Having to exclude tags is unfortunate because clicking on the tag's label or
     // padding shouldn't cause the input to lose focus. The trouble is we don't know
@@ -2525,8 +2539,8 @@ export default class Dropdown extends LitElement implements FormControl {
         if (option.selected && option !== event.target) {
           // When Dropdown is single-select, a Dropdown Option should only appear selected
           // when it's the last selected option because only the `value` of the last selected
-          // option will be included in Dropdown's `value`. And what the user sees as selected
-          // should always be the same as what's submitted with the form.
+          // option will be included in Dropdown's `value`. And what the user sees as
+          // selected should always be the same as what's submitted with the form.
           //
           // Dropdown Options determine whether they're the last selected option (and thus
           // whether to show themselves as selected using a checkmark) via their internal
@@ -2556,8 +2570,8 @@ export default class Dropdown extends LitElement implements FormControl {
     } else if (
       event.target instanceof DropdownOption &&
       event.target.selected &&
-      // `undefined` is guarded against only to satisfy the type system. `event.target.label`
-      // is guaranteed to be defined because it's required.
+      // `undefined` is guarded against only to satisfy the type system.
+      // `event.target.label` is guaranteed to be defined because it's required.
       event.target.label !== undefined
     ) {
       this.selectedAndEnabledOptions = [
@@ -2572,18 +2586,18 @@ export default class Dropdown extends LitElement implements FormControl {
 
       for (const option of this.#optionElements) {
         if (option.selected && option !== event.target) {
-          // When Dropdown is single-select, an option should only appear selected when it's the
-          // last selected one because only the `value` of the last selected option will be
-          // included in Dropdown's `value`. And what the user sees as selected should always
-          // be the same as what's submitted with the form.
+          // When Dropdown is single-select, an option should only appear selected when it's
+          // the last selected one because only the `value` of the last selected option will
+          // be included in Dropdown's `value`. And what the user sees as selected should
+          // always be the same as what's submitted with the form.
           //
           // Dropdown Options determine whether they're the last selected option (and thus
           // whether to show themselves as selected using a checkmark) via their internal
           // `lastSelectedAndEnabledOption` getter.
           //
-          // What was previously the last selected and enabled option may no longer be the last.
-          // But it won't know that because it doesn't know another option was enabled. So we
-          // force selected options to rerender.
+          // What was previously the last selected and enabled option may no longer be the
+          // last. But it won't know that because it doesn't know another option was enabled.
+          // So we force selected options to rerender.
           option.requestUpdate();
         }
       }
@@ -2652,7 +2666,8 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   #onOptionsMousedown(event: MouseEvent) {
-    // Keep focus on the input so the user can continue filtering while selecting options.
+    // Keep focus on the input so the user can continue filtering while selecting
+    // options.
     if (this.filterable || this.isFilterable) {
       event.preventDefault();
     }
@@ -2695,8 +2710,9 @@ export default class Dropdown extends LitElement implements FormControl {
     }
 
     if (event.target instanceof DropdownOption) {
-      // It's possible the option was already selected but, for whatever reason, set as selected
-      // again. So we use this to guard against adding its value twice to `this.value`.
+      // It's possible the option was already selected but, for whatever reason, set as
+      // selected again. So we use this to guard against adding its value twice to
+      // `this.value`.
       const isOptionNewlySelected = this.selectedAndEnabledOptions.every(
         (option) => option !== event.target,
       );
@@ -2706,20 +2722,22 @@ export default class Dropdown extends LitElement implements FormControl {
           if (event.target.disabled) {
             // We enable programmatically selected options for a couple reasons:
             //
-            // One is because programmatic selection is a signal of developer intent that an option
-            // is meant to appear to the user as selected. We only show to the user selected options
-            // as selected when they are enabled. We do that because we think users don't exactly know
-            // what it means for an option that appears as disabled to also appear selected. Because
-            // disabled states often appear visually the same or similar to read-only ones, it's not
-            // obvious that a disabled option won't be submitted with the form.
+            // One is because programmatic selection is a signal of developer intent that an
+            // option is meant to appear to the user as selected. We only show to the user
+            // selected options as selected when they are enabled. We do that because we think
+            // users don't exactly know what it means for an option that appears as disabled to
+            // also appear selected. Because disabled states often appear visually the same or
+            // similar to read-only ones, it's not obvious that a disabled option won't be
+            // submitted with the form.
             //
             //
-            // Another is Dropdown's `value` setter, which calls this method indirectly when it selects
-            // options programmatically. We have a few options if `value` is set programmatically to
-            // include the value of a disabled option: we can throw, remove the value from `this.value`,
-            // or enable the option. Throwing can be disruptive if errors aren't handled downstream, which
-            // they often aren't. So we avoid throwing unless we have to. And removing the value would,
-            // in a small way, be a breach of Dropdown's contract with consumers. So we enable it.
+            // Another is Dropdown's `value` setter, which calls this method indirectly when
+            // it selects options programmatically. We have a few options if `value` is set
+            // programmatically to include the value of a disabled option: we can throw, remove
+            // the value from `this.value`, or enable the option. Throwing can be disruptive if
+            // errors aren't handled downstream, which they often aren't. So we avoid throwing
+            // unless we have to. And removing the value would, in a small way, be a breach of
+            // Dropdown's contract with consumers. So we enable it.
             event.target.disabled = false;
           }
 
@@ -2798,10 +2816,11 @@ export default class Dropdown extends LitElement implements FormControl {
     // force less than full code coverage because `event.target` will always be an
     // instance of `DropdownOption`.
     //
-    // This is also why `#optionElementsIncludingSelectAll` and `#optionElementsNotHiddenIncludingSelectAll`
-    // return `undefined` instead of always returning an empty array. The empty array
-    // branch would only exist to appease the typesystem and so would never actually get
-    // hit, making full test coverage impossible. Maybe there's a better way?
+    // This is also why `#optionElementsIncludingSelectAll` and
+    // `#optionElementsNotHiddenIncludingSelectAll` return `undefined` instead of
+    // always returning an empty array. The empty array branch would only exist to
+    // appease the typesystem and so would never actually get hit, making full test
+    // coverage impossible. Maybe there's a better way?
     if (
       event.target instanceof DropdownOption &&
       this.multiple &&
@@ -2867,10 +2886,10 @@ export default class Dropdown extends LitElement implements FormControl {
       // focused element. Thus we wait a tick, until the "click" event has passed,
       // before moving focus.
       //
-      // Without a timeout, two tags will be removed by a single Enter press: the previously
-      // focused Tag and the now-focused one. The previous because of the "edit" event
-      // dispatched by Tag on "keydown". And the now-focused one because of the "edit"
-      // event dispatched by Tag on "click".
+      // Without a timeout, two tags will be removed by a single Enter press: the
+      // previously focused Tag and the now-focused one. The previous because of the
+      // "edit" event dispatched by Tag on "keydown". And the now-focused one because
+      // of the "edit" event dispatched by Tag on "click".
       setTimeout(() => {
         tagToFocus?.focus();
 
@@ -3014,8 +3033,8 @@ export default class Dropdown extends LitElement implements FormControl {
       this.itemCount = this.#optionElementsNotHidden.length;
     }
 
-    // Set here, in addition to in `#onDefaultSlotChange()` because `#onDefaultSlotChange()`
-    // isn't called if there are no options.
+    // Set here, in addition to in `#onDefaultSlotChange()` because
+    // `#onDefaultSlotChange()` isn't called if there are no options.
     this.hasNoAvailableOptions = this.#optionElements.length === 0;
 
     const firstEnabledOption =

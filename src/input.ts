@@ -197,8 +197,8 @@ export default class Input extends LitElement implements FormControl {
 
   get validity(): ValidityState {
     if (this.pattern && this.pattern.length > 0) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         {
           customError: Boolean(this.validityMessage),
@@ -232,8 +232,8 @@ export default class Input extends LitElement implements FormControl {
     }
 
     if (this.required && !this.value && !this.disabled) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
@@ -468,7 +468,7 @@ export default class Input extends LitElement implements FormControl {
 
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    // Ensures that getters referencing `this.validity.valid` are updated.
     this.requestUpdate();
 
     return isValid;
@@ -488,8 +488,8 @@ export default class Input extends LitElement implements FormControl {
         this.#inputElementRef.value,
       );
     } else {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         {
           customError: true,
@@ -505,8 +505,8 @@ export default class Input extends LitElement implements FormControl {
   setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
 
-    // A validation message is required but unused because we disable native validation feedback.
-    // And an empty string isn't allowed. Thus a single space.
+    // A validation message is required but unused because we disable native validation
+    // feedback. And an empty string isn't allowed. Thus a single space.
     this.#internals.setValidity(flags, ' ', this.#inputElementRef.value);
   }
 
@@ -523,7 +523,8 @@ export default class Input extends LitElement implements FormControl {
       // We only want to focus the input if the "invalid" event resulted from either:
       //
       // 1. A form submission.
-      // 2. A call of `reportValidity()` that did not result from the input's "blur" event.
+      // 2. A call of `reportValidity()` that did not result from the input's "blur"
+      //    event.
       if (this.isCheckingValidity || this.isBlurring) {
         return;
       }

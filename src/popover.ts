@@ -133,12 +133,13 @@ export default class Popover extends LitElement {
     // 2. The user clicks the button.
     // 3. The button's click handler is called and it sets `this.open` to `true`.
     // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
-    // 5. That handler sets `open` to `false` because the click came from outside Popover.
+    // 5. That handler sets `open` to `false` because the click came from outside
+    //    Popover.
     // 6. Popover is opened then closed in the same frame and so never opens.
     //
     // `capture` ensures `#onDocumentClick` is called before #3, so the button click
-    // handler setting `open` to `true` isn't overwritten by this handler setting `open`
-    // to `false`.
+    // handler setting `open` to `true` isn't overwritten by this handler setting
+    // `open` to `false`.
     document.addEventListener('click', this.#onDocumentClick, {
       capture: true,
     });
@@ -150,8 +151,8 @@ export default class Popover extends LitElement {
       // that has `overflow: hidden`. And elements with `popover` are positioned
       // relative to the viewport. Thus Floating UI in addition to `popover`.
       //
-      // Set here instead of in the template to escape Lit Analzyer, which isn't
-      // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+      // Set here instead of in the template to escape Lit Analyzer, which isn't aware
+      // of `popover` and doesn't have a way to disable its "no-unknown-attribute" rule.
       //
       // "auto" means only one popover can be open at a time. Consumers, however, may
       // have popovers in own components that need to be open while this one is open.
@@ -194,9 +195,9 @@ export default class Popover extends LitElement {
 
   override render() {
     // Lit-a11y calls for "blur" and "focus" handlers but doesn't account for "focusin"
-    // and "focusout". It also calls for popovers to have an `aria-label`, but then VoiceOver,
-    // at least, won't read the popover's content. So an element with an `aria-label` is
-    // placed inside the popover.
+    // and "focusout". It also calls for popovers to have an `aria-label`, but then
+    // VoiceOver, at least, won't read the popover's content. So an element with an
+    // `aria-label` is placed inside the popover.
 
     return html`
       <div class="component">
@@ -283,10 +284,10 @@ export default class Popover extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = () => {
-    // Checking that the click's `event.target` is equal to `#defaultSlotElementRef.value`
-    // would be a lot simpler. But, when the target is inside of another web component,
-    // `event.target` will be that component instead. Same for `this.#isTargetSlotClick`
-    // and `this.#isArrowClick`.
+    // Checking that the click's `event.target` is equal to
+    // `#defaultSlotElementRef.value` would be a lot simpler. But, when the target is
+    // inside of another web component, `event.target` will be that component instead.
+    // Same for `this.#isTargetSlotClick` and `this.#isArrowClick`.
     if (
       this.#isDefaultSlotClick ||
       this.#isTargetSlotClick ||
@@ -297,8 +298,8 @@ export default class Popover extends LitElement {
         // a `<label>`. Because clicking a `<label>` produces two "click" events.
         //
         // If we immediately set these variables to `false`, Popover will close when this
-        // handler is called the second time. So we wait a tick to ensure both "click" events
-        // have been dispatched.
+        // handler is called the second time. So we wait a tick to ensure both "click"
+        // events have been dispatched.
         this.#isDefaultSlotClick = false;
         this.#isTargetSlotClick = false;
         this.#isArrowClick = false;

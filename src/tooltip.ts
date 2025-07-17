@@ -253,8 +253,8 @@ export default class Tooltip extends LitElement {
       // that has `overflow: hidden`. And elements with `popover` are positioned
       // relative to the viewport. Thus Floating UI in addition to `popover`.
       //
-      // Set here instead of in the template to escape Lit Analzyer, which isn't
-      // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+      // Set here instead of in the template to escape Lit Analyzer, which isn't aware
+      // of `popover` and doesn't have a way to disable its "no-unknown-attribute" rule.
       //
       // "auto" means only one popover can be open at a time. Consumers, however, may
       // have popovers in own components that need to be open while this one is open.
@@ -277,7 +277,8 @@ export default class Tooltip extends LitElement {
     container.screenreaderHidden = this.screenreaderHidden;
     container.shortcut = this.shortcut;
 
-    // There's a comment at the top of `./tooltip.container.ts` explaining why we append this component to the light DOM.
+    // There's a comment at the top of `./tooltip.container.ts` explaining why we
+    // append this component to the light DOM.
     this.append(container);
   }
 
@@ -419,9 +420,10 @@ export default class Tooltip extends LitElement {
         // configure them. Tests configure them, rather than using fake timers,
         // because they need real timers so they can await Floating UI's setup.
         //
-        // Conditionals here and in `#scheduleClose()` based on `window.navigator.webdriver`
-        // would be a lot nicer. But one of that condition's branches would never get hit
-        // in tests. So we'd fail to meet our coverage thresholds.
+        // Conditionals based on `window.navigator.webdriver` in here and in
+        // `#scheduleClose()`  would be a lot nicer. But one of that condition's
+        // branches would never get hit in tests. So we'd fail to meet our coverage
+        // thresholds.
         this.#openTimeoutId = setTimeout(() => {
           this.open = true;
         }, Number(this.#tooltipElementRef.value?.dataset.openDelay));

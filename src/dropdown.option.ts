@@ -132,8 +132,8 @@ export default class DropdownOption extends LitElement {
   @property({ reflect: true })
   override readonly id: string = uniqueId();
 
-  // An option is considered active when it's interacted with via keyboard or hovered.
-  // Used by Dropdown.
+  // An option is considered active when it's interacted with via keyboard or
+  // hovered. Used by Dropdown.
   @property({ type: Boolean })
   privateActive = false;
 
@@ -208,9 +208,11 @@ export default class DropdownOption extends LitElement {
   @state()
   private get isMultiple() {
     // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
-    // By then, however, this component has has already completed its initial render. So
-    // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple`
-    // is still useful for when Dropdown's `this.multiple` is set programmatically.
+    // By then, however, this component has has already completed its initial render.
+    // So we fall sadly back to `this.closest('glide-core-dropdown')`.
+    //
+    // `this.privateMultiple` is still useful fwhen Dropdown's `this.multiple` is set
+    // programmatically.
     return (
       this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
     );
@@ -286,8 +288,8 @@ export default class DropdownOption extends LitElement {
 
   override render() {
     // The linter wants a keyboard handler. There's one on Dropdown itself. It's there
-    // because options aren't focusable and thus don't produce keyboard events when Dropdown
-    // is filterable.
+    // because options aren't focusable and thus don't produce keyboard events when
+    // Dropdown is filterable.
     return html`<div
       class=${classMap({
         component: true,
@@ -495,7 +497,8 @@ export default class DropdownOption extends LitElement {
     // Dropdown because another option has been selected or deselected.
     //
     // Setting `this.ariaSelected` here ensures `this.ariaSelected` is updated whenever
-    // `this.lastSelectedAndEnabledOption` changes. As a bonus, this logic is deduplicated.
+    // `this.lastSelectedAndEnabledOption` changes. As a bonus, this logic is
+    // deduplicated.
     if (this.privateMultiple) {
       this.ariaSelected = !this.disabled && this.selected ? 'true' : 'false';
     } else {

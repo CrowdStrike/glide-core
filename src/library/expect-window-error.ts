@@ -19,8 +19,8 @@ export default async function (callback: () => unknown) {
   // and Menu asserts against its default slot. So Split Button Secondary Button's
   // default slot test produces two errors: one from itself and one from Menu.
   //
-  // Rather than account for cases like that in each test, we simply use `to.be.greaterThan()`
-  // instead of `to.equal(1)`.
+  // Rather than account for cases like that in each test, we simply use
+  // `to.be.greaterThan()` instead of `to.equal(1)`.
   expect(spy.callCount).to.be.greaterThan(0);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions

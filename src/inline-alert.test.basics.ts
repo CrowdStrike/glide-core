@@ -22,8 +22,8 @@ it('is accessible', async () => {
 
   let animation: Animation | undefined;
 
-  // Inline Alert animates its opacity when added to the page. We wait for the animation
-  // to complete to avoid a color contrast violation.
+  // Inline Alert animates its opacity when added to the page. We wait for the
+  // animation to complete to avoid a color contrast violation.
   await waitUntil(() => {
     animation = host.shadowRoot
       ?.querySelector('[data-test="component"]')

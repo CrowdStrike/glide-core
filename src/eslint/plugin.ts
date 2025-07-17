@@ -19,6 +19,7 @@ import { useDefaultWithPropertyDecorator } from './rules/use-default-with-proper
 import { privateStateDecorators } from './rules/private-state-decorators.js';
 import { noProtectedKeyword } from './rules/no-protected-keyword.js';
 import { useFinalDecorator } from './rules/use-final-decorator.js';
+import { commentMaximumLength } from './rules/comment-maximum-length.js';
 
 export default {
   rules: {
@@ -45,5 +46,6 @@ export default {
     'private-state-decorators': privateStateDecorators,
     'no-protected-keyword': noProtectedKeyword,
     'use-final-decorator': useFinalDecorator,
+    'comment-maximum-length': commentMaximumLength,
   },
 };

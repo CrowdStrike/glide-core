@@ -36,8 +36,9 @@ export const consistentReferenceElementDeclarations = createRule({
           }
 
           if (
-            // Checking for Identifier here as well as PrivateIdentifier ensures that we can group both
-            // errors together in a single lint by throwing both types of errors (if applicable)
+            // Checking `Identifier` here as well as `PrivateIdentifier` ensures we can
+            // group both errors together in a single rule by throwing both types of
+            // errors (if applicable).
             (node.key.type === AST_NODE_TYPES.PrivateIdentifier ||
               node.key.type === AST_NODE_TYPES.Identifier) &&
             !node.key.name.endsWith('ElementRef')

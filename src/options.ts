@@ -79,8 +79,8 @@ export default class Options extends LitElement {
   @property({ type: Boolean })
   privateLoading = false;
 
-  // On the host because otherwise VoiceOver won't recongize it as belonging to Menu's
-  // target.
+  // On the host because otherwise VoiceOver won't recongize it as belonging to
+  // Menu's target.
   @property({ reflect: true })
   override role: 'menu' | 'listbox' = 'menu';
 
@@ -94,7 +94,8 @@ export default class Options extends LitElement {
   override render() {
     // Without `role="none"` VoiceOver doesn't announce how many options are available.
     // Presumably because this element sits between the host (which has `role="menu" or
-    // `role="listbox"`) and Option(s) (which have `role="menuitem"` or `role="option"`).
+    // `role="listbox"`) and Option(s) (which have `role="menuitem"` or
+    // `role="option"`).
     return html`<div class="component" role="none">
       <slot
         class=${classMap({

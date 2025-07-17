@@ -28,8 +28,9 @@ const meta: Meta = {
   ],
   parameters: {
     actions: {
-      // "glide-core-option" is selected so "click" events from Split Button Primary Button
-      // and Split Button Secondary Button aren't picked up, muddying the Actions tab.
+      // "glide-core-option" is selected so "click" events from Split Button Primary
+      // Button and Split Button Secondary Button aren't picked up, muddying the Actions
+      // tab.
       handles: ['click glide-core-option', 'toggle'],
     },
     docs: {

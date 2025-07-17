@@ -153,8 +153,9 @@ export default class Tag extends LitElement {
   #componentElementRef = createRef<HTMLElement>();
 
   // Guards against dispatching "edit" and "remove" on click when the click came
-  // from Enter or Space so the event isn't dispatched twice. Using `event.detail !==0`
-  // instead would work. But it would exclude clicks via `this.click()`.
+  // from Enter or Space so the event isn't dispatched twice. Using
+  // `event.detail !==0` instead would work. But it would exclude clicks via
+  // `this.click()`.
   //
   // Why not just dispatch those events on "click"? Because Dropdown has a "click"
   // handler of its own that opens Dropdown except when the click came from Tag's

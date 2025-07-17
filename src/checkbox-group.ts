@@ -181,8 +181,8 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       // in `value` is likely a mistake, either due to bad data or developer
       // error.
       //
-      // But we only throw in development. So the form will be submitted with
-      // the new `value` in production regardless if it was by mistake. By enabling
+      // But we only throw in development. So the form will be submitted with the
+      // new `value` in production regardless if it was by mistake. By enabling
       // the Checkbox, we at least ensure the user is aware of the fact that it'll
       // be included in the submission.
       if (checkbox.checked && checkbox.disabled) {
@@ -231,9 +231,9 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       // may conflict with the one derived from which checkboxes are checked.
       //
       // So we have a decision to make. On first render, do we defer to the initial
-      // `value` and check and uncheck checkboxes below? Or do we defer to `#onDefaultSlotChange()`
-      // and let that method change `value` from its initial value based on which checkboxes
-      // are checked?
+      // `value` and check and uncheck checkboxes below? Or do we defer to
+      // `#onDefaultSlotChange()` and let that method change `value` from its initial
+      // value based on which checkboxes are checked?
       //
       // It's largely a toss-up. But the latter seems like the logical choice given
       // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
@@ -261,8 +261,8 @@ export default class CheckboxGroup extends LitElement implements FormControl {
     const isChecked = this.#checkboxElements.some(({ checked }) => checked);
 
     if (this.required && !isChecked) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native
+      // validation feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
@@ -380,7 +380,7 @@ export default class CheckboxGroup extends LitElement implements FormControl {
 
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    // Ensures that getters referencing `this.validity.valid` are updated.
     this.requestUpdate();
 
     return isValid;
@@ -400,8 +400,8 @@ export default class CheckboxGroup extends LitElement implements FormControl {
         this.#componentElementRef.value,
       );
     } else {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
+      // A validation message is required but unused because we disable native validation
+      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         {
           customError: true,
@@ -416,8 +416,8 @@ export default class CheckboxGroup extends LitElement implements FormControl {
   setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
 
-    // A validation message is required but unused because we disable native validation feedback.
-    // And an empty string isn't allowed. Thus a single space.
+    // A validation message is required but unused because we disable native validation
+    // feedback. And an empty string isn't allowed. Thus a single space.
     this.#internals.setValidity(flags, ' ', this.#componentElementRef.value);
   }
 
@@ -434,7 +434,8 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       // We only want to focus the input if the "invalid" event resulted from either:
       //
       // 1. A form submission.
-      // 2. A call of `reportValidity()` that did not result from the input's "blur" event.
+      // 2. A call of `reportValidity()` that did not result from the input's "blur"
+      //    event.
       if (this.isCheckingValidity || this.isBlurring) {
         return;
       }
@@ -554,9 +555,10 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       // may have the same value. So we only remove the last.
       //
       // Ideally, Checkbox Group wouldn't always remove the last value but would know the
-      // exact index to remove. But Checkbox Group, the way it's built, doesn't know which
-      // value in `this.#value` corresponds to which checkbox. It probably should if cases
-      // like this continue to pile up. For now, though, consumers' needs seem to be met.
+      // exact index to remove. But Checkbox Group, the way it's built, doesn't know
+      // which value in `this.#value` corresponds to which checkbox. It probably should
+      // if cases like this continue to pile up. For now, though, consumers' needs seem
+      // to be met.
       const index = this.#value.lastIndexOf(event.target.value);
       this.#value.splice(index, index + 1);
     } else if (

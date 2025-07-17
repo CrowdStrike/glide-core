@@ -29,7 +29,7 @@ export const noOnlyTests = createRule({
           node.callee.property.name === 'only'
         ) {
           context.report({
-            node: node,
+            node,
             messageId: 'noOnly',
           });
         }

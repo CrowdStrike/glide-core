@@ -725,8 +725,7 @@ export default class Slider extends LitElement implements FormControl {
 
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing this.validity?.valid update
-    // (i.e. #isShowValidationFeedback)
+    // Ensures that getters referencing `this.validity.valid` are updated.
     this.requestUpdate();
 
     return isValid;
