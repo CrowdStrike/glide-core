@@ -44,11 +44,8 @@ const config = {
   viteFinal(config) {
     return mergeConfig(config, {
       build: {
+        // So `event.target` and `event.srcElement` in the Actions tab aren't mangled.
         minify: false,
-        terserOptions: {
-          // So `event.target` and `event.srcElement` in the Actions tab aren't mangled.
-          keep_classnames: true,
-        },
       },
     });
   },
