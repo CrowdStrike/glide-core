@@ -1,13 +1,12 @@
 import './button.js';
 import './icons/storybook.js';
-import './menu.button.js';
-import './menu.link.js';
-import './menu.options.js';
+import './options.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html, nothing } from 'lit';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { withActions } from '@storybook/addon-actions/decorator';
+import Option from './option.js';
 import MenuComponent from './menu.js';
 
 const meta: Meta = {
@@ -17,22 +16,17 @@ const meta: Meta = {
     (story) =>
       html`<script type="ignore">
           import '@crowdstrike/glide-core/menu.js';
-          import '@crowdstrike/glide-core/menu.options.js';
-          import '@crowdstrike/glide-core/menu.link.js';
-          import '@crowdstrike/glide-core/menu.button.js';
+          import '@crowdstrike/glide-core/options.js';
+          import '@crowdstrike/glide-core/option.js';
         </script>
 
         ${story()}`,
   ],
   parameters: {
     actions: {
-      // Menu Button and Link are selected so "click" events from Menu's target
-      // aren't picked up, muddying the Actions tab.
-      handles: [
-        'click glide-core-menu-button',
-        'click glide-core-menu-link',
-        'toggle',
-      ],
+      // "glide-core-option" is selected so "click" events from Menu's target aren't
+      // picked up, muddying the Actions tab.
+      handles: ['click glide-core-option', 'toggle'],
     },
     docs: {
       story: {
@@ -49,20 +43,23 @@ const meta: Meta = {
     open: false,
     placement: 'bottom-start',
     version: '',
-    '<glide-core-menu-options>[slot="default"]': '',
-    '<glide-core-menu-options>.version': '',
-    '<glide-core-menu-button>.label': 'One',
-    '<glide-core-menu-button>.disabled': false,
-    '<glide-core-menu-button>.version': '',
-    '<glide-core-menu-link>.label': 'Three',
-    '<glide-core-menu-link>.disabled': false,
-    '<glide-core-menu-link>.href': '/',
-    '<glide-core-menu-link>.version': '',
+    '<glide-core-options>[slot="default"]': '',
+    '<glide-core-options>.version': '',
+    '<glide-core-option>.label': 'One',
+    '<glide-core-option>.addEventListener(event, handler)': '',
+    '<glide-core-option>.description': '',
+    '<glide-core-option>.disabled': false,
+    '<glide-core-option>.href': '/',
+    '<glide-core-option>[slot="content"]': '',
+    '<glide-core-option>[slot="icon"]': '',
+    '<glide-core-option>[slot="submenu"]': '',
+    '<glide-core-option>.value': '',
+    '<glide-core-option>.version': '',
   },
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'MenuOptions' },
+        type: { summary: 'Element' },
       },
       type: { name: 'function', required: true },
     },
@@ -70,8 +67,13 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'Element',
-          detail:
-            'The element to which the menu will anchor. Can be any focusable element',
+          detail: `
+// The element to which Menu will anchor. Can be any focusable element unless it's the target
+// of a sub-Menu, in which case the element shouldn't be focusable.
+//
+// If you want Menu to be filterable, put an Input in this slot. Listen for Input's "input"
+// event, then add and remove Option(s) from Menu's default slot based on Input's value.
+`,
         },
       },
       type: { name: 'function', required: true },
@@ -81,8 +83,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '(event: "click" | "toggle", handler: (event: Event) => void): void',
+          detail: '(event: "toggle", handler: (event: Event) => void): void',
         },
       },
     },
@@ -92,8 +93,8 @@ const meta: Meta = {
         type: {
           summary: 'boolean',
           detail: `
-// Add this attribute when asynchronously updating Menu Options' default slot. Remove it after the
-// slot has been updated.
+// Add this attribute when asynchronously updating Options' default slot. Remove it after the slot
+// has been updated.
 `,
         },
       },
@@ -143,83 +144,132 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '<glide-core-menu-options>[slot="default"]': {
+    '<glide-core-options>[slot="default"]': {
       name: 'slot="default"',
       control: false,
       table: {
-        category: 'Menu Options',
+        category: 'Options',
         type: {
-          summary: 'MenuButton | MenuLink',
+          summary: 'Option',
         },
       },
-      type: { name: 'function', required: true },
+      type: { name: 'function' },
     },
-    '<glide-core-menu-options>.version': {
+    '<glide-core-options>.version': {
       control: false,
       name: 'version',
       table: {
-        category: 'Menu Options',
+        category: 'Options',
         defaultValue: {
           summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '<glide-core-menu-button>.label': {
+    '<glide-core-option>.label': {
       name: 'label',
       table: {
-        category: 'Menu Button',
+        category: 'Option',
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
-    '<glide-core-menu-button>.disabled': {
-      name: 'disabled',
-      table: {
-        category: 'Menu Button',
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    '<glide-core-menu-button>.version': {
+    '<glide-core-option>.addEventListener(event, handler)': {
+      name: 'addEventListener(event, handler)',
       control: false,
-      name: 'version',
       table: {
-        category: 'Menu Button',
-        defaultValue: {
-          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
+        category: 'Option',
+        type: {
+          summary: 'method',
+          detail: '(event: "click", handler: (event: Event) => void): void',
         },
-        type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '<glide-core-menu-link>.label': {
-      name: 'label',
+    '<glide-core-option>.description': {
+      name: 'description',
       table: {
-        category: 'Menu Link',
+        category: 'Option',
         type: { summary: 'string' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'string' },
     },
-    '<glide-core-menu-link>.disabled': {
+    '<glide-core-option>.disabled': {
       name: 'disabled',
       table: {
-        category: 'Menu Link',
+        category: 'Option',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
-    '<glide-core-menu-link>.href': {
+    '<glide-core-option>.href': {
       name: 'href',
       table: {
-        category: 'Menu Link',
+        category: 'Option',
         type: { summary: 'string' },
       },
     },
-    '<glide-core-menu-link>.version': {
+    '<glide-core-option>[slot="content"]': {
+      name: 'slot="content"',
+      control: false,
+      table: {
+        category: 'Option',
+        type: {
+          summary: 'Element | Text',
+          detail: `
+// This is the unhappy path. It's the escape hatch where you can render arbitrary content and lay it out
+// however you need to.
+//
+// If you go this route, \`slot="icon"\` and \`slot="submenu"\` will become unavailable. And the \`label\`
+// and \`description\` attributes won't be rendered.
+//
+// The \`label\` attribute is still required. We'll show it in a tooltip when your content overflows. If you
+// need a second line of text in the tooltip, you can provide it via the \`description\` attribute.
+`,
+        },
+      },
+      type: { name: 'function' },
+    },
+    '<glide-core-option>[slot="icon"]': {
+      name: 'slot="icon"',
+      control: false,
+      table: {
+        category: 'Option',
+        type: {
+          summary: 'Element',
+        },
+      },
+      type: { name: 'function' },
+    },
+    '<glide-core-option>[slot="submenu"]': {
+      name: 'slot="submenu"',
+      control: false,
+      table: {
+        category: 'Option',
+        type: {
+          summary: 'Menu',
+        },
+      },
+      type: { name: 'function' },
+    },
+    '<glide-core-option>.value': {
+      name: 'value',
+      table: {
+        category: 'Option',
+        defaultValue: {
+          summary: '""',
+        },
+        type: {
+          summary: 'string',
+          detail:
+            '// Set `value` when you need something other than `label` to identify which Option was clicked',
+        },
+      },
+    },
+    '<glide-core-option>.version': {
       control: false,
       name: 'version',
       table: {
-        category: 'Menu Link',
+        category: 'Option',
         defaultValue: {
           summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
@@ -231,7 +281,11 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-menu')
       ?.addEventListener('toggle', (event: Event) => {
-        if (event.target instanceof MenuComponent) {
+        const isSubmenu =
+          event.target instanceof Element &&
+          event.target.closest('glide-core-menu');
+
+        if (event.target instanceof MenuComponent && !isSubmenu) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -244,15 +298,14 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-menu')
       ?.addEventListener('click', (event: Event) => {
-        const menuLink =
-          event.target instanceof Element &&
-          event.target.closest('glide-core-menu-link');
-
         // If the URL is anything but `/`, then the user has changed the URL and wants
         // to navigate to it.
-        if (menuLink && menuLink.href === '/' && window.top) {
+        if (
+          event.target instanceof Option &&
+          event.target.href === '/' &&
+          window.top
+        ) {
           event.preventDefault();
-
           // The Storybook user expects to navigate when the link is clicked but
           // doesn't expect to be redirected to the first story, which "/" would do.
           // So we refresh the page to give the impression of a navigation while keeping
@@ -262,6 +315,7 @@ const meta: Meta = {
       });
   },
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`<glide-core-menu
       offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
       placement=${arguments_.placement === 'bottom-start'
@@ -272,29 +326,46 @@ const meta: Meta = {
     >
       <glide-core-button label="Toggle" slot="target"></glide-core-button>
 
-      <glide-core-menu-options>
-        <glide-core-menu-button
-          label=${arguments_['<glide-core-menu-button>.label']}
-          ?disabled=${arguments_['<glide-core-menu-button>.disabled']}
-        ></glide-core-menu-button>
-        <glide-core-menu-button label="Two"></glide-core-menu-button>
-        <glide-core-menu-link
-          label=${arguments_['<glide-core-menu-link>.label']}
-          href=${arguments_['<glide-core-menu-link>.href']}
-          ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
-        ></glide-core-menu-link>
-      </glide-core-menu-options>
+      <glide-core-options>
+        <glide-core-option
+          label=${arguments_['<glide-core-option>.label']}
+          description=${arguments_['<glide-core-option>.description'] ||
+          nothing}
+          value=${arguments_['<glide-core-option>.value'] || nothing}
+          ?disabled=${arguments_['<glide-core-option>.disabled']}
+        >
+          <glide-core-menu slot="submenu">
+            <glide-core-example-icon
+              slot="target"
+              name="three-dots"
+            ></glide-core-example-icon>
+
+            <glide-core-options>
+              <glide-core-option label="Four"></glide-core-option>
+              <glide-core-option label="Five"></glide-core-option>
+              <glide-core-option label="Six"></glide-core-option>
+            </glide-core-options>
+          </glide-core-menu>
+        </glide-core-option>
+
+        <glide-core-option label="Two"></glide-core-option>
+        <glide-core-option
+          label="Three"
+          href=${arguments_['<glide-core-option>.href'] || nothing}
+        ></glide-core-option>
+      </glide-core-options>
     </glide-core-menu>`;
   },
 };
 
 export default meta;
 
-export const Menu: StoryObj = {
-  tags: ['!autodocs'],
-};
+export const Menu: StoryObj = {};
 
 export const WithIcons: StoryObj = {
+  args: {
+    '<glide-core-option>.label': 'Edit',
+  },
   render(arguments_) {
     return html`<glide-core-menu
       offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
@@ -306,35 +377,67 @@ export const WithIcons: StoryObj = {
     >
       <glide-core-button label="Toggle" slot="target"></glide-core-button>
 
-      <glide-core-menu-options>
-        <glide-core-menu-button
-          label="Edit"
-          ?disabled=${arguments_['<glide-core-menu-button>.disabled']}
+      <glide-core-options>
+        <glide-core-option
+          label=${arguments_['<glide-core-option>.label']}
+          description=${arguments_['<glide-core-option>.description'] ||
+          nothing}
+          value=${arguments_['<glide-core-option>.value'] || nothing}
+          ?disabled=${arguments_['<glide-core-option>.disabled']}
         >
           <glide-core-example-icon
             slot="icon"
             name="edit"
           ></glide-core-example-icon>
-        </glide-core-menu-button>
 
-        <glide-core-menu-button label="Move">
+          <glide-core-menu slot="submenu">
+            <glide-core-example-icon
+              slot="target"
+              name="three-dots"
+            ></glide-core-example-icon>
+
+            <glide-core-options>
+              <glide-core-option label="Settings">
+                <glide-core-example-icon
+                  slot="icon"
+                  name="settings"
+                ></glide-core-example-icon>
+              </glide-core-option>
+
+              <glide-core-option label="Calendar">
+                <glide-core-example-icon
+                  slot="icon"
+                  name="calendar"
+                ></glide-core-example-icon>
+              </glide-core-option>
+
+              <glide-core-option label="Info">
+                <glide-core-example-icon
+                  slot="icon"
+                  name="info"
+                ></glide-core-example-icon>
+              </glide-core-option>
+            </glide-core-options>
+          </glide-core-menu>
+        </glide-core-option>
+
+        <glide-core-option label="Move">
           <glide-core-example-icon
             slot="icon"
             name="move"
           ></glide-core-example-icon>
-        </glide-core-menu-button>
+        </glide-core-option>
 
-        <glide-core-menu-link
+        <glide-core-option
           label="Share"
-          href="/"
-          ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
+          href=${arguments_['<glide-core-option>.href'] || nothing}
         >
           <glide-core-example-icon
             slot="icon"
             name="share"
           ></glide-core-example-icon>
-        </glide-core-menu-link>
-      </glide-core-menu-options>
+        </glide-core-option>
+      </glide-core-options>
     </glide-core-menu>`;
   },
 };

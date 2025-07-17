@@ -1,4 +1,4 @@
-import './menu.button.js';
+import './option.js';
 import './split-button.primary-button.js';
 import './split-button.primary-link.js';
 import './split-button.secondary-button.js';
@@ -16,7 +16,7 @@ it('sets `privateVariant` on its buttons when `variant` is set programmatically'
         label="Label"
         slot="secondary-button"
       >
-        <glide-core-menu-link label="Label"></glide-core-menu-link>
+        <glide-core-option label="Label"></glide-core-option>
       </glide-core-split-button-secondary-button>
     </glide-core-split-button>
   `);

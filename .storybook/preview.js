@@ -191,6 +191,14 @@ export default {
             }
           }
 
+          if (context.componentId === 'menu') {
+            for (const $option of $component.querySelectorAll(
+              'glide-core-option',
+            )) {
+              $option.removeAttribute('aria-disabled');
+            }
+          }
+
           if (context.componentId === 'radio-group') {
             for (const $radio of $component.querySelectorAll(
               'glide-core-radio-group-radio',
@@ -198,6 +206,14 @@ export default {
               $radio.removeAttribute('aria-checked');
               $radio.removeAttribute('aria-disabled');
               $radio.removeAttribute('aria-label');
+            }
+          }
+
+          if (context.componentId === 'split-button') {
+            for (const $option of $component.querySelectorAll(
+              'glide-core-option',
+            )) {
+              $option.removeAttribute('aria-disabled');
             }
           }
 

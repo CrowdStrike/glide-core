@@ -1,5 +1,5 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import './menu.button.js';
+import './option.js';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import SplitButtonSecondaryButton from './split-button.secondary-button.js';
@@ -18,7 +18,7 @@ it('registers itself', async () => {
 it('is accessible', async () => {
   const host = await fixture<SplitButtonSecondaryButton>(html`
     <glide-core-split-button-secondary-button label="Label">
-      <glide-core-menu-button label="Label"></glide-core-menu-button>
+      <glide-core-option label="Label"></glide-core-option>
     </glide-core-split-button-secondary-button>
   `);
 
@@ -36,7 +36,7 @@ it('throws when `label` is undefined', async () => {
   try {
     await fixture(
       html`<glide-core-split-button-secondary-button>
-        <glide-core-menu-button label="Label"></glide-core-menu-button>
+        <glide-core-option label="Label"></glide-core-option>
       </glide-core-split-button-secondary-button>`,
     );
   } catch {

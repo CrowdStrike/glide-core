@@ -6,19 +6,11 @@ export default [
     ${opacityAndScaleAnimation('.default-slot:popover-open')}
   `,
   css`
-    :host {
-      /* Contains elements with "padding", "margin", and "width". Inline by default. */
-      display: inline-block;
-    }
-
-    .component {
-      color: var(--glide-core-color-static-text-default);
-      display: flex;
-    }
-
     .target-slot {
-      display: flex;
-      position: relative;
+      &::slotted(:is([disabled], [aria-disabled='true'])) {
+        color: var(--glide-core-color-interactive-icon-default--disabled);
+        cursor: default;
+      }
     }
 
     .default-slot {
@@ -30,12 +22,32 @@ export default [
       border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-effect-floating);
       box-sizing: border-box;
+      color: var(--glide-core-color-static-text-default);
+
+      /*
+        For submenus, which will inherit "cursor: pointer" from their Option(s).
+        "cursor: default" tells the user that clicking the padding around the
+        default slot won't select an Option.
+      */
+      cursor: default;
       inline-size: max-content;
       inset: unset;
       margin-block: 0;
       min-inline-size: 9.375rem;
-      padding: var(--glide-core-spacing-base-xxxs);
+      padding-block-end: 0;
+      padding-block-start: var(--glide-core-spacing-base-xxxs);
+      padding-inline: var(--glide-core-spacing-base-xxxs);
       position: absolute;
+
+      /*
+        This little hack replaces "padding-block-end", which the last option overlaps
+        when the Option(s) overflow and scroll.
+      */
+      &::slotted(glide-core-options)::after {
+        block-size: var(--glide-core-spacing-base-xxxs);
+        content: '';
+        display: block;
+      }
     }
   `,
 ];

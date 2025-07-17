@@ -199,7 +199,7 @@ function buildTokensFromVariables({
 
     if (!collection) {
       throw new Error(
-        `Could not find a collection with the id of "${variable.variableCollectionId}".`,
+        `Could not find a collection with an ID of "${variable.variableCollectionId}".`,
       );
     }
 
