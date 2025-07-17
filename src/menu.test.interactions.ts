@@ -1666,7 +1666,8 @@ it('closes its sub-Menus when their targets are clicked', async () => {
     return (
       defaultSlots[0]?.checkVisibility() &&
       defaultSlots[1]?.checkVisibility() &&
-      defaultSlots[2]?.checkVisibility()
+      defaultSlots[2]?.checkVisibility() &&
+      targets[2]?.checkVisibility()
     );
   });
 
