@@ -9,14 +9,14 @@ export default [
     .component {
       border: 1px solid
         var(--glide-core-color-static-surface-container-secondary);
-      border-radius: var(--glide-core-rounding-base-radius-sm);
+      border-radius: var(--glide-core-rounding-base-radius-md);
       box-shadow: var(--glide-core-effect-lifted);
       font-family: var(--glide-core-typography-family-primary);
     }
 
     .summary {
       align-items: center;
-      border-radius: var(--glide-core-rounding-base-radius-sm);
+      border-radius: var(--glide-core-rounding-base-radius-md);
       color: var(--glide-core-color-static-text-default);
       cursor: pointer;
       display: flex;

@@ -97,8 +97,8 @@ export default class Accordion extends LitElement {
                 opacity: [0, 1],
               },
               {
-                duration: 150,
-                easing: 'ease-in',
+                duration: 400,
+                easing: 'cubic-bezier(0.5, 0, 0, 1)',
               },
             )
             .addEventListener('finish', () => {
@@ -131,7 +131,7 @@ export default class Accordion extends LitElement {
             },
             {
               duration: 100,
-              easing: 'ease-out',
+              easing: 'cubic-bezier(0.5, 0, 0, 1)',
             },
           )
           .addEventListener('finish', () => {
