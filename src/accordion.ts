@@ -97,8 +97,14 @@ export default class Accordion extends LitElement {
                 opacity: [0, 1],
               },
               {
-                duration: 400,
-                easing: 'cubic-bezier(0.5, 0, 0, 1)',
+                duration: Number(
+                  getComputedStyle(this.#defaultSlotElementRef.value)
+                    .getPropertyValue('--private-open-duration')
+                    .replace('ms', ''),
+                ),
+                easing: getComputedStyle(
+                  this.#defaultSlotElementRef.value,
+                ).getPropertyValue('--private-easing'),
               },
             )
             .addEventListener('finish', () => {
@@ -130,8 +136,14 @@ export default class Accordion extends LitElement {
               opacity: [1, 0],
             },
             {
-              duration: 100,
-              easing: 'cubic-bezier(0.5, 0, 0, 1)',
+              duration: Number(
+                getComputedStyle(this.#defaultSlotElementRef.value)
+                  .getPropertyValue('--private-close-duration')
+                  .replace('ms', ''),
+              ),
+              easing: getComputedStyle(
+                this.#defaultSlotElementRef.value,
+              ).getPropertyValue('--private-easing'),
             },
           )
           .addEventListener('finish', () => {
@@ -207,6 +219,7 @@ export default class Accordion extends LitElement {
           indented: this.hasPrefixIcon,
         })}
         data-test="default-slot"
+        style="--private-easing: var(--glide-core-animation-swoop); --private-open-duration: var(--glide-core-duration-slow-01); --private-close-duration: var(--glide-core-duration-fast-02)"
         ${assertSlot()}
         ${ref(this.#defaultSlotElementRef)}
       >

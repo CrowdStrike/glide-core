@@ -55,7 +55,8 @@ export default [
         rotate: -90deg;
 
         @media (prefers-reduced-motion: no-preference) {
-          transition: 250ms rotate ease;
+          transition: var(--glide-core-duration-slow-01) rotate
+            var(--glide-core-animation-swoop);
         }
       }
     }
