@@ -113,6 +113,12 @@ jobs:
         with:
           name: coverage
           path: dist/coverage
+      - name: Upload debugging screenshots
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: debugging-screenshots
+          path: dist/debugging-screenshots
 
   # Its own job instead of putting it in `test-visuals` and renaming that job
   # because `test-visual` sets `continue-on-error` so that missing and changed
