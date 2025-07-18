@@ -87,6 +87,8 @@ export default {
         <link href="./src/styles/fonts.css" rel="stylesheet">
         <link href="./src/styles/variables/color-light.css" rel="stylesheet">
         <link href="./src/styles/variables/color-dark.css" rel="stylesheet">
+        <link href="./src/styles/variables/animation.css" rel="stylesheet">
+        <link href="./src/styles/variables/duration.css" rel="stylesheet">
         <link href="./src/styles/variables/miscellaneous.css" rel="stylesheet">
         <link href="./src/styles/variables/rounding.css" rel="stylesheet">
         <link href="./src/styles/variables/spacing.css" rel="stylesheet">

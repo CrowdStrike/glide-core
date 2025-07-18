@@ -9,14 +9,14 @@ export default [
     .component {
       border: 1px solid
         var(--glide-core-color-static-surface-container-secondary);
-      border-radius: var(--glide-core-rounding-base-radius-sm);
+      border-radius: var(--glide-core-rounding-base-radius-md);
       box-shadow: var(--glide-core-effect-lifted);
       font-family: var(--glide-core-typography-family-primary);
     }
 
     .summary {
       align-items: center;
-      border-radius: var(--glide-core-rounding-base-radius-sm);
+      border-radius: var(--glide-core-rounding-base-radius-md);
       color: var(--glide-core-color-static-text-default);
       cursor: pointer;
       display: flex;
@@ -55,7 +55,8 @@ export default [
         rotate: -90deg;
 
         @media (prefers-reduced-motion: no-preference) {
-          transition: 250ms rotate ease;
+          transition: var(--glide-core-duration-slow-01) rotate
+            var(--glide-core-animation-swoop);
         }
       }
     }
