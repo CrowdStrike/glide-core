@@ -1412,11 +1412,11 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
     ),
   );
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return defaultSlots[0]?.checkVisibility();
-  });
+  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening and
+  // positioning Menus in tests, particularly in CI, sometimes takes more than a
+  // tick when sub-Menus are present. 25 milliseconds is unfortunate. But it gives
+  // the browser plenty of time to do its thing.
+  await aTimeout(25);
 
   await click(targets[1]);
 
@@ -1454,11 +1454,11 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.be.empty.string;
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return defaultSlots[1]?.checkVisibility();
-  });
+  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening and
+  // positioning Menus in tests, particularly in CI, sometimes takes more than a
+  // tick when sub-Menus are present. 25 milliseconds is unfortunate. But it gives
+  // the browser plenty of time to do its thing.
+  await aTimeout(25);
 
   await click(targets[2]);
 
@@ -1666,20 +1666,11 @@ it('closes its sub-Menus when their targets are clicked', async () => {
     ),
   );
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return (
-      defaultSlots[0]?.checkVisibility() &&
-      defaultSlots[1]?.checkVisibility() &&
-      defaultSlots[2]?.checkVisibility() &&
-      // It's not clear why this condition is needed. Everything should be visible if
-      // all the above conditions are met. But the first assertion below intermittently
-      // fails in CI without checking first that the target we're about to click is
-      // visible.
-      targets[2]?.checkVisibility()
-    );
-  });
+  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening and
+  // positioning Menus in tests, particularly in CI, sometimes takes more than a
+  // tick when sub-Menus are present. 25 milliseconds is unfortunate. But it gives
+  // the browser plenty of time to do its thing.
+  await aTimeout(25);
 
   await click(targets[2]);
 
