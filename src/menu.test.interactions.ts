@@ -1420,6 +1420,12 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
 
   await click(targets[1]);
 
+  // It's not clear why. But opening and positioning Menus in tests, particularly in
+  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
+  // is unfortunate. But it gives the browser and whatever is going on with the test
+  // runner to get sorted out.
+  await aTimeout(50);
+
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
   expect(hosts[2]?.open).to.be.false;
@@ -1454,13 +1460,13 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.be.empty.string;
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return defaultSlots[1]?.checkVisibility();
-  });
-
   await click(targets[2]);
+
+  // It's not clear why. But opening and positioning Menus in tests, particularly in
+  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
+  // is unfortunate. But it gives the browser and whatever is going on with the test
+  // runner to get sorted out.
+  await aTimeout(50);
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
@@ -1666,20 +1672,11 @@ it('closes its sub-Menus when their targets are clicked', async () => {
     ),
   );
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return (
-      defaultSlots[0]?.checkVisibility() &&
-      defaultSlots[1]?.checkVisibility() &&
-      defaultSlots[2]?.checkVisibility() &&
-      // It's not clear why this condition is needed. Everything should be visible if
-      // all the above conditions are met. But the first assertion below intermittently
-      // fails in CI without checking first that the target we're about to click is
-      // visible.
-      targets[2]?.checkVisibility()
-    );
-  });
+  // It's not clear why. But opening and positioning Menus in tests, particularly in
+  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
+  // is unfortunate. But it gives the browser and whatever is going on with the test
+  // runner to get sorted out.
+  await aTimeout(50);
 
   await click(targets[2]);
 
@@ -2894,7 +2891,7 @@ it('activates its first Option when reopened and its previously active Option ha
   ).equal(options[0]?.id);
 });
 
-it('activates the first Options of its sub-Menus they are opened', async () => {
+it('activates the first Option(s) of its sub-Menus they are opened via click', async () => {
   const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
@@ -2930,28 +2927,21 @@ it('activates the first Options of its sub-Menus they are opened', async () => {
   const targets = host.querySelectorAll('button');
   const options = host.querySelectorAll('glide-core-option');
 
-  const defaultSlots = hosts.map((host) =>
-    host.shadowRoot?.querySelector<HTMLSlotElement>(
-      '[data-test="default-slot"]',
-    ),
-  );
-
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return defaultSlots[0]?.checkVisibility();
-  });
+  // It's not clear why. But opening and positioning Menus in tests, particularly in
+  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
+  // is unfortunate. But it gives the browser and whatever is going on with the test
+  // runner to get sorted out.
+  await aTimeout(50);
 
   await click(targets[1]);
-  await click(targets[2]);
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return (
-      defaultSlots[1]?.checkVisibility() && defaultSlots[2]?.checkVisibility()
-    );
-  });
+  // It's not clear why. But opening and positioning Menus in tests, particularly in
+  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
+  // is unfortunate. But it gives the browser and whatever is going on with the test
+  // runner to get sorted out.
+  await aTimeout(50);
+
+  await click(targets[2]);
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[1]?.privateActive).to.be.true;
