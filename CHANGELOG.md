@@ -1,5 +1,210 @@
 # @crowdstrike/glide-core
 
+## 0.30.0
+
+### Minor Changes
+
+- [#938](https://github.com/CrowdStrike/glide-core/pull/938) [`16030e1`](https://github.com/CrowdStrike/glide-core/commit/16030e13280c58d0895fb2f983122bb458884501) Thanks [@clintcs](https://github.com/clintcs)! - - Menu Button and Menu Link have been combined and renamed to Option.
+  - Menu Options has been renamed to Options.
+
+### Patch Changes
+
+- [#962](https://github.com/CrowdStrike/glide-core/pull/962) [`373e268`](https://github.com/CrowdStrike/glide-core/commit/373e26872375df7f7e3144392b68ffda9e28e2c2) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  #### Colors (Light)
+
+  ```diff
+  +  --glide-core-color-effect-color-scroll-shadow: #0000001a;
+  +  --glide-core-color-interactive-surface-container-inactive--hover: #595959;
+
+  -  --glide-core-color-interactive-text-link: #0051a1;
+  +  --glide-core-color-interactive-text-link: #006ad4;
+
+  -  --glide-core-color-interactive-text-link--hover: #0073e6;
+  +  --glide-core-color-interactive-text-link--hover: #338feb;
+
+  -  --glide-core-color-interactive-icon-link: #0051a1;
+  +  --glide-core-color-interactive-icon-link: #006ad4;
+
+  -  --glide-core-color-interactive-icon-active: #0073e6;
+  +  --glide-core-color-interactive-icon-active: #338feb;
+
+  -  --glide-core-color-interactive-icon-active--hover: #0051a1;
+  +  --glide-core-color-interactive-icon-active--hover: #338feb;
+
+  -  --glide-core-private-color-button-stroke-default: #0051a1;
+  +  --glide-core-private-color-button-stroke-default: #006ad4;
+  ```
+
+  #### Colors (Dark)
+
+  ```diff
+  +  --glide-core-color-effect-color-scroll-shadow: #ffffff0d;
+  +  --glide-core-color-interactive-surface-container-inactive--hover: #4f4f4f;
+
+  -  --glide-core-color-static-surface-card: #ffffff0d;
+  +  --glide-core-color-static-surface-card: #ffffff08;
+
+  -  --glide-core-color-static-text-default: #dcdcdc;
+  +  --glide-core-color-static-text-default: #f9f9f9;
+
+  -  --glide-core-color-interactive-surface-container: #ffffff0d;
+  +  --glide-core-color-interactive-surface-container: #ffffff08;
+
+  -  --glide-core-color-interactive-text-link: #6ca4db;
+  +  --glide-core-color-interactive-text-link: #5394d5;
+
+  -  --glide-core-color-interactive-text-default: #dcdcdc;
+  +  --glide-core-color-interactive-text-default: #f9f9f9;
+
+  -  --glide-core-color-interactive-text-default--active: #dcdcdc;
+  +  --glide-core-color-interactive-text-default--active: #f9f9f9;
+
+  -  --glide-core-color-interactive-text-link--hover: #2d7dcc;
+  +  --glide-core-color-interactive-text-link--hover: #2b73ba;
+
+  -  --glide-core-color-interactive-icon-link: #6ca4db;
+  +  --glide-core-color-interactive-icon-link: #5394d5;
+
+  -  --glide-core-color-interactive-icon-active: #2d7dcc;
+  +  --glide-core-color-interactive-icon-active: #2b73ba;
+
+  -  --glide-core-color-interactive-icon-active--hover: #6ca4db;
+  +  --glide-core-color-interactive-icon-active--hover: #2b73ba;
+
+  -  --glide-core-color-advisory-text-info-container: #dcdcdc;
+  +  --glide-core-color-advisory-text-info-container: #f9f9f9;
+
+  -  --glide-core-color-advisory-text-attention-container: #dcdcdc;
+  +  --glide-core-color-advisory-text-attention-container: #f9f9f9;
+
+  -  --glide-core-color-advisory-text-warning-container: #dcdcdc;
+  +  --glide-core-color-advisory-text-warning-container: #f9f9f9;
+
+  -  --glide-core-color-advisory-text-vital-container: #dcdcdc;
+  +  --glide-core-color-advisory-text-vital-container: #f9f9f9;
+
+  -  --glide-core-color-advisory-text-success-container: #dcdcdc;
+  +  --glide-core-color-advisory-text-success-container: #f9f9f9;
+
+  -  --glide-core-color-advisory-text-error-container: #dcdcdc;
+  +  --glide-core-color-advisory-text-error-container: #f9f9f9;
+
+  -  --glide-core-color-severity-text-low: #dcdcdc;
+  +  --glide-core-color-severity-text-low: #f9f9f9;
+
+  -  --glide-core-color-effect-color-elevation-detail-panel: #14141480;
+  +  --glide-core-color-effect-color-elevation-detail-panel: #000000f2;
+  ```
+
+- [#968](https://github.com/CrowdStrike/glide-core/pull/968) [`3f20481`](https://github.com/CrowdStrike/glide-core/commit/3f20481ddc194cda1a469f041120958ec4634326) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Input now supports `type="color"`.
+
+- [#976](https://github.com/CrowdStrike/glide-core/pull/976) [`83187c0`](https://github.com/CrowdStrike/glide-core/commit/83187c04608150fdb0ef03f970d10cb1b93b6fb4) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Accordion received a few updates to align with the latest designs:
+
+  - The border radius has slightly increased.
+  - Users may notice a slightly slower transition to the open state. The transition duration has increased and the timing function has been updated. The closing animation timing function has also been updated.
+
+- [#964](https://github.com/CrowdStrike/glide-core/pull/964) [`c3722c6`](https://github.com/CrowdStrike/glide-core/commit/c3722c6934ee821c2c7de3249df00f17640f3018) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Button and Icon Button received a few updates to align with the latest designs:
+
+  - The border radius has decreased. Visual tests will report buttons being less round.
+  - Users may notice a slower transition to the hovered state. The transition duration has increased and the timing function has been updated.
+  - Icon Button's tertiary variant has a subtle background color and border radius on hover and when active.
+
+- [#959](https://github.com/CrowdStrike/glide-core/pull/959) [`7c9c831`](https://github.com/CrowdStrike/glide-core/commit/7c9c8317e4c70e42b795a255adbf268567c43b60) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tooltip's `label` and `description` now wrap even when placed in a container that has `white-space: nowrap`.
+
+- [#965](https://github.com/CrowdStrike/glide-core/pull/965) [`d3b795f`](https://github.com/CrowdStrike/glide-core/commit/d3b795f57b7bc692a4a41565ed3163b10dc77fca) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Button Group and Button Group Button received a few updates to align with the latest designs:
+
+  - The border radius has decreased. Visual tests will report buttons being less round.
+  - Users may notice a slower transition to the hovered state. The transition duration has increased and the timing function has been updated.
+
+- [#969](https://github.com/CrowdStrike/glide-core/pull/969) [`4c2f58e`](https://github.com/CrowdStrike/glide-core/commit/4c2f58ea334ddec5066d4286ebb528b1e21046aa) Thanks [@clintcs](https://github.com/clintcs)! - Split Button Primary Button and Split Button Secondary Button's border radiuses have been slightly reduced.
+
+- [#963](https://github.com/CrowdStrike/glide-core/pull/963) [`0a95a6f`](https://github.com/CrowdStrike/glide-core/commit/0a95a6f85e74cb18a8907208d6e28e0bdd6a996d) Thanks [@clintcs](https://github.com/clintcs)! - - Input now passes `aria-controls`, `aria-expanded`, and `aria-haspopup` down to its underlying input field.
+
+  - Tooltip can now be stopped from opening and closing by canceling "mouseover" and "mouseout" events on its target.
+
+- [#962](https://github.com/CrowdStrike/glide-core/pull/962) [`373e268`](https://github.com/CrowdStrike/glide-core/commit/373e26872375df7f7e3144392b68ffda9e28e2c2) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Modal received a few updates to align with the latest designs:
+
+  - A new `description` attribute has been added.
+  - The internal padding was decreased. Visual tests will report a slightly reduced overall height.
+  - The width of the Modal has increased:
+    - Small increased from 360px to 400px.
+    - Medium increased from 560px to 600px.
+    - Large increased from 860px to 900px
+    - XLarge increased from 1110px 1150px.
+  - The header remains fixed at the top when the content scrolls.
+  - The footer remains fixed at the bottom when the content scrolls.
+  - New visual feedback was added for scrollable content:
+    - A shadow appears below the header when the content is scrolled down.
+    - A shadow appears above the footer when more content is available below.
+    - Shadows automatically hide when reaching their respective scroll boundaries.
+
+- [#964](https://github.com/CrowdStrike/glide-core/pull/964) [`c3722c6`](https://github.com/CrowdStrike/glide-core/commit/c3722c6934ee821c2c7de3249df00f17640f3018) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  #### Duration
+
+  ```diff
+  -  --glide-core-duration-fast-01: 40ms;
+  +  --glide-core-duration-fast-01: 50ms;
+
+  -  --glide-core-duration-fast-02: 75ms;
+  +  --glide-core-duration-fast-02: 100ms;
+  ```
+
+- [#938](https://github.com/CrowdStrike/glide-core/pull/938) [`16030e1`](https://github.com/CrowdStrike/glide-core/commit/16030e13280c58d0895fb2f983122bb458884501) Thanks [@clintcs](https://github.com/clintcs)! - ## Menu
+
+  - No longer overwrites the `id` attribute of its target.
+  - No longer scrolls the page horizontally when open and the right or left arrow keys are pressed.
+  - No longer activates an arbitrary option when opened on smaller screens.
+  - Now opens on Enter or Space when its target is an SVG.
+  - Now remains open or closed when you listen for and cancel clicks on Menu's host.
+  - Now allows arbitrary content in its default slot.
+  - Now ignores navigation via arrow keys when its `loading` attribute is present.
+  - Now adds `role="button"` to its target when its target is a SPAN or DIV.
+  - Now adds `role="button"` and `tabindex="0"` to its target when its target is an SVG.
+  - Now supports submenus:
+
+  ```html
+  <glide-core-menu>
+    <button slot="target">Target</button>
+
+    <glide-core-options>
+      <glide-core-option label="Label">
+        <glide-core-menu slot="submenu">
+          <span slot="target">Target</span>
+
+          <glide-core-options>
+            <glide-core-option label="Label"></glide-core-option>
+          </glide-core-options>
+        </glide-core-menu>
+      </glide-core-option>
+    </glide-core-options>
+  </glide-core-menu>
+  ```
+
+  ## Options (formerly Menu Options)
+
+  - Now supports a mix of Option(s) and slots with Option(s).
+
+  ## Option (formerly Menu Button and Menu Link)
+
+  - Now has a `description` attribute.
+  - Now allows arbitrary content via its default slot.
+  - Now has a maximum width of 350 pixels.
+  - Now truncates with an ellipsis and tooltip when it would otherwise overflow.
+  - Now has a slightly less round border radius.
+
+- [#967](https://github.com/CrowdStrike/glide-core/pull/967) [`33ebf20`](https://github.com/CrowdStrike/glide-core/commit/33ebf200ad5c039c3cb1abf09be413f5fa22056d) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Toggle received a few updates to align with the latest designs:
+
+  - The background color changes on hover for both checked and unchecked states.
+  - Users may notice a slower transition to and from the checked state. The transition duration has increased and the timing function has been updated.
+
+- [#973](https://github.com/CrowdStrike/glide-core/pull/973) [`7ed933d`](https://github.com/CrowdStrike/glide-core/commit/7ed933da1f1fb31635850a726e554e295ca00e79) Thanks [@ynotdraw](https://github.com/ynotdraw)! - All components except Tooltip now have improved color contrast.
+
+- [#961](https://github.com/CrowdStrike/glide-core/pull/961) [`32cc4f0`](https://github.com/CrowdStrike/glide-core/commit/32cc4f02477f83a7a5dd882425290a119845572e) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Link's font size has increased from 12px to 14px.
+
+- [#975](https://github.com/CrowdStrike/glide-core/pull/975) [`4492ed6`](https://github.com/CrowdStrike/glide-core/commit/4492ed66c4800371f23c847b5ca9fb834deccdd1) Thanks [@clintcs](https://github.com/clintcs)! - JSDoc comments for component APIs are no longer stripped from components.
+
 ## 0.29.2
 
 ### Patch Changes
