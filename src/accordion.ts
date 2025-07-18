@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import packageJson from '../package.json' with { type: 'json' };
 import chevronIcon from './icons/chevron.js';
 import styles from './accordion.styles.js';
@@ -219,7 +220,11 @@ export default class Accordion extends LitElement {
           indented: this.hasPrefixIcon,
         })}
         data-test="default-slot"
-        style="--private-easing: var(--glide-core-animation-swoop); --private-open-duration: var(--glide-core-duration-slow-01); --private-close-duration: var(--glide-core-duration-fast-02)"
+        style=${styleMap({
+          '--private-close-duration': 'var(--glide-core-duration-fast-02)',
+          '--private-easing': 'var(--glide-core-animation-swoop)',
+          '--private-open-duration': 'var(--glide-core-duration-slow-01)',
+        })}
         ${assertSlot()}
         ${ref(this.#defaultSlotElementRef)}
       >
