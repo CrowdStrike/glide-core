@@ -55,7 +55,8 @@ async function mouse(
               ? [Math.ceil(x), Math.ceil(y + height / 2)]
               : position === 'outside'
                 ? [Math.floor(x - 1), Math.floor(y - 1)]
-                : [Math.ceil(x + width / 2), Math.ceil(y + height / 2)],
+                : // Center
+                  [Math.ceil(x + width / 2), Math.ceil(y + height / 2)],
   });
 
   // You'd think you'd be able to call `resetMouse()` anywhere. But, for whatever
