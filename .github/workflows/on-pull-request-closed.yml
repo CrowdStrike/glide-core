@@ -15,7 +15,7 @@ jobs:
     # The links in the comments will become stale when Cloudflare artifacts are removed
     # in the job below. So we remove them rather than have someone discover they're stale
     # upon clicking them.
-    name: Remove Storybook and Visual Test Report comments
+    name: Remove Storybook And Visual Test Report Comments
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -30,7 +30,7 @@ jobs:
           delete: true
 
   remove-cloudflare-artifacts:
-    name: Remove Cloudflare artifacts
+    name: Remove Cloudflare Artifacts
     # Ubuntu instead of MacOS because the performance difference is
     # negligible and Ubuntu includes the AWS CLI.
     runs-on: ubuntu-latest

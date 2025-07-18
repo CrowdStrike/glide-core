@@ -25,8 +25,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
 
-  fetch-baseline-screenshots:
-    name: Fetch Baseline Screenshots
+  fetch-playwright-baseline-screenshots:
+    name: Fetch Playwright Baseline Screenshots
     runs-on: ubuntu-latest
     steps:
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
@@ -46,12 +46,12 @@ jobs:
           aws configure set output json
           aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
-      - run: aws s3 sync s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/baseline-screenshots ./baseline-screenshots --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
-      - name: Upload baseline screenshots
+      - run: aws s3 sync s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/playwright-baseline-screenshots ./playwright-baseline-screenshots --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+      - name: Upload Playwright Baseline Screenshots
         uses: actions/upload-artifact@v4
         with:
-          path: baseline-screenshots
-          name: baseline-screenshots
+          path: playwright-baseline-screenshots
+          name: playwright-baseline-screenshots
 
   format:
     name: Format
@@ -96,7 +96,7 @@ jobs:
     name: Test
     # https://github.com/CrowdStrike/glide-core/pull/529#discussion_r1886905184
     runs-on: macos-latest
-    # Something has gone wrong if testing takes longer than 10 minutes.
+    # Something has gone wrong if the job takes longer than 10 minutes.
     timeout-minutes: 10
     needs:
       - install-dependencies
@@ -107,12 +107,18 @@ jobs:
       - run: pnpm test
         env:
           NODE_ENV: production
-      - name: Upload coverage report
+      - name: Upload Web Test Runner Coverage Report
         uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: coverage
-          path: dist/coverage
+          path: dist/web-test-runner-coverage
+      - name: Upload Web Test Runner Debugging Screenshots
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: web-test-runner-debugging-screenshots
+          path: dist/web-test-runner-debugging-screenshots
 
   # Its own job instead of putting it in `test-visuals` and renaming that job
   # because `test-visual` sets `continue-on-error` so that missing and changed
@@ -120,8 +126,8 @@ jobs:
   test-aria:
     name: Test (ARIA)
     runs-on: ubuntu-latest
-    # Increase sharding if the job takes longer than a few minutes.
-    timeout-minutes: 5
+
+    timeout-minutes: 5 # Increase sharding if the job takes longer than this
     needs:
       - install-dependencies
     strategy:
@@ -138,11 +144,10 @@ jobs:
   test-visuals:
     name: Test (Visuals)
     runs-on: ubuntu-latest
-    # Increase sharding if the job takes longer than a few minutes.
-    timeout-minutes: 5
+    timeout-minutes: 5 # Increase sharding if the job takes longer this
     needs:
       - install-dependencies
-      - fetch-baseline-screenshots
+      - fetch-playwright-baseline-screenshots
     outputs:
       failed: ${{ steps.get-test-job-outcome.outputs.failed }}
     strategy:
@@ -155,24 +160,25 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
       - run: pnpm dlx playwright@1.52.0 install --only-shell --with-deps chromium
-      - name: Download baseline screenshots
+      - name: Download Playwright Baseline Screenshots
         uses: actions/download-artifact@v4
         with:
           path: dist/playwright-baseline-screenshots
-          name: baseline-screenshots
+          name: playwright-baseline-screenshots
       - name: Test
         id: test
         # Failing would add quite a bit of time to CI. It would also add complexity, both
         # for developers and to this workflow.
         #
-        # To do it, we'd have to hack up GitHub's staged deployments feature to require an
-        # approval of the visual changes. After they're approved, we'd update the screenshots
-        # on R2. Then we'd force a re-run of this job so it passes for the branch in question.
-        # Lastly, after merge, we'd have to synchronize the screenshots again in case another
-        # branch was merged in the meantime and overwrote them.
+        # To do it, we'd have to hack up GitHub's staged deployments feature to require
+        # an approval of the visual changes. After they're approved, we'd update the
+        # screenshots on R2. Then we'd force a re-run of this job so it passes for the
+        # branch in question. Lastly, after merge, we'd have to synchronize the
+        # screenshots again in case another branch was merged in the meantime and
+        # overwrote them.
         #
-        # So we simply expect the developer and reviewers to look over the test report, deployed
-        # below, before merging.
+        # So we simply expect the developer and reviewers to look over the test report,
+        # deployed below, before merging.
         continue-on-error: true
         run: pnpm exec playwright test --project visuals --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Get `test` job outcome
@@ -189,7 +195,7 @@ jobs:
           path: blob-report
 
   deploy-visual-test-report:
-    name: Deploy Test Report
+    name: Deploy Visual Test Report
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -200,13 +206,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - name: Download blob reports
+      - name: Download Blob Reports
         uses: actions/download-artifact@v4
         with:
           merge-multiple: true
           path: visual-test-report-blob
           pattern: visual-test-report-blob-*
-      - name: Merge blob reports
+      - name: Merge Blob Reports
         run: |
           PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref  }}/visual-test-report/data/ pnpm exec playwright merge-reports --reporter html ./visual-test-report-blob
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
@@ -226,7 +232,7 @@ jobs:
           aws configure set output json
           aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
-      - name: Deploy HTML report
+      - name: Deploy HTML Report
         run: aws s3 sync ./playwright-report s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }}/visual-test-report --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
       - uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728
         with:
@@ -255,13 +261,10 @@ jobs:
 
   deploy-storybook:
     name: Deploy Storybook
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-
-    # Ubuntu instead of MacOS because the performance difference is negligible and
-    # Ubuntu includes the AWS CLI.
-    runs-on: ubuntu-latest
 
     # Both `github.head_ref` and `github.event.pull_request.head.ref` are empty when
     # a workflow is run in a merge queue. Take a look at the Deploy Storybook task
