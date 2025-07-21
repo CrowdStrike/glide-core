@@ -154,20 +154,7 @@ export default class Menu extends LitElement {
     // easier to understand because developers don't have to think about sub-Menus when
     // looking at `#onDocumentClick()`.
     if (!this.#isSubMenu) {
-      // 1. The consumer has a "click" handler on an element that isn't Menu's target.
-      // 2. The user clicks that element.
-      // 3. The handler is called. It sets `open` to `true`.
-      // 4. The "click" bubbles up and is handled by `#onDocumentClick()`.
-      // 5. `#onDocumentClick()` sets `open` to `false` because the click came from
-      //    outside Menu.
-      // 6. Menu is opened then immediately closed and so never opens.
-      //
-      // `capture` ensures `#onDocumentClick()` is called before #3, so that `open` set
-      // `true` in the consumer's handler isn't overwritten by `#onDocumentClick()`
-      // handler setting it to `false`.
-      document.addEventListener('click', this.#onDocumentClick, {
-        capture: true,
-      });
+      document.addEventListener('click', this.#onDocumentClick);
     }
   }
 
@@ -179,9 +166,7 @@ export default class Menu extends LitElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    document.removeEventListener('click', this.#onDocumentClick, {
-      capture: true,
-    });
+    document.removeEventListener('click', this.#onDocumentClick);
   }
 
   override firstUpdated() {
@@ -286,7 +271,6 @@ export default class Menu extends LitElement {
           name="target"
           @click=${this.#onTargetSlotClick}
           @keydown=${this.#onTargetAndDefaultSlotKeyDown}
-          @mouseup=${this.#onTargetSlotMouseUp}
           @input=${this.#onTargetSlotInput}
           @slotchange=${this.#onTargetSlotChange}
           ${assertSlot([Element])}
@@ -339,7 +323,7 @@ export default class Menu extends LitElement {
   // `#onTargetAndDefaultSlotKeyDown()` to decide if we need to move focus.
   #hasVoiceOverMovedFocusToOptionsOrAnOption = false;
 
-  // Set in `#onTargetSlotMouseUp()`. Used in `#onDocumentClick()` to guard against
+  // Set in `#onDefaultSlotMouseUp()`. Used in `#onDocumentClick()` to guard against
   // Menu closing when any number of things that are not an Option are clicked. Those
   // "click" events will be retargeted to Menu's host the moment they bubble out of
   // Menu. So checking in `#onDocumentClick()` if the click's `event.target` came
@@ -356,8 +340,8 @@ export default class Menu extends LitElement {
   // sub-Menus.
   #isSubMenuOpen = false;
 
-  // Set in `#onTargetSlotMouseUp()` and `#onDocumentClick()`. Used in
-  // `#onDocumentClick()`:
+  // Similar situation as with `isDefaultSlotClick`. Set in `#onTargetSlotClick()`
+  // and `#onDocumentClick()`. Used in `#onDocumentClick()`:
   //
   // 1. Menu is open.
   // 2. User clicks Menu's target.
@@ -365,19 +349,9 @@ export default class Menu extends LitElement {
   // 4. `#onTargetSlotClick()` sets `open` to true`.
   // 5. Menu never closes.
   //
-  // Setting `#isTargetSlotMouseUp` to `true` in `#onTargetSlotMouseUp()` gives
+  // Setting `#isTargetSlotClick` to `true` in `#onTargetSlotClick()` gives
   // `#onDocumentClick()` the information it needs to not set `open` to `false`.
-  //
-  // The normal approach would be to set an `#isTargetSlotClick` property in
-  // `#onTargetSlotClick()`. But `#onDocumentClick()` listens for "click" events in
-  // their capture phase. So `#onDocumentClick()` would be called before
-  // `#onTargetSlotClick()`.
-  //
-  // Note too that `#onDocumentClick()` sets `#isTargetSlotMouseUp` to `false`
-  // instead of `#onTargetSlotClick()` doing it. That's so `#isTargetSlotMouseUp`
-  // is set to `false` even if the user mouses down on Menu's target then moves the
-  // mouse outside of Menu before mousing up.
-  #isTargetSlotMouseUp = false;
+  #isTargetSlotClick = false;
 
   #localize = new LocalizeController(this);
 
@@ -505,8 +479,8 @@ export default class Menu extends LitElement {
       return;
     }
 
-    if (this.#isTargetSlotMouseUp) {
-      this.#isTargetSlotMouseUp = false;
+    if (this.#isTargetSlotClick) {
+      this.#isTargetSlotClick = false;
 
       return;
     }
@@ -1336,7 +1310,9 @@ export default class Menu extends LitElement {
     }
   }
 
-  #onTargetSlotClick(event: PointerEvent) {
+  #onTargetSlotClick(event: MouseEvent) {
+    this.#isTargetSlotClick = true;
+
     const closestOption =
       event.target instanceof Element &&
       event.target.closest('glide-core-option');
@@ -1418,10 +1394,6 @@ export default class Menu extends LitElement {
   // non-character input.
   #onTargetSlotInput() {
     this.open = true;
-  }
-
-  #onTargetSlotMouseUp() {
-    this.#isTargetSlotMouseUp = true;
   }
 
   #show() {

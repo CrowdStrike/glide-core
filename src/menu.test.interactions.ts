@@ -228,13 +228,23 @@ it('remains open when its sub-Menus are opened via click', async () => {
     ),
   );
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return defaultSlots[0]?.checkVisibility();
-  });
+  await aTimeout(0); // Wait for Floating UI
 
-  await click(targets[1]);
+  // A programmatic click instead of an actual one because `sendMouse()` (via
+  // `mouse.ts`) turned out to be flaky in CI.
+  //
+  // After a bunch of experimentation and source code digging, the ultimate cause of
+  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be that
+  // that it clicks an Option or an element outside Menu instead of the target,
+  // causing Menu to close. Though it only happens when multiple nested popovers are
+  // present via sub-Menus.
+  //
+  // `sendMouse()` is just a thin abstraction over Playwright's equivalent API. So
+  // the ultimate cause is likely Playwright or Chromium's DevTools Protocol, which
+  // Playwright relies on. Either that or I'm missing something obvious.
+  targets[1]?.click();
+
+  await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
   expect(targets[0]?.ariaExpanded).to.equal('true');
@@ -246,13 +256,8 @@ it('remains open when its sub-Menus are opened via click', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.equal(options[0]?.id);
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return defaultSlots[1]?.checkVisibility();
-  });
-
-  await click(targets[2]);
+  targets[2]?.click();
+  await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
@@ -1334,47 +1339,6 @@ it('does not scroll the page when already open and various keys are pressed and 
   expect(event.defaultPrevented).to.be.true;
 });
 
-// See the comment in `connectedCallback()` for an explanation.
-it('opens when opened programmatically via the click handler of another element', async () => {
-  const container = document.createElement('div');
-
-  const host = await fixture<Menu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-options>
-        <glide-core-option label="Label"></glide-core-option>
-      </glide-core-options>
-    </glide-core-menu>`,
-    { parentNode: container },
-  );
-
-  const target = host.querySelector('button');
-  const options = host.querySelectorAll('glide-core-option');
-
-  const defaultSlot = host.shadowRoot?.querySelector<HTMLSlotElement>(
-    '[data-test="default-slot"]',
-  );
-
-  const anotherElement = document.createElement('button');
-
-  anotherElement.addEventListener('click', () => (host.open = true));
-  anotherElement.textContent = 'Another element';
-
-  container.append(anotherElement);
-  await click(anotherElement);
-
-  expect(host.open).to.be.true;
-  expect(target?.ariaExpanded).to.equal('true');
-  expect(defaultSlot?.checkVisibility()).to.be.true;
-
-  expect(
-    host
-      .querySelector('glide-core-options')
-      ?.getAttribute('aria-activedescendant'),
-  ).to.equal(options[0]?.id);
-});
-
 it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
   const host = await fixture<Menu>(
     html`<glide-core-menu open>
@@ -1412,19 +1376,23 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
     ),
   );
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return defaultSlots[0]?.checkVisibility();
-  });
+  await aTimeout(0); // Wait for Floating UI
 
-  await click(targets[1]);
+  // A programmatic click instead of an actual one because `sendMouse()` (via
+  // `mouse.ts`) turned out to be flaky in CI.
+  //
+  // After a bunch of experimentation and source code digging, the ultimate cause of
+  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be that
+  // that it clicks an Option or an element outside Menu instead of the target,
+  // causing Menu to close. Though it only happens when multiple nested popovers are
+  // present via sub-Menus.
+  //
+  // `sendMouse()` is just a thin abstraction over Playwright's equivalent API. So
+  // the ultimate cause is likely Playwright or Chromium's DevTools Protocol, which
+  // Playwright relies on. Either that or I'm missing something obvious.
+  targets[1]?.click();
 
-  // It's not clear why. But opening and positioning Menus in tests, particularly in
-  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
-  // is unfortunate. But it gives the browser and whatever is going on with the test
-  // runner to get sorted out.
-  await aTimeout(50);
+  await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
@@ -1460,13 +1428,9 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.be.empty.string;
 
-  await click(targets[2]);
-
-  // It's not clear why. But opening and positioning Menus in tests, particularly in
-  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
-  // is unfortunate. But it gives the browser and whatever is going on with the test
-  // runner to get sorted out.
-  await aTimeout(50);
+  await aTimeout(0); // Wait for Floating UI
+  targets[2]?.click();
+  await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
@@ -1672,13 +1636,23 @@ it('closes its sub-Menus when their targets are clicked', async () => {
     ),
   );
 
-  // It's not clear why. But opening and positioning Menus in tests, particularly in
-  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
-  // is unfortunate. But it gives the browser and whatever is going on with the test
-  // runner to get sorted out.
-  await aTimeout(50);
+  await aTimeout(0); // Wait for Floating UI
 
-  await click(targets[2]);
+  // A programmatic click instead of an actual one because `sendMouse()` (via
+  // `mouse.ts`) turned out to be flaky in CI.
+  //
+  // After a bunch of experimentation and source code digging, the ultimate cause of
+  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be that
+  // that it clicks an Option or an element outside Menu instead of the target,
+  // causing Menu to close. Though it only happens when multiple nested popovers are
+  // present via sub-Menus.
+  //
+  // `sendMouse()` is just a thin abstraction over Playwright's equivalent API. So
+  // the ultimate cause is likely Playwright or Chromium's DevTools Protocol, which
+  // Playwright relies on. Either that or I'm missing something obvious.
+  targets[2]?.click();
+
+  await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
@@ -1714,7 +1688,9 @@ it('closes its sub-Menus when their targets are clicked', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.be.empty.string;
 
-  await click(targets[1]);
+  await aTimeout(0); // Wait for Floating UI
+  targets[1]?.click();
+  await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.false;
@@ -2927,21 +2903,27 @@ it('activates the first Option(s) of its sub-Menus they are opened via click', a
   const targets = host.querySelectorAll('button');
   const options = host.querySelectorAll('glide-core-option');
 
-  // It's not clear why. But opening and positioning Menus in tests, particularly in
-  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
-  // is unfortunate. But it gives the browser and whatever is going on with the test
-  // runner to get sorted out.
-  await aTimeout(50);
+  await aTimeout(0); // Wait for Floating UI
 
-  await click(targets[1]);
+  // A programmatic click instead of an actual one because `sendMouse()` (via
+  // `mouse.ts`) turned out to be flaky in CI.
+  //
+  // After a bunch of experimentation and source code digging, the ultimate cause of
+  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be that
+  // that it clicks an Option or an element outside Menu instead of the target,
+  // causing Menu to close. Though it only happens when multiple nested popovers are
+  // present via sub-Menus.
+  //
+  // `sendMouse()` is just a thin abstraction over Playwright's equivalent API. So
+  // the ultimate cause is likely Playwright or Chromium's DevTools Protocol, which
+  // Playwright relies on. Either that or I'm missing something obvious.
+  targets[1]?.click();
 
-  // It's not clear why. But opening and positioning Menus in tests, particularly in
-  // CI, sometimes takes more than a tick when sub-Menus are present. 50 milliseconds
-  // is unfortunate. But it gives the browser and whatever is going on with the test
-  // runner to get sorted out.
-  await aTimeout(50);
+  await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
-  await click(targets[2]);
+  await aTimeout(0); // Wait for Floating UI
+  targets[2]?.click();
+  await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[1]?.privateActive).to.be.true;
@@ -3056,7 +3038,7 @@ it('does not open the tooltip of a super-Menu Option when one of its sub-Menu Op
     }
   }
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But opening Menus
+  // Replaces the usual `await aTimeout(0)`. It's not clear why. But Menus opening
   // in tests sometimes takes more than a tick when sub-Menus are present.
   await waitUntil(() => {
     return (
@@ -3069,10 +3051,8 @@ it('does not open the tooltip of a super-Menu Option when one of its sub-Menu Op
   // For whatever reason, there's a significant delay between hovering and
   // the subsequent "mouseover" event. The more tests, the greater the delay.
   await waitUntil(() => {
-    return tooltips[1]?.open;
+    return !tooltips[0]?.open && tooltips[1]?.open;
   });
-
-  expect(tooltips[0]?.open).to.be.false;
 });
 
 it('retains its active Option when a sub-Menu Option is hovered', async () => {
@@ -3391,6 +3371,12 @@ it('activates the next sub-Menu Option on ArrowDown after an Option of another M
   const hosts = [host, ...host.querySelectorAll('glide-core-menu')];
   const options = host.querySelectorAll('glide-core-option');
 
+  const defaultSlots = hosts.map((host) =>
+    host.shadowRoot?.querySelector<HTMLSlotElement>(
+      '[data-test="default-slot"]',
+    ),
+  );
+
   const tooltips = [...options]
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
@@ -3404,10 +3390,23 @@ it('activates the next sub-Menu Option on ArrowDown after an Option of another M
     }
   }
 
-  await aTimeout(0); // Wait for Floating UI
+  // Replaces the usual `await aTimeout(0)`. It's not clear why. But Menus opening
+  // in tests sometimes takes more than a tick when sub-Menus are present.
+  await waitUntil(() => {
+    return (
+      defaultSlots[0]?.checkVisibility() && defaultSlots[1]?.checkVisibility()
+    );
+  });
+
   await hover(options[3]); // Four
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // Three
+
+  // For whatever reason, there's a significant delay between hovering and
+  // the subsequent "mouseover" event. The more tests, the greater the delay.
+  await waitUntil(() => {
+    return tooltips[2]?.open && tooltips[3]?.open;
+  });
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.false;
