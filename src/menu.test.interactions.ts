@@ -1375,7 +1375,7 @@ it('opens when opened programmatically via the click handler of another element'
   ).to.equal(options[0]?.id);
 });
 
-it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
+it.only('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
   const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>

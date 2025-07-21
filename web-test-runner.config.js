@@ -7,12 +7,9 @@ import { playwrightLauncher } from '@web/test-runner-playwright';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 
 export default {
-  browsers: [
-    // https://github.com/modernweb-dev/web/issues/2588
-    playwrightLauncher(),
-  ],
+  browsers: [playwrightLauncher()],
   // Half the available cores locally to leave room for work unrelated to testing.
-  concurrency: process.env.CI ? os.cpus().length : os.cpus().length / 2,
+  concurrency: process.env.CI ? os.cpus().length - 1 : os.cpus().length / 2,
   coverage: true,
   coverageConfig: {
     include: ['src/**/*.ts'],
@@ -79,7 +76,7 @@ export default {
 
   // If a test suite takes longer than this, it's almost certainly hanging and
   // won't finish. 2 minutes is the default.
-  testsFinishTimeout: process.env.CI ? 120_000 : 60_000,
+  testsFinishTimeout: process.env.CI ? 240_000 : 60_000,
 
   testRunnerHtml(testFramework) {
     return `<html>

@@ -103,7 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: pnpm dlx playwright@1.52.0 install --only-shell --with-deps chromium
+      - run: pnpm dlx playwright@1.54.0 install --with-deps chromium
       - run: pnpm test
         env:
           NODE_ENV: production
@@ -131,7 +131,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: pnpm dlx playwright@1.52.0 install --only-shell --with-deps chromium
+      - run: pnpm dlx playwright@1.54.0 install --with-deps chromium
       - name: Test
         run: pnpm exec playwright test --project aria --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
@@ -154,7 +154,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: pnpm dlx playwright@1.52.0 install --only-shell --with-deps chromium
+      - run: pnpm dlx playwright@1.54.0 install --with-deps chromium
       - name: Download baseline screenshots
         uses: actions/download-artifact@v4
         with:
