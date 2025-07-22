@@ -57,7 +57,8 @@ export default {
     {
       // Useful when you have a suspicion that a test is failing because there's visual
       // discrepancy between the test locally versus in CI. Screenshots are written to a
-      // directory named "debugging-screenshots", which is uploaded as an artifact.
+      // directory named "web-test-runner-debugging-screenshots", which is uploaded as an
+      // artifact.
       //
       // Import `executeServerCommand` in your test suite, then call that function in
       // tests wherever you need to take a screenshot.
