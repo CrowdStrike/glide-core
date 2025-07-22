@@ -5,6 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import Options from './options.js';
+import OptionsGroup from './options.group.js';
 import Option from './option.js';
 import Input from './input.js';
 import assertSlot from './library/assert-slot.js';
@@ -435,7 +436,9 @@ export default class Menu extends LitElement {
         .flatMap((element) => {
           return element instanceof HTMLSlotElement
             ? element.assignedElements({ flatten: true })
-            : element;
+            : element instanceof OptionsGroup
+              ? [...element.children]
+              : element;
         })
         ?.filter((element): element is Option => {
           return element instanceof Option;
@@ -454,8 +457,16 @@ export default class Menu extends LitElement {
         ':scope > glide-core-options > glide-core-option > [slot="content"] > glide-core-menu',
       ),
       ...this.querySelectorAll<Menu>(
+        // The "content" slot and Options Group case.
+        ':scope > glide-core-options > glide-core-options-group > glide-core-option > [slot="content"] > glide-core-menu',
+      ),
+      ...this.querySelectorAll<Menu>(
         // The "content" slot fallback case.
         ':scope > glide-core-options > glide-core-option > [slot="submenu"]',
+      ),
+      ...this.querySelectorAll<Menu>(
+        // The "content" slot fallback and Options Group case.
+        ':scope > glide-core-options > glide-core-options-group > glide-core-option > [slot="submenu"]',
       ),
     ];
   }

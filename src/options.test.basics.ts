@@ -38,6 +38,18 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
+it('throws when `label` is undefined', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(html`<glide-core-options-group></glide-core-options-group>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(

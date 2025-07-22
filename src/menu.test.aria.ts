@@ -59,6 +59,36 @@ test('open=${false}', async ({ page }) => {
   `);
 });
 
+test('<glide-core-options-group>', async ({ page }) => {
+  await page.goto('?id=menu--with-groups');
+
+  await page
+    .locator('glide-core-menu')
+    .first()
+    .evaluate<void, Menu>((element) => {
+      element.open = true;
+    });
+
+  await expect(page.locator('glide-core-menu').first()).toMatchAriaSnapshot(`
+    - button "Toggle"
+    - menu "Toggle":
+      - group "A":
+        - menuitem "One"
+        - menuitem "Two"
+        - menuitem "Three"
+      - group "B":
+        - menuitem "Four"
+        - menuitem "Five"
+        - menuitem "Six"
+      - group "C":
+        - menuitem "Seven"
+        - menuitem "Eight"
+        - menuitem "Nine":
+          - link "Nine":
+            - /url: /
+  `);
+});
+
 test('<glide-core-option>.description', async ({ page }) => {
   await page.goto('?id=menu--menu');
 

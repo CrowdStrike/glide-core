@@ -194,6 +194,12 @@ export default {
 
           if (context.componentId === 'menu') {
             for (const $option of $component.querySelectorAll(
+              'glide-core-options-group',
+            )) {
+              $option.removeAttribute('aria-label');
+            }
+
+            for (const $option of $component.querySelectorAll(
               'glide-core-option',
             )) {
               $option.removeAttribute('aria-disabled');
