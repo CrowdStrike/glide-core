@@ -1,6 +1,7 @@
 import './button.js';
 import './icons/storybook.js';
 import './options.js';
+import './options.group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html, nothing } from 'lit';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
@@ -45,6 +46,8 @@ const meta: Meta = {
     version: '',
     '<glide-core-options>[slot="default"]': '',
     '<glide-core-options>.version': '',
+    '<glide-core-options-group>.label': 'A',
+    '<glide-core-options-group>.hide-label': false,
     '<glide-core-option>.label': 'One',
     '<glide-core-option>.addEventListener(event, handler)': '',
     '<glide-core-option>.description': '',
@@ -160,6 +163,32 @@ const meta: Meta = {
       name: 'version',
       table: {
         category: 'Options',
+        defaultValue: {
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
+    '<glide-core-options-group>.label': {
+      name: 'label',
+      table: {
+        category: 'Options Group',
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-options-group>.hide-label': {
+      name: 'hide-label',
+      table: {
+        category: 'Options Group',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-options-group>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Options Group',
         defaultValue: {
           summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
@@ -361,6 +390,60 @@ const meta: Meta = {
 export default meta;
 
 export const Menu: StoryObj = {};
+
+export const WithGroups: StoryObj = {
+  render(arguments_) {
+    return html`<glide-core-menu
+      offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
+      placement=${arguments_.placement === 'bottom-start'
+        ? nothing
+        : arguments_.placement}
+      ?loading=${arguments_.loading}
+      ?open=${arguments_.open}
+    >
+      <glide-core-button label="Toggle" slot="target"></glide-core-button>
+
+      <glide-core-options>
+        <glide-core-options-group
+          label=${arguments_['<glide-core-options-group>.label']}
+          ?hide-label=${arguments_['<glide-core-options-group>.hide-label']}
+        >
+          <glide-core-option
+            label=${arguments_['<glide-core-option>.label']}
+            description=${arguments_['<glide-core-option>.description'] ||
+            nothing}
+            value=${arguments_['<glide-core-option>.value'] || nothing}
+            ?disabled=${arguments_['<glide-core-option>.disabled']}
+          ></glide-core-option>
+
+          <glide-core-option label="Two"></glide-core-option>
+          <glide-core-option label="Three"></glide-core-option>
+        </glide-core-options-group>
+
+        <glide-core-options-group
+          label="B"
+          ?hide-label=${arguments_['<glide-core-options-group>.hide-label']}
+        >
+          <glide-core-option label="Four"></glide-core-option>
+          <glide-core-option label="Five"></glide-core-option>
+          <glide-core-option label="Six"></glide-core-option>
+        </glide-core-options-group>
+
+        <glide-core-options-group
+          label="C"
+          ?hide-label=${arguments_['<glide-core-options-group>.hide-label']}
+        >
+          <glide-core-option label="Seven"></glide-core-option>
+          <glide-core-option label="Eight"></glide-core-option>
+          <glide-core-option
+            label="Nine"
+            href=${arguments_['<glide-core-option>.href'] || nothing}
+          ></glide-core-option>
+        </glide-core-options-group>
+      </glide-core-options>
+    </glide-core-menu>`;
+  },
+};
 
 export const WithIcons: StoryObj = {
   args: {

@@ -1,4 +1,5 @@
 import './options.js';
+import './options.group.js';
 import { LitElement } from 'lit';
 import {
   assert,
@@ -3141,6 +3142,54 @@ it('activates Options on hover when all or some are in a nested slot', async () 
       ?.querySelector('glide-core-options')
       ?.getAttribute('aria-activedescendant'),
   ).to.equal(options[2]?.id);
+});
+
+it('activates Options on hover when they are in Options Groups', async () => {
+  const host = await fixture<Menu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-options-group label="A">
+          <glide-core-option label="One"></glide-core-option>
+          <glide-core-option label="Two"></glide-core-option>
+        </glide-core-options-group>
+
+        <glide-core-options-group label="B">
+          <glide-core-option label="Three"></glide-core-option>
+          <glide-core-option label="Four"></glide-core-option>
+        </glide-core-options-group>
+      </glide-core-options>
+    </glide-core-menu>
+  `);
+
+  const options = host.querySelectorAll('glide-core-option');
+  await aTimeout(0); // Wait for Floating UI
+  await hover(options[1]);
+
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.true;
+  expect(options[2]?.privateActive).to.be.false;
+  expect(options[3]?.privateActive).to.be.false;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(options[1]?.id);
+
+  await hover(options[3]);
+
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.false;
+  expect(options[2]?.privateActive).to.be.false;
+  expect(options[3]?.privateActive).to.be.true;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(options[3]?.id);
 });
 
 it('activates the next enabled Option on ArrowDown', async () => {
