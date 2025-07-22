@@ -234,7 +234,7 @@ it('remains open when its sub-Menus are opened via click', async () => {
   // `mouse.ts`) turned out to be flaky in CI.
   //
   // After a bunch of experimentation and source code digging, the ultimate cause of
-  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be that
+  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be
   // that it clicks an Option or an element outside Menu instead of the target,
   // causing Menu to close. Though it only happens when nested popovers are present
   // via sub-Menus.
@@ -1383,7 +1383,7 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
   // `mouse.ts`) turned out to be flaky in CI.
   //
   // After a bunch of experimentation and source code digging, the ultimate cause of
-  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be that
+  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be
   // that it clicks an Option or an element outside Menu instead of the target,
   // causing Menu to close. Though it only happens when nested popovers are present
   // via sub-Menus.
@@ -1644,7 +1644,7 @@ it('closes its sub-Menus when their targets are clicked', async () => {
   // `mouse.ts`) turned out to be flaky in CI.
   //
   // After a bunch of experimentation and source code digging, the ultimate cause of
-  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be that
+  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be
   // that it clicks an Option or an element outside Menu instead of the target,
   // causing Menu to close. Though it only happens when nested popovers are present
   // via sub-Menus.
@@ -2912,7 +2912,7 @@ it('activates the first Option(s) of its sub-Menus they are opened via click', a
   // `mouse.ts`) turned out to be flaky in CI.
   //
   // After a bunch of experimentation and source code digging, the ultimate cause of
-  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be that
+  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be
   // that it clicks an Option or an element outside Menu instead of the target,
   // causing Menu to close. Though it only happens when nested popovers are present
   // via sub-Menus.
