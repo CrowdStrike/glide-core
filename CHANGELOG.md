@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.30.1
+
+### Patch Changes
+
+- [#983](https://github.com/CrowdStrike/glide-core/pull/983) [`2c62beb`](https://github.com/CrowdStrike/glide-core/commit/2c62bebc14d62d72f7440f5060248236e8ff5b50) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated the popover border color of Dropdown and Menu to have a higher color contrast.
+
 ## 0.30.0
 
 ### Minor Changes
