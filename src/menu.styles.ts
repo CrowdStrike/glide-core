@@ -17,8 +17,7 @@ export default [
       background-color: var(
         --glide-core-private-color-dialog-and-modal-surface-container
       );
-      border: 1px solid
-        var(--glide-core-color-static-surface-container-secondary);
+      border: 1px solid var(--glide-core-color-static-stroke-secondary);
       border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-effect-floating);
       box-sizing: border-box;
