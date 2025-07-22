@@ -126,7 +126,7 @@ export default [
         --glide-core-private-color-dialog-and-modal-surface-container
       );
       border: var(--private-border-width) solid
-        var(--glide-core-color-static-surface-container-secondary);
+        var(--glide-core-color-static-stroke-secondary);
       border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-effect-floating);
       inset: unset;
