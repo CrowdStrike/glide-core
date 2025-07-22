@@ -1925,8 +1925,8 @@ export default class Dropdown extends LitElement implements FormControl {
         // moving to the beginning of the field.
         event.preventDefault();
 
-        const firstOption = [...this.#optionElementsNotHiddenIncludingSelectAll]
-          .reverse()
+        const firstOption = this.#optionElementsNotHiddenIncludingSelectAll
+          .toReversed()
           .findLast((option) => !option.disabled);
 
         if (firstOption) {
