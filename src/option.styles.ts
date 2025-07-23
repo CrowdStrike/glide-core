@@ -7,7 +7,6 @@ export default [
     }
 
     .container {
-      block-size: 1.75rem;
       border-radius: var(--glide-core-rounding-base-radius-xs);
       box-sizing: border-box;
       color: var(--glide-core-color-static-text-default);
@@ -17,6 +16,7 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       inline-size: 100%;
       max-inline-size: 21.875rem;
+      min-block-size: 1.75rem;
       padding-block: var(--glide-core-spacing-base-xxs);
       padding-inline: var(--glide-core-spacing-base-sm);
       transition: background-color var(--glide-core-duration-fast-02)
