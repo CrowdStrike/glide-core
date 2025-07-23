@@ -594,9 +594,9 @@ export default class Menu extends LitElement {
     // retargeted to the host of that component the moment the event bubbles out of
     // it.
     //
-    // So, when timeout callback below is called, `event.target` will have been
+    // So, when the timeout callback below is called, `event.target` will have been
     // retargeted and the `instanceof` check will wrongly fail when an Option is
-    // clicked, and Menu will never close. So we store a reference to original
+    // clicked, and Menu will never close. So we store a reference to the original
     // `event.target` and use it in the `instanceof` condition.
     const originalEventTarget = event.target;
 
