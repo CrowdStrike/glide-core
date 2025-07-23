@@ -414,7 +414,20 @@ export const WithGroups: StoryObj = {
             nothing}
             value=${arguments_['<glide-core-option>.value'] || nothing}
             ?disabled=${arguments_['<glide-core-option>.disabled']}
-          ></glide-core-option>
+          >
+            <glide-core-menu slot="submenu">
+              <glide-core-example-icon
+                slot="target"
+                name="three-dots"
+              ></glide-core-example-icon>
+
+              <glide-core-options>
+                <glide-core-option label="Ten"></glide-core-option>
+                <glide-core-option label="Eleven"></glide-core-option>
+                <glide-core-option label="Twelve"></glide-core-option>
+              </glide-core-options>
+            </glide-core-menu>
+          </glide-core-option>
 
           <glide-core-option label="Two"></glide-core-option>
           <glide-core-option label="Three"></glide-core-option>
