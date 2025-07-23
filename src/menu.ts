@@ -590,6 +590,16 @@ export default class Menu extends LitElement {
       event.stopPropagation();
     }
 
+    // When Menu is in the shadow DOM of another component, `event.target` will be
+    // retargeted to the host of that component the moment the event bubbles out of
+    // it.
+    //
+    // So, when timeout callback below is called, `event.target` will have been
+    // retargeted and the `instanceof` check will wrongly fail when an Option is
+    // clicked, and Menu will never close. So we store a reference to original
+    // `event.target` and use it in the `instanceof` condition.
+    const originalEventTarget = event.target;
+
     // The timeout gives consumers a chance to cancel the event to prevent Menu from
     // closing.
     setTimeout(() => {
@@ -604,7 +614,7 @@ export default class Menu extends LitElement {
       //
       // When the default slot's padding is clicked, Menu should remain open because the
       // user most likely meant to click an Option but missed.
-      if (!event.defaultPrevented && event.target instanceof Option) {
+      if (!event.defaultPrevented && originalEventTarget instanceof Option) {
         this.open = false;
       }
     });

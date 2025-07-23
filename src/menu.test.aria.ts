@@ -69,11 +69,21 @@ test('<glide-core-options-group>', async ({ page }) => {
       element.open = true;
     });
 
-  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot(`
+  await page
+    .locator('glide-core-menu glide-core-menu')
+    .evaluate<void, Menu>((element) => {
+      element.open = true;
+    });
+
+  await expect(page.locator('glide-core-menu').first()).toMatchAriaSnapshot(`
     - button "Toggle"
     - menu "Toggle":
       - group "A":
-        - menuitem "One"
+        - menuitem "One" [expanded]:
+          - menu:
+            - menuitem "Ten"
+            - menuitem "Eleven"
+            - menuitem "Twelve"
         - menuitem "Two"
         - menuitem "Three"
       - group "B":

@@ -1527,6 +1527,33 @@ it('closes when in another component and its target clicked', async () => {
   ).to.be.empty.string;
 });
 
+it('closes when in another component and an Option is clicked', async () => {
+  const host = await fixture<MenuInAnotherComponent>(
+    html`<glide-core-menu-in-another-component></glide-core-menu-in-another-component>`,
+  );
+
+  const menu = host.shadowRoot?.querySelector('glide-core-menu');
+  const target = host.shadowRoot?.querySelector('button');
+  const option = host.shadowRoot?.querySelector('glide-core-option');
+
+  const defaultSlot = menu?.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
+
+  await aTimeout(0); // Wait for Floating UI
+  await click(option);
+
+  expect(menu?.open).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(defaultSlot?.checkVisibility()).to.not.be.ok;
+
+  expect(
+    host.shadowRoot
+      ?.querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.be.empty.string;
+});
+
 it('closes itself and its sub-Menus when something outside of it is clicked', async () => {
   const host = await fixture<Menu>(
     html`<glide-core-menu open>
