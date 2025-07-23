@@ -1,5 +1,15 @@
 # @crowdstrike/glide-core
 
+## 0.31.1
+
+### Patch Changes
+
+- [#990](https://github.com/CrowdStrike/glide-core/pull/990) [`e591e4c`](https://github.com/CrowdStrike/glide-core/commit/e591e4ceb795d18b451de5368a94bf6ec3c186b9) Thanks [@clintcs](https://github.com/clintcs)! - - Added an Options Group component for use in Menu. Use Options Group when want to group Option(s) semantically and visually.
+
+  - Option now has a minimum height of 28 pixels.
+
+- [#992](https://github.com/CrowdStrike/glide-core/pull/992) [`c1c7afc`](https://github.com/CrowdStrike/glide-core/commit/c1c7afc92999ddbc0094d311f901c79deb04712c) Thanks [@clintcs](https://github.com/clintcs)! - Menu now closes when inside a shadow DOM and an Option is clicked.
+
 ## 0.31.0
 
 ### Minor Changes
