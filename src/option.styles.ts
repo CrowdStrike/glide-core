@@ -16,9 +16,11 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       inline-size: 100%;
       max-inline-size: 21.875rem;
+      min-block-size: 1.75rem;
       padding-block: var(--glide-core-spacing-base-xxs);
       padding-inline: var(--glide-core-spacing-base-sm);
-      transition: background-color var(--glide-core-duration-fast-02) ease-in-out;
+      transition: background-color var(--glide-core-duration-fast-02)
+        ease-in-out;
       user-select: none;
 
       &.active {

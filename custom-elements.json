@@ -5490,6 +5490,150 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/options.group.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/options.group.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/options.group.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "OptionsGroup",
+          "slots": [
+            {
+              "name": "",
+              "description": "",
+              "type": {
+                "text": "Option"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "'group' | 'optgroup'"
+              },
+              "default": "'group'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "label",
+              "required": true
+            },
+            {
+              "name": "hide-label",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideLabel"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "'group' | 'optgroup'"
+              },
+              "default": "'group'",
+              "fieldName": "role"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-options-group",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "OptionsGroup",
+            "module": "src/options.group.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-options-group",
+          "declaration": {
+            "name": "OptionsGroup",
+            "module": "src/options.group.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/options.styles.ts",
       "declarations": [],
       "exports": [
