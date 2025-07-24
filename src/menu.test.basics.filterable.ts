@@ -1,11 +1,12 @@
 import './options.js';
 import { LitElement } from 'lit';
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import { click } from './library/mouse.js';
 import './option.js';
 import './input.js';
 import Menu from './menu.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 @customElement('glide-core-target-as-slot')
 class TargetAsSlot extends LitElement {
@@ -79,6 +80,6 @@ it('has `#isFilterable` coverage', async () => {
     </glide-core-target-as-slot>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host.querySelector('glide-core-input'));
 });

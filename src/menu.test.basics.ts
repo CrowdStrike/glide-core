@@ -1,12 +1,13 @@
 import './options.js';
 import './option.js';
 import './input.js';
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Menu from './menu.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Menu {}
@@ -171,7 +172,7 @@ it('is open', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(host.open).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
@@ -207,7 +208,7 @@ it('is open when it and its sub-Menu are open', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
@@ -261,7 +262,7 @@ it('closes open sub-Menus when it is not open', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(hosts[0]?.open).to.be.false;
   expect(hosts[1]?.open).to.be.false;
@@ -320,7 +321,7 @@ it('closes all but the first open sub-Menu when it and multiple sub-Menus are op
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
@@ -381,7 +382,7 @@ it('activates the first enabled Option when open', async () => {
   const hosts = [host, ...host.querySelectorAll('glide-core-menu')];
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.false;
@@ -449,7 +450,7 @@ it('is not opened when open and its target is `disabled`', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(targets[0]?.ariaExpanded).to.equal('false');
   expect(targets[1]?.ariaExpanded).to.be.null;
@@ -499,7 +500,7 @@ it('is not opened when open and its target is `aria-disabled`', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(target?.ariaExpanded).to.equal('false');
@@ -528,7 +529,7 @@ it('shows loading feedback when open', async () => {
     ?.querySelector('glide-core-options')
     ?.shadowRoot?.querySelector('[data-test="loading-feedback"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(target?.ariaDescription).to.equal('Loading');
   expect(feedback?.checkVisibility()).to.be.true;

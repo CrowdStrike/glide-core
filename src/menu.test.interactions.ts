@@ -12,6 +12,7 @@ import {
 } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
+import requestIdleCallback from './library/request-idle-callback.js';
 import { click, hover } from './library/mouse.js';
 import Menu from './menu.js';
 import './option.js';
@@ -106,7 +107,7 @@ it('opens when opened programmatically', async () => {
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
   host.open = true;
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(host.open).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
@@ -150,7 +151,7 @@ it('remains open when the edge of its default slot or the edge of its sub-Menu d
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(defaultSlots[0], 'left');
 
   expect(hosts[0]?.open).to.be.true;
@@ -168,7 +169,7 @@ it('remains open when the edge of its default slot or the edge of its sub-Menu d
       ?.getAttribute('aria-activedescendant'),
   ).to.equal(options[0]?.id);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(defaultSlots[1], 'left');
 
   expect(hosts[0]?.open).to.be.true;
@@ -229,23 +230,8 @@ it('remains open when its sub-Menus are opened via click', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
-
-  // A programmatic click instead of an actual one because `sendMouse()` (via
-  // `mouse.ts`) turned out to be flaky in CI.
-  //
-  // After a bunch of experimentation and source code digging, the ultimate cause of
-  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be
-  // that it clicks an Option or an element outside Menu instead of the target,
-  // causing Menu to close. Though it only happens when nested popovers are present
-  // via sub-Menus.
-  //
-  // `sendMouse()` is just a thin abstraction over Playwright's equivalent API. So
-  // the ultimate cause is likely Playwright or Chromium's DevTools Protocol, which
-  // Playwright relies on. It's that or I'm missing something obvious. Either way,
-  // it was time to move on.
-  targets[1]?.click();
-
+  await requestIdleCallback(); // Wait for Floating UI
+  await click(targets[1]);
   await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
@@ -258,7 +244,7 @@ it('remains open when its sub-Menus are opened via click', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.equal(options[0]?.id);
 
-  targets[2]?.click();
+  await click(targets[2]);
   await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
@@ -302,7 +288,7 @@ it('remains open when a disabled Option is clicked via `click()`', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   options[0]?.click();
 
   expect(host.open).to.be.true;
@@ -335,7 +321,7 @@ it('remains open when a disabled Option is clicked via `sendMouse()`', async () 
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[0]);
 
   expect(host.open).to.be.true;
@@ -371,7 +357,7 @@ it('remains open when an Option is clicked and the event is canceled at the Opti
     event.preventDefault();
   });
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(option);
 
   expect(host.open).to.be.true;
@@ -434,7 +420,7 @@ it('remains open when an Option is clicked and the event is canceled at Options'
       event.preventDefault();
     });
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(option);
 
   expect(host.open).to.be.true;
@@ -495,7 +481,7 @@ it('remains open when its target is clicked and the event is canceled at its tar
     event.preventDefault();
   });
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(target);
 
   expect(host.open).to.be.true;
@@ -531,7 +517,7 @@ it('remains open when its target is clicked and the event is canceled at its hos
     event.preventDefault();
   });
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(target);
 
   expect(host.open).to.be.true;
@@ -567,7 +553,7 @@ it('remains open when arbitrary content in its default slot is clicked', async (
 
   const content = host.querySelectorAll('button')[1];
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(content);
 
   expect(host.open).to.be.true;
@@ -663,7 +649,7 @@ it('closes when closed programmatically', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   host.open = false;
   await host.updateComplete;
 
@@ -1145,7 +1131,7 @@ it('opens its sub-Menus on ArrowRight', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
@@ -1378,7 +1364,7 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   // A programmatic click instead of an actual one because `sendMouse()` (via
   // `mouse.ts`) turned out to be flaky in CI.
@@ -1431,7 +1417,7 @@ it('opens its sub-Menus when its sub-Menu targets are clicked', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.be.empty.string;
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   targets[2]?.click();
   await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
@@ -1487,7 +1473,7 @@ it('closes when its target is clicked', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(target);
 
   expect(host.open).to.be.false;
@@ -1513,7 +1499,7 @@ it('closes when in another component and its target clicked', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(target);
 
   expect(menu?.open).to.be.false;
@@ -1540,7 +1526,7 @@ it('closes when in another component and an Option is clicked', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(option);
 
   expect(menu?.open).to.be.false;
@@ -1591,7 +1577,7 @@ it('closes itself and its sub-Menus when something outside of it is clicked', as
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(document.body);
 
   expect(hosts[0]?.open).to.be.false;
@@ -1666,23 +1652,8 @@ it('closes its sub-Menus when their targets are clicked', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
-
-  // A programmatic click instead of an actual one because `sendMouse()` (via
-  // `mouse.ts`) turned out to be flaky in CI.
-  //
-  // After a bunch of experimentation and source code digging, the ultimate cause of
-  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be
-  // that it clicks an Option or an element outside Menu instead of the target,
-  // causing Menu to close. Though it only happens when nested popovers are present
-  // via sub-Menus.
-  //
-  // `sendMouse()` is just a thin abstraction over Playwright's equivalent API. So
-  // the ultimate cause is likely Playwright or Chromium's DevTools Protocol, which
-  // Playwright relies on. It's that or I'm missing something obvious. Either way,
-  // it was time to move on.
-  targets[2]?.click();
-
+  await requestIdleCallback(); // Wait for Floating UI
+  await click(targets[2]);
   await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
@@ -1719,8 +1690,8 @@ it('closes its sub-Menus when their targets are clicked', async () => {
       ?.getAttribute('aria-activedescendant'),
   ).to.be.empty.string;
 
-  await aTimeout(0); // Wait for Floating UI
-  targets[1]?.click();
+  await requestIdleCallback(); // Wait for Floating UI
+  await click(targets[1]);
   await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(hosts[0]?.open).to.be.true;
@@ -1795,7 +1766,7 @@ it('closes its nested sub-Menu when the super-Menu of the sub-Menu is closed', a
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(targets[1]);
 
   expect(hosts[0]?.open).to.be.true;
@@ -1876,7 +1847,7 @@ it('closes its sub-Menus and itself on Escape', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Escape' });
 
@@ -2018,7 +1989,7 @@ it('closes on Escape when arbitrary content in its default slot has focus ', asy
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' }); // Target
   await sendKeys({ press: 'Tab' }); // Button
   await sendKeys({ press: 'Escape' });
@@ -2051,7 +2022,7 @@ it('closes when an Option is selected via click', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host.querySelector('glide-core-option'));
 
   expect(host.open).to.be.false;
@@ -2102,7 +2073,7 @@ it('closes when a sub-Menu Option is selected via click', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[2]);
 
   expect(hosts[0]?.open).to.be.false;
@@ -2157,7 +2128,7 @@ it('closes when an Option is selected via Enter', async () => {
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
@@ -2209,7 +2180,7 @@ it('closes when a sub-Menu Option is selected via Enter', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
@@ -2265,7 +2236,7 @@ it('closes when its target is a SPAN and an Option is selected via Enter', async
     '[data-test="default-slot"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
@@ -2348,7 +2319,7 @@ it('closes when a sub-Menu Option is selected via Space', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
@@ -2471,7 +2442,7 @@ it('closes its sub-Menus on ArrowLeft', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
 
@@ -2596,7 +2567,7 @@ it('closes its tooltip when a sub-Menu target is hovered', async () => {
     }
   }
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[0]);
 
   // For whatever reason, there's a significant delay between hovering and
@@ -2654,7 +2625,7 @@ it('closes sibling sub-Menus when a new sub-Menu is opened', async () => {
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(targets[2]);
 
   expect(hosts[0]?.open).to.be.true;
@@ -2713,12 +2684,12 @@ it('closes child sub-Menus when the target of a super-Menu is disabled', async (
     ),
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   assert(targets[1]);
   targets[1].disabled = true;
 
-  await aTimeout(0); // Wait for the Mutation Observer
+  await requestIdleCallback(); // Wait for the Mutation Observer
 
   expect(hosts[0]?.open).to.be.true;
   expect(hosts[1]?.open).to.be.true;
@@ -2758,7 +2729,7 @@ it('is opened when open and `disabled` is set on its target programmatically', a
   assert(target);
   target.disabled = false;
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(host.open).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
@@ -2792,7 +2763,7 @@ it('is opened when open and `aria-disabled` is set on its target programmaticall
   assert(target);
   target.ariaDisabled = 'false';
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(host.open).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
@@ -2847,7 +2818,7 @@ it('activates its previously active Option when reopened', async () => {
   const target = host.querySelector('button');
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[1]);
   await click(target); // Close
   await click(target); // Reopen
@@ -2878,7 +2849,7 @@ it('activates its first Option when reopened and its previously active Option ha
   const target = host.querySelector('button');
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[2]);
   await click(target); // Close
 
@@ -2934,25 +2905,10 @@ it('activates the first Option(s) of its sub-Menus they are opened via click', a
   const targets = host.querySelectorAll('button');
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
-
-  // A programmatic click instead of an actual one because `sendMouse()` (via
-  // `mouse.ts`) turned out to be flaky in CI.
-  //
-  // After a bunch of experimentation and source code digging, the ultimate cause of
-  // the `sendMouse()` flakiness isn't clear. The immediate cause seems to be
-  // that it clicks an Option or an element outside Menu instead of the target,
-  // causing Menu to close. Though it only happens when nested popovers are present
-  // via sub-Menus.
-  //
-  // `sendMouse()` is just a thin abstraction over Playwright's equivalent API. So
-  // the ultimate cause is likely Playwright or Chromium's DevTools Protocol, which
-  // Playwright relies on. It's that or I'm missing something obvious. Either way,
-  // it was time to move on.
-  targets[1]?.click();
-
-  await aTimeout(0); // Wait for Floating UI
-  targets[2]?.click();
+  await requestIdleCallback(); // Wait for Floating UI
+  await click(targets[1]);
+  await requestIdleCallback(); // Wait for Floating UI
+  await click(targets[2]);
   await aTimeout(0); // Wait for the timeout in `#onTargetSlotClick()`
 
   expect(options[0]?.privateActive).to.be.true;
@@ -3008,7 +2964,7 @@ it('activates an Option on hover', async () => {
     }
   }
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[1]);
   await aTimeout(0); // Wait for Tooltip's `#onComponentMouseOver()`
 
@@ -3046,14 +3002,7 @@ it('does not open the tooltip of a super-Menu Option when one of its sub-Menu Op
     </glide-core-menu>`,
   );
 
-  const hosts = [host, ...host.querySelectorAll('glide-core-menu')];
   const options = host.querySelectorAll('glide-core-option');
-
-  const defaultSlots = hosts.map((host) =>
-    host.shadowRoot?.querySelector<HTMLSlotElement>(
-      '[data-test="default-slot"]',
-    ),
-  );
 
   const tooltips = [...options]
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
@@ -3068,14 +3017,7 @@ it('does not open the tooltip of a super-Menu Option when one of its sub-Menu Op
     }
   }
 
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But Menus opening
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return (
-      defaultSlots[0]?.checkVisibility() && defaultSlots[1]?.checkVisibility()
-    );
-  });
-
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[1]);
 
   // For whatever reason, there's a significant delay between hovering and
@@ -3110,7 +3052,7 @@ it('retains its active Option when a sub-Menu Option is hovered', async () => {
   const hosts = [host, ...host.querySelectorAll('glide-core-menu')];
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[3]);
   await hover(options[2]);
 
@@ -3145,7 +3087,7 @@ it('activates Options on hover when all or some are in a nested slot', async () 
     host.shadowRoot?.querySelector('glide-core-option'),
   ];
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[1]);
 
   expect(options[0]?.privateActive).to.be.false;
@@ -3191,7 +3133,7 @@ it('activates Options on hover when they are in Options Groups', async () => {
   `);
 
   const options = host.querySelectorAll('glide-core-option');
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[1]);
 
   expect(options[0]?.privateActive).to.be.false;
@@ -3273,7 +3215,7 @@ it('activates the next enabled Option on ArrowDown', async () => {
     </glide-core-menu>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' });
 
@@ -3439,20 +3381,7 @@ it('activates the next sub-Menu Option on ArrowDown after an Option of another M
   const hosts = [host, ...host.querySelectorAll('glide-core-menu')];
   const options = host.querySelectorAll('glide-core-option');
 
-  const defaultSlots = hosts.map((host) =>
-    host.shadowRoot?.querySelector<HTMLSlotElement>(
-      '[data-test="default-slot"]',
-    ),
-  );
-
-  // Replaces the usual `await aTimeout(0)`. It's not clear why. But Menus opening
-  // in tests sometimes takes more than a tick when sub-Menus are present.
-  await waitUntil(() => {
-    return (
-      defaultSlots[0]?.checkVisibility() && defaultSlots[1]?.checkVisibility()
-    );
-  });
-
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[3]); // Four
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // Three
@@ -3544,7 +3473,7 @@ it('activates the next enabled Option on ArrowUp', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'ArrowUp' });
@@ -3728,7 +3657,7 @@ it('activates the first enabled Option on Home', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
   await sendKeys({ press: 'Home' });
@@ -3912,7 +3841,7 @@ it('activates the first enabled Option on PageUp', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'PageDown' });
   await sendKeys({ press: 'PageUp' });
@@ -4096,7 +4025,7 @@ it('activates the first enabled Option on Meta + ArrowUp', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
   await sendKeys({ down: 'Meta' });
@@ -4291,7 +4220,7 @@ it('activates the last enabled Option on End', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
 
@@ -4477,7 +4406,7 @@ it('activates the last enabled Option on PageDown', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'PageDown' });
 
@@ -4663,7 +4592,7 @@ it('activates the last enabled Option on Meta + ArrowDown', async () => {
     .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
     .filter((element): element is Tooltip => element instanceof Tooltip);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowDown' });
@@ -4808,7 +4737,7 @@ it('does not wrap on ArrowUp', async () => {
 
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowUp' });
 
@@ -4836,7 +4765,7 @@ it('does not wrap on ArrowDown', async () => {
 
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // Two
   await sendKeys({ press: 'ArrowDown' }); // Two
@@ -4873,7 +4802,7 @@ it('sets the first enabled Option as active when Optionless and Options are adde
   host.querySelector('glide-core-options')?.append(secondOption);
   host.querySelector('glide-core-options')?.append(thirdOption);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await host.updateComplete;
   await secondOption.updateComplete;
 
@@ -4903,7 +4832,7 @@ it('sets the next enabled Option as active when the active Option is disabled pr
 
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   assert(options[0]);
   options[0].disabled = true;
@@ -4935,7 +4864,7 @@ it('sets the previously enabled Option as active when current Option is disabled
 
   const options = host.querySelectorAll('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[2]);
 
   assert(options[2]);
@@ -4965,7 +4894,7 @@ it('retains its active Option when an Option is programmatically added', async (
     </glide-core-menu>
   `);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(host.querySelector('glide-core-option:last-of-type'));
 
   const button = document.createElement('glide-core-option');
@@ -5025,7 +4954,7 @@ it('has limited keyboard functionality when loading', async () => {
   assert(hosts[1]);
   assert(hosts[2]);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Escape' });
 
@@ -5108,7 +5037,7 @@ it('shows loading feedback', async () => {
     </glide-core-menu>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.loading = true;
   await host.updateComplete;
@@ -5134,7 +5063,7 @@ it('hides loading feedback', async () => {
     </glide-core-menu>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.loading = false;
   await host.updateComplete;

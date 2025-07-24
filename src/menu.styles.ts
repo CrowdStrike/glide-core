@@ -36,7 +36,6 @@ export default [
       padding-block-end: 0;
       padding-block-start: var(--glide-core-spacing-base-xxxs);
       padding-inline: var(--glide-core-spacing-base-xxxs);
-      position: absolute;
 
       /*
         This little hack replaces "padding-block-end", which the last option overlaps
