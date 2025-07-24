@@ -20,7 +20,7 @@ const meta: Meta = {
           import '@crowdstrike/glide-core/split-button.js';
           import '@crowdstrike/glide-core/split-button.primary-link.js';
           import '@crowdstrike/glide-core/split-button.secondary-button.js';
-          import '@crowdstrike/glide-core/option.secondary-button.js';
+          import '@crowdstrike/glide-core/option.js';
         </script>
 
         ${story()}

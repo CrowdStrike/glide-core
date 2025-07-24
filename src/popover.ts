@@ -198,7 +198,6 @@ export default class Popover extends LitElement {
     // and "focusout". It also calls for popovers to have an `aria-label`, but then
     // VoiceOver, at least, won't read the popover's content. So an element with an
     // `aria-label` is placed inside the popover.
-
     return html`
       <div class="component">
         <slot
