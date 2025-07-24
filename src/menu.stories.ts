@@ -12,17 +12,7 @@ import MenuComponent from './menu.js';
 
 const meta: Meta = {
   title: 'Menu',
-  decorators: [
-    withActions,
-    (story) =>
-      html`<script type="ignore">
-          import '@crowdstrike/glide-core/menu.js';
-          import '@crowdstrike/glide-core/options.js';
-          import '@crowdstrike/glide-core/option.js';
-        </script>
-
-        ${story()}`,
-  ],
+  decorators: [withActions],
   parameters: {
     actions: {
       // "glide-core-option" is selected so "click" events from Menu's target aren't
@@ -389,9 +379,33 @@ const meta: Meta = {
 
 export default meta;
 
-export const Menu: StoryObj = {};
+export const Menu: StoryObj = {
+  decorators: [
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/menu.js';
+        import '@crowdstrike/glide-core/options.js';
+        import '@crowdstrike/glide-core/option.js';
+      </script>
+
+      ${story()}
+    `,
+  ],
+};
 
 export const WithGroups: StoryObj = {
+  decorators: [
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/menu.js';
+        import '@crowdstrike/glide-core/options.js';
+        import '@crowdstrike/glide-core/options.group.js';
+        import '@crowdstrike/glide-core/option.js';
+      </script>
+
+      ${story()}
+    `,
+  ],
   render(arguments_) {
     return html`<glide-core-menu
       offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
@@ -459,6 +473,17 @@ export const WithGroups: StoryObj = {
 };
 
 export const WithIcons: StoryObj = {
+  decorators: [
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/menu.js';
+        import '@crowdstrike/glide-core/options.js';
+        import '@crowdstrike/glide-core/option.js';
+      </script>
+
+      ${story()}
+    `,
+  ],
   args: {
     '<glide-core-option>.label': 'Edit',
   },
