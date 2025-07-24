@@ -675,70 +675,50 @@ export default class Menu extends LitElement {
   }
 
   #onDefaultSlotMouseOver(event: MouseEvent) {
-    // Chrome has this funky Popover API bug where the popover is, for about 10
-    // milliseconds, rendered above where it's supposed to be whenever `showPopover()`
-    // is called.
-    //
-    // It's not clear if the popover is invisible during that time, or if it's visible
-    // and 10 milliseconds isn't enough to be noticable. Either way, it's effectively
-    // invisible but still picks up "mouseover" events.
-    //
-    // If the user's mouse happens to be over one of the Option(s) that's inside our
-    // invisible, mispositioned popover, then the Option is activated. Thus this
-    // variable and the guard below it.
-    //
-    // There's no mention of the above issue in it. But this bug is probably a good one
-    // to keep an eye on: https://issues.chromium.org/issues/364669918.
-    const isOutOfBounds =
-      this.#componentElementRef.value &&
-      event.y < this.#componentElementRef.value.getBoundingClientRect().y;
+    const option =
+      event.target instanceof Element &&
+      event.target.closest('glide-core-option');
 
-    if (!isOutOfBounds) {
-      const option =
-        event.target instanceof Element &&
-        event.target.closest('glide-core-option');
+    const isSubMenuTarget =
+      event.target instanceof Element &&
+      event.target.closest('[slot="target"]');
 
-      const isSubMenuTarget =
-        event.target instanceof Element &&
-        event.target.closest('[slot="target"]');
+    const isOwnOption = option && this.#optionElements?.includes(option);
 
-      const isOwnOption = option && this.#optionElements?.includes(option);
+    // This handler is also called when a sub-Menu Option is hovered because sub-Menu
+    // Option(s) are children of their super-Menu's default slot. And hovering a
+    // sub-Menu Option shouldn't deactivate the super-Menu's active Option. Thus
+    // `isOwnOption`.
+    if (isOwnOption && !isSubMenuTarget && !option.disabled) {
+      this.#previouslyActiveOption = this.#activeOption;
 
-      // This handler is also called when a sub-Menu Option is hovered because sub-Menu
-      // Option(s) are children of their super-Menu's default slot. And hovering a
-      // sub-Menu Option shouldn't deactivate the super-Menu's active Option. Thus
-      // `isOwnOption`.
-      if (isOwnOption && !isSubMenuTarget && !option.disabled) {
-        this.#previouslyActiveOption = this.#activeOption;
-
-        if (this.#activeOption) {
-          this.#activeOption.privateActive = false;
-        }
-
-        option.privateActive = true;
-
-        if (this.#optionsElement) {
-          this.#optionsElement.ariaActivedescendant = event.target.id;
-        }
+      if (this.#activeOption) {
+        this.#activeOption.privateActive = false;
       }
 
-      if (this.#isSubMenu) {
-        // Allowing the event to propagate from a sub-Menu's parent Option means it would
-        // get picked up by the super-Menu Option's Tooltip "mouseover" handler. Then it
-        // would open the super-Menu's tooltip.
-        event.stopPropagation();
-      }
+      option.privateActive = true;
 
-      if (isSubMenuTarget && this.#activeOption) {
-        // When the cursor is already inside an Option and the user mouses to the Option's
-        // sub-Menu target, the browser will dispatch "mouseout" followed by "mouseover".
-        //
-        // The Option's tooltip will pick up both events and will remain open because the
-        // tooltip will be closed then immediately reopened. But we want the tooltip to
-        // close when a sub-Menu target is hovered. Canceling the event stops the tooltip
-        // from reopening.
-        event.preventDefault();
+      if (this.#optionsElement) {
+        this.#optionsElement.ariaActivedescendant = event.target.id;
       }
+    }
+
+    if (this.#isSubMenu) {
+      // Allowing the event to propagate from a sub-Menu's parent Option means it would
+      // get picked up by the super-Menu Option's Tooltip "mouseover" handler. Then it
+      // would open the super-Menu's tooltip.
+      event.stopPropagation();
+    }
+
+    if (isSubMenuTarget && this.#activeOption) {
+      // When the cursor is already inside an Option and the user mouses to the Option's
+      // sub-Menu target, the browser will dispatch "mouseout" followed by "mouseover".
+      //
+      // The Option's tooltip will pick up both events and will remain open because the
+      // tooltip will be closed then immediately reopened. But we want the tooltip to
+      // close when a sub-Menu target is hovered. Canceling the event stops the tooltip
+      // from reopening.
+      event.preventDefault();
     }
   }
 
