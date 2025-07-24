@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.31.2
+
+### Patch Changes
+
+- [#998](https://github.com/CrowdStrike/glide-core/pull/998) [`62f3eee`](https://github.com/CrowdStrike/glide-core/commit/62f3eee8c29929a6dfe40d7a55909bfcfc8978ba) Thanks [@clintcs](https://github.com/clintcs)! - Menu Option(s) are now activated when they are hovered and Menu's `position` attribute is "top", "top-start", or "top-end".
+
 ## 0.31.1
 
 ### Patch Changes
