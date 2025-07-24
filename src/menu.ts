@@ -297,7 +297,6 @@ export default class Menu extends LitElement {
           @keydown=${this.#onTargetAndDefaultSlotKeyDown}
           @mousedown=${this.#onDefaultSlotMouseDown}
           @mouseover=${this.#onDefaultSlotMouseOver}
-          @mouseup=${this.#onDefaultSlotMouseUp}
           @private-disabled-change=${this.#onDefaultSlotDisabledChange}
           @private-slot-change=${this.#onDefaultSlotSlotChange}
           @toggle=${this.#onDefaultSlotToggle}
@@ -578,6 +577,8 @@ export default class Menu extends LitElement {
   }
 
   #onDefaultSlotClick(event: Event) {
+    this.#isDefaultSlotClick = true;
+
     // When the padding or border on the default slot of a sub-Menu is clicked, the
     // event will be retargeted by the browser to the sub-Menu's parent Option.
     //
@@ -740,10 +741,6 @@ export default class Menu extends LitElement {
         event.preventDefault();
       }
     }
-  }
-
-  #onDefaultSlotMouseUp() {
-    this.#isDefaultSlotClick = true;
   }
 
   #onDefaultSlotSlotChange() {
