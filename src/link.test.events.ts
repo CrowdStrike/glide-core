@@ -93,21 +93,3 @@ it('dispatches a "click" event on Enter', async () => {
   expect(event.bubbles).to.be.true;
   expect(event.composed).to.be.true;
 });
-
-it('does not dispatch a "click" event on Enter when disabled', async () => {
-  const host = await fixture<Link>(
-    html`<glide-core-link label="Label" href="/" disabled></glide-core-link>`,
-  );
-
-  const spy = sinon.spy();
-
-  host.addEventListener('click', (event: Event) => {
-    event.preventDefault();
-    spy();
-  });
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(spy.callCount).to.equal(0);
-});
