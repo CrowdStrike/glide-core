@@ -9,8 +9,7 @@ test('disabled=${true}', async ({ page }) => {
   });
 
   await expect(page.locator('glide-core-link')).toMatchAriaSnapshot(`
-    - link "Label" [disabled]:
-      - /url: /
+    - link "Label" [disabled]
   `);
 });
 
