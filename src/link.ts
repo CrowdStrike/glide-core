@@ -60,22 +60,37 @@ export default class Link extends LitElement {
   }
 
   override render() {
-    return html`<a
-      aria-disabled=${this.disabled}
-      class=${classMap({
-        component: true,
-        disabled: this.disabled,
-        href: Boolean(this.href),
-      })}
-      data-test="component"
-      download=${ifDefined(this.download)}
-      href=${ifDefined(this.href)}
-      target=${ifDefined(this.target)}
-      @click=${this.#onClick}
-      ${ref(this.#componentElementRef)}
-    >
-      ${this.label}
-    </a>`;
+    /* eslint-disable lit-a11y/click-events-have-key-events */
+    return this.disabled
+      ? html`<span
+          aria-disabled="true"
+          class=${classMap({
+            component: true,
+            disabled: this.disabled,
+          })}
+          data-test="component"
+          role="link"
+          tabindex="0"
+          @click=${this.#onClick}
+          ${ref(this.#componentElementRef)}
+        >
+          ${this.label}
+        </span>`
+      : html`<a
+          class=${classMap({
+            component: true,
+            disabled: this.disabled,
+            href: Boolean(this.href),
+          })}
+          data-test="component"
+          download=${ifDefined(this.download)}
+          href=${ifDefined(this.href)}
+          target=${ifDefined(this.target)}
+          @click=${this.#onClick}
+          ${ref(this.#componentElementRef)}
+        >
+          ${this.label}
+        </a>`;
   }
 
   #componentElementRef = createRef<HTMLAnchorElement>();
