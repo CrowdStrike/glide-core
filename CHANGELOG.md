@@ -21,7 +21,7 @@
 ### Minor Changes
 
 - [#986](https://github.com/CrowdStrike/glide-core/pull/986) [`9ab18b1`](https://github.com/CrowdStrike/glide-core/commit/9ab18b116fec75f55f5d50eda624e5c72b59e0cf) Thanks [@clintcs](https://github.com/clintcs)! - Menu can no longer be opened by setting its `open` attribute via the "click" handler of an element outside Menu.
-  If you need to open this way, you can call `click()` on Menu's target in your handler.
+  If you need Menu to open this way, you can call `click()` on Menu's target in that handler.
   This change was made to support the ability to open sub-Menu targets programmatically by calling `click()`.
 
 ### Patch Changes

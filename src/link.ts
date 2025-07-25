@@ -60,6 +60,9 @@ export default class Link extends LitElement {
   }
 
   override render() {
+    // Lit-a11y also wants a keyboard listener on anything with a "click" listener and
+    // doesn't account for `role="link"`.
+    //
     /* eslint-disable lit-a11y/click-events-have-key-events */
     return this.disabled
       ? html`<span

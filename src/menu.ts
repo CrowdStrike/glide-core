@@ -24,7 +24,7 @@ declare global {
  * @attr {boolean} [loading=false]
  * @attr {number} [offset=4]
  * @attr {boolean} [open=false]
- * @attr {'bottom'|'left'|'right'|'top'|'bottom-start'|'bottom-end'|'left-start'|'left-end'|'right-start'|'right-end'|'top-start'|'top-end'} [placement='bottom-start']
+ * @attr {'bottom'|'left'|'right'|'top'|'bottom-start'|'bottom-end'|'left-start'|'left-end'|'right-start'|'right-end'|'top-start'|'top-end'} [placement='bottom-start'] - Menu will try to move itself to the opposite of this value if not doing so would result in overflow. For example, if "bottom" results in overflow Menu will try "top" but not "right" or "left".
  *
  * @readonly
  * @attr {string} [version]
@@ -113,6 +113,10 @@ export default class Menu extends LitElement {
     }
   }
 
+  /**
+   * Menu will try to move itself to the opposite of this value if not doing so would result in overflow.
+   * For example, if "bottom" results in overflow Menu will try "top" but not "right" or "left".
+   */
   @property({ reflect: true, useDefault: true })
   placement:
     | 'bottom'
@@ -220,7 +224,7 @@ export default class Menu extends LitElement {
     }
 
     if (this.#defaultSlotElementRef.value) {
-      // `popover` so Options can break out of Modal or another container that has
+      // `popover` so Options can break out of Modal or another element that has
       // `overflow: hidden`. Elements with `popover` are positioned relative to the
       // viewport. Thus Floating UI in addition to `popover` until anchor positioning is
       // well supported.
@@ -323,7 +327,7 @@ export default class Menu extends LitElement {
   // `#onTargetAndDefaultSlotKeyDown()` to decide if we need to move focus.
   #hasVoiceOverMovedFocusToOptionsOrAnOption = false;
 
-  // Set in `#onDefaultSlotMouseUp()`. Used in `#onDocumentClick()` to guard against
+  // Set in `#onDefaultSlotClick()`. Used in `#onDocumentClick()` to guard against
   // Menu closing when any number of things that are not an Option are clicked. Those
   // "click" events will be retargeted to Menu's host the moment they bubble out of
   // Menu. So checking in `#onDocumentClick()` if the click's `event.target` came

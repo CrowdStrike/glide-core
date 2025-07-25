@@ -4715,6 +4715,7 @@
                 "text": "| 'bottom'\n    | 'left'\n    | 'right'\n    | 'top'\n    | 'bottom-start'\n    | 'bottom-end'\n    | 'left-start'\n    | 'left-end'\n    | 'right-start'\n    | 'right-end'\n    | 'top-start'\n    | 'top-end'"
               },
               "default": "'bottom-start'",
+              "description": "Menu will try to move itself to the opposite of this value if not doing so would result in overflow.\nFor example, if \"bottom\" results in overflow Menu will try \"top\" but not \"right\" or \"left\".",
               "attribute": "placement",
               "reflects": true
             },
@@ -4777,6 +4778,7 @@
                 "text": "| 'bottom'\n    | 'left'\n    | 'right'\n    | 'top'\n    | 'bottom-start'\n    | 'bottom-end'\n    | 'left-start'\n    | 'left-end'\n    | 'right-start'\n    | 'right-end'\n    | 'top-start'\n    | 'top-end'"
               },
               "default": "'bottom-start'",
+              "description": "Menu will try to move itself to the opposite of this value if not doing so would result in overflow.\nFor example, if \"bottom\" results in overflow Menu will try \"top\" but not \"right\" or \"left\".",
               "fieldName": "placement"
             },
             {
@@ -5863,7 +5865,7 @@
           "slots": [
             {
               "name": "target",
-              "description": "The element to which the popover will anchor. Can be any focusable element.",
+              "description": "The element to which Popover will anchor. Can be any focusable element.",
               "type": {
                 "text": "Element"
               }
@@ -5922,6 +5924,7 @@
               "type": {
                 "text": "'bottom' | 'left' | 'right' | 'top' | undefined"
               },
+              "description": "Popover will try to move itself to the opposite of this value if not doing so would result in overflow.\nFor example, if \"bottom\" results in overflow Popover will try \"top\" but not \"right\" or \"left\".",
               "attribute": "placement"
             },
             {
@@ -5973,6 +5976,7 @@
               "type": {
                 "text": "'bottom' | 'left' | 'right' | 'top' | undefined"
               },
+              "description": "Popover will try to move itself to the opposite of this value if not doing so would result in overflow.\nFor example, if \"bottom\" results in overflow Popover will try \"top\" but not \"right\" or \"left\".",
               "fieldName": "placement"
             },
             {
@@ -9769,7 +9773,7 @@
           "slots": [
             {
               "name": "target",
-              "description": "The element to which the tooltip will anchor. Can be any element with an implicit or explicit ARIA role.",
+              "description": "The element to which Tooltip will anchor. Can be any interactive element with an implicit or explicit ARIA role.",
               "required": {
                 "tag": "required",
                 "name": "",
@@ -9876,7 +9880,7 @@
               "type": {
                 "text": "'bottom' | 'left' | 'right' | 'top' | undefined"
               },
-              "description": "The placement of the tooltip relative to its target. Automatic placement will\ntake over if the tooltip is cut off by the viewport.",
+              "description": "Tooltip will try to move itself to the opposite of this value if not doing so would result in overflow.\nFor example, if \"bottom\" results in overflow Tooltip will try \"top\" but not \"right\" or \"left\".",
               "attribute": "placement",
               "reflects": true
             },
@@ -9966,7 +9970,7 @@
               "type": {
                 "text": "'bottom' | 'left' | 'right' | 'top' | undefined"
               },
-              "description": "The placement of the tooltip relative to its target. Automatic placement will\ntake over if the tooltip is cut off by the viewport.",
+              "description": "Tooltip will try to move itself to the opposite of this value if not doing so would result in overflow.\nFor example, if \"bottom\" results in overflow Tooltip will try \"top\" but not \"right\" or \"left\".",
               "fieldName": "placement"
             },
             {

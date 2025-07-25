@@ -78,7 +78,7 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail:
-            '// The element to which the tooltip will anchor. Can be any element with an implicit or explicit ARIA role.',
+            '// The element to which Tooltip will anchor. Can be any interactive element with an implicit or explicit\n// ARIA role.',
         },
       },
       type: { name: 'function', required: true },
@@ -132,7 +132,7 @@ const meta: Meta = {
         type: {
           summary: '"top" | "right" | "bottom" | "left"',
           detail:
-            '// The tooltip will try to move itself to the opposite of this value if not doing so would result in\n// overflow. For example, if "bottom" results in overflow Tooltip will try "top" but not "right"\n// or "left".',
+            '// Tooltip will try to move itself to the opposite of this value if not doing so would result in\n// overflow. For example, if "bottom" results in overflow Tooltip will try "top" but not "right"\n// or "left".',
         },
       },
     },
