@@ -1,13 +1,16 @@
 import './options.js';
 import './option.js';
 import './input.js';
-import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import Menu from './menu.js';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
+import './options.group.js';
 import requestIdleCallback from './library/request-idle-callback.js';
+import { click, hover } from './library/mouse.js';
+import Menu from './menu.js';
+import Tooltip from './tooltip.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Menu {}
@@ -603,4 +606,433 @@ it('throws when the target of a sub-Menu is an Input', async () => {
       </glide-core-menu>`,
     );
   });
+});
+
+it('opens when opened programmatically', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="One ${'x'.repeat(500)}"></glide-core-option>
+        <glide-core-option label="Two ${'x'.repeat(500)}"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  const target = host.querySelector('button');
+  const options = host.querySelectorAll('glide-core-option');
+
+  const defaultSlot = host.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
+
+  const tooltips = [...options]
+    .map((option) => option.shadowRoot?.querySelector('[data-test="tooltip"]'))
+    .filter((element): element is Tooltip => element instanceof Tooltip);
+
+  host.open = true;
+  await requestIdleCallback(); // Wait for Floating UI
+
+  expect(host.open).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(tooltips[0]?.open).to.be.false;
+  expect(tooltips[1]?.open).to.be.false;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(options[0]?.id);
+});
+
+it('closes when closed programmatically', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  const target = host.querySelector('button');
+
+  const defaultSlot = host.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
+
+  await requestIdleCallback(); // Wait for Floating UI
+  host.open = false;
+  await host.updateComplete;
+
+  expect(host.open).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(defaultSlot?.checkVisibility()).to.not.be.ok;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.be.empty.string;
+});
+
+it('closes child sub-Menus when the target of a super-Menu is disabled programmatically', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="One">
+          <glide-core-menu slot="submenu" open>
+            <button slot="target">Target</button>
+
+            <glide-core-options>
+              <glide-core-option label="Two">
+                <glide-core-menu slot="submenu" open>
+                  <button slot="target">Target</button>
+
+                  <glide-core-options>
+                    <glide-core-option label="Three"></glide-core-option>
+                  </glide-core-options>
+                </glide-core-menu>
+              </glide-core-option>
+            </glide-core-options>
+          </glide-core-menu>
+        </glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  const options = host.querySelectorAll('glide-core-option');
+  const targets = host.querySelectorAll('button');
+  const hosts = [host, ...host.querySelectorAll('glide-core-menu')];
+
+  const defaultSlots = hosts.map((host) =>
+    host.shadowRoot?.querySelector<HTMLSlotElement>(
+      '[data-test="default-slot"]',
+    ),
+  );
+
+  await requestIdleCallback(); // Wait for Floating UI
+
+  assert(targets[1]);
+  targets[1].disabled = true;
+
+  await requestIdleCallback(); // Wait for the Mutation Observer
+
+  expect(hosts[0]?.open).to.be.true;
+  expect(hosts[1]?.open).to.be.true;
+  expect(hosts[2]?.open).to.be.false;
+
+  expect(targets[0]?.ariaExpanded).to.equal('true');
+  expect(targets[1]?.ariaExpanded).to.be.null;
+  expect(targets[2]?.ariaExpanded).to.be.null;
+
+  expect(options[0]?.ariaExpanded).to.equal('false');
+  expect(options[1]?.ariaExpanded).to.equal('false');
+  expect(options[2]?.ariaExpanded).to.be.null;
+
+  expect(defaultSlots[0]?.checkVisibility()).to.be.true;
+  expect(defaultSlots[1]?.checkVisibility()).to.not.be.ok;
+  expect(defaultSlots[2]?.checkVisibility()).to.not.be.ok;
+});
+
+it('is opened when open and `disabled` is set on its target programmatically', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-menu open>
+      <button slot="target" disabled>Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  const target = host.querySelector('button');
+  const option = host.querySelector('glide-core-option');
+
+  const defaultSlot = host.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
+
+  assert(target);
+  target.disabled = false;
+
+  await requestIdleCallback(); // Wait for Floating UI
+
+  expect(host.open).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(option?.id);
+});
+
+it('is opened when open and `aria-disabled` is set on its target programmatically', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-menu open>
+      <button slot="target" aria-disabled="true">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  const target = host.querySelector('button');
+  const option = host.querySelector('glide-core-option');
+
+  const defaultSlot = host.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="default-slot"]',
+  );
+
+  assert(target);
+  target.ariaDisabled = 'false';
+
+  await requestIdleCallback(); // Wait for Floating UI
+
+  expect(host.open).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(option?.id);
+});
+
+it('activates its first Option when first opened', async () => {
+  const host = await fixture<Menu>(html`
+    <glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="One"></glide-core-option>
+        <glide-core-option label="Two"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>
+  `);
+
+  const target = host.querySelector('button');
+  const options = host.querySelectorAll('glide-core-option');
+
+  await click(target);
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(options[1]?.privateActive).to.be.false;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).equal(options[0]?.id);
+});
+
+it('sets the first enabled Option as active when Optionless and Options are added programmatically', async () => {
+  const host = await fixture<Menu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+      <glide-core-options></glide-core-options>
+    </glide-core-menu>
+  `);
+
+  const firstOption = document.createElement('glide-core-option');
+  firstOption.label = 'One';
+  firstOption.disabled = true;
+
+  const secondOption = document.createElement('glide-core-option');
+  secondOption.label = 'Two';
+
+  const thirdOption = document.createElement('glide-core-option');
+  thirdOption.label = 'One';
+
+  host.querySelector('glide-core-options')?.append(firstOption);
+  host.querySelector('glide-core-options')?.append(secondOption);
+  host.querySelector('glide-core-options')?.append(thirdOption);
+
+  await requestIdleCallback(); // Wait for Floating UI
+  await host.updateComplete;
+  await secondOption.updateComplete;
+
+  expect(firstOption?.privateActive).to.be.false;
+  expect(secondOption?.privateActive).to.be.true;
+  expect(thirdOption?.privateActive).to.be.false;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(secondOption.id);
+});
+
+it('sets the next enabled Option as active when the active Option is disabled programmatically', async () => {
+  const host = await fixture<Menu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="One"></glide-core-option>
+        <glide-core-option label="Two"></glide-core-option>
+        <glide-core-option label="Three"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>
+  `);
+
+  const options = host.querySelectorAll('glide-core-option');
+
+  await requestIdleCallback(); // Wait for Floating UI
+
+  assert(options[0]);
+  options[0].disabled = true;
+  await options[1]?.updateComplete;
+
+  expect(options[0].privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.true;
+  expect(options[2]?.privateActive).to.be.false;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(options[1]?.id);
+});
+
+it('sets the previously enabled Option as active when current Option is disabled programmatically', async () => {
+  const host = await fixture<Menu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="One"></glide-core-option>
+        <glide-core-option label="Two"></glide-core-option>
+        <glide-core-option label="Three"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>
+  `);
+
+  const options = host.querySelectorAll('glide-core-option');
+
+  await requestIdleCallback(); // Wait for Floating UI
+  await hover(options[2]);
+
+  assert(options[2]);
+  options[2].disabled = true;
+  await options[2].updateComplete;
+
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.true;
+  expect(options[2].privateActive).to.be.false;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(options[1]?.id);
+});
+
+it('retains its active Option when an Option is programmatically added', async () => {
+  const host = await fixture<Menu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="One"></glide-core-option>
+        <glide-core-option label="Two"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>
+  `);
+
+  await requestIdleCallback(); // Wait for Floating UI
+  await hover(host.querySelector('glide-core-option:last-of-type'));
+
+  const button = document.createElement('glide-core-option');
+  button.label = 'Three';
+
+  host.querySelector('glide-core-options')?.append(button);
+  await host.updateComplete;
+
+  const options = host.querySelectorAll('glide-core-option');
+
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.true;
+  expect(options[2]?.privateActive).to.be.false;
+
+  expect(
+    host
+      .querySelector('glide-core-options')
+      ?.getAttribute('aria-activedescendant'),
+  ).to.equal(options[1]?.id);
+});
+
+it('shows loading feedback', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  await requestIdleCallback(); // Wait for Floating UI
+
+  host.loading = true;
+  await host.updateComplete;
+
+  const target = host.querySelector('button');
+
+  const feedback = host
+    ?.querySelector('glide-core-options')
+    ?.shadowRoot?.querySelector('[data-test="loading-feedback"]');
+
+  expect(target?.ariaDescription).to.equal('Loading');
+  expect(feedback?.checkVisibility()).to.be.true;
+});
+
+it('hides loading feedback', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-menu loading open>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  await requestIdleCallback(); // Wait for Floating UI
+
+  host.loading = false;
+  await host.updateComplete;
+
+  const target = host.querySelector('button');
+
+  const feedback = host
+    ?.querySelector('glide-core-options')
+    ?.shadowRoot?.querySelector('[data-test="loading-feedback"]');
+
+  expect(target?.ariaDescription).to.be.null;
+  expect(feedback?.checkVisibility()).to.not.be.ok;
+});
+
+it('has `set offset()` coverage', async () => {
+  const host = await fixture<Menu>(html`
+    <glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-options>
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>
+  `);
+
+  host.offset = 10;
 });
