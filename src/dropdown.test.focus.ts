@@ -1,8 +1,9 @@
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import './dropdown.option.js';
 import { click } from './library/mouse.js';
 import Dropdown from './dropdown.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('closes and reports validity when it loses focus', async () => {
   const div = document.createElement('div');
@@ -64,7 +65,7 @@ it('shows a fallback on focus when there are no options', async () => {
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const feedback = host.shadowRoot?.querySelector(
     '[data-test="optionless-feedback"]',

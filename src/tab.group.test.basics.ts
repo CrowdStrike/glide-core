@@ -1,11 +1,4 @@
-import {
-  assert,
-  aTimeout,
-  expect,
-  fixture,
-  html,
-  waitUntil,
-} from '@open-wc/testing';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
@@ -13,6 +6,7 @@ import TabGroup from './tab.group.js';
 import './tab.js';
 import TabPanel from './tab.panel.js';
 import expectWindowError from './library/expect-window-error.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends TabGroup {}
@@ -70,11 +64,7 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
   assert(firstTab);
   assert(selectedTabIndicator);
 
-  // Wait for the Resize Observer
-  await waitUntil(() => {
-    return selectedTabIndicator.clientWidth === firstTab.clientWidth;
-  });
-
+  await requestIdleCallback(); // Wait for the Resize Observer
   await emulateMedia({ reducedMotion: 'no-preference' });
 });
 
@@ -95,7 +85,7 @@ it('offsets the width of its tab indicator when its first tab is selected', asyn
     </glide-core-tab-group>
   `);
 
-  await aTimeout(0); // Wait for the Resize Observer
+  await requestIdleCallback(); // Wait for the Resize Observer
 
   const firstTab = host
     .querySelector('glide-core-tab')
@@ -108,11 +98,7 @@ it('offsets the width of its tab indicator when its first tab is selected', asyn
   assert(firstTab);
   assert(selectedTabIndicator);
 
-  // Wait for the Resize Observer
-  await waitUntil(() => {
-    return selectedTabIndicator.clientWidth === firstTab.clientWidth;
-  });
-
+  await requestIdleCallback(); // Wait for the Resize Observer
   await emulateMedia({ reducedMotion: 'no-preference' });
 });
 
@@ -133,7 +119,7 @@ it('offsets the width of its tab indicator when its middle tab is selected', asy
     </glide-core-tab-group>
   `);
 
-  await aTimeout(0); // Wait for the Resize Observer
+  await requestIdleCallback(); // Wait for the Resize Observer
 
   const middleTab = host
     .querySelector('glide-core-tab:nth-of-type(2)')
@@ -146,11 +132,7 @@ it('offsets the width of its tab indicator when its middle tab is selected', asy
   assert(middleTab);
   assert(selectedTabIndicator);
 
-  // Wait for the Resize Observer
-  await waitUntil(() => {
-    return selectedTabIndicator.clientWidth === middleTab.clientWidth;
-  });
-
+  await requestIdleCallback(); // Wait for the Resize Observer
   await emulateMedia({ reducedMotion: 'no-preference' });
 });
 
@@ -184,11 +166,7 @@ it('offsets the width of its tab indicator when its last tab is selected', async
   assert(lastTab);
   assert(selectedTabIndicator);
 
-  // Wait for the Resize Observer
-  await waitUntil(() => {
-    return selectedTabIndicator.clientWidth === lastTab.clientWidth;
-  });
-
+  await requestIdleCallback(); // Wait for the Resize Observer
   await emulateMedia({ reducedMotion: 'no-preference' });
 });
 

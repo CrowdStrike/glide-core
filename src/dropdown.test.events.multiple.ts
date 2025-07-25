@@ -12,6 +12,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('dispatches one "change" event when an option is selected via click', async () => {
   const host = await fixture<Dropdown>(
@@ -25,8 +26,7 @@ it('dispatches one "change" event when an option is selected via click', async (
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   click(
     host
@@ -57,8 +57,7 @@ it('dispatches a "change" event after "input"', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   click(
     host
@@ -89,8 +88,7 @@ it('dispatches one "change" event when an option is selected via Enter', async (
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('change', spy);
@@ -122,8 +120,7 @@ it('dispatches one "change" event when an option is selected via Space', async (
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('change', spy);
@@ -155,8 +152,7 @@ it('dispatches one "input" event when an option is selected via click', async ()
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('input', spy);
@@ -187,8 +183,7 @@ it('dispatches one "input" event when an option is selected via Enter', async ()
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('input', spy);
@@ -221,8 +216,7 @@ it('dispatches one "input" event when an option is selected via Space', async ()
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('input', spy);
@@ -255,8 +249,7 @@ it('dispatches one "change" event when Select All is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('change', spy);
@@ -278,8 +271,7 @@ it('dispatches one "input" event when Select All is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('input', spy);
@@ -331,8 +323,7 @@ it('continues to dispatch "change" events upon selection after `value` is set pr
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.value = ['one', 'two'];
   click(host.querySelector('glide-core-dropdown-option:last-of-type'));
@@ -386,8 +377,7 @@ it('continues to dispatch "input" events upon selection after `value` is set pro
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.value = ['one', 'two'];
   click(host.querySelector('glide-core-dropdown-option:last-of-type'));
@@ -408,8 +398,7 @@ it('dispatches one "change" event when an option is selected after Select All is
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   await click(host.shadowRoot?.querySelector('[data-test="select-all"]'));
 
@@ -433,8 +422,7 @@ it('dispatches one "input" event when an option is selected after Select All is 
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   await click(host.shadowRoot?.querySelector('[data-test="select-all"]'));
 

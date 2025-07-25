@@ -1,8 +1,9 @@
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import './dropdown.option.js';
 import { click } from './library/mouse.js';
 import Dropdown from './dropdown.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('focuses the input when `focus()` is called', async () => {
   const host = await fixture<Dropdown>(
@@ -26,7 +27,7 @@ it('retains focus on the input when an option is selected via click', async () =
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await click(host.querySelector('glide-core-dropdown-option'));
 
@@ -44,7 +45,7 @@ it('retains focus on the the input when an option is selected via Enter', async 
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
 
   host
@@ -134,7 +135,7 @@ it('sets the `value` of its `<input> to the selected option when focus is lost',
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const option = host.querySelector('glide-core-dropdown-option');
   assert(option);

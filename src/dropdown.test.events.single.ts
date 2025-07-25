@@ -11,6 +11,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import Dropdown from './dropdown.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('dispatches one "change" event when an option is selected via click', async () => {
   const host = await fixture<Dropdown>(
@@ -24,8 +25,7 @@ it('dispatches one "change" event when an option is selected via click', async (
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   click(host.querySelector('glide-core-dropdown-option'));
 
@@ -52,8 +52,7 @@ it('dispatches one "change" event when an option is selected via Enter', async (
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('change', spy);
@@ -86,8 +85,7 @@ it('dispatches one "change" event when an option is selected via Space', async (
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('change', spy);
@@ -120,8 +118,7 @@ it('dispatches a "change" event after "input"', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   click(host.querySelector('glide-core-dropdown-option'));
 
@@ -259,8 +256,7 @@ it('dispatches one "input" event when an option is selected via click', async ()
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   click(host.querySelector('glide-core-dropdown-option'));
 
@@ -287,8 +283,7 @@ it('dispatches one "input" event when an option is selected via Enter', async ()
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('input', spy);
@@ -321,8 +316,7 @@ it('dispatches one "input" event when an option is selected via Space', async ()
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('input', spy);
@@ -355,8 +349,7 @@ it('does not dispatch a "change" event when an already selected option is clicke
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const spy = sinon.spy();
   host.addEventListener('change', spy);
@@ -401,8 +394,7 @@ it('continues to dispatch "change" events upon selection after `value` is set pr
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.value = ['two'];
   click(host.querySelector('glide-core-dropdown-option'));
@@ -446,8 +438,7 @@ it('does not dispatch a "change" event when an already selected option is select
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   click(host.querySelector('glide-core-dropdown-option'));
 
@@ -469,8 +460,7 @@ it('does not dispatch an "input" event when an already selected option is select
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   click(host.querySelector('glide-core-dropdown-option'));
 
@@ -495,8 +485,7 @@ it('continues to dispatch "input" events upon selection after `value` is set pro
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.value = ['two'];
   click(host.querySelector('glide-core-dropdown-option'));

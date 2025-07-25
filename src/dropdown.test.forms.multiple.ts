@@ -1,10 +1,11 @@
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
 import sinon from 'sinon';
 import { sendKeys } from '@web/test-runner-commands';
 import Dropdown from './dropdown.js';
 import Tag from './tag.js';
 import { click } from './library/mouse.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('can be reset after options are selected via click', async () => {
   const form = document.createElement('form');
@@ -33,7 +34,7 @@ it('can be reset after options are selected via click', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[0]);
   await click(options[1]);
 
@@ -125,7 +126,7 @@ it('can be reset after options are deselected via click', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[1]);
 
   form.reset();

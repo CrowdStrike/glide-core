@@ -11,6 +11,7 @@ import './tab.js';
 import { click } from './library/mouse.js';
 import TabGroup from './tab.group.js';
 import './tab.panel.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('sets the selected tab using the `selected` attribute', async () => {
   const host = await fixture<TabGroup>(html`
@@ -540,8 +541,6 @@ it('updates the width of its selected tab indicator when the label of a tab chan
     .querySelector('glide-core-tab')
     ?.shadowRoot?.querySelector('[data-test="component"]');
 
-  const firstTabInitialWidth = firstTab?.clientWidth;
-
   const selectedTabIndicator = host.shadowRoot?.querySelector(
     '[data-test="selected-tab-indicator"]',
   );
@@ -549,18 +548,10 @@ it('updates the width of its selected tab indicator when the label of a tab chan
   assert(firstTab);
   assert(selectedTabIndicator);
 
-  // Wait for the Resize Observer
-  await waitUntil(() => {
-    return selectedTabIndicator?.clientWidth === firstTabInitialWidth;
-  });
-
+  await requestIdleCallback(); // Wait for the Resize Observer
   firstTab.innerHTML = 'One (But Longer)';
 
-  // Wait for the Resize Observer
-  await waitUntil(() => {
-    return selectedTabIndicator?.clientWidth !== firstTabInitialWidth;
-  });
-
+  await requestIdleCallback(); // Wait for the Resize Observer
   expect(selectedTabIndicator?.clientWidth).to.equal(firstTab.clientWidth);
 
   await emulateMedia({ reducedMotion: 'no-preference' });

@@ -1,7 +1,8 @@
-import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import DropdownOption from './dropdown.option.js';
 import { hover } from './library/mouse.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('dispatches a "private-label-change" event', async () => {
   const host = await fixture<DropdownOption>(
@@ -64,8 +65,7 @@ it('does not allow its "toggle" event to propagate', async () => {
   await hover(host);
   host.privateIsTooltipOpen = true;
 
-  // Wait for the Resize Observer to do its thing.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for the Resize Observer
 
   expect(spy.callCount).to.equal(0);
 });

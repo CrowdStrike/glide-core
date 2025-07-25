@@ -5,6 +5,7 @@ import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 import type Tooltip from './tooltip.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('opens when opened programmatically', async () => {
   const host = await fixture<Dropdown>(
@@ -14,7 +15,7 @@ it('opens when opened programmatically', async () => {
   );
 
   host.open = true;
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.true;
@@ -26,7 +27,7 @@ it('shows a fallback when opened programmatically and there are no options', asy
   );
 
   host.open = true;
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const feedback = host.shadowRoot?.querySelector(
     '[data-test="optionless-feedback"]',
@@ -42,7 +43,7 @@ it('does not open when opened programmatically and there are no options', async 
   );
 
   host.open = true;
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.false;
@@ -232,7 +233,7 @@ it('closes when something outside of it is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(document.body);
   expect(host.open).to.be.false;
 });
@@ -249,7 +250,7 @@ it('closes on Escape', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Escape' });
 
@@ -291,7 +292,7 @@ it('opens when open and enabled programmatically', async () => {
   );
 
   host.disabled = false;
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host?.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.true;
@@ -309,7 +310,7 @@ it('closes when open and disabled programmatically', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   host.disabled = true;
 
   const options = host?.shadowRoot?.querySelector('[data-test="options"]');
@@ -326,7 +327,7 @@ it('activates an option on hover', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[1]);
 
   expect(options[0]?.privateActive).to.be.false;
@@ -344,7 +345,7 @@ it('hides option tooltips on close', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'Tab' });
@@ -367,7 +368,7 @@ it('does not activate a disabled option on hover', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[1]);
 
   expect(options[0]?.privateActive).to.be.true;
@@ -435,7 +436,7 @@ it('activates the next enabled option on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // Three
 
@@ -458,7 +459,7 @@ it('activates the Edit button on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // One's edit button
 
@@ -487,7 +488,7 @@ it('activates the next enabled option on ArrowDown when the Edit button is activ
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // One's edit button
   await sendKeys({ press: 'ArrowDown' }); // Three
@@ -517,7 +518,7 @@ it('activates the previous enabled option on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // Three
   await sendKeys({ press: 'ArrowUp' }); // Two
@@ -544,7 +545,7 @@ it('activates the Edit button on on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // One's Edit button
   await sendKeys({ press: 'ArrowDown' }); // Two
@@ -575,7 +576,7 @@ it('activates the first enabled option on Home', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
   await sendKeys({ press: 'Home' });
@@ -606,7 +607,7 @@ it('activates the first enabled option on PageUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'PageDown' });
   await sendKeys({ press: 'PageUp' });
@@ -637,7 +638,7 @@ it('activates the first enabled option on ArrowUp + Meta', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
   await sendKeys({ down: 'Meta' });
@@ -670,7 +671,7 @@ it('activates the last enabled option on End', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
 
@@ -700,7 +701,7 @@ it('activates the last option on PageDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'PageDown' });
 
@@ -730,7 +731,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowDown' });
@@ -780,7 +781,7 @@ it('does not wrap on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowUp' });
 
@@ -798,7 +799,7 @@ it('does not wrap on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // Two
   await sendKeys({ press: 'ArrowDown' }); // Two
@@ -885,7 +886,7 @@ it('shows a fallback when open and its options are removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -937,7 +938,7 @@ it('does not allow its "toggle" event to propagate', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const tooltip = host.shadowRoot
     ?.querySelector('[data-test="internal-label-tooltip"]')

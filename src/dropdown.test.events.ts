@@ -11,6 +11,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('dispatches an "edit" event on click', async () => {
   const host = await fixture<Dropdown>(
@@ -22,8 +23,7 @@ it('dispatches an "edit" event on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const option = host.querySelector('glide-core-dropdown-option');
 
@@ -59,8 +59,7 @@ it('dispatches an "edit" event on Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' });
@@ -88,8 +87,7 @@ it('dispatches an "edit" event on Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' });
