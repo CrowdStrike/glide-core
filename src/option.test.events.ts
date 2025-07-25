@@ -5,6 +5,7 @@ import './options.js';
 import './menu.js';
 import { click, hover } from './library/mouse.js';
 import pencilIcon from './icons/pencil.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('dispatches a "click" event when clicked via mouse', async () => {
   const host = await fixture<Option>(
@@ -101,7 +102,7 @@ it('does not allow its "toggle" event to propagate', async () => {
   await hover(host);
   host.privateTooltipOpen = true;
 
-  await aTimeout(0); // Wait for the Resize Observer to do its thing
+  await requestIdleCallback(); // Wait for the Resize Observer
 
   expect(spy.callCount).to.equal(0);
 });
@@ -126,7 +127,7 @@ it('cancels navigation on click when disabled', async () => {
     event.preventDefault();
   });
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(tooltip);
 
   expect(wasNavigationCanceled).to.be.true;
@@ -162,7 +163,7 @@ it('does not retarget nested option "click" events to itself', async () => {
 
   const nestedOption = host.querySelector('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   click(nestedOption);
 

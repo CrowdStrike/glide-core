@@ -13,6 +13,7 @@ import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 import type Tooltip from './tooltip.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('opens on click', async () => {
   const host = await fixture<Dropdown>(
@@ -38,7 +39,7 @@ it('closes on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host.shadowRoot?.querySelector('[data-test="primary-button"]'));
 
   const options = host.shadowRoot?.querySelector('[data-test="options"]');
@@ -55,7 +56,7 @@ it('does not close when its input field is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host.shadowRoot?.querySelector('[data-test="input"]'));
 
   const options = host.shadowRoot?.querySelector('[data-test="options"]');
@@ -72,7 +73,7 @@ it('closes when single-select and its Add button is clicked via mouse', async ()
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host);
   await sendKeys({ type: 'o' });
 
@@ -93,7 +94,7 @@ it('does not close when multiselect and its Add button is clicked via mouse', as
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host);
   await sendKeys({ type: 'o' });
 
@@ -248,7 +249,7 @@ it('unfilters when an option is selected via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
 
@@ -401,7 +402,7 @@ it('hides its magnifying glass icon when single-select and an option is selected
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
 
@@ -427,7 +428,7 @@ it('hides its magnifying glass icon when single-select and closed programmatical
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const option = host.querySelector('glide-core-dropdown-option');
   assert(option);
@@ -492,7 +493,7 @@ it('clears its filter on close when single-select and no option is selected', as
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'o' });
   await click(document.body);
@@ -512,7 +513,7 @@ it('clears its filter on close when multiselect and no option is selected', asyn
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'o' });
   await click(document.body);
@@ -536,7 +537,7 @@ it('clears its filter on close when multiselect and an option is selected', asyn
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'o' });
   await click(document.body);
@@ -648,14 +649,14 @@ it('unhides every option after filtering when one is selected and Dropdown is re
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'two' });
   await sendKeys({ press: 'Tab' });
 
   host.open = true;
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = [
     ...host.querySelectorAll('glide-core-dropdown-option'),
@@ -845,7 +846,7 @@ it('deselects the last selected option on Backspace when the insertion point is 
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await click(options[0]);
   await click(options[1]);
@@ -902,7 +903,7 @@ it('updates its input field when single-select and an option is selected`', asyn
     '[data-test="input"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[0]);
 
   expect(input?.value).to.equal(options[0]?.label);
@@ -991,7 +992,7 @@ it('clears its input field when multiselect and an option is selected via mouse'
     '[data-test="input"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
   await click(options[0]);
@@ -1085,7 +1086,7 @@ it('activates options on hover', async () => {
   const options = host.querySelectorAll('glide-core-dropdown-option');
   const input = host.shadowRoot?.querySelector('[data-test="input"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'o' });
 
@@ -1130,7 +1131,7 @@ it('activates options on ArrowDown', async () => {
     '[data-test="input"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // Two
 
@@ -1242,7 +1243,7 @@ it('activates the first option on Home', async () => {
     '[data-test="input"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
   await sendKeys({ press: 'Home' });
@@ -1289,7 +1290,7 @@ it('activates the first option on PageUp', async () => {
     '[data-test="input"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'PageDown' });
   await sendKeys({ press: 'PageUp' });
@@ -1336,7 +1337,7 @@ it('activates the first option on Meta + ArrowUp', async () => {
     '[data-test="input"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
   await sendKeys({ down: 'Meta' });
@@ -1389,7 +1390,7 @@ it('activates the last option on End', async () => {
     '[data-test="input"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'End' });
 
@@ -1431,7 +1432,7 @@ it('activates the last option on PageDown', async () => {
     '[data-test="input"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'PageDown' });
 
@@ -1473,7 +1474,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
 
   const options = [...host.querySelectorAll('glide-core-dropdown-option')];
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowDown' });
@@ -1698,7 +1699,7 @@ it('activates the first option when the previously active option is filtered out
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' }); // ABC
   await sendKeys({ press: 'ArrowDown' }); // AB
@@ -1728,7 +1729,7 @@ it('deactivates the active option when closed', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   await click(
     host.shadowRoot?.querySelector<HTMLButtonElement>(
@@ -1791,7 +1792,7 @@ it('sets its input field back to the `label` of the selected option when somethi
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const option = host.querySelector('glide-core-dropdown-option');
 
@@ -1824,7 +1825,7 @@ it('sets its input field to the `label` of the selected option when `label` is a
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
   await click(options[1]);
@@ -2022,8 +2023,7 @@ it('shows an ellipsis when the label of its selected option is set programmatica
   option.label = 'x'.repeat(500);
   await host.updateComplete;
 
-  // Wait for the Resize Observer to do its thing.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for the Resize Observer
 
   const ellipsis = host.shadowRoot?.querySelector('[data-test="ellipsis"]');
   expect(ellipsis?.checkVisibility()).to.be.true;
@@ -2075,7 +2075,7 @@ it('hides its ellipsis when previously overflowing and an option with a shorter 
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[1]);
 
   await waitUntil(() => {
@@ -2102,7 +2102,7 @@ it('hides its ellipsis when previously overflowing and an option with a shorter 
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'Enter' });
@@ -2135,7 +2135,7 @@ it('does not show its input tooltip on close when an option is selected via clic
   );
 
   await click(host);
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(option);
   await tooltip?.updateComplete;
 
@@ -2191,7 +2191,7 @@ it('does not show its input tooltip on close when an option is added via the Add
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ type: 'x'.repeat(500) });
   await sendKeys({ press: 'Enter' });
   await tooltip?.updateComplete;
@@ -2211,7 +2211,7 @@ it('does not allow its "toggle" event to propagate', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const tooltip = host.shadowRoot
     ?.querySelector('[data-test="input-tooltip"]')
@@ -2235,7 +2235,7 @@ it('retains its filter query when multiselect and its default slot changes', asy
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
 
@@ -2260,7 +2260,7 @@ it('retains its filter query when single-select` and its default slot changes', 
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
 
@@ -2285,7 +2285,7 @@ it('shows a fallback when every option has been filtered out', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'two' });
 
@@ -2309,7 +2309,7 @@ it('shows a fallback when every option has been removed via filtering', async ()
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.filter = async () => {
     const options = host.querySelectorAll('glide-core-dropdown-option');
@@ -2342,7 +2342,7 @@ it('does not show a fallback when every option has been filtered out and the Add
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'two' });
 
@@ -2360,7 +2360,7 @@ it('does not show a fallback when every option has been removed via filtering an
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.filter = async () => {
     const options = host.querySelectorAll('glide-core-dropdown-option');

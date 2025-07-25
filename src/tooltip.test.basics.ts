@@ -1,9 +1,10 @@
-import { aTimeout, expect, fixture, html, waitUntil } from '@open-wc/testing';
+import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import Tooltip from './tooltip.js';
 import TooltipContainer from './tooltip.container.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Tooltip {}
@@ -33,8 +34,7 @@ it('can be open', async () => {
     '[data-test="tooltip"]',
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(tooltip?.checkVisibility()).to.be.true;
 });
@@ -78,8 +78,7 @@ it('is not open when disabled', async () => {
     '[data-test="tooltip"]',
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(tooltip?.checkVisibility()).to.be.false;
 });

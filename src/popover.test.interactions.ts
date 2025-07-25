@@ -1,8 +1,9 @@
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
 import { click } from './library/mouse.js';
 import Popover from './popover.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('opens when opened programmatically', async () => {
   const host = await fixture<Popover>(
@@ -14,8 +15,7 @@ it('opens when opened programmatically', async () => {
 
   host.open = true;
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
@@ -34,8 +34,7 @@ it('opens when open and enabled programmatically', async () => {
 
   host.disabled = false;
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
@@ -52,13 +51,11 @@ it('closes when open and disabled programmatically', async () => {
     </glide-core-popover>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.disabled = true;
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
@@ -77,8 +74,7 @@ it('does not open when opened programmatically and disabled', async () => {
 
   host.open = true;
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
@@ -95,8 +91,7 @@ it('closes on Escape', async () => {
     </glide-core-popover>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'Escape' });
@@ -116,8 +111,7 @@ it('opens on click', async () => {
 
   await click(host.querySelector('button'));
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
@@ -137,8 +131,7 @@ it('opens on Enter', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'Enter' });
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
@@ -158,8 +151,7 @@ it('opens on Space', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: ' ' });
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
@@ -176,8 +168,7 @@ it('remains open when its popover is clicked', async () => {
     </glide-core-popover>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const popover = host.shadowRoot?.querySelector('[data-test="popover"]');
   const defaultSlot = host.shadowRoot?.querySelector('slot:not([name])');
@@ -201,8 +192,7 @@ it('remains open when its arrow is clicked', async () => {
     </glide-core-popover>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const arrow = host.shadowRoot?.querySelector('[data-test="arrow"]');
 
@@ -242,8 +232,7 @@ it('closes when something outside of it is clicked', async () => {
     </glide-core-popover>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   await click(document.body);
 
@@ -263,8 +252,7 @@ it('does not close when a slotted `<label>` is clicked', async () => {
     </glide-core-popover>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const label = host.querySelector('label');
   await click(label);
@@ -280,15 +268,12 @@ it('has `this.#cleanUpFloatingUi?.()` coverage', async () => {
     </glide-core-popover>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
   host.open = true;
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
   host.open = true;
 });
 
@@ -321,8 +306,7 @@ it('has `middlewareData.arrow.y` coverage', async () => {
     </glide-core-popover>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 });
 
 it('has `#show()` coverage', async () => {

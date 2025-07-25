@@ -13,6 +13,7 @@ import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import DropdownOption from './dropdown.option.js';
 import type Tooltip from './tooltip.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('opens on click', async () => {
   const host = await fixture<Dropdown>(
@@ -61,7 +62,7 @@ it('selects an option on click via mouse', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[0]);
 
   const labels = host.shadowRoot?.querySelectorAll(
@@ -203,7 +204,7 @@ it('does not select a disabled option on click', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[0]);
 
   expect(options[0]?.selected).to.be.false;
@@ -229,7 +230,7 @@ it('selects an option on Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -294,8 +295,7 @@ it('selects an option when its icon is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -330,7 +330,7 @@ it('does not deselect options on Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
@@ -364,7 +364,7 @@ it('selects an option on Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
   options[0]?.focus();
@@ -393,7 +393,7 @@ it('deactivates all other options when an option is hovered', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await hover(options[0]);
   await hover(options[1]);
 
@@ -408,7 +408,7 @@ it('closes when an option is selected via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host.querySelector('glide-core-dropdown-option'));
 
   expect(host.open).to.be.false;
@@ -421,7 +421,7 @@ it('closes when an option is selected via Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
@@ -435,7 +435,7 @@ it('closes when an option is selected via Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
@@ -449,7 +449,7 @@ it('closes when an option is selected via Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const option = host.querySelector('glide-core-dropdown-option');
 
@@ -469,7 +469,7 @@ it('closes when an already selected option is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host.querySelector('glide-core-dropdown-option'));
 
   expect(host.open).to.be.false;
@@ -486,7 +486,7 @@ it('closes on edit via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host.shadowRoot?.querySelector('[data-test="edit-button"]'));
 
   expect(host.open).to.be.false;
@@ -515,7 +515,7 @@ it('deselects all other options when one is newly selected', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(options[1]);
 
   expect(options[0]?.selected).to.be.false;
@@ -689,7 +689,7 @@ it('does not update `value` when a disabled option is selected via click', async
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(host.querySelector('glide-core-dropdown-option'));
 
   expect(host.value).to.deep.equal([]);
@@ -909,7 +909,7 @@ it('updates itself when an option is newly selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const option = host.querySelector<DropdownOption>(
     'glide-core-dropdown-option:last-of-type',
@@ -1200,7 +1200,7 @@ it('only shows the last selected option as selected when single-select and a sel
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const firstOption = host.querySelector('glide-core-dropdown-option');
   const secondOption = document.createElement('glide-core-dropdown-option');
@@ -1264,7 +1264,7 @@ it('sets `aria-selected` when an option is selected programmatically', async () 
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -1288,7 +1288,7 @@ it('sets `aria-selected` when an option is deselected programmatically', async (
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -1315,7 +1315,7 @@ it('sets `aria-selected` when an option is disabled programmatically', async () 
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -1343,7 +1343,7 @@ it('sets `aria-selected` when an option is enabled programmatically', async () =
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -1370,7 +1370,7 @@ it('sets `aria-selected` when made single-select programmatically', async () => 
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   host.multiple = false;
   await host.updateComplete;

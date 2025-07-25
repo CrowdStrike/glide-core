@@ -11,6 +11,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { hover } from './library/mouse.js';
 import Tooltip from './tooltip.js';
 import TooltipContainer from './tooltip.container.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('passes down certain properties to its container', async () => {
   const host = await fixture<Tooltip>(
@@ -47,7 +48,7 @@ it('is open when opened programmatically', async () => {
   );
 
   host.open = true;
-  await aTimeout(0); // Wait for Floating UI.
+  await requestIdleCallback(); // Wait for Floating UI
 
   const tooltip = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="tooltip"]',
@@ -64,7 +65,7 @@ it('is open when open and enabled programmatically', async () => {
   );
 
   host.disabled = false;
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const tooltip = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="tooltip"]',
@@ -80,9 +81,9 @@ it('is not open when open and disabled programmatically', async () => {
     </glide-core-tooltip>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   host.disabled = true;
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const tooltip = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="tooltip"]',
@@ -99,7 +100,7 @@ it('is not open when opened programmatically and disabled', async () => {
   );
 
   host.open = true;
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const tooltip = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="tooltip"]',
@@ -116,7 +117,7 @@ it('opens when tabbed to', async () => {
   );
 
   await sendKeys({ press: 'Tab' });
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(
     host.shadowRoot?.querySelector('[data-test="tooltip"]')?.checkVisibility(),
@@ -140,7 +141,7 @@ it('opens on hover', async () => {
   tooltip.dataset.openDelay = '0';
 
   await hover(target);
-  await aTimeout(0); // Wait for Floating UI and `#onComponentMouseOver()`
+  await requestIdleCallback(); // Wait for Floating UI and `#onComponentMouseOver()`
 
   expect(tooltip.checkVisibility()).to.be.true;
 });
@@ -168,7 +169,7 @@ it('remains open when hovered away from and the event is canceled', async () => 
   tooltip.dataset.closeDelay = '0';
 
   await hover(target);
-  await aTimeout(0); // Wait for Floating UI and `#onComponentMouseOver()`
+  await requestIdleCallback(); // Wait for Floating UI and `#onComponentMouseOver()`
 
   await hover(document.body);
   await aTimeout(0); // Wait for `#onComponentMouseOut()`
@@ -231,7 +232,7 @@ it('closes when hovered away from', async () => {
   tooltip.dataset.closeDelay = '0';
 
   await hover(target);
-  await aTimeout(0); // Wait for Floating UI and `#onComponentMouseOver()`
+  await requestIdleCallback(); // Wait for Floating UI and `#onComponentMouseOver()`
 
   await hover(document.body);
   await aTimeout(0); // Wait for `#onComponentMouseOut()`
@@ -296,7 +297,7 @@ it('remains closed when hovered to and the event is canceled', async () => {
   tooltip.dataset.closeDelay = '0';
 
   await hover(target);
-  await aTimeout(0); // Wait for Floating UI and `#onComponentMouseOver()`
+  await requestIdleCallback(); // Wait for Floating UI and `#onComponentMouseOver()`
 
   expect(tooltip.checkVisibility()).to.be.false;
 });
@@ -375,7 +376,7 @@ it('has `middlewareData.arrow.y` coverage', async () => {
     </glide-core-tooltip>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 });
 
 it('has `set open(isOpen: boolean)` coverage', async () => {

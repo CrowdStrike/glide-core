@@ -1,8 +1,9 @@
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Popover from './popover.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Popover {}
@@ -34,8 +35,7 @@ it('opens', async () => {
     '[data-test="popover"]',
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(popover?.checkVisibility()).to.be.true;
 });
@@ -52,8 +52,7 @@ it('is not open when disabled', async () => {
     '[data-test="popover"]',
   );
 
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await requestIdleCallback(); // Wait for Floating UI
 
   expect(popover?.checkVisibility()).to.be.false;
 });

@@ -1,10 +1,11 @@
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 import expectWindowError from './library/expect-window-error.js';
 import type Tooltip from './tooltip.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 // You'll notice quite a few duplicated tests among the "*.single.ts",
 // "*.multiple.ts", and "*.filterable.ts" test suites. The thinking is that
@@ -38,7 +39,7 @@ it('can be open', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.true;
@@ -49,7 +50,7 @@ it('shows a fallback when open and there are no options', async () => {
     html`<glide-core-dropdown label="Label" open></glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const feedback = host.shadowRoot?.querySelector(
     '[data-test="optionless-feedback"]',
@@ -66,7 +67,7 @@ it('shows loading feedback', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const feedback = host.shadowRoot?.querySelector(
     '[data-test="loading-feedback"]',
@@ -159,7 +160,7 @@ it('activates the first enabled option when no options are selected', async () =
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -184,7 +185,7 @@ it('is scrollable', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.shadowRoot?.querySelector('[data-test="options"]');
   assert(options);
@@ -207,7 +208,7 @@ it('is not scrollable', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host.shadowRoot?.querySelector('[data-test="options"]');
   assert(options);
@@ -228,7 +229,7 @@ it('hides the tooltip of the active option when open', async () => {
     </glide-core-dropdown>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
 
   const tooltip = host
     .querySelector('glide-core-dropdown-option')
