@@ -95,6 +95,13 @@ export default [
       }
     }
 
+    .prefix-icon-slot {
+      &.slotted-content {
+        align-items: center;
+        display: flex;
+      }
+    }
+
     .suffix-icons-slot {
       align-items: center;
       color: var(--glide-core-color-interactive-icon-link);
