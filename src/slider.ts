@@ -452,6 +452,7 @@ export default class Slider extends LitElement implements FormControl {
     // input elements directly or via the handles. Exposing the
     // track via keyboard wouldn't bring any real value in this
     // instance.
+    //
     /*  eslint-disable lit-a11y/click-events-have-key-events */
     return html`
       <glide-core-private-label

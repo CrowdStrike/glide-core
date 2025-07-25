@@ -124,7 +124,7 @@ const meta: Meta = {
         defaultValue: { summary: '"bottom-start"' },
         type: {
           summary:
-            '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
+            '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start" | "top-end"',
         },
       },
     },

@@ -81,7 +81,7 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail:
-            '// The element to which the popover will anchor. Can be any focusable element',
+            '// The element to which Popover will anchor. Can be any focusable element.',
         },
       },
       type: { name: 'function', required: true },
@@ -129,7 +129,7 @@ const meta: Meta = {
         type: {
           summary: '"top" | "right" | "bottom" | "left"',
           detail:
-            '// The popover will try to move itself to the opposite of this value if not doing so would result in\n// overflow. For example, if "bottom" results in overflow Popover will try "top" but not "right"\n// or "left".',
+            '// Popover will try to move itself to the opposite of this value if not doing so would result in\n// overflow. For example, if "bottom" results in overflow Popover will try "top" but not "right"\n// or "left".',
         },
       },
     },

@@ -29,13 +29,13 @@ declare global {
  * @attr {boolean} [disabled=false]
  * @attr {number} [offset=4]
  * @attr {boolean} [open=false]
- * @attr {'bottom'|'left'|'right'|'top'} [placement]
+ * @attr {'bottom'|'left'|'right'|'top'} [placement] - Popover will try to move itself to the opposite of this value if not doing so would result in overflow. For example, if "bottom" results in overflow Popover will try "top" but not "right" or "left".
  *
  * @readonly
  * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the popover
- * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
+ * @slot {Element} [target] - The element to which Popover will anchor. Can be any focusable element.
  *
  * @fires {Event} toggle
  */
@@ -116,10 +116,10 @@ export default class Popover extends LitElement {
     }
   }
 
-  /*
-    The placement of the popover relative to its target. Automatic placement will
-    take over if the popover is cut off by the viewport.
-  */
+  /**
+   * Popover will try to move itself to the opposite of this value if not doing so would result in overflow.
+   * For example, if "bottom" results in overflow Popover will try "top" but not "right" or "left".
+   */
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
@@ -129,75 +129,37 @@ export default class Popover extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    // 1. The consumer has a click handler on a button.
-    // 2. The user clicks the button.
-    // 3. The button's click handler is called and it sets `this.open` to `true`.
-    // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
-    // 5. That handler sets `open` to `false` because the click came from outside
-    //    Popover.
-    // 6. Popover is opened then closed in the same frame and so never opens.
-    //
-    // `capture` ensures `#onDocumentClick` is called before #3, so the button click
-    // handler setting `open` to `true` isn't overwritten by this handler setting
-    // `open` to `false`.
-    document.addEventListener('click', this.#onDocumentClick, {
-      capture: true,
-    });
+    document.addEventListener('click', this.#onDocumentClick);
   }
 
   override firstUpdated() {
     if (this.#popoverElementRef.value) {
-      // `popover` is used so the popover can break out of Modal or another container
-      // that has `overflow: hidden`. And elements with `popover` are positioned
-      // relative to the viewport. Thus Floating UI in addition to `popover`.
+      // `popover` so Popover can break out of Modal or another element that has
+      // `overflow: hidden`. Elements with `popover` are positioned relative to the
+      // viewport. Thus Floating UI in addition to `popover` until anchor positioning is
+      // well supported.
       //
-      // Set here instead of in the template to escape Lit Analyzer, which isn't aware
-      // of `popover` and doesn't have a way to disable its "no-unknown-attribute" rule.
+      // "manual" is set here instead of in the template to circumvent Lit Analyzer,
+      // which isn't aware of `popover` and doesn't provide a way to disable its
+      // "no-unknown-attribute" rule.
       //
-      // "auto" means only one popover can be open at a time. Consumers, however, may
-      // have popovers in own components that need to be open while this one is open.
-      //
-      // "auto" also automatically opens the popover when its target is clicked. We want
-      // it to remain closed when clicked when there are no menu options.
+      // "manual" instead of "auto" because the latter only allows one popover to be open
+      // at a time. And consumers may have other popovers that need to remain open while
+      // this popover is open.
       this.#popoverElementRef.value.popover = 'manual';
     }
 
     if (this.open && !this.disabled) {
       this.#show();
     }
-
-    // Popover's "click" handler on `document` listens for clicks in the capture
-    // phase. There's a comment explaining why. `#isDefaultSlotclick` must be
-    // set before that handler is called so it has the information it needs
-    // to determine whether or not to close Popover. Same for `#isTargetSlotClick`
-    // and `#isArrowClick`.
-    this.#defaultSlotElementRef.value?.addEventListener('mouseup', () => {
-      this.#isDefaultSlotClick = true;
-    });
-
-    this.#targetSlotElementRef.value?.addEventListener('mouseup', () => {
-      this.#isTargetSlotClick = true;
-    });
-
-    this.#arrowElementRef.value?.addEventListener('mouseup', () => {
-      this.#isArrowClick = true;
-    });
-
-    this.#targetSlotElementRef.value?.addEventListener(
-      'keydown',
-      (event: KeyboardEvent) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          this.#isTargetSlotClick = true;
-        }
-      },
-    );
   }
 
   override render() {
-    // Lit-a11y calls for "blur" and "focus" handlers but doesn't account for "focusin"
-    // and "focusout". It also calls for popovers to have an `aria-label`, but then
-    // VoiceOver, at least, won't read the popover's content. So an element with an
-    // `aria-label` is placed inside the popover.
+    // Lit-a11y also wants a keyboard listener on anything with a "click" listener. The
+    // "click" listeners on the arrow and default slot, however, are for a specific
+    // purpose that Lit-a11y isn't aware of.
+    //
+    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`
       <div class="component">
         <slot
@@ -210,7 +172,7 @@ export default class Popover extends LitElement {
           ${ref(this.#targetSlotElementRef)}
         >
           <!--
-            The element to which the popover will anchor. Can be any focusable element.
+            The element to which Popover will anchor. Can be any focusable element.
             @type {Element}
           -->
         </slot>
@@ -230,6 +192,7 @@ export default class Popover extends LitElement {
               [this.effectivePlacement]: true,
             })}
             data-test="arrow"
+            @click=${this.#onArrowClick}
             ${ref(this.#arrowElementRef)}
           >
             ${choose(this.effectivePlacement, [
@@ -242,6 +205,7 @@ export default class Popover extends LitElement {
 
           <slot
             class="default-slot"
+            @click=${this.#onDefaultSlotClick}
             ${assertSlot()}
             ${ref(this.#defaultSlotElementRef)}
           >
@@ -264,14 +228,20 @@ export default class Popover extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
+  // Set in `#onArrowClick()`. Used in `#onDocumentClick()` to guard against closing
+  // Popover when the user accidentally clicks the arrow.
   #isArrowClick = false;
 
+  // Set in `#onDefaultSlotClick()`. Used in `#onDocumentClick()` to guard against
+  // closing Popover when the user interacts with its default slot.
   #isDefaultSlotClick = false;
 
   #isDisabled = false;
 
   #isOpen = false;
 
+  // Set in `#onTargetSlotClick()`. Used in `#onDocumentClick()` to guard against
+  // immediately closing Popover when it's opened via `onTargetSlotClick()`.
   #isTargetSlotClick = false;
 
   #offset: number | undefined;
@@ -283,9 +253,10 @@ export default class Popover extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = () => {
-    // Checking that the click's `event.target` is equal to
-    // `#defaultSlotElementRef.value` would be a lot simpler. But, when the target is
-    // inside of another web component, `event.target` will be that component instead.
+    // Checking that `event.target` is equal to `this.#defaultSlotElementRef.value`
+    // would be simpler. But, when the default slot is inside of another web component,
+    // `event.target` will be that component instead.
+    //
     // Same for `this.#isTargetSlotClick` and `this.#isArrowClick`.
     if (
       this.#isDefaultSlotClick ||
@@ -320,16 +291,31 @@ export default class Popover extends LitElement {
     this.#cleanUpFloatingUi?.();
   }
 
+  #onArrowClick() {
+    this.#isArrowClick = true;
+  }
+
+  #onDefaultSlotClick() {
+    this.#isDefaultSlotClick = true;
+  }
+
   #onTargetSlotClick() {
+    this.#isTargetSlotClick = true;
     this.open = !this.open;
   }
 
   #onTargetSlotKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      // Prevent Safari from leaving full screen.
-      event.preventDefault();
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.#isTargetSlotClick = true;
 
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault(); // Prevent Safari from leaving full screen.
       this.open = false;
+
+      return;
     }
   }
 

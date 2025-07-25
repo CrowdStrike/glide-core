@@ -33,7 +33,7 @@ declare global {
  * @attr {boolean} [disabled=false]
  * @attr {number} [offset=4]
  * @attr {boolean} [open=false]
- * @attr {'bottom'|'left'|'right'|'top'} [placement] - The placement of the tooltip relative to its target. Automatic placement will take over if the tooltip is cut off by the viewport.
+ * @attr {'bottom'|'left'|'right'|'top'} [placement] - Tooltip will try to move itself to the opposite of this value if not doing so would result in overflow. For example, if "bottom" results in overflow Tooltip will try "top" but not "right" or "left".
  * @attr {boolean} [screenreader-hidden=false]
  * @attr {string[]} [shortcut=[]]
  *
@@ -41,7 +41,7 @@ declare global {
  * @attr {string} [version]
  *
  * @slot {TooltipContainer} [private]
- * @slot {Element} target - The element to which the tooltip will anchor. Can be any element with an implicit or explicit ARIA role.
+ * @slot {Element} target - The element to which Tooltip will anchor. Can be any interactive element with an implicit or explicit ARIA role.
  *
  * @fires {Event} toggle
  */
@@ -183,8 +183,8 @@ export default class Tooltip extends LitElement {
   }
 
   /**
-   * The placement of the tooltip relative to its target. Automatic placement will
-   * take over if the tooltip is cut off by the viewport.
+   * Tooltip will try to move itself to the opposite of this value if not doing so would result in overflow.
+   * For example, if "bottom" results in overflow Tooltip will try "top" but not "right" or "left".
    */
   @property({ reflect: true })
   placement?: 'bottom' | 'left' | 'right' | 'top';
@@ -249,18 +249,18 @@ export default class Tooltip extends LitElement {
 
   override firstUpdated() {
     if (this.#tooltipElementRef.value) {
-      // `popover` is used so the tooltip can break out of Modal or another container
-      // that has `overflow: hidden`. And elements with `popover` are positioned
-      // relative to the viewport. Thus Floating UI in addition to `popover`.
+      // `popover` so Tooltip can break out of Modal or another element that has
+      // `overflow: hidden`. Elements with `popover` are positioned relative to the
+      // viewport. Thus Floating UI in addition to `popover` until anchor positioning is
+      // well supported.
       //
-      // Set here instead of in the template to escape Lit Analyzer, which isn't aware
-      // of `popover` and doesn't have a way to disable its "no-unknown-attribute" rule.
+      // "manual" is set here instead of in the template to circumvent Lit Analyzer,
+      // which isn't aware of `popover` and doesn't provide a way to disable its
+      // "no-unknown-attribute" rule.
       //
-      // "auto" means only one popover can be open at a time. Consumers, however, may
-      // have popovers in own components that need to be open while this one is open.
-      //
-      // "auto" also automatically opens the popover when its target is clicked. We
-      // only want it to open on hover or focus.
+      // "manual" instead of "auto" because the latter only allows one popover to be open
+      // at a time. And consumers may have other popovers that need to remain open while
+      // this popover is open.
       this.#tooltipElementRef.value.popover = 'manual';
     }
 
@@ -307,8 +307,8 @@ export default class Tooltip extends LitElement {
             ${ref(this.#targetSlotElementRef)}
           >
             <!--
-              The element to which the tooltip will anchor.
-              Can be any element with an implicit or explicit ARIA role.
+              The element to which Tooltip will anchor.
+              Can be any interactive element with an implicit or explicit ARIA role.
 
               @required
               @type {Element}
