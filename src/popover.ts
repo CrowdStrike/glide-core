@@ -299,9 +299,16 @@ export default class Popover extends LitElement {
     this.#isDefaultSlotClick = true;
   }
 
-  #onTargetSlotClick() {
+  #onTargetSlotClick(event: MouseEvent) {
     this.#isTargetSlotClick = true;
-    this.open = !this.open;
+
+    // The timeout gives consumers a chance to cancel the event to prevent Popover
+    // from opening or closing.
+    setTimeout(() => {
+      if (!event.defaultPrevented) {
+        this.open = !this.open;
+      }
+    });
   }
 
   #onTargetSlotKeydown(event: KeyboardEvent) {

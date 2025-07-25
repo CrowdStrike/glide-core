@@ -224,6 +224,56 @@ it('remains closed on click when disabled', async () => {
   expect(popover?.checkVisibility()).to.be.false;
 });
 
+it('remains open when its target is clicked and the event is canceled', async () => {
+  const host = await fixture<Popover>(
+    html`<glide-core-popover open>
+      Popover
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
+  );
+
+  const target = host.querySelector('button');
+
+  target?.addEventListener('click', (event: MouseEvent) => {
+    event.preventDefault();
+  });
+
+  await requestIdleCallback(); // Wait for Floating UI
+  await click(target);
+
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="popover"]',
+  );
+
+  expect(host.open).to.be.true;
+  expect(popover?.checkVisibility()).to.be.true;
+});
+
+it('remains closed when its target is clicked and the event is canceled', async () => {
+  const host = await fixture<Popover>(
+    html`<glide-core-popover>
+      Popover
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
+  );
+
+  const target = host.querySelector('button');
+
+  target?.addEventListener('click', (event: MouseEvent) => {
+    event.preventDefault();
+  });
+
+  await click(target);
+  await requestIdleCallback(); // Wait for Floating UI
+
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="popover"]',
+  );
+
+  expect(host.open).to.be.false;
+  expect(popover?.checkVisibility()).to.be.false;
+});
+
 it('closes when something outside of it is clicked', async () => {
   const host = await fixture(
     html`<glide-core-popover open>
