@@ -1,5 +1,21 @@
 # @crowdstrike/glide-core
 
+## 0.32.0
+
+### Minor Changes
+
+- [#1003](https://github.com/CrowdStrike/glide-core/pull/1003) [`b819d6a`](https://github.com/CrowdStrike/glide-core/commit/b819d6a7f7847b97b36a31a11a44ddb2dff0e2f4) Thanks [@clintcs](https://github.com/clintcs)! - Popover can no longer be opened by setting its `open` attribute via the "click" handler of an element outside Popover. If you need Popover to open this way, you can call `click()` on Popover's target in that handler.
+
+### Patch Changes
+
+- [#995](https://github.com/CrowdStrike/glide-core/pull/995) [`6bb878a`](https://github.com/CrowdStrike/glide-core/commit/6bb878aa7ccfab99b76f6f390eeb14ddd1f7eb32) Thanks [@clintcs](https://github.com/clintcs)! - Link, when disabled, is no longer openable by right-clicking it and choosing "Open Link in New Tab" or similar.
+
+- [#1005](https://github.com/CrowdStrike/glide-core/pull/1005) [`8ca8456`](https://github.com/CrowdStrike/glide-core/commit/8ca84560aab0a52e762f2959a50615b41db76dd8) Thanks [@clintcs](https://github.com/clintcs)! - Popover can now be stopped from opening and closing by canceling "click" events on its target.
+
+- [#1002](https://github.com/CrowdStrike/glide-core/pull/1002) [`b4859c2`](https://github.com/CrowdStrike/glide-core/commit/b4859c22c1b6a946af7240823ce2c21d9e98630c) Thanks [@danwenzel](https://github.com/danwenzel)! - SVGs placed in the `prefix-icon` slot of an Accordion will no longer shrink at narrow widths.
+
+- [#1001](https://github.com/CrowdStrike/glide-core/pull/1001) [`b8fa589`](https://github.com/CrowdStrike/glide-core/commit/b8fa5891fae31e2a7f21029a0f5fed94dca0dc46) Thanks [@clintcs](https://github.com/clintcs)! - Menu no longer activates the wrong Option on open when Menu's [containing block](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block) isn't the document.
+
 ## 0.31.2
 
 ### Patch Changes
