@@ -184,7 +184,10 @@ export default class Accordion extends LitElement {
 
         <div class="label-container">
           <slot
-            class="prefix-icon-slot"
+            class=${classMap({
+              'prefix-icon-slot': true,
+              'slotted-content': this.hasPrefixIcon,
+            })}
             name="prefix-icon"
             @slotchange=${this.#onPrefixIconSlotChange}
             ${ref(this.#prefixIconSlotElementRef)}
