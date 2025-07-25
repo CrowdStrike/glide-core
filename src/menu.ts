@@ -1397,6 +1397,62 @@ export default class Menu extends LitElement {
   #show() {
     this.#cleanUpFloatingUi?.();
 
+    // Ideally, we wouldn't show the popover until after Floating UI has calculated its
+    // position. But calling `showPopover()` changes the nature of how `top` and `left`
+    // affect an element's position when the element's containing block is something
+    // other than the document.
+    //
+    // Unlike non-popovers, popovers break out of containing blocks¹. So `top` and
+    // `left` are always relative to the document. For non-popovers, however, `top`
+    // and `left` are relative to the element's containing block.
+    //
+    // Imagine that Menu has a parent with `transform: scale(1)` and we let Floating UI
+    // calculate the default slot's position before calling `showPopover()`. Floating
+    // UI will correctly position the default slot relative to that parent. But, after
+    // `showPopover()` is called, Floating UI will recalculate the default slot's
+    // position and position it relative to the document.
+    //
+    // The problem is, during the time between when `showPopover()` is called and
+    // Floating UI does its recalculation, the default slot will have a `top` and
+    // `left` that were correct when it was positioned relative to its containing
+    // block, but are now incorrect. So the default slot will, for a moment, be
+    // positioned above or below where it should be.
+    //
+    // The recalculation and subsequent repositioning will happen so quickly that the
+    // user won't see it. But, if the user's mouse happens to be on top of the default
+    // slot while it's positioned incorrectly, then `#onDefaultSlotMouseOver()` will
+    // be called and whatever Option the user's mouse is on will be activated. Floating
+    // UI will finish its work, then default slot will become visible. But the wrong
+    // Option will be active when Menu finally appears open.
+    //
+    // To reproduce the issue:
+    //
+    // 1. Move the `showPopover()` call below inside `computePosition().then()`.
+    // 2. Go to Menu's Overview page in Storybook.
+    // 3. Place your mouse just above Menu's target.
+    // 4. Tab to Menu's target.
+    // 5. Press Space to open Menu.
+    //
+    // Note how the second or third Option is active instead of the first.
+    //
+    // I've omitted a test for this because calling `sendKey({ press: 'Tab' })`
+    // followed by `sendKey({ press: ' ' })`, after moving the mouse above Menu's
+    // target, introduces just enough of a delay for Floating UI to complete its
+    // recalculation, making the issue impossible to reproduce in a test.
+    //
+    // 1. https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_display/Containing_block#identifying_the_containing_block
+    this.#defaultSlotElementRef.value?.showPopover();
+
+    if (this.#isSubMenu && this.#parentOption) {
+      this.#parentOption.ariaExpanded = 'true';
+    } else if (!this.#isSubMenu && this.#targetElement) {
+      this.#targetElement.ariaExpanded = 'true';
+    }
+
+    if (this.#optionsElement && this.#activeOption?.id) {
+      this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
+    }
+
     if (
       this.#previouslyActiveOption &&
       !this.#previouslyActiveOption.disabled &&
@@ -1442,19 +1498,6 @@ export default class Menu extends LitElement {
                   left: `${x}px`,
                   top: `${y}px`,
                 });
-
-                if (this.#isSubMenu && this.#parentOption) {
-                  this.#parentOption.ariaExpanded = 'true';
-                } else if (!this.#isSubMenu && this.#targetElement) {
-                  this.#targetElement.ariaExpanded = 'true';
-                }
-
-                this.#defaultSlotElementRef.value.showPopover();
-              }
-
-              if (this.#optionsElement && this.#activeOption?.id) {
-                this.#optionsElement.ariaActivedescendant =
-                  this.#activeOption.id;
               }
             });
           }

@@ -7,6 +7,7 @@ import './option.js';
 import './input.js';
 import './button.js';
 import Tooltip from './tooltip.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('opens on "input"', async () => {
   const host = await fixture<Menu>(
@@ -139,7 +140,7 @@ it('allows the insertion point to move on ArrowRight when not opening a sub-Menu
     .querySelector('[slot="target"]')
     ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="input"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
 
@@ -171,7 +172,7 @@ it('allows the insertion point to move on ArrowLeft when not closing a sub-Menu'
     </glide-core-menu>`,
   );
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
   await sendKeys({ press: 'ArrowLeft' }); // One
@@ -220,7 +221,7 @@ it('allows the insertion point to move on ArrowUp when its first Option or the f
     .querySelector('[slot="target"]')
     ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="input"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
   await sendKeys({ press: 'ArrowUp' }); // One
@@ -279,7 +280,7 @@ it('allows the insertion point to move on ArrowDown when its last Option of the 
     .querySelector('[slot="target"]')
     ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="input"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
 
@@ -341,7 +342,7 @@ it('does not allow the insertion point to move on ArrowRight when opening a sub-
     .querySelector('[slot="target"]')
     ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="input"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
 
@@ -389,7 +390,7 @@ it('does not allow the insertion point to move on ArrowLeft when closing a sub-M
     .querySelector('[slot="target"]')
     ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="input"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
   await sendKeys({ press: 'ArrowLeft' }); // Two
@@ -439,7 +440,7 @@ it('does not allow the insertion point to move on ArrowUp when the first Option 
     .querySelector('[slot="target"]')
     ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="input"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
   await sendKeys({ press: 'ArrowDown' }); // Six
@@ -503,7 +504,7 @@ it('does not allow the insertion point to move on ArrowDown when the last Option
     .querySelector('[slot="target"]')
     ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="input"]');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'test' });
 

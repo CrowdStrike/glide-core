@@ -12,6 +12,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
 import Menu from './menu.js';
+import requestIdleCallback from './library/request-idle-callback.js';
 
 it('dispatches a "click" event when an Option is selected via mouse', async () => {
   const host = await fixture<Menu>(
@@ -29,7 +30,7 @@ it('dispatches a "click" event when an Option is selected via mouse', async () =
 
   option?.addEventListener('click', spy);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   click(option);
 
   const event = await oneEvent(host, 'click');
@@ -57,7 +58,7 @@ it('dispatches a "click" event when an Option is selected via Space', async () =
 
   option?.addEventListener('click', spy);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   sendKeys({ press: ' ' });
 
@@ -87,7 +88,7 @@ it('dispatches a "click" event when an Option is selected via Enter', async () =
 
   option?.addEventListener('click', spy);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await sendKeys({ press: 'Tab' });
   sendKeys({ press: 'Enter' });
 
@@ -115,7 +116,7 @@ it('does not dispatch a "click" event when a disabled Option is selected via mou
   const spy = sinon.spy();
   const option = host.querySelector('glide-core-option');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   option?.addEventListener('click', spy);
   await click(option);
 
@@ -139,7 +140,7 @@ it('does not dispatch a "click" event when a disabled Option is focused then sel
 
   host.addEventListener('click', spy);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   options[0]?.focus();
   await sendKeys({ press: ' ' });
 
@@ -163,7 +164,7 @@ it('does not dispatch a "click" event when a disabled Option is focused then sel
 
   host.addEventListener('click', spy);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   options[0]?.focus();
   await sendKeys({ press: 'Enter' });
 
@@ -194,7 +195,7 @@ it('does not let sub-Menu target "click" events propagate', async () => {
 
   host.querySelector('glide-core-options')?.addEventListener('click', spy);
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   await click(targets[1]);
 
   expect(spy.callCount).to.equal(0);
@@ -221,7 +222,7 @@ it('cancels "click" events that come from a sub-Menu target whose parent Option 
 
   const targets = host.querySelectorAll('button');
 
-  await aTimeout(0); // Wait for Floating UI
+  await requestIdleCallback(); // Wait for Floating UI
   click(targets[1]);
 
   assert(targets[1]);
