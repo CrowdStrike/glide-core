@@ -55,8 +55,12 @@ export default [
       padding-inline: var(--glide-core-spacing-base-sm);
       text-align: start;
       transition:
-        background-color 200ms ease-in-out,
-        border-color 200ms ease-in-out;
+        background-color var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop),
+        border-color var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop),
+        box-shadow var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop);
       user-select: none;
 
       &.quiet:not(.multiple) {
@@ -114,6 +118,22 @@ export default [
       &:has(.primary-button:focus-visible, .input:focus-visible) {
         &.quiet {
           border-color: var(--glide-core-color-interactive-stroke-focus);
+        }
+      }
+
+      &:has(.input:focus-visible):not(.readonly) {
+        &:not(.error) {
+          border-color: var(--glide-core-color-interactive-stroke-focus);
+          box-shadow:
+            0 0 0 1px var(--glide-core-color-interactive-stroke-focus),
+            1px 1px 4px -1px var(--glide-core-color-interactive-stroke-focus);
+        }
+
+        &.error {
+          box-shadow:
+            0 0 0 1px var(--glide-core-color-advisory-stroke-error-primary),
+            1px 1px 4px -1px
+              var(--glide-core-color-advisory-stroke-error-primary);
         }
       }
     }
@@ -360,7 +380,8 @@ export default [
       inline-size: 100%;
       max-inline-size: 21.875rem;
       padding-inline: 0.625rem;
-      transition: background-color 100ms ease-in-out;
+      transition: background-color var(--glide-core-duration-fast-02)
+        var(--glide-core-animation-swoop);
       user-select: none;
       white-space: nowrap;
 

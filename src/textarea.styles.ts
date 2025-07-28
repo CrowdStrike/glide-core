@@ -60,7 +60,11 @@ export default [
       padding: var(--glide-core-spacing-base-xs)
         var(--glide-core-spacing-base-sm);
       resize: vertical;
-      transition: border-color 200ms ease-in-out;
+      transition:
+        border-color var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop),
+        box-shadow var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop);
 
       /*
         Because 'field-sizing: content' is used, it allows the
@@ -83,7 +87,22 @@ export default [
         outline: none;
       }
 
-      &:focus-visible,
+      &:focus-visible:not([readonly]) {
+        &:not(.error) {
+          border-color: var(--glide-core-color-interactive-stroke-focus);
+          box-shadow:
+            0 0 0 1px var(--glide-core-color-interactive-stroke-focus),
+            1px 1px 4px -1px var(--glide-core-color-interactive-stroke-focus);
+        }
+
+        &.error {
+          box-shadow:
+            0 0 0 1px var(--glide-core-color-advisory-stroke-error-primary),
+            1px 1px 4px -1px
+              var(--glide-core-color-advisory-stroke-error-primary);
+        }
+      }
+
       &:hover {
         border-color: var(--glide-core-color-interactive-stroke-primary--hover);
       }

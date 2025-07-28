@@ -47,11 +47,11 @@ export default [
       display: flex;
       min-inline-size: 3.75rem;
       padding-inline: var(--glide-core-spacing-base-sm);
-      transition: border-color 200ms ease-in-out;
-
-      &.focused {
-        border-color: var(--glide-core-color-interactive-stroke-focus);
-      }
+      transition:
+        border-color var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop),
+        box-shadow var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop);
 
       &:not(.disabled, .error, .readonly) {
         &:hover,
@@ -64,6 +64,22 @@ export default [
 
       &.error {
         border-color: var(--glide-core-color-advisory-stroke-error-primary);
+      }
+
+      &.focused:not(.readonly) {
+        &:not(.error) {
+          border-color: var(--glide-core-color-interactive-stroke-focus);
+          box-shadow:
+            0 0 0 1px var(--glide-core-color-interactive-stroke-focus),
+            1px 1px 4px -1px var(--glide-core-color-interactive-stroke-focus);
+        }
+
+        &.error {
+          box-shadow:
+            0 0 0 1px var(--glide-core-color-advisory-stroke-error-primary),
+            1px 1px 4px -1px
+              var(--glide-core-color-advisory-stroke-error-primary);
+        }
       }
 
       /*
