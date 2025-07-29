@@ -72,6 +72,10 @@ export default [
         min-inline-size: 3.75rem;
         padding-block: 0;
         padding-inline: var(--glide-core-spacing-base-sm);
+
+        .error {
+          border-color: var(--glide-core-color-advisory-stroke-error-primary);
+        }
       }
 
       &.disabled {
@@ -115,13 +119,9 @@ export default [
         border-color: var(--glide-core-color-interactive-stroke-focus);
       }
 
-      &:has(.primary-button:focus-visible, .input:focus-visible) {
-        &.quiet {
-          border-color: var(--glide-core-color-interactive-stroke-focus);
-        }
-      }
-
-      &:has(.input:focus-visible):not(.readonly) {
+      &:has(.primary-button:focus-visible, .input:focus-visible):not(
+          .readonly
+        ) {
         &:not(.error) {
           border-color: var(--glide-core-color-interactive-stroke-focus);
           box-shadow:
