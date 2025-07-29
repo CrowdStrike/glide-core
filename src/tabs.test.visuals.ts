@@ -1,5 +1,5 @@
 import { expect, test } from './playwright/test.js';
-import type TabGroup from './tab.group.js';
+import type Tabs from './tabs.js';
 import type Tab from './tab.js';
 import fetchStories from './playwright/fetch-stories.js';
 
@@ -13,8 +13,8 @@ for (const story of stories) {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
-            .locator('glide-core-tab-group')
-            .evaluate<void, TabGroup>((element) => {
+            .locator('glide-core-tabs')
+            .evaluate<void, Tabs>((element) => {
               element.style.setProperty('--tabs-padding-block-end', '5rem');
               element.style.setProperty('--tabs-padding-block-start', '5rem');
               element.style.setProperty('--tabs-padding-inline-end', '5rem');
@@ -24,7 +24,7 @@ for (const story of stories) {
           await page
             .locator('glide-core-tab-panel')
             .first()
-            .evaluate<void, TabGroup>((element) => {
+            .evaluate<void, Tabs>((element) => {
               element.style.setProperty('--padding-inline-end', '5rem');
               element.style.setProperty('--padding-inline-start', '5rem');
             });
