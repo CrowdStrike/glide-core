@@ -2,14 +2,15 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import styles from './tab.panel.styles.js';
+import styles from './tabs.panel.styles.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tab-panel': TabPanel;
+    'glide-core-tabs-panel': TabsPanel;
   }
 }
 
@@ -30,15 +31,13 @@ declare global {
  * @cssprop [--padding-inline-end=0rem]
  * @cssprop [--padding-inline-start=0rem]
  */
-@customElement('glide-core-tab-panel')
+@customElement('glide-core-tabs-panel')
 @final
-export default class TabPanel extends LitElement {
-  /* c8 ignore start */
+export default class TabsPanel extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: window.navigator.webdriver ? 'open' : 'closed',
+    mode: shadowRootMode,
   };
-  /* c8 ignore end */
 
   static override styles = styles;
 

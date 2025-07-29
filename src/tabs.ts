@@ -7,12 +7,11 @@ import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import Tab from './tab.js';
-import TabPanel from './tab.panel.js';
+import TabsPanel from './tabs.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
 import styles from './tabs.styles.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 
 declare global {
@@ -36,10 +35,12 @@ declare global {
 @customElement('glide-core-tabs')
 @final
 export default class Tabs extends LitElement {
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore stop */
 
   static override styles = styles;
 
@@ -125,7 +126,7 @@ export default class Tabs extends LitElement {
         )}
       </div>
 
-      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabPanel])}>
+      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabsPanel])}>
         <!-- @type {TabPanel} -->
       </slot>
     </div>`;
@@ -164,7 +165,7 @@ export default class Tabs extends LitElement {
 
   get #panelElements() {
     return [
-      ...this.querySelectorAll<TabPanel>(':scope > glide-core-tab-panel'),
+      ...this.querySelectorAll<TabsPanel>(':scope > glide-core-tabs-panel'),
     ];
   }
 
