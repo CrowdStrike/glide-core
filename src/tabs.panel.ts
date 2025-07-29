@@ -51,13 +51,13 @@ export default class TabsPanel extends LitElement {
 
   // Private because it's only meant to be used by Tab Group.
   @property({ type: Boolean })
-  get privateIsSelected() {
-    return this.#isSelected;
+  get privateSelected() {
+    return this.#selected;
   }
 
-  set privateIsSelected(isSelected: boolean) {
-    this.setAttribute('aria-hidden', isSelected ? 'false' : 'true');
-    this.#isSelected = isSelected;
+  set privateSelected(selected: boolean) {
+    this.setAttribute('aria-hidden', selected ? 'false' : 'true');
+    this.#selected = selected;
   }
 
   @property({ reflect: true })
@@ -73,8 +73,8 @@ export default class TabsPanel extends LitElement {
     return html`<div
       class=${classMap({
         component: true,
-        hidden: !this.privateIsSelected,
-        selected: this.privateIsSelected,
+        hidden: !this.privateSelected,
+        selected: this.privateSelected,
       })}
       data-test="tab-panel"
     >
@@ -87,5 +87,5 @@ export default class TabsPanel extends LitElement {
     </div>`;
   }
 
-  #isSelected = false;
+  #selected = false;
 }
