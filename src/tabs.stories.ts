@@ -1,5 +1,5 @@
 import './icons/storybook.js';
-import './tab.group.js';
+import './tabs.js';
 import './tab.panel.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
@@ -11,12 +11,12 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import TabComponent from './tab.js';
 
 const meta: Meta = {
-  title: 'Tab Group',
+  title: 'Tabs',
   decorators: [
     withActions,
     (story) => html`
       <script type="ignore">
-        import '@crowdstrike/glide-core/tab.group.js';
+        import '@crowdstrike/glide-core/tabs.js';
         import '@crowdstrike/glide-core/tab.panel.js';
         import '@crowdstrike/glide-core/tab.js';
       </script>
@@ -66,7 +66,7 @@ const meta: Meta = {
   },
   play(context) {
     context.canvasElement
-      .querySelector('glide-core-tab-group')
+      .querySelector('glide-core-tabs')
       ?.addEventListener('selected', (event: Event) => {
         if (event.target instanceof TabComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
@@ -82,7 +82,7 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/prefer-nullish-coalescing */
     return html`
-      <glide-core-tab-group
+      <glide-core-tabs
         style=${styleMap({
           '--tabs-padding-block-start':
             arguments_['--tabs-padding-block-start'] || null,
@@ -133,7 +133,7 @@ const meta: Meta = {
           ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
         </glide-core-tab-panel>
         <glide-core-tab-panel name="2"> With Icon </glide-core-tab-panel>
-      </glide-core-tab-group>
+      </glide-core-tabs>
     `;
   },
   argTypes: {
@@ -357,7 +357,7 @@ export const WithOverflow: StoryObj = {
   render(arguments_) {
     return html`
       <div style="width: 25rem;">
-        <glide-core-tab-group>
+        <glide-core-tabs>
           <glide-core-tab
             slot="nav"
             panel="1"
@@ -451,7 +451,7 @@ export const WithOverflow: StoryObj = {
           <glide-core-tab-panel name="8"> Eight </glide-core-tab-panel>
           <glide-core-tab-panel name="9"> Nine </glide-core-tab-panel>
           <glide-core-tab-panel name="10"> Ten </glide-core-tab-panel>
-        </glide-core-tab-group>
+        </glide-core-tabs>
       </div>
     `;
   },
