@@ -14,7 +14,7 @@ declare global {
 }
 
 /**
- * @attr {string} name - The corresponding Tab should have a `panel` attribute with this name
+ * @attr {string} name - The corresponding Tab should have a `panel` attribute with this name.
  *
  * @readonly
  * @attr {string} [id]
@@ -25,7 +25,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {Element | string} - The content of the panel
+ * @slot {Element | string} - The content of the panel.
  *
  * @cssprop [--padding-inline-end=0rem]
  * @cssprop [--padding-inline-start=0rem]
@@ -43,11 +43,11 @@ export default class TabsPanel extends LitElement {
   static override styles = styles;
 
   /**
-   * The corresponding Tab should have a `panel` attribute with this name
+   * The corresponding Tab should have a `panel` attribute with this name.
    */
   @property({ reflect: true })
   @required
-  name?: string;
+  name: string | undefined;
 
   // Private because it's only meant to be used by Tab Group.
   @property({ type: Boolean })
@@ -80,7 +80,7 @@ export default class TabsPanel extends LitElement {
     >
       <slot>
         <!--
-          The content of the panel
+          The content of the panel.
           @type {Element | string}
         -->
       </slot>
