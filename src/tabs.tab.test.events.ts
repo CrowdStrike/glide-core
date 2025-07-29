@@ -1,9 +1,9 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import Tab from './tab.js';
+import TabsTab from './tabs.tab.js';
 
 it('dispatches a "private-selected" event when selected', async () => {
-  const host = await fixture<Tab>(
-    html`<glide-core-tab panel="1">One</glide-core-tab>`,
+  const host = await fixture<TabsTab>(
+    html`<glide-core-tabs-tab panel="1">One</glide-core-tabs-tab>`,
   );
 
   setTimeout(() => {
