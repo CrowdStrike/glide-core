@@ -43,7 +43,7 @@ const meta: Meta = {
     '--tabs-padding-inline-end': '',
     '--tabs-padding-inline-start': '',
     '<glide-core-tabs-tab>.panel': '',
-    '<glide-core-tabs-tab>[slot="default"]': 'Tab',
+    '<glide-core-tabs-tab>[slot="default"]': 'One',
     '<glide-core-tabs-tab>.addEventListener(event, handler)': '',
     '<glide-core-tabs-tab>.disabled': false,
     '<glide-core-tabs-tab>.1.selected': true,
@@ -107,12 +107,7 @@ const meta: Meta = {
           ?disabled=${arguments_['<glide-core-tabs-tab>.disabled']}
           ?selected=${arguments_['<glide-core-tabs-tab>.2.selected']}
         >
-          With Icon
-
-          <glide-core-example-icon
-            slot="icon"
-            name="checkmark"
-          ></glide-core-example-icon>
+          Two
         </glide-core-tabs-tab>
 
         <glide-core-tabs-panel
@@ -453,6 +448,70 @@ export const WithOverflow: StoryObj = {
           <glide-core-tabs-panel name="10"> Ten </glide-core-tabs-panel>
         </glide-core-tabs>
       </div>
+    `;
+  },
+};
+
+export const WithIcons: StoryObj = {
+  render(arguments_) {
+    return html`
+      <glide-core-tabs
+        style=${styleMap({
+          '--tabs-padding-block-start':
+            arguments_['--tabs-padding-block-start'] || null,
+          '--tabs-padding-block-end':
+            arguments_['--tabs-padding-block-end'] || null,
+          '--tabs-padding-inline-start':
+            arguments_['--tabs-padding-inline-start'] || null,
+          '--tabs-padding-inline-end':
+            arguments_['--tabs-padding-inline-end'] || null,
+        })}
+      >
+        <glide-core-tabs-tab
+          slot="nav"
+          panel="1"
+          ?selected=${arguments_['<glide-core-tabs-tab>.1.selected']}
+        >
+          ${unsafeHTML(arguments_['<glide-core-tabs-tab>[slot="default"]'])}
+
+          <glide-core-example-icon
+            slot="icon"
+            name="calendar"
+          ></glide-core-example-icon>
+        </glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          slot="nav"
+          panel="2"
+          ?disabled=${arguments_['<glide-core-tabs-tab>.disabled']}
+          ?selected=${arguments_['<glide-core-tabs-tab>.2.selected']}
+        >
+          Two
+
+          <glide-core-example-icon
+            slot="icon"
+            name="checkmark"
+          ></glide-core-example-icon>
+        </glide-core-tabs-tab>
+
+        <glide-core-tabs-panel
+          name="1"
+          style=${arguments_['<glide-core-tabs-panel>[--padding-inline-end]'] ||
+          arguments_['<glide-core-tabs-panel>[--padding-inline-start]']
+            ? styleMap({
+                '--padding-inline-end':
+                  arguments_['<glide-core-tabs-panel>[--padding-inline-end]'] ||
+                  null,
+                '--padding-inline-start':
+                  arguments_[
+                    '<glide-core-tabs-panel>[--padding-inline-start]'
+                  ] || null,
+              })
+            : nothing}
+        >
+          ${unsafeHTML(arguments_['<glide-core-tabs-panel>[slot="default"]'])}
+        </glide-core-tabs-panel>
+        <glide-core-tabs-panel name="2"> With Icon </glide-core-tabs-panel>
+      </glide-core-tabs>
     `;
   },
 };
