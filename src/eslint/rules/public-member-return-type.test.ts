@@ -1,5 +1,11 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import { test } from '@playwright/test';
 import { publicMemberReturnType } from './public-member-return-type.js';
+
+RuleTester.afterAll = test.afterAll;
+RuleTester.describe = test.describe;
+RuleTester.it = test;
+RuleTester.itOnly = test.only;
 
 const ruleTester = new RuleTester();
 
@@ -7,50 +13,64 @@ ruleTester.run('public-member-return-type', publicMemberReturnType, {
   valid: [
     {
       code: `
-        export default class {
+        export default class Component extends LitElement {
           method(): boolean {}
         }
       `,
     },
     {
       code: `
-        export default class {
+        export default class Component extends LitElement  {
           #method() {}
         }
       `,
     },
     {
       code: `
-        export default class {
+        export default class Component extends LitElement  {
           private method() {}
         }
       `,
     },
     {
       code: `
-        export default class {
+        export default class Component extends LitElement  {
           privateMethod() {}
         }
       `,
     },
     {
       code: `
-        export default class {
+        export default class Component extends LitElement  {
           constructor() {}
         }
       `,
     },
     {
       code: `
-        export default class {
+        export default class Component extends LitElement  {
           override method() {}
         }
       `,
     },
     {
       code: `
-        export default class {
+        export default class Component extends LitElement  {
           set property() {}
+        }
+      `,
+    },
+    {
+      code: `
+        export default class Component extends Element  {
+          method() {}
+        }
+      `,
+    },
+    {
+      code: `
+        export default class {
+          method() {}
         }
       `,
     },
@@ -58,7 +78,7 @@ ruleTester.run('public-member-return-type', publicMemberReturnType, {
   invalid: [
     {
       code: `
-        export default class {
+        export default class Component extends LitElement  {
           method() {}
         }
       `,

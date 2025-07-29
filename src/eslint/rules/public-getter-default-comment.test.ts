@@ -1,5 +1,11 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import { test } from '@playwright/test';
 import { publicGetterDefaultComment } from './public-getter-default-comment.js';
+
+RuleTester.afterAll = test.afterAll;
+RuleTester.describe = test.describe;
+RuleTester.it = test;
+RuleTester.itOnly = test.only;
 
 const ruleTester = new RuleTester();
 

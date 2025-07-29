@@ -1,5 +1,11 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import { test } from '@playwright/test';
 import { publicPropertyExpressionType } from './public-property-expression-type.js';
+
+RuleTester.afterAll = test.afterAll;
+RuleTester.describe = test.describe;
+RuleTester.it = test;
+RuleTester.itOnly = test.only;
 
 const ruleTester = new RuleTester();
 

@@ -20,6 +20,7 @@ import { privateStateDecorators } from './rules/private-state-decorators.js';
 import { noProtectedKeyword } from './rules/no-protected-keyword.js';
 import { useFinalDecorator } from './rules/use-final-decorator.js';
 import { commentMaximumLength } from './rules/comment-maximum-length.js';
+import { alwaysTagTests } from './rules/always-tag-tests.js';
 
 export default {
   rules: {
@@ -47,5 +48,6 @@ export default {
     'no-protected-keyword': noProtectedKeyword,
     'use-final-decorator': useFinalDecorator,
     'comment-maximum-length': commentMaximumLength,
+    'always-tag-tests': alwaysTagTests,
   },
 };

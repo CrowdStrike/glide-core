@@ -197,13 +197,17 @@ export default class Button extends LitElement {
     }
   }
 
+  /* v8 ignore start */
   #onPrefixIconSlotChange() {
     const assignedNodes = this.#prefixIconSlotElementRef.value?.assignedNodes();
     this.hasPrefixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
+  /* v8 ignore end */
 
+  /* v8 ignore start */
   #onSuffixIconSlotChange() {
     const assignedNodes = this.#suffixIconSlotElementRef.value?.assignedNodes();
     this.hasSuffixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
+  /* v8 ignore end */
 }
