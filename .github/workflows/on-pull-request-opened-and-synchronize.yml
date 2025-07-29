@@ -120,13 +120,9 @@ jobs:
           name: web-test-runner-debugging-screenshots
           path: dist/web-test-runner-debugging-screenshots
 
-  # Its own job instead of putting it in `test-visuals` and renaming that job
-  # because `test-visual` sets `continue-on-error` so that missing and changed
-  # snapshots don't cause it to fail.
   test-aria:
     name: Test (ARIA)
     runs-on: ubuntu-latest
-
     timeout-minutes: 5 # Increase sharding if the job takes longer than this
     needs:
       - install-dependencies
@@ -140,6 +136,23 @@ jobs:
       - run: pnpm dlx playwright@1.52.0 install --only-shell --with-deps chromium
       - name: Test
         run: pnpm exec playwright test --project aria --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+
+  test-components:
+    name: Test (Components)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5 # Increase sharding if the job takes longer than this
+    needs:
+      - install-dependencies
+    strategy:
+      matrix:
+        shardIndex: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        shardTotal: [10]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: pnpm dlx playwright@1.52.0 install --only-shell --with-deps chromium
+      - name: Test
+        run: pnpm exec playwright test --project components --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
   test-visuals:
     name: Test (Visuals)

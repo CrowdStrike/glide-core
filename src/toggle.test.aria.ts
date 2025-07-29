@@ -90,7 +90,7 @@ test('summary', async ({ page }) => {
     - text: Label
     - switch "Label"
     - text: Summary
-    `);
+  `);
 });
 
 test('tooltip', async ({ page }) => {

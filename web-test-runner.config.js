@@ -26,6 +26,9 @@ export default {
 
       // Not much to test. Also untestable.
       'src/library/shadow-root-mode.ts',
+
+      // Migrated
+      'src/button.ts',
     ],
     reportDir: 'dist/web-test-runner-coverage',
     threshold: {
@@ -46,6 +49,9 @@ export default {
     '!src/**/*.*.test.visuals.ts',
     '!src/**/*.test.aria.ts',
     '!src/**/*.test.visuals.ts',
+
+    // Migrated
+    '!src/button.test.*.ts',
   ],
   nodeResolve: {
     browser: true,

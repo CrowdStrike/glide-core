@@ -46,6 +46,7 @@ test.describe('filter("add")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label 1 items" [expanded]
+      - status "1 items"
       - listbox "add":
         - option "add (Add)"
     `);
@@ -63,6 +64,7 @@ test.describe('filter("add")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label"
+      - status "0 items"
     `);
   });
 });
@@ -83,6 +85,7 @@ test.describe('filter("noMatchingOptions")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label 0 items" [expanded]: noMatchingOptions
+      - status "0 items"
       - listbox "noMatchingOptions": No matching options
     `);
   });
@@ -99,6 +102,7 @@ test.describe('filter("noMatchingOptions")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label"
+      - status "0 items"
     `);
   });
 });
@@ -120,6 +124,7 @@ test.describe('filter("o")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label 3 items" [expanded]
+      - status "3 items"
       - listbox "o":
         - option "One"
         - option "Two"
@@ -139,6 +144,7 @@ test.describe('filter("o")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label"
+      - status "0 items"
     `);
   });
 });
@@ -171,6 +177,7 @@ test('loading', async ({ page }) => {
   await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
     - text: Label
     - button "Label Loading" [expanded]
+    - listbox
   `);
 });
 

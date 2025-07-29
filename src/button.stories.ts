@@ -211,3 +211,19 @@ export const WithIcons: StoryObj = {
     `;
   },
 };
+
+export const Test = {
+  tags: ['!dev', '!autodocs'],
+  render() {
+    window.dispatchEvent(new Event('storybookready'));
+    return;
+  },
+};
+
+export const TestSubclassed = {
+  tags: ['!dev', '!autodocs'],
+  render() {
+    window.dispatchEvent(new Event('storybookready'));
+    return;
+  },
+};
