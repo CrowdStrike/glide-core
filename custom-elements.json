@@ -8593,8 +8593,8 @@
             },
             {
               "kind": "field",
-              "name": "privateIsSelected",
-              "attribute": "privateIsSelected"
+              "name": "privateSelected",
+              "attribute": "privateSelected"
             },
             {
               "kind": "field",
@@ -8639,8 +8639,8 @@
               "required": true
             },
             {
-              "name": "privateIsSelected",
-              "fieldName": "privateIsSelected"
+              "name": "privateSelected",
+              "fieldName": "privateSelected"
             },
             {
               "name": "version",
