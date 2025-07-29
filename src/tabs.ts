@@ -6,7 +6,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import Tab from './tab.js';
+import TabsTab from './tabs.tab.js';
 import TabsPanel from './tabs.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
@@ -89,7 +89,7 @@ export default class Tabs extends LitElement {
             name="nav"
             @private-selected=${this.#onTabSelected}
             @slotchange=${this.#onNavSlotChange}
-            ${assertSlot([Tab])}
+            ${assertSlot([TabsTab])}
           >
             <!-- @type {Tab} -->
           </slot>
@@ -170,15 +170,15 @@ export default class Tabs extends LitElement {
   }
 
   get #tabElements() {
-    return [...this.querySelectorAll<Tab>(':scope > glide-core-tab')];
+    return [...this.querySelectorAll<TabsTab>(':scope > glide-core-tabs-tab')];
   }
 
   #onComponentClick(event: Event) {
     const target = event.target as HTMLElement;
-    const clickedTab = target.closest('glide-core-tab');
+    const clickedTab = target.closest('glide-core-tabs-tab');
 
     if (
-      clickedTab instanceof Tab &&
+      clickedTab instanceof TabsTab &&
       !clickedTab.disabled &&
       // Tab Panels can themselves include a Tab Group. We want to ensure
       // we're dealing with one of this instance's Tabs and not a Tab in
@@ -192,11 +192,11 @@ export default class Tabs extends LitElement {
   #onComponentKeydown(event: KeyboardEvent) {
     const tab =
       event.target instanceof HTMLElement &&
-      event.target.closest('glide-core-tab');
+      event.target.closest('glide-core-tabs-tab');
 
     if (
       ['Enter', ' '].includes(event.key) &&
-      tab instanceof Tab &&
+      tab instanceof TabsTab &&
       !tab.disabled
     ) {
       tab.selected = true;
@@ -217,7 +217,7 @@ export default class Tabs extends LitElement {
         tab.matches(':focus'),
       );
 
-      if (focusedElement instanceof Tab) {
+      if (focusedElement instanceof TabsTab) {
         let index = this.#tabElements.indexOf(focusedElement);
 
         switch (event.key) {
@@ -347,7 +347,7 @@ export default class Tabs extends LitElement {
   }
 
   #onTabSelected(event: Event) {
-    if (event.target instanceof Tab && event.target.selected) {
+    if (event.target instanceof TabsTab && event.target.selected) {
       event.target.privateSelect();
       event.target.tabIndex = 0;
 

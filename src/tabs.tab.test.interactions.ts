@@ -1,18 +1,18 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import Tab from './tab.js';
+import TabsTab from './tabs.tab.js';
 
 @customElement('glide-core-subclassed')
-class Subclassed extends Tab {}
+class Subclassed extends TabsTab {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-tab')).to.equal(Tab);
+  expect(window.customElements.get('glide-core-tabs-tab')).to.equal(TabsTab);
 });
 
 it('sets `ariaDisabled` and `tabIndex` when disabled programmatically', async () => {
-  const host = await fixture<Tab>(html`
-    <glide-core-tab panel="panel">Tab</glide-core-tab>
+  const host = await fixture<TabsTab>(html`
+    <glide-core-tabs-tab panel="panel">Tab</glide-core-tabs-tab>
   `);
 
   host.disabled = true;

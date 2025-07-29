@@ -3,7 +3,7 @@ import { emulateMedia } from '@web/test-runner-commands';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Tabs from './tabs.js';
-import './tab.js';
+import './tabs.tab.js';
 import TabsPanel from './tabs.panel.js';
 import expectWindowError from './library/expect-window-error.js';
 import requestIdleCallback from './library/request-idle-callback.js';
@@ -22,15 +22,15 @@ it('registers itself', async () => {
 it('selects the first tab when none is selected', async () => {
   const host = await fixture<Tabs>(html`
     <glide-core-tabs>
-      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
-      <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
+      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
+      <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
+  const tabs = host.querySelectorAll('glide-core-tabs-tab');
   const panels = host.querySelectorAll('glide-core-tabs-panel');
 
   expect(tabs[0]?.selected).to.be.true;
@@ -47,8 +47,10 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
+      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
+      <glide-core-tabs-tab slot="nav" panel="2" selected
+        >Two</glide-core-tabs-tab
+      >
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -56,7 +58,7 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
   `);
 
   const firstTab = host
-    .querySelector('glide-core-tab:last-of-type')
+    .querySelector('glide-core-tabs-tab:last-of-type')
     ?.shadowRoot?.querySelector('[data-test="component"]');
 
   const selectedTabIndicator = host.shadowRoot?.querySelector(
@@ -77,9 +79,11 @@ it('offsets the width of its tab indicator when its first tab is selected', asyn
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tab slot="nav" panel="1" selected>One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
-      <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+      <glide-core-tabs-tab slot="nav" panel="1" selected
+        >One</glide-core-tabs-tab
+      >
+      <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -90,7 +94,7 @@ it('offsets the width of its tab indicator when its first tab is selected', asyn
   await requestIdleCallback(); // Wait for the Resize Observer
 
   const firstTab = host
-    .querySelector('glide-core-tab')
+    .querySelector('glide-core-tabs-tab')
     ?.shadowRoot?.querySelector('[data-test="component"]');
 
   const selectedTabIndicator = host.shadowRoot?.querySelector(
@@ -111,9 +115,11 @@ it('offsets the width of its tab indicator when its middle tab is selected', asy
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
-      <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
+      <glide-core-tabs-tab slot="nav" panel="2" selected
+        >Two</glide-core-tabs-tab
+      >
+      <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -124,7 +130,7 @@ it('offsets the width of its tab indicator when its middle tab is selected', asy
   await requestIdleCallback(); // Wait for the Resize Observer
 
   const middleTab = host
-    .querySelector('glide-core-tab:nth-of-type(2)')
+    .querySelector('glide-core-tabs-tab:nth-of-type(2)')
     ?.shadowRoot?.querySelector('[data-test="component"]');
 
   const selectedTabIndicator = host.shadowRoot?.querySelector(
@@ -145,9 +151,11 @@ it('offsets the width of its tab indicator when its last tab is selected', async
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
-      <glide-core-tab slot="nav" panel="3" selected>three</glide-core-tab>
+      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
+      <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab slot="nav" panel="3" selected
+        >three</glide-core-tabs-tab
+      >
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -158,7 +166,7 @@ it('offsets the width of its tab indicator when its last tab is selected', async
   await aTimeout(0); // Wait for the Resize Observer
 
   const lastTab = host
-    .querySelector('glide-core-tab:last-of-type')
+    .querySelector('glide-core-tabs-tab:last-of-type')
     ?.shadowRoot?.querySelector('[data-test="component"]');
 
   const selectedTabIndicator = host.shadowRoot?.querySelector(
@@ -175,15 +183,19 @@ it('offsets the width of its tab indicator when its last tab is selected', async
 it('deselects all but its last selected tab when multiple are selected', async () => {
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tab slot="nav" panel="1" selected>One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
+      <glide-core-tabs-tab slot="nav" panel="1" selected
+        >One</glide-core-tabs-tab
+      >
+      <glide-core-tabs-tab slot="nav" panel="2" selected
+        >Two</glide-core-tabs-tab
+      >
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
+  const tabs = host.querySelectorAll('glide-core-tabs-tab');
   const panels = host.querySelectorAll('glide-core-tabs-panel');
 
   expect(tabs[0]?.selected).to.be.false;
@@ -211,7 +223,7 @@ it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
       <glide-core-tabs>
-        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tabs-tab slot="nav" panel="1">Tab 1</glide-core-tabs-tab>
         <div>Default Content</div>
       </glide-core-tabs>
     `);

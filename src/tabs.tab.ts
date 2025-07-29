@@ -2,14 +2,14 @@ import { html, LitElement, type PropertyValues } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import styles from './tab.styles.js';
+import styles from './tabs.tab.styles.js';
 import final from './library/final.js';
 import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tab': Tab;
+    'glide-core-tabs-tab': TabsTab;
   }
 }
 
@@ -33,15 +33,15 @@ declare global {
  *
  * @fires {Event} selected
  */
-@customElement('glide-core-tab')
+@customElement('glide-core-tabs-tab')
 @final
-export default class Tab extends LitElement {
+export default class TabsTab extends LitElement {
   /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* c8 ignore stop */
 
   static override styles = styles;
 

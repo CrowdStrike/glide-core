@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
-import type Tab from './tab.js';
+import type TabsTab from './tabs.tab.js';
 
-test('<glide-core-tab>.disabled', async ({ page }) => {
+test('<glide-core-tabs-tab>.disabled', async ({ page }) => {
   await page.goto('?id=tab-group--tabs');
 
   await page
-    .locator('glide-core-tab')
+    .locator('glide-core-tabs-tab')
     .first()
-    .evaluate<void, Tab>((element) => {
+    .evaluate<void, TabsTab>((element) => {
       element.disabled = true;
     });
 
@@ -19,7 +19,7 @@ test('<glide-core-tab>.disabled', async ({ page }) => {
   `);
 });
 
-test('<glide-core-tab>.selected', async ({ page }) => {
+test('<glide-core-tabs-tab>.selected', async ({ page }) => {
   await page.goto('?id=tab-group--tabs');
   await page.locator('glide-core-tabs').waitFor();
 
