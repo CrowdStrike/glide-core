@@ -2,30 +2,30 @@ import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import TabGroup from './tab.group.js';
+import Tabs from './tabs.js';
 import './tab.js';
 import TabPanel from './tab.panel.js';
 import expectWindowError from './library/expect-window-error.js';
 import requestIdleCallback from './library/request-idle-callback.js';
 
 @customElement('glide-core-subclassed')
-class Subclassed extends TabGroup {}
+class Subclassed extends Tabs {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-tab-group')).to.equal(TabGroup);
+  expect(window.customElements.get('glide-core-tabs')).to.equal(Tabs);
 
   expect(window.customElements.get('glide-core-tab-panel')).to.equal(TabPanel);
 });
 
 it('selects the first tab when none is selected', async () => {
-  const host = await fixture<TabGroup>(html`
-    <glide-core-tab-group>
+  const host = await fixture<Tabs>(html`
+    <glide-core-tabs>
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
 
       <glide-core-tab-panel name="1">One</glide-core-tab-panel>
       <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-    </glide-core-tab-group>
+    </glide-core-tabs>
   `);
 
   const tabs = host.querySelectorAll('glide-core-tab');
@@ -44,13 +44,13 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
   await emulateMedia({ reducedMotion: 'reduce' });
 
   const host = await fixture(html`
-    <glide-core-tab-group>
+    <glide-core-tabs>
       <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
       <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
 
       <glide-core-tab-panel name="1">One</glide-core-tab-panel>
       <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-    </glide-core-tab-group>
+    </glide-core-tabs>
   `);
 
   const firstTab = host
@@ -74,7 +74,7 @@ it('offsets the width of its tab indicator when its first tab is selected', asyn
   await emulateMedia({ reducedMotion: 'reduce' });
 
   const host = await fixture(html`
-    <glide-core-tab-group>
+    <glide-core-tabs>
       <glide-core-tab slot="nav" panel="1" selected>One</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
       <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
@@ -82,7 +82,7 @@ it('offsets the width of its tab indicator when its first tab is selected', asyn
       <glide-core-tab-panel name="1">One</glide-core-tab-panel>
       <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
       <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
-    </glide-core-tab-group>
+    </glide-core-tabs>
   `);
 
   await requestIdleCallback(); // Wait for the Resize Observer
@@ -108,7 +108,7 @@ it('offsets the width of its tab indicator when its middle tab is selected', asy
   await emulateMedia({ reducedMotion: 'reduce' });
 
   const host = await fixture(html`
-    <glide-core-tab-group>
+    <glide-core-tabs>
       <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
       <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
       <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
@@ -116,7 +116,7 @@ it('offsets the width of its tab indicator when its middle tab is selected', asy
       <glide-core-tab-panel name="1">One</glide-core-tab-panel>
       <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
       <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
-    </glide-core-tab-group>
+    </glide-core-tabs>
   `);
 
   await requestIdleCallback(); // Wait for the Resize Observer
@@ -142,7 +142,7 @@ it('offsets the width of its tab indicator when its last tab is selected', async
   await emulateMedia({ reducedMotion: 'reduce' });
 
   const host = await fixture(html`
-    <glide-core-tab-group>
+    <glide-core-tabs>
       <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
       <glide-core-tab slot="nav" panel="3" selected>three</glide-core-tab>
@@ -150,7 +150,7 @@ it('offsets the width of its tab indicator when its last tab is selected', async
       <glide-core-tab-panel name="1">One</glide-core-tab-panel>
       <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
       <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
-    </glide-core-tab-group>
+    </glide-core-tabs>
   `);
 
   await aTimeout(0); // Wait for the Resize Observer
@@ -172,13 +172,13 @@ it('offsets the width of its tab indicator when its last tab is selected', async
 
 it('deselects all but its last selected tab when multiple are selected', async () => {
   const host = await fixture(html`
-    <glide-core-tab-group>
+    <glide-core-tabs>
       <glide-core-tab slot="nav" panel="1" selected>One</glide-core-tab>
       <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
 
       <glide-core-tab-panel name="1">One</glide-core-tab-panel>
       <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-    </glide-core-tab-group>
+    </glide-core-tabs>
   `);
 
   const tabs = host.querySelectorAll('glide-core-tab');
@@ -208,10 +208,10 @@ it('throws when subclassed', async () => {
 it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
-      <glide-core-tab-group>
+      <glide-core-tabs>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
         <div>Default Content</div>
-      </glide-core-tab-group>
+      </glide-core-tabs>
     `);
   });
 });
@@ -219,10 +219,10 @@ it('throws when its default slot is the wrong type', async () => {
 it('throws when its "nav" slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
-      <glide-core-tab-group>
+      <glide-core-tabs>
         <div slot="nav">Tab 1</div>
         <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
-      </glide-core-tab-group>
+      </glide-core-tabs>
     `);
   });
 });

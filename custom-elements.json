@@ -8367,120 +8367,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/tab.group.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/tab.group.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/tab.group.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "TabGroup",
-          "cssProperties": [
-            {
-              "name": "--tabs-padding-block-end",
-              "default": "0rem"
-            },
-            {
-              "name": "--tabs-padding-block-start",
-              "default": "0rem"
-            },
-            {
-              "name": "--tabs-padding-inline-end",
-              "default": "0rem"
-            },
-            {
-              "name": "--tabs-padding-inline-start",
-              "default": "0rem"
-            }
-          ],
-          "slots": [
-            {
-              "name": "nav",
-              "description": "",
-              "type": {
-                "text": "Tab"
-              }
-            },
-            {
-              "name": "",
-              "description": "",
-              "type": {
-                "text": "TabPanel"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-tab-group",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "TabGroup",
-            "module": "src/tab.group.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-tab-group",
-          "declaration": {
-            "name": "TabGroup",
-            "module": "src/tab.group.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/tab.panel.styles.ts",
       "declarations": [],
       "exports": [
@@ -8841,6 +8727,120 @@
           "declaration": {
             "name": "Tab",
             "module": "src/tab.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tabs.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/tabs.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tabs.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Tabs",
+          "cssProperties": [
+            {
+              "name": "--tabs-padding-block-end",
+              "default": "0rem"
+            },
+            {
+              "name": "--tabs-padding-block-start",
+              "default": "0rem"
+            },
+            {
+              "name": "--tabs-padding-inline-end",
+              "default": "0rem"
+            },
+            {
+              "name": "--tabs-padding-inline-start",
+              "default": "0rem"
+            }
+          ],
+          "slots": [
+            {
+              "name": "nav",
+              "description": "",
+              "type": {
+                "text": "Tab"
+              }
+            },
+            {
+              "name": "",
+              "description": "",
+              "type": {
+                "text": "TabPanel"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-tabs",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "Tabs",
+            "module": "src/tabs.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-tabs",
+          "declaration": {
+            "name": "Tabs",
+            "module": "src/tabs.ts"
           }
         }
       ]

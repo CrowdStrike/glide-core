@@ -10,13 +10,14 @@ import Tab from './tab.js';
 import TabPanel from './tab.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
-import styles from './tab.group.styles.js';
+import styles from './tabs.styles.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tab-group': TabGroup;
+    'glide-core-tabs': Tabs;
   }
 }
 
@@ -32,15 +33,13 @@ declare global {
  * @cssprop [--tabs-padding-inline-end=0rem]
  * @cssprop [--tabs-padding-inline-start=0rem]
  */
-@customElement('glide-core-tab-group')
+@customElement('glide-core-tabs')
 @final
-export default class TabGroup extends LitElement {
-  /* c8 ignore start */
+export default class Tabs extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: window.navigator.webdriver ? 'open' : 'closed',
+    mode: shadowRootMode,
   };
-  /* c8 ignore end */
 
   static override styles = styles;
 
@@ -100,7 +99,6 @@ export default class TabGroup extends LitElement {
               animated: this.hasUpdated,
             })}
             data-test="selected-tab-indicator"
-            @transitionstart=${this.#onSelectedTabIndicatorTransition}
             ${ref(this.#selectedTabIndicatorElementRef)}
           ></div>
         </div>
@@ -309,10 +307,6 @@ export default class TabGroup extends LitElement {
         top: 0,
       });
     }
-  }
-
-  #onSelectedTabIndicatorTransition() {
-    this.#setOverflowButtonsState();
   }
 
   #onTabListFocusout() {
