@@ -4,7 +4,7 @@ import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Tabs from './tabs.js';
 import './tab.js';
-import TabPanel from './tab.panel.js';
+import TabsPanel from './tabs.panel.js';
 import expectWindowError from './library/expect-window-error.js';
 import requestIdleCallback from './library/request-idle-callback.js';
 
@@ -14,7 +14,9 @@ class Subclassed extends Tabs {}
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tabs')).to.equal(Tabs);
 
-  expect(window.customElements.get('glide-core-tab-panel')).to.equal(TabPanel);
+  expect(window.customElements.get('glide-core-tabs-panel')).to.equal(
+    TabsPanel,
+  );
 });
 
 it('selects the first tab when none is selected', async () => {
@@ -23,13 +25,13 @@ it('selects the first tab when none is selected', async () => {
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
   const tabs = host.querySelectorAll('glide-core-tab');
-  const panels = host.querySelectorAll('glide-core-tab-panel');
+  const panels = host.querySelectorAll('glide-core-tabs-panel');
 
   expect(tabs[0]?.selected).to.be.true;
   expect(tabs[1]?.selected).to.be.false;
@@ -48,8 +50,8 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
       <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
       <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
@@ -79,9 +81,9 @@ it('offsets the width of its tab indicator when its first tab is selected', asyn
       <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
       <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="3">Three</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
@@ -113,9 +115,9 @@ it('offsets the width of its tab indicator when its middle tab is selected', asy
       <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
       <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="3">Three</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
@@ -147,9 +149,9 @@ it('offsets the width of its tab indicator when its last tab is selected', async
       <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
       <glide-core-tab slot="nav" panel="3" selected>three</glide-core-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="3">Three</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
@@ -176,13 +178,13 @@ it('deselects all but its last selected tab when multiple are selected', async (
       <glide-core-tab slot="nav" panel="1" selected>One</glide-core-tab>
       <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
   const tabs = host.querySelectorAll('glide-core-tab');
-  const panels = host.querySelectorAll('glide-core-tab-panel');
+  const panels = host.querySelectorAll('glide-core-tabs-panel');
 
   expect(tabs[0]?.selected).to.be.false;
   expect(tabs[0]?.tabIndex).to.equal(-1);
@@ -221,7 +223,9 @@ it('throws when its "nav" slot is the wrong type', async () => {
     return fixture(html`
       <glide-core-tabs>
         <div slot="nav">Tab 1</div>
-        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+        <glide-core-tabs-panel name="1"
+          >Content for Tab 1</glide-core-tabs-panel
+        >
       </glide-core-tabs>
     `);
   });

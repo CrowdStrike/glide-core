@@ -22,7 +22,7 @@ for (const story of stories) {
             });
 
           await page
-            .locator('glide-core-tab-panel')
+            .locator('glide-core-tabs-panel')
             .first()
             .evaluate<void, Tabs>((element) => {
               element.style.setProperty('--padding-inline-end', '5rem');
