@@ -55,12 +55,12 @@ export default class TabsTab extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   get selected(): boolean {
-    return this.#isSelected;
+    return this.#selected;
   }
 
   set selected(isSelected: boolean) {
-    const hasChanged = isSelected !== this.#isSelected;
-    this.#isSelected = isSelected;
+    const hasChanged = isSelected !== this.#selected;
+    this.#selected = isSelected;
 
     if (hasChanged) {
       this.dispatchEvent(
@@ -129,5 +129,5 @@ export default class TabsTab extends LitElement {
     }
   }
 
-  #isSelected = false;
+  #selected = false;
 }
