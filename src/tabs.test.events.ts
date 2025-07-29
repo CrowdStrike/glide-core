@@ -2,7 +2,7 @@ import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import './tabs.js';
 import './tab.js';
-import './tab.panel.js';
+import './tabs.panel.js';
 import { click } from './library/mouse.js';
 
 it('dispatches a "selected" event on click', async () => {
@@ -11,8 +11,8 @@ it('dispatches a "selected" event on click', async () => {
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="1">Two</glide-core-tab-panel>
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="1">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
@@ -36,8 +36,8 @@ it('dispatches a "selected" event on Enter', async () => {
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="1">Two</glide-core-tab-panel>
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="1">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 

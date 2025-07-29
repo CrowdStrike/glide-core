@@ -7,7 +7,7 @@ import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import Tab from './tab.js';
-import TabPanel from './tab.panel.js';
+import TabsPanel from './tabs.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
 import styles from './tabs.styles.js';
@@ -125,7 +125,7 @@ export default class Tabs extends LitElement {
         )}
       </div>
 
-      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabPanel])}>
+      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabsPanel])}>
         <!-- @type {TabPanel} -->
       </slot>
     </div>`;
@@ -164,7 +164,7 @@ export default class Tabs extends LitElement {
 
   get #panelElements() {
     return [
-      ...this.querySelectorAll<TabPanel>(':scope > glide-core-tab-panel'),
+      ...this.querySelectorAll<TabsPanel>(':scope > glide-core-tabs-panel'),
     ];
   }
 
