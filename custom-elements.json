@@ -8565,7 +8565,7 @@
           "slots": [
             {
               "name": "",
-              "description": "The content of the panel",
+              "description": "The content of the panel.",
               "type": {
                 "text": "Element | string"
               }
@@ -8587,7 +8587,7 @@
               "type": {
                 "text": "string | undefined"
               },
-              "description": "The corresponding Tab should have a `panel` attribute with this name",
+              "description": "The corresponding Tab should have a `panel` attribute with this name.",
               "attribute": "name",
               "reflects": true
             },
@@ -8634,7 +8634,7 @@
               "type": {
                 "text": "string | undefined"
               },
-              "description": "The corresponding Tab should have a `panel` attribute with this name",
+              "description": "The corresponding Tab should have a `panel` attribute with this name.",
               "fieldName": "name",
               "required": true
             },
