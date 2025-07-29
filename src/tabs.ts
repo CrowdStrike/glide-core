@@ -286,7 +286,7 @@ export default class Tabs extends LitElement {
     }
 
     for (const panel of this.#panelElements) {
-      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
 
@@ -364,7 +364,7 @@ export default class Tabs extends LitElement {
     this.#updateSelectedTabIndicator();
 
     for (const panel of this.#panelElements) {
-      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
   }
