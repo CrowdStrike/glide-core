@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Toggle from './toggle.js';
 
-test('checked=${true}', async ({ page }) => {
+test('checked=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
@@ -14,7 +14,7 @@ test('checked=${true}', async ({ page }) => {
   `);
 });
 
-test('checked=${false}', async ({ page }) => {
+test('checked=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
   await page.locator('glide-core-toggle').waitFor();
 
@@ -24,7 +24,7 @@ test('checked=${false}', async ({ page }) => {
   `);
 });
 
-test('disabled=${true}', async ({ page }) => {
+test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
@@ -37,7 +37,7 @@ test('disabled=${true}', async ({ page }) => {
   `);
 });
 
-test('disabled=${false}', async ({ page }) => {
+test('disabled=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
   await page.locator('glide-core-toggle').waitFor();
 
@@ -47,7 +47,7 @@ test('disabled=${false}', async ({ page }) => {
   `);
 });
 
-test('hide-label', async ({ page }) => {
+test('hide-label', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
@@ -60,7 +60,7 @@ test('hide-label', async ({ page }) => {
   `);
 });
 
-test('slot="description"', async ({ page }) => {
+test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
@@ -79,7 +79,7 @@ test('slot="description"', async ({ page }) => {
   `);
 });
 
-test('summary', async ({ page }) => {
+test('summary', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
@@ -90,10 +90,10 @@ test('summary', async ({ page }) => {
     - text: Label
     - switch "Label"
     - text: Summary
-    `);
+  `);
 });
 
-test('tooltip', async ({ page }) => {
+test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {

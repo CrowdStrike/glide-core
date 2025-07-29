@@ -47,6 +47,10 @@ const config = {
         // So `event.target` and `event.srcElement` in the Actions tab aren't mangled.
         minify: false,
       },
+      server: {
+        // https://github.com/microsoft/playwright/issues/34495#issuecomment-2630370720
+        hmr: process.env.CI ? false : true,
+      },
     });
   },
 };

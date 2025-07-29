@@ -1,84 +1,16 @@
 import { expect, test } from '@playwright/test';
 import type Toggle from './toggle.js';
+import { type Stories } from './playwright/types.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = JSON.parse(process.env.STORIES ?? '{}') as Stories;
 
-for (const story of stories.Toggle) {
-  test.describe(story.id, () => {
-    for (const theme of story.themes) {
-      test.describe(theme, () => {
-        test('checked', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-toggle')
-            .evaluate<void, Toggle>((element) => {
-              element.checked = true;
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test('disabled', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-toggle')
-            .evaluate<void, Toggle>((element) => {
-              element.disabled = true;
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test(':focus', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.getByRole('switch').focus();
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test('hide-label', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-toggle')
-            .evaluate<void, Toggle>((element) => {
-              element.hideLabel = true;
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test.describe(':hover', () => {
-          test('disabled', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-toggle')
-              .evaluate<void, Toggle>((element) => {
-                element.disabled = true;
-              });
-
-            // We hover the input field instead of the host because the host is made
-            // to fill the width of the viewport by Label. So most of the host's width
-            // is empty space that's unresponsive to hover.
-            await page.getByRole('switch').hover();
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-
-          test('checked=${true}', async ({ page }, test) => {
+if (stories.Toggle) {
+  for (const story of stories.Toggle) {
+    /* eslint-disable playwright/valid-title */
+    test.describe(story.id, () => {
+      for (const theme of story.themes) {
+        test.describe(theme, () => {
+          test('checked', { tag: '@visuals' }, async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -87,39 +19,18 @@ for (const story of stories.Toggle) {
                 element.checked = true;
               });
 
-            // We hover the input field instead of the host because the host is made
-            // to fill the width of the viewport by Label. So most of the host's width
-            // is empty space that's unresponsive to hover.
-            await page.getByRole('switch').hover();
-
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
             );
           });
 
-          test('checked=${false}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            // We hover the input field instead of the host because the host is made
-            // to fill the width of the viewport by Label. So most of the host's width
-            // is empty space that's unresponsive to hover.
-            await page.getByRole('switch').hover();
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        });
-
-        test.describe('orientation="horizontal"', () => {
-          test('tooltip="Tooltip"', async ({ page }, test) => {
+          test('disabled', { tag: '@visuals' }, async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
               .locator('glide-core-toggle')
               .evaluate<void, Toggle>((element) => {
-                element.orientation = 'horizontal';
-                element.tooltip = 'Tooltip';
+                element.disabled = true;
               });
 
             await expect(page).toHaveScreenshot(
@@ -127,30 +38,22 @@ for (const story of stories.Toggle) {
             );
           });
 
-          test('tooltip=""', async ({ page }, test) => {
+          test(':focus', { tag: '@visuals' }, async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-toggle')
-              .evaluate<void, Toggle>((element) => {
-                element.orientation = 'horizontal';
-              });
+            await page.getByRole('switch').focus();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
             );
           });
-        });
 
-        test.describe('orientation="vertical"', () => {
-          test('tooltip="Tooltip"', async ({ page }, test) => {
+          test('hide-label', { tag: '@visuals' }, async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
               .locator('glide-core-toggle')
               .evaluate<void, Toggle>((element) => {
-                element.orientation = 'vertical';
-                element.tooltip = 'Tooltip';
+                element.hideLabel = true;
               });
 
             await expect(page).toHaveScreenshot(
@@ -158,54 +61,175 @@ for (const story of stories.Toggle) {
             );
           });
 
-          test('tooltip=""', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          test.describe(':hover', () => {
+            test('disabled', { tag: '@visuals' }, async ({ page }, test) => {
+              await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-            await page
-              .locator('glide-core-toggle')
-              .evaluate<void, Toggle>((element) => {
-                element.orientation = 'vertical';
-              });
+              await page
+                .locator('glide-core-toggle')
+                .evaluate<void, Toggle>((element) => {
+                  element.disabled = true;
+                });
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        });
+              // We hover the input field instead of the host because the host is made
+              // to fill the width of the viewport by Label. So most of the host's width
+              // is empty space that's unresponsive to hover.
+              await page.getByRole('switch').hover();
 
-        test('slot="description"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-toggle')
-            .evaluate<void, Toggle>((element) => {
-              const div = document.createElement('div');
-
-              div.textContent = 'Description';
-              div.slot = 'description';
-
-              element.append(div);
+              await expect(page).toHaveScreenshot(
+                `${test.titlePath.join('.')}.png`,
+              );
             });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
+            test(
+              'checked=${true}',
+              { tag: '@visuals' },
+              async ({ page }, test) => {
+                await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-        test('summary', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+                await page
+                  .locator('glide-core-toggle')
+                  .evaluate<void, Toggle>((element) => {
+                    element.checked = true;
+                  });
 
-          await page
-            .locator('glide-core-toggle')
-            .evaluate<void, Toggle>((element) => {
-              element.summary = 'Summary';
+                // We hover the input field instead of the host because the host is made
+                // to fill the width of the viewport by Label. So most of the host's width
+                // is empty space that's unresponsive to hover.
+                await page.getByRole('switch').hover();
+
+                await expect(page).toHaveScreenshot(
+                  `${test.titlePath.join('.')}.png`,
+                );
+              },
+            );
+
+            test(
+              'checked=${false}',
+              { tag: '@visuals' },
+              async ({ page }, test) => {
+                await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+                // We hover the input field instead of the host because the host is made
+                // to fill the width of the viewport by Label. So most of the host's width
+                // is empty space that's unresponsive to hover.
+                await page.getByRole('switch').hover();
+
+                await expect(page).toHaveScreenshot(
+                  `${test.titlePath.join('.')}.png`,
+                );
+              },
+            );
+          });
+
+          test.describe('orientation="horizontal"', () => {
+            test(
+              'tooltip="Tooltip"',
+              { tag: '@visuals' },
+              async ({ page }, test) => {
+                await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+                await page
+                  .locator('glide-core-toggle')
+                  .evaluate<void, Toggle>((element) => {
+                    element.orientation = 'horizontal';
+                    element.tooltip = 'Tooltip';
+                  });
+
+                await expect(page).toHaveScreenshot(
+                  `${test.titlePath.join('.')}.png`,
+                );
+              },
+            );
+
+            test('tooltip=""', { tag: '@visuals' }, async ({ page }, test) => {
+              await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+              await page
+                .locator('glide-core-toggle')
+                .evaluate<void, Toggle>((element) => {
+                  element.orientation = 'horizontal';
+                });
+
+              await expect(page).toHaveScreenshot(
+                `${test.titlePath.join('.')}.png`,
+              );
             });
+          });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+          test.describe('orientation="vertical"', () => {
+            test(
+              'tooltip="Tooltip"',
+              { tag: '@visuals' },
+              async ({ page }, test) => {
+                await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+                await page
+                  .locator('glide-core-toggle')
+                  .evaluate<void, Toggle>((element) => {
+                    element.orientation = 'vertical';
+                    element.tooltip = 'Tooltip';
+                  });
+
+                await expect(page).toHaveScreenshot(
+                  `${test.titlePath.join('.')}.png`,
+                );
+              },
+            );
+
+            test('tooltip=""', { tag: '@visuals' }, async ({ page }, test) => {
+              await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+              await page
+                .locator('glide-core-toggle')
+                .evaluate<void, Toggle>((element) => {
+                  element.orientation = 'vertical';
+                });
+
+              await expect(page).toHaveScreenshot(
+                `${test.titlePath.join('.')}.png`,
+              );
+            });
+          });
+
+          test(
+            'slot="description"',
+            { tag: '@visuals' },
+            async ({ page }, test) => {
+              await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+              await page
+                .locator('glide-core-toggle')
+                .evaluate<void, Toggle>((element) => {
+                  const div = document.createElement('div');
+
+                  div.textContent = 'Description';
+                  div.slot = 'description';
+
+                  element.append(div);
+                });
+
+              await expect(page).toHaveScreenshot(
+                `${test.titlePath.join('.')}.png`,
+              );
+            },
           );
+
+          test('summary', { tag: '@visuals' }, async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-toggle')
+              .evaluate<void, Toggle>((element) => {
+                element.summary = 'Summary';
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
-      });
-    }
-  });
+      }
+    });
+  }
 }

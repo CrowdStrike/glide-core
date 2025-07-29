@@ -19,9 +19,20 @@ export const eventDispatchFromThis = createRule({
   },
   defaultOptions: [],
   create(context) {
+    let isComponent = false;
+
     return {
+      ClassDeclaration(node) {
+        if (
+          node.superClass?.type === AST_NODE_TYPES.Identifier &&
+          node.superClass.name === 'LitElement'
+        ) {
+          isComponent = true;
+        }
+      },
       CallExpression(node) {
         if (
+          isComponent &&
           node.callee.type === AST_NODE_TYPES.MemberExpression &&
           node.callee.property.type === AST_NODE_TYPES.Identifier &&
           node.callee.property.name === 'dispatchEvent' &&

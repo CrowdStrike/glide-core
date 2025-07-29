@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Drawer from './drawer.js';
 
-test('open', async ({ page }) => {
+test('open', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=drawer--drawer');
 
   await page.locator('glide-core-drawer').evaluate<void, Drawer>((element) => {

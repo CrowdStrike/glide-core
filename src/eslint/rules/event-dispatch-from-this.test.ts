@@ -7,9 +7,18 @@ ruleTester.run('event-dispatch-from-this', eventDispatchFromThis, {
   valid: [
     {
       code: `
-        export default class {
+        export default class Component extends LitElement {
           method() {
             this.dispatchEvent(new Event('change'))
+          }
+        }
+      `,
+    },
+    {
+      code: `
+        export default class Component {
+          method() {
+            this.element.dispatchEvent(new Event('change'))
           }
         }
       `,
@@ -18,7 +27,7 @@ ruleTester.run('event-dispatch-from-this', eventDispatchFromThis, {
   invalid: [
     {
       code: `
-        export default class {
+        export default class Component extends LitElement {
           method() {
             this.element.dispatchEvent(new Event('change'))
           }
@@ -32,7 +41,7 @@ ruleTester.run('event-dispatch-from-this', eventDispatchFromThis, {
     },
     {
       code: `
-        export default class {
+        export default class Component extends LitElement {
           method() {
             document.querySelector('input').dispatchEvent(new Event('change'))
           }

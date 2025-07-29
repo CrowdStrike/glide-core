@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import type Dropdown from './dropdown.js';
 import type DropdownOption from './dropdown.option.js';
 
-test('disabled=${true}', async ({ page }) => {
+test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await page
@@ -20,7 +20,7 @@ test('disabled=${true}', async ({ page }) => {
   `);
 });
 
-test('disabled=${false}', async ({ page }) => {
+test('disabled=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
@@ -30,7 +30,7 @@ test('disabled=${false}', async ({ page }) => {
 });
 
 test.describe('filter("add")', () => {
-  test('open=${true}', async ({ page }) => {
+  test('open=${true}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -46,12 +46,13 @@ test.describe('filter("add")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label 1 items" [expanded]
+      - status "1 items"
       - listbox "add":
         - option "add (Add)"
     `);
   });
 
-  test('open=${false}', async ({ page }) => {
+  test('open=${false}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -63,12 +64,13 @@ test.describe('filter("add")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label"
+      - status "0 items"
     `);
   });
 });
 
 test.describe('filter("noMatchingOptions")', () => {
-  test('open=${true}', async ({ page }) => {
+  test('open=${true}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -83,11 +85,12 @@ test.describe('filter("noMatchingOptions")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label 0 items" [expanded]: noMatchingOptions
+      - status "0 items"
       - listbox "noMatchingOptions": No matching options
     `);
   });
 
-  test('open=${false}', async ({ page }) => {
+  test('open=${false}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -99,12 +102,13 @@ test.describe('filter("noMatchingOptions")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label"
+      - status "0 items"
     `);
   });
 });
 
 test.describe('filter("o")', () => {
-  test('open=${true}', async ({ page }) => {
+  test('open=${true}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -120,6 +124,7 @@ test.describe('filter("o")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label 3 items" [expanded]
+      - status "3 items"
       - listbox "o":
         - option "One"
         - option "Two"
@@ -127,7 +132,7 @@ test.describe('filter("o")', () => {
     `);
   });
 
-  test('open=${false}', async ({ page }) => {
+  test('open=${false}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -139,11 +144,12 @@ test.describe('filter("o")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label"
+      - status "0 items"
     `);
   });
 });
 
-test('hide-label', async ({ page }) => {
+test('hide-label', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await page
@@ -158,7 +164,7 @@ test('hide-label', async ({ page }) => {
   `);
 });
 
-test('loading', async ({ page }) => {
+test('loading', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await page
@@ -171,11 +177,12 @@ test('loading', async ({ page }) => {
   await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
     - text: Label
     - button "Label Loading" [expanded]
+    - listbox
   `);
 });
 
 test.describe('multiple=${true}', () => {
-  test('open=${true}', async ({ page }) => {
+  test('open=${true}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -206,7 +213,7 @@ test.describe('multiple=${true}', () => {
     `);
   });
 
-  test('open=${false}', async ({ page }) => {
+  test('open=${false}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -229,24 +236,27 @@ test.describe('multiple=${true}', () => {
     `);
   });
 
-  test('<glide-core-dropdown-option>.count', async ({ page }) => {
-    await page.goto('?id=dropdown--dropdown');
+  test(
+    '<glide-core-dropdown-option>.count',
+    { tag: '@accessibility' },
+    async ({ page }) => {
+      await page.goto('?id=dropdown--dropdown');
 
-    await page
-      .locator('glide-core-dropdown')
-      .evaluate<void, Dropdown>((element) => {
-        element.multiple = true;
-        element.open = true;
-      });
+      await page
+        .locator('glide-core-dropdown')
+        .evaluate<void, Dropdown>((element) => {
+          element.multiple = true;
+          element.open = true;
+        });
 
-    await page
-      .locator('glide-core-dropdown-option')
-      .first()
-      .evaluate<void, DropdownOption>((element) => {
-        element.count = 1000;
-      });
+      await page
+        .locator('glide-core-dropdown-option')
+        .first()
+        .evaluate<void, DropdownOption>((element) => {
+          element.count = 1000;
+        });
 
-    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - button "Label" [expanded]
       - listbox:
@@ -257,26 +267,30 @@ test.describe('multiple=${true}', () => {
         - option "Three":
           - checkbox "Three"
     `);
-  });
+    },
+  );
 
-  test('<glide-core-dropdown-option>.disabled', async ({ page }) => {
-    await page.goto('?id=dropdown--dropdown');
+  test(
+    '<glide-core-dropdown-option>.disabled',
+    { tag: '@accessibility' },
+    async ({ page }) => {
+      await page.goto('?id=dropdown--dropdown');
 
-    await page
-      .locator('glide-core-dropdown')
-      .evaluate<void, Dropdown>((element) => {
-        element.multiple = true;
-        element.open = true;
-      });
+      await page
+        .locator('glide-core-dropdown')
+        .evaluate<void, Dropdown>((element) => {
+          element.multiple = true;
+          element.open = true;
+        });
 
-    await page
-      .locator('glide-core-dropdown-option')
-      .first()
-      .evaluate<void, DropdownOption>((element) => {
-        element.disabled = true;
-      });
+      await page
+        .locator('glide-core-dropdown-option')
+        .first()
+        .evaluate<void, DropdownOption>((element) => {
+          element.disabled = true;
+        });
 
-    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - button "Label" [expanded]
       - listbox:
@@ -287,26 +301,30 @@ test.describe('multiple=${true}', () => {
         - option "Three":
           - checkbox "Three"
     `);
-  });
+    },
+  );
 
-  test('<glide-core-dropdown-option>.editable', async ({ page }) => {
-    await page.goto('?id=dropdown--dropdown');
+  test(
+    '<glide-core-dropdown-option>.editable',
+    { tag: '@accessibility' },
+    async ({ page }) => {
+      await page.goto('?id=dropdown--dropdown');
 
-    await page
-      .locator('glide-core-dropdown')
-      .evaluate<void, Dropdown>((element) => {
-        element.multiple = true;
-        element.open = true;
-      });
+      await page
+        .locator('glide-core-dropdown')
+        .evaluate<void, Dropdown>((element) => {
+          element.multiple = true;
+          element.open = true;
+        });
 
-    await page
-      .locator('glide-core-dropdown-option')
-      .first()
-      .evaluate<void, DropdownOption>((element) => {
-        element.editable = true;
-      });
+      await page
+        .locator('glide-core-dropdown-option')
+        .first()
+        .evaluate<void, DropdownOption>((element) => {
+          element.editable = true;
+        });
 
-    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - button "Label" [expanded]
       - listbox:
@@ -318,11 +336,12 @@ test.describe('multiple=${true}', () => {
         - option "Three":
           - checkbox "Three"
     `);
-  });
+    },
+  );
 });
 
 test.describe('multiple=${false}', () => {
-  test('open=${true}', async ({ page }) => {
+  test('open=${true}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -342,7 +361,7 @@ test.describe('multiple=${false}', () => {
     `);
   });
 
-  test('open=${false}', async ({ page }) => {
+  test('open=${false}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=dropdown--dropdown');
 
     await page
@@ -357,23 +376,26 @@ test.describe('multiple=${false}', () => {
     `);
   });
 
-  test('<glide-core-dropdown-option>.count', async ({ page }) => {
-    await page.goto('?id=dropdown--dropdown');
+  test(
+    '<glide-core-dropdown-option>.count',
+    { tag: '@accessibility' },
+    async ({ page }) => {
+      await page.goto('?id=dropdown--dropdown');
 
-    await page
-      .locator('glide-core-dropdown')
-      .evaluate<void, Dropdown>((element) => {
-        element.open = true;
-      });
+      await page
+        .locator('glide-core-dropdown')
+        .evaluate<void, Dropdown>((element) => {
+          element.open = true;
+        });
 
-    await page
-      .locator('glide-core-dropdown-option')
-      .first()
-      .evaluate<void, DropdownOption>((element) => {
-        element.count = 1000;
-      });
+      await page
+        .locator('glide-core-dropdown-option')
+        .first()
+        .evaluate<void, DropdownOption>((element) => {
+          element.count = 1000;
+        });
 
-    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - button "Label" [expanded]
       - listbox:
@@ -381,25 +403,29 @@ test.describe('multiple=${false}', () => {
         - option "Two"
         - option "Three"
     `);
-  });
+    },
+  );
 
-  test('<glide-core-dropdown-option>.disabled', async ({ page }) => {
-    await page.goto('?id=dropdown--dropdown');
+  test(
+    '<glide-core-dropdown-option>.disabled',
+    { tag: '@accessibility' },
+    async ({ page }) => {
+      await page.goto('?id=dropdown--dropdown');
 
-    await page
-      .locator('glide-core-dropdown')
-      .evaluate<void, Dropdown>((element) => {
-        element.open = true;
-      });
+      await page
+        .locator('glide-core-dropdown')
+        .evaluate<void, Dropdown>((element) => {
+          element.open = true;
+        });
 
-    await page
-      .locator('glide-core-dropdown-option')
-      .first()
-      .evaluate<void, DropdownOption>((element) => {
-        element.disabled = true;
-      });
+      await page
+        .locator('glide-core-dropdown-option')
+        .first()
+        .evaluate<void, DropdownOption>((element) => {
+          element.disabled = true;
+        });
 
-    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - button "Label" [expanded]
       - listbox:
@@ -407,25 +433,29 @@ test.describe('multiple=${false}', () => {
         - option "Two"
         - option "Three"
     `);
-  });
+    },
+  );
 
-  test('<glide-core-dropdown-option>.editable', async ({ page }) => {
-    await page.goto('?id=dropdown--dropdown');
+  test(
+    '<glide-core-dropdown-option>.editable',
+    { tag: '@accessibility' },
+    async ({ page }) => {
+      await page.goto('?id=dropdown--dropdown');
 
-    await page
-      .locator('glide-core-dropdown')
-      .evaluate<void, Dropdown>((element) => {
-        element.open = true;
-      });
+      await page
+        .locator('glide-core-dropdown')
+        .evaluate<void, Dropdown>((element) => {
+          element.open = true;
+        });
 
-    await page
-      .locator('glide-core-dropdown-option')
-      .first()
-      .evaluate<void, DropdownOption>((element) => {
-        element.editable = true;
-      });
+      await page
+        .locator('glide-core-dropdown-option')
+        .first()
+        .evaluate<void, DropdownOption>((element) => {
+          element.editable = true;
+        });
 
-    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - button "Label" [expanded]
       - listbox:
@@ -434,10 +464,11 @@ test.describe('multiple=${false}', () => {
         - option "Two"
         - option "Three"
     `);
-  });
+    },
+  );
 });
 
-test('placeholder', async ({ page }) => {
+test('placeholder', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await page
@@ -452,7 +483,7 @@ test('placeholder', async ({ page }) => {
   `);
 });
 
-test('select-all', async ({ page }) => {
+test('select-all', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await page
@@ -478,7 +509,7 @@ test('select-all', async ({ page }) => {
   `);
 });
 
-test('slot="description"', async ({ page }) => {
+test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await page
@@ -499,7 +530,7 @@ test('slot="description"', async ({ page }) => {
   `);
 });
 
-test('tooltip', async ({ page }) => {
+test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await page

@@ -1,59 +1,40 @@
 import { expect, test } from '@playwright/test';
 import type Menu from './menu.js';
 import type Option from './option.js';
+import { type Stories } from './playwright/types.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = JSON.parse(process.env.STORIES ?? '{}') as Stories;
 
-for (const story of stories.Menu) {
-  test.describe(story.id, () => {
-    for (const theme of story.themes) {
-      test.describe(theme, () => {
-        test('loading', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-menu')
-            .first()
-            .evaluate<void, Menu>((element) => {
-              element.loading = true;
-              element.open = true;
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test('offset', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-menu')
-            .first()
-            .evaluate<void, Menu>((element) => {
-              element.offset = 50;
-              element.open = true;
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test.describe('open', () => {
-          test('open=${true}', async ({ page }, test) => {
+if (stories.Menu) {
+  for (const story of stories.Menu) {
+    /* eslint-disable playwright/valid-title */
+    test.describe(story.id, () => {
+      for (const theme of story.themes) {
+        test.describe(theme, () => {
+          test('loading', { tag: '@visuals' }, async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
               .locator('glide-core-menu')
               .first()
               .evaluate<void, Menu>((element) => {
+                element.loading = true;
                 element.open = true;
               });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('offset', { tag: '@visuals' }, async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
-              .locator('glide-core-menu glide-core-menu')
+              .locator('glide-core-menu')
+              .first()
               .evaluate<void, Menu>((element) => {
+                element.offset = 50;
                 element.open = true;
               });
 
@@ -62,98 +43,143 @@ for (const story of stories.Menu) {
             );
           });
 
-          test('open=${false}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-            await page.locator('glide-core-menu').first().waitFor();
+          test.describe('open', () => {
+            test(
+              'open=${true}',
+              { tag: '@visuals' },
+              async ({ page }, test) => {
+                await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+                await page
+                  .locator('glide-core-menu')
+                  .first()
+                  .evaluate<void, Menu>((element) => {
+                    element.open = true;
+                  });
+
+                await page
+                  .locator('glide-core-menu glide-core-menu')
+                  .evaluate<void, Menu>((element) => {
+                    element.open = true;
+                  });
+
+                await expect(page).toHaveScreenshot(
+                  `${test.titlePath.join('.')}.png`,
+                );
+              },
+            );
+
+            test(
+              'open=${false}',
+              { tag: '@visuals' },
+              async ({ page }, test) => {
+                await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+                await page.locator('glide-core-menu').first().waitFor();
+
+                await expect(page).toHaveScreenshot(
+                  `${test.titlePath.join('.')}.png`,
+                );
+              },
             );
           });
-        });
 
-        test('<glide-core-option>.description', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          test(
+            '<glide-core-option>.description',
+            { tag: '@visuals' },
+            async ({ page }, test) => {
+              await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-menu')
-            .first()
-            .evaluate<void, Menu>((element) => {
-              element.open = true;
-            });
+              await page
+                .locator('glide-core-menu')
+                .first()
+                .evaluate<void, Menu>((element) => {
+                  element.open = true;
+                });
 
-          await page
-            .locator('glide-core-option')
-            .first()
-            .evaluate<void, Option>((element) => {
-              element.description = 'Description';
-            });
+              await page
+                .locator('glide-core-option')
+                .first()
+                .evaluate<void, Option>((element) => {
+                  element.description = 'Description';
+                });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+              await expect(page).toHaveScreenshot(
+                `${test.titlePath.join('.')}.png`,
+              );
+            },
           );
-        });
 
-        test('<glide-core-option>.disabled', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          test(
+            '<glide-core-option>.disabled',
+            { tag: '@visuals' },
+            async ({ page }, test) => {
+              await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-menu')
-            .first()
-            .evaluate<void, Menu>((element) => {
-              element.open = true;
-            });
+              await page
+                .locator('glide-core-menu')
+                .first()
+                .evaluate<void, Menu>((element) => {
+                  element.open = true;
+                });
 
-          await page
-            .locator('glide-core-option')
-            .first()
-            .evaluate<void, Option>((element) => {
-              element.disabled = true;
-            });
+              await page
+                .locator('glide-core-option')
+                .first()
+                .evaluate<void, Option>((element) => {
+                  element.disabled = true;
+                });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+              await expect(page).toHaveScreenshot(
+                `${test.titlePath.join('.')}.png`,
+              );
+            },
           );
-        });
 
-        test('<glide-core-option>:hover', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          test(
+            '<glide-core-option>:hover',
+            { tag: '@visuals' },
+            async ({ page }, test) => {
+              await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-menu')
-            .first()
-            .evaluate<void, Menu>((element) => {
-              element.open = true;
-            });
+              await page
+                .locator('glide-core-menu')
+                .first()
+                .evaluate<void, Menu>((element) => {
+                  element.open = true;
+                });
 
-          await page.locator('glide-core-option').first().hover();
+              await page.locator('glide-core-option').first().hover();
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+              await expect(page).toHaveScreenshot(
+                `${test.titlePath.join('.')}.png`,
+              );
+            },
           );
-        });
 
-        test('<glide-core-option>[slot="content"]', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          test(
+            '<glide-core-option>[slot="content"]',
+            { tag: '@visuals' },
+            async ({ page }, test) => {
+              await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-menu')
-            .first()
-            .evaluate<void, Menu>((element) => {
-              element.open = true;
-            });
+              await page
+                .locator('glide-core-menu')
+                .first()
+                .evaluate<void, Menu>((element) => {
+                  element.open = true;
+                });
 
-          await page
-            .locator('glide-core-option')
-            .first()
-            .evaluate<void, Option>((element) => {
-              const content = document.createElement('div');
+              await page
+                .locator('glide-core-option')
+                .first()
+                .evaluate<void, Option>((element) => {
+                  const content = document.createElement('div');
 
-              content.slot = 'content';
+                  content.slot = 'content';
 
-              // Including this increases our confidence that layout styling is only applied to
-              // the slot when it falls back.
-              content.innerHTML = `
+                  // Including this increases our confidence that layout styling is only applied to
+                  // the slot when it falls back.
+                  content.innerHTML = `
                   <svg
                     fill="none"
                     viewBox="0 0 24 24"
@@ -173,15 +199,17 @@ for (const story of stories.Menu) {
                   One
               `;
 
-              element.append(content);
-              element.label = '';
-            });
+                  element.append(content);
+                  element.label = '';
+                });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+              await expect(page).toHaveScreenshot(
+                `${test.titlePath.join('.')}.png`,
+              );
+            },
           );
         });
-      });
-    }
-  });
+      }
+    });
+  }
 }

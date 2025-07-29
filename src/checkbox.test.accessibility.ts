@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Checkbox from './checkbox.js';
 
-test('checked=${true}', async ({ page }) => {
+test('checked=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await page
@@ -16,7 +16,7 @@ test('checked=${true}', async ({ page }) => {
   `);
 });
 
-test('checked=${false}', async ({ page }) => {
+test('checked=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await expect(page.locator('glide-core-checkbox')).toMatchAriaSnapshot(`
@@ -25,7 +25,7 @@ test('checked=${false}', async ({ page }) => {
   `);
 });
 
-test('disabled=${true}', async ({ page }) => {
+test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await page
@@ -40,7 +40,7 @@ test('disabled=${true}', async ({ page }) => {
   `);
 });
 
-test('disabled=${false}', async ({ page }) => {
+test('disabled=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await expect(page.locator('glide-core-checkbox')).toMatchAriaSnapshot(`
@@ -49,7 +49,7 @@ test('disabled=${false}', async ({ page }) => {
   `);
 });
 
-test('hide-label', async ({ page }) => {
+test('hide-label', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await page
@@ -64,7 +64,7 @@ test('hide-label', async ({ page }) => {
   `);
 });
 
-test('indeterminate', async ({ page }) => {
+test('indeterminate', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await page
@@ -79,7 +79,7 @@ test('indeterminate', async ({ page }) => {
   `);
 });
 
-test('slot="description"', async ({ page }) => {
+test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await page
@@ -100,7 +100,7 @@ test('slot="description"', async ({ page }) => {
   `);
 });
 
-test('summary', async ({ page }) => {
+test('summary', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await page
@@ -116,7 +116,7 @@ test('summary', async ({ page }) => {
   `);
 });
 
-test('tooltip', async ({ page }) => {
+test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await page
