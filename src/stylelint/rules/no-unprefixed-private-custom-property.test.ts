@@ -1,5 +1,5 @@
 import stylelint from 'stylelint';
-import { expect } from 'vitest';
+import { expect, test } from '@playwright/test';
 
 const config = {
   plugins: ['../plugin.js'],
@@ -8,58 +8,74 @@ const config = {
   },
 };
 
-it('warns if a custom property not on the host is unprefixed', async () => {
-  const { results } = await stylelint.lint({
-    code: `
+test(
+  'warns if a custom property not on the host is unprefixed',
+  { tag: '@stylelint' },
+  async () => {
+    const { results } = await stylelint.lint({
+      code: `
       .component {
         --color: black;
       }
     `,
-    cwd: import.meta.dirname.replace('src', 'dist'),
-    config,
-  });
+      cwd: import.meta.dirname.replace('src', 'dist'),
+      config,
+    });
 
-  expect(results.at(0)?.warnings).toHaveLength(1);
-});
+    expect(results.at(0)?.warnings).toHaveLength(1);
+  },
+);
 
-it('does not warn if a custom property not on the host is prefixed', async () => {
-  const { results } = await stylelint.lint({
-    code: `
+test(
+  'does not warn if a custom property not on the host is prefixed',
+  { tag: '@stylelint' },
+  async () => {
+    const { results } = await stylelint.lint({
+      code: `
       .component {
         --private-color: black;
       }
     `,
-    cwd: import.meta.dirname.replace('src', 'dist'),
-    config,
-  });
+      cwd: import.meta.dirname.replace('src', 'dist'),
+      config,
+    });
 
-  expect(results.at(0)?.warnings).toHaveLength(0);
-});
+    expect(results.at(0)?.warnings).toHaveLength(0);
+  },
+);
 
-it('warns if a custom property on the host is prefixed', async () => {
-  const { results } = await stylelint.lint({
-    code: `
+test(
+  'warns if a custom property on the host is prefixed',
+  { tag: '@stylelint' },
+  async () => {
+    const { results } = await stylelint.lint({
+      code: `
       :host {
         --private-color: black;
       }
     `,
-    cwd: import.meta.dirname.replace('src', 'dist'),
-    config,
-  });
+      cwd: import.meta.dirname.replace('src', 'dist'),
+      config,
+    });
 
-  expect(results.at(0)?.warnings).toHaveLength(1);
-});
+    expect(results.at(0)?.warnings).toHaveLength(1);
+  },
+);
 
-it('does not warn if a custom property on the host is unprefixed', async () => {
-  const { results } = await stylelint.lint({
-    code: `
+test(
+  'does not warn if a custom property on the host is unprefixed',
+  { tag: '@stylelint' },
+  async () => {
+    const { results } = await stylelint.lint({
+      code: `
       :host {
         --color: black;
       }
     `,
-    cwd: import.meta.dirname.replace('src', 'dist'),
-    config,
-  });
+      cwd: import.meta.dirname.replace('src', 'dist'),
+      config,
+    });
 
-  expect(results.at(0)?.warnings).toHaveLength(0);
-});
+    expect(results.at(0)?.warnings).toHaveLength(0);
+  },
+);

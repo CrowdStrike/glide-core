@@ -20,6 +20,12 @@ import { privateStateDecorators } from './rules/private-state-decorators.js';
 import { noProtectedKeyword } from './rules/no-protected-keyword.js';
 import { useFinalDecorator } from './rules/use-final-decorator.js';
 import { commentMaximumLength } from './rules/comment-maximum-length.js';
+import { alwaysTagTests } from './rules/always-tag-tests.js';
+import { noTestFail } from './rules/no-test-fail.js';
+import { noTestFixme } from './rules/no-test-fixme.js';
+import { noToContainClass } from './rules/no-to-contain-class.js';
+import { oneTagPerTest } from './rules/one-tag-per-test.js';
+import { testTagMatchesSuite } from './rules/test-tag-matches-suite.js';
 
 export default {
   rules: {
@@ -47,5 +53,11 @@ export default {
     'no-protected-keyword': noProtectedKeyword,
     'use-final-decorator': useFinalDecorator,
     'comment-maximum-length': commentMaximumLength,
+    'always-tag-tests': alwaysTagTests,
+    'no-test-fail': noTestFail,
+    'no-test-fixme': noTestFixme,
+    'no-to-contain-class': noToContainClass,
+    'one-tag-per-test': oneTagPerTest,
+    'test-tag-matches-suite': testTagMatchesSuite,
   },
 };

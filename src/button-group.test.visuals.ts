@@ -1,10 +1,12 @@
 import { expect, test } from '@playwright/test';
 import type ButtonGroup from './button-group.js';
 import type ButtonGroupButton from './button-group.button.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Button Group');
 
-for (const story of stories['Button Group']) {
+for (const story of stories) {
+  /* eslint-disable playwright/valid-title */
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {

@@ -1,5 +1,10 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import { test } from '@playwright/test';
 import { slotTypeComment } from './slot-type-comment.js';
+
+RuleTester.afterAll = test.afterAll;
+RuleTester.describe = test.describe;
+RuleTester.it = test;
 
 const ruleTester = new RuleTester();
 const classMap = () => null;

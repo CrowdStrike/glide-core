@@ -33,11 +33,10 @@ const config = {
   env(config) {
     return {
       ...config,
-      // We can't import `package.json` directly into stories because Storybook's
-      // Babel doesn't support import attributes. So, instead, each story picks
-      // up the version from `import.meta.env.VITE_GLIDE_CORE_VERSION`. For security,
-      // Vite requires variables to be prefixed with "VITE" before it'll expose
-      // them to the browser.
+      // We can't import `package.json` directly into stories because Storybook's Babel
+      // doesn't support import attributes. So, instead, each story picks up the version
+      // from `import.meta.env.VITE_GLIDE_CORE_VERSION`. For security, Vite requires
+      // variables to be prefixed with "VITE" before it'll expose them to the browser.
       VITE_GLIDE_CORE_VERSION: packageJson.version,
     };
   },

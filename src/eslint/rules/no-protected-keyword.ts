@@ -21,16 +21,15 @@ export const noProtectedKeyword = createRule({
   },
   defaultOptions: [],
   create(context) {
-    let isComponent = true;
+    let isComponent = false;
 
     return {
       ClassDeclaration(node) {
         if (
           node.superClass?.type === AST_NODE_TYPES.Identifier &&
-          node.superClass.name !== 'LitElement'
+          node.superClass.name === 'LitElement'
         ) {
-          isComponent = false;
-          return;
+          isComponent = true;
         }
       },
       MethodDefinition(node) {

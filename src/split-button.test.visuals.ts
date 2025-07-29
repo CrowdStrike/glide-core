@@ -3,10 +3,12 @@ import type SplitButton from './split-button.js';
 import type SplitButtonPrimaryButton from './split-button.primary-button.js';
 import type SplitButtonPrimaryLink from './split-button.primary-link.js';
 import type SplitButtonSecondaryButton from './split-button.secondary-button.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Split Button');
 
-for (const story of stories['Split Button']) {
+for (const story of stories) {
+  /* eslint-disable playwright/valid-title */
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
@@ -59,7 +61,9 @@ for (const story of stories['Split Button']) {
             page,
           }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
             await page.locator('glide-core-split-button-primary-link').hover();
+
             await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
@@ -71,6 +75,7 @@ for (const story of stories['Split Button']) {
             page,
           }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
             await page.locator('glide-core-split-button-primary-link').focus();
 
             await expect(page).toHaveScreenshot(
@@ -82,6 +87,7 @@ for (const story of stories['Split Button']) {
             page,
           }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
             await page.locator('glide-core-split-button-primary-link').hover();
 
             await expect(page).toHaveScreenshot(

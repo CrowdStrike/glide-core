@@ -1,9 +1,11 @@
 import { expect, test } from '@playwright/test';
 import type Tag from './tag.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Tag');
 
-for (const story of stories.Tag) {
+for (const story of stories) {
+  /* eslint-disable playwright/valid-title */
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {

@@ -1,10 +1,12 @@
 import { expect, test } from '@playwright/test';
 import type Dropdown from './dropdown.js';
 import type DropdownOption from './dropdown.option.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Dropdown');
 
-for (const story of stories.Dropdown) {
+for (const story of stories) {
+  /* eslint-disable playwright/valid-title */
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {

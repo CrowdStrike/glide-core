@@ -1,9 +1,11 @@
 import { expect, test } from '@playwright/test';
 import type Modal from './modal.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Modal');
 
-for (const story of stories.Modal) {
+for (const story of stories) {
+  /* eslint-disable playwright/valid-title */
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
@@ -69,6 +71,7 @@ for (const story of stories.Modal) {
 
         test('open=${false}', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
           await page.locator('glide-core-modal').waitFor({ state: 'attached' });
 
           await expect(page).toHaveScreenshot(

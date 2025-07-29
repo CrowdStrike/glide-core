@@ -1,13 +1,15 @@
 import { expect, test } from '@playwright/test';
 import type Button from './button.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Button');
 
-for (const story of stories.Button) {
+for (const story of stories) {
+  /* eslint-disable playwright/valid-title */
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
-        test('disabled', async ({ page }, test) => {
+        test('disabled', async ({ browserName, page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
@@ -17,12 +19,12 @@ for (const story of stories.Button) {
             });
 
           await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+            `${test.titlePath.join('.')}.${browserName}.png`,
           );
         });
 
         test.describe(':active', () => {
-          test('disabled', async ({ page }, test) => {
+          test('disabled', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -35,21 +37,21 @@ for (const story of stories.Button) {
             await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
 
-          test('variant="primary"', async ({ page }, test) => {
+          test('variant="primary"', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
             await page.locator('glide-core-button').hover();
             await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
 
-          test('variant="secondary"', async ({ page }, test) => {
+          test('variant="secondary"', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -62,11 +64,11 @@ for (const story of stories.Button) {
             await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
 
-          test('variant="tertiary"', async ({ page }, test) => {
+          test('variant="tertiary"', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -79,13 +81,13 @@ for (const story of stories.Button) {
             await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
         });
 
         test.describe(':focus', () => {
-          test('disabled=${true}', async ({ page }, test) => {
+          test('disabled=${true}', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -98,22 +100,22 @@ for (const story of stories.Button) {
             await page.locator('glide-core-button').focus();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
 
-          test('disabled=${false}', async ({ page }, test) => {
+          test('disabled=${false}', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
             await page.locator('glide-core-button').focus();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
         });
 
         test.describe(':hover', () => {
-          test('disabled', async ({ page }, test) => {
+          test('disabled', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -126,20 +128,20 @@ for (const story of stories.Button) {
             await page.locator('glide-core-button').hover();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
 
-          test('variant="primary"', async ({ page }, test) => {
+          test('variant="primary"', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
             await page.locator('glide-core-button').hover();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
 
-          test('variant="secondary"', async ({ page }, test) => {
+          test('variant="secondary"', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -151,11 +153,11 @@ for (const story of stories.Button) {
             await page.locator('glide-core-button').hover();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
 
-          test('variant="tertiary"', async ({ page }, test) => {
+          test('variant="tertiary"', async ({ browserName, page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -167,12 +169,12 @@ for (const story of stories.Button) {
             await page.locator('glide-core-button').hover();
 
             await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
+              `${test.titlePath.join('.')}.${browserName}.png`,
             );
           });
         });
 
-        test('size="small"', async ({ page }, test) => {
+        test('size="small"', async ({ browserName, page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
@@ -182,20 +184,20 @@ for (const story of stories.Button) {
             });
 
           await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+            `${test.titlePath.join('.')}.${browserName}.png`,
           );
         });
 
-        test('variant="primary"', async ({ page }, test) => {
+        test('variant="primary"', async ({ browserName, page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
           await page.locator('glide-core-button').waitFor();
 
           await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+            `${test.titlePath.join('.')}.${browserName}.png`,
           );
         });
 
-        test('variant="secondary"', async ({ page }, test) => {
+        test('variant="secondary"', async ({ browserName, page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
@@ -205,11 +207,11 @@ for (const story of stories.Button) {
             });
 
           await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+            `${test.titlePath.join('.')}.${browserName}.png`,
           );
         });
 
-        test('variant="tertiary"', async ({ page }, test) => {
+        test('variant="tertiary"', async ({ browserName, page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
@@ -219,7 +221,7 @@ for (const story of stories.Button) {
             });
 
           await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
+            `${test.titlePath.join('.')}.${browserName}.png`,
           );
         });
       });

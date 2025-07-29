@@ -1,11 +1,17 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import { test } from '@playwright/test';
 import { publicGetterDefaultComment } from './public-getter-default-comment.js';
+
+RuleTester.afterAll = test.afterAll;
+RuleTester.describe = test.describe;
+RuleTester.it = test;
 
 const ruleTester = new RuleTester();
 
 ruleTester.run('public-getter-default-comment', publicGetterDefaultComment, {
   valid: [
     {
+      name: '',
       code: `
         export default class {
           /**
