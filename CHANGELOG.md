@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.32.1
+
+### Patch Changes
+
+- [#1007](https://github.com/CrowdStrike/glide-core/pull/1007) [`4abf4a5`](https://github.com/CrowdStrike/glide-core/commit/4abf4a5d4330ba5af77215de15d9dfb6f6751ea7) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Dropdown, Input, and Textarea have a more prominent border and box shadow when focused.
+
 ## 0.32.0
 
 ### Minor Changes
