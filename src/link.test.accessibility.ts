@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Link from './link.js';
 
-test('disabled=${true}', async ({ page }) => {
+test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=link--link');
 
   await page.locator('glide-core-link').evaluate<void, Link>((element) => {
@@ -13,7 +13,7 @@ test('disabled=${true}', async ({ page }) => {
   `);
 });
 
-test('disabled=${false}', async ({ page }) => {
+test('disabled=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=link--link');
 
   await expect(page.locator('glide-core-link')).toMatchAriaSnapshot(`

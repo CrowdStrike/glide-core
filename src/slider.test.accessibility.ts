@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import type Slider from './slider.js';
 
 test.describe('disabled', () => {
-  test('multiple=${true}', async ({ page }) => {
+  test('multiple=${true}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=slider--slider');
 
     await page
@@ -22,7 +22,7 @@ test.describe('disabled', () => {
     `);
   });
 
-  test('multiple=${false}', async ({ page }) => {
+  test('multiple=${false}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=slider--slider');
 
     await page
@@ -40,7 +40,7 @@ test.describe('disabled', () => {
   });
 });
 
-test('hide-label', async ({ page }) => {
+test('hide-label', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=slider--slider');
 
   await page.locator('glide-core-slider').evaluate<void, Slider>((element) => {
@@ -55,7 +55,7 @@ test('hide-label', async ({ page }) => {
   `);
 });
 
-test('multiple', async ({ page }) => {
+test('multiple', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=slider--slider');
 
   await page.locator('glide-core-slider').evaluate<void, Slider>((element) => {
@@ -73,7 +73,7 @@ test('multiple', async ({ page }) => {
 });
 
 test.describe('readonly', () => {
-  test('multiple=${true}', async ({ page }) => {
+  test('multiple=${true}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=slider--slider');
 
     await page
@@ -93,7 +93,7 @@ test.describe('readonly', () => {
     `);
   });
 
-  test('multiple=${false}', async ({ page }) => {
+  test('multiple=${false}', { tag: '@accessibility' }, async ({ page }) => {
     await page.goto('?id=slider--slider');
 
     await page
@@ -111,7 +111,7 @@ test.describe('readonly', () => {
   });
 });
 
-test('slot="description"', async ({ page }) => {
+test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=slider--slider');
 
   await page.locator('glide-core-slider').evaluate<void, Slider>((element) => {
@@ -132,7 +132,7 @@ test('slot="description"', async ({ page }) => {
   `);
 });
 
-test('tooltip', async ({ page }) => {
+test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=slider--slider');
 
   await page.locator('glide-core-slider').evaluate<void, Slider>((element) => {

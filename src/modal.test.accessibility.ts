@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Modal from './modal.js';
 
-test('open', async ({ page }) => {
+test('open', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--modal');
 
   await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
@@ -19,15 +19,18 @@ test('open', async ({ page }) => {
   `);
 });
 
-test('severity="informational"', async ({ page }) => {
-  await page.goto('?id=modal--modal');
+test(
+  'severity="informational"',
+  { tag: '@accessibility' },
+  async ({ page }) => {
+    await page.goto('?id=modal--modal');
 
-  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
-    element.open = true;
-    element.severity = 'informational';
-  });
+    await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+      element.open = true;
+      element.severity = 'informational';
+    });
 
-  await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
+    await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
     - dialog:
       - banner:
         - 'heading "Severity: Informational - Label" [level=2]'
@@ -36,9 +39,10 @@ test('severity="informational"', async ({ page }) => {
       - 'region "Severity: Informational - Label"'
       - contentinfo
   `);
-});
+  },
+);
 
-test('severity="medium"', async ({ page }) => {
+test('severity="medium"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--modal');
 
   await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
@@ -57,7 +61,7 @@ test('severity="medium"', async ({ page }) => {
   `);
 });
 
-test('severity="critical"', async ({ page }) => {
+test('severity="critical"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--modal');
 
   await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
@@ -76,7 +80,7 @@ test('severity="critical"', async ({ page }) => {
   `);
 });
 
-test('slot="header-actions"', async ({ page }) => {
+test('slot="header-actions"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--with-header-actions');
 
   await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
@@ -96,7 +100,7 @@ test('slot="header-actions"', async ({ page }) => {
   `);
 });
 
-test('slot="primary"', async ({ page }) => {
+test('slot="primary"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--with-primary-button');
 
   await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
@@ -117,7 +121,7 @@ test('slot="primary"', async ({ page }) => {
   `);
 });
 
-test('slot="secondary"', async ({ page }) => {
+test('slot="secondary"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--with-secondary-button');
 
   await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
@@ -138,7 +142,7 @@ test('slot="secondary"', async ({ page }) => {
   `);
 });
 
-test('slot="tertiary"', async ({ page }) => {
+test('slot="tertiary"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--with-tertiary-tooltip-and-button');
 
   await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {

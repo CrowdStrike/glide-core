@@ -1,361 +1,115 @@
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import sinon from 'sinon';
-import Button from './button.js';
-import { click } from './library/mouse.js';
+import { html } from 'lit/static-html.js';
+import { expect, test } from './playwright/test.js';
+
+// TODO: what do about other event tests. and what about focus tests?
+// TODO: look over button to see what else isn't tested
+// TODO: move these tests into keyboard and click
+
+test(
+  'dispatches a "click" event when clicked via mouse',
+  { tag: '@events' },
+  async ({ addEventListener, mount, page }) => {
+    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+
+    const host = page.locator('glide-core-button');
+    const eventsPromise = addEventListener(host, 'click');
+
+    await host.click();
+
+    const events = await eventsPromise;
+
+    expect(events).toHaveLength(1);
+    expect(events.at(0)?.bubbles).toBe(true);
+    expect(events.at(0)?.cancelable).toBe(true);
+    expect(events.at(0)?.composed).toBe(true);
+    expect(events.at(0)?.defaultPrevented).toBe(false);
+  },
+);
+
+test(
+  'dispatches a "click" event when clicked via `click()`',
+  { tag: '@events' },
+  async ({ addEventListener, mount, page }) => {
+    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+
+    const host = page.locator('glide-core-button');
+    const eventsPromise = addEventListener(host, 'click');
+
+    host.evaluate((node) => {
+      if (node instanceof HTMLElement) {
+        node.click();
+      }
+    });
+
+    const events = await eventsPromise;
+
+    expect(events).toHaveLength(1);
+    expect(events.at(0)?.bubbles).toBe(true);
+    expect(events.at(0)?.cancelable).toBe(true);
+    expect(events.at(0)?.composed).toBe(true);
+    expect(events.at(0)?.defaultPrevented).toBe(false);
+  },
+);
+
+test(
+  'dispatches a "click" event when clicked by a user via Enter',
+  { tag: '@events' },
+  async ({ addEventListener, mount, page }) => {
+    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+
+    const host = page.locator('glide-core-button');
+    const eventsPromise = addEventListener(host, 'click');
+
+    await host.focus();
+    await host.press('Enter');
+
+    const events = await eventsPromise;
+
+    expect(events).toHaveLength(1);
+    expect(events.at(0)?.bubbles).toBe(true);
+    expect(events.at(0)?.cancelable).toBe(true);
+    expect(events.at(0)?.composed).toBe(true);
+    expect(events.at(0)?.defaultPrevented).toBe(false);
+  },
+);
+
+test(
+  'dispatches a "click" event when clicked by a user via Space',
+  { tag: '@events' },
+  async ({ addEventListener, mount, page }) => {
+    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+
+    const host = page.locator('glide-core-button');
+    const eventsPromise = addEventListener(host, 'click');
+
+    await host.focus();
+    await host.press('Space');
+
+    const events = await eventsPromise;
+
+    expect(events).toHaveLength(1);
+    expect(events.at(0)?.bubbles).toBe(true);
+    expect(events.at(0)?.cancelable).toBe(true);
+    expect(events.at(0)?.composed).toBe(true);
+    expect(events.at(0)?.defaultPrevented).toBe(false);
+  },
+);
+
+test(
+  'does not dispatch a "click" event when disabled and clicked by the user via mouse',
+  { tag: '@events' },
+  async ({ addEventListener, mount, page }) => {
+    await mount(
+      html`<glide-core-button label="Label" disabled></glide-core-button>`,
+    );
 
-it('dispatches a "click" event on click', async () => {
-  const host = await fixture<Button>(html`
-    <glide-core-button label="Label"></glide-core-button>
-  `);
+    const host = page.locator('glide-core-button');
+    const eventsPromise = addEventListener(host, 'click');
 
-  click(host);
+    await host.click();
 
-  const event = await oneEvent(host, 'click');
+    const events = await eventsPromise;
 
-  expect(event instanceof PointerEvent).to.be.true;
-  expect(event.bubbles).to.be.true;
-  expect(event.composed).to.be.true;
-});
-
-it('does not dispatch a "click" event on click when disabled', async () => {
-  const host = await fixture<Button>(html`
-    <glide-core-button label="Label" disabled></glide-core-button>
-  `);
-
-  const spy = sinon.spy();
-  host.addEventListener('click', spy);
-
-  await click(host);
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "click" event on `click()`', async () => {
-  const host = await fixture<Button>(html`
-    <glide-core-button label="Label"></glide-core-button>
-  `);
-
-  setTimeout(() => {
-    host.click();
-  });
-
-  const event = await oneEvent(host, 'click');
-
-  expect(event instanceof PointerEvent).to.be.true;
-  expect(event.bubbles).to.be.true;
-  expect(event.composed).to.be.true;
-});
-
-it('does not dispatch a "click" event on `click()` when disabled', async () => {
-  const host = await fixture<Button>(html`
-    <glide-core-button label="Label" disabled></glide-core-button>
-  `);
-
-  const spy = sinon.spy();
-  host.addEventListener('click', spy);
-
-  host.click();
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "click" event on Enter', async () => {
-  const host = await fixture<Button>(html`
-    <glide-core-button label="Label"></glide-core-button>
-  `);
-
-  await sendKeys({ press: 'Tab' });
-  sendKeys({ press: 'Enter' });
-
-  const event = await oneEvent(host, 'click');
-
-  expect(event instanceof PointerEvent).to.be.true;
-  expect(event.bubbles).to.be.true;
-  expect(event.composed).to.be.true;
-});
-
-it('does not dispatch a "click" event on Enter when disabled', async () => {
-  const host = await fixture<Button>(html`
-    <glide-core-button label="Label" disabled></glide-core-button>
-  `);
-
-  const spy = sinon.spy();
-  host.addEventListener('click', spy);
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "click" event on Space', async () => {
-  const host = await fixture<Button>(html`
-    <glide-core-button label="Label"></glide-core-button>
-  `);
-
-  await sendKeys({ press: 'Tab' });
-  sendKeys({ press: ' ' });
-
-  const event = await oneEvent(host, 'click');
-
-  expect(event instanceof PointerEvent).to.be.true;
-  expect(event.bubbles).to.be.true;
-  expect(event.composed).to.be.true;
-});
-
-it('does not dispatch a "click" event on Space when disabled', async () => {
-  const host = await fixture<Button>(html`
-    <glide-core-button label="Label" disabled></glide-core-button>
-  `);
-
-  const spy = sinon.spy();
-  host.addEventListener('click', spy);
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: ' ' });
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "reset" event on click', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<Button>(
-    html`<glide-core-button label="Label" type="reset"></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  click(host);
-
-  const event = await oneEvent(form, 'reset');
-  expect(event instanceof Event).to.be.true;
-});
-
-it('does not dispatch a "reset" event on click when disabled', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<Button>(
-    html`<glide-core-button
-      label="Label"
-      type="reset"
-      disabled
-    ></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const spy = sinon.spy();
-  form.addEventListener('reset', spy);
-
-  await click(host);
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "reset" event on Enter', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Button>(
-    html`<glide-core-button label="Label" type="reset"></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  await sendKeys({ press: 'Tab' });
-  sendKeys({ press: 'Enter' });
-
-  const event = await oneEvent(form, 'reset');
-  expect(event instanceof Event).to.be.true;
-});
-
-it('does not dispatch a "reset" event on Enter when disabled', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Button>(
-    html`<glide-core-button
-      label="Label"
-      type="reset"
-      disabled
-    ></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const spy = sinon.spy();
-  form.addEventListener('reset', spy);
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "reset" event on Space', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<Button>(
-    html`<glide-core-button label="Label" type="reset"></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  host.focus();
-  sendKeys({ press: ' ' });
-
-  const event = await oneEvent(form, 'reset');
-  expect(event instanceof Event).to.be.true;
-});
-
-it('does not dispatch a "reset" event on Space when disabled', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Button>(
-    html`<glide-core-button
-      label="Label"
-      type="reset"
-      disabled
-    ></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const spy = sinon.spy();
-  form.addEventListener('reset', spy);
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: ' ' });
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "submit" event on click', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<Button>(
-    html`<glide-core-button label="Label" type="submit"></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  form.addEventListener('submit', (event) => event.preventDefault());
-
-  click(host);
-
-  const event = await oneEvent(form, 'submit');
-  expect(event instanceof Event).to.be.true;
-});
-
-it('does not dispatch a "submit" event on click when disabled', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<Button>(
-    html`<glide-core-button
-      label="Label"
-      type="submit"
-      disabled
-    ></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const spy = sinon.spy();
-  form.addEventListener('submit', spy);
-
-  await click(host);
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "submit" event on Enter', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Button>(
-    html`<glide-core-button label="Label" type="submit"></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  form.addEventListener('submit', (event) => event.preventDefault());
-
-  await sendKeys({ press: 'Tab' });
-  sendKeys({ press: 'Enter' });
-
-  const event = await oneEvent(form, 'submit');
-  expect(event instanceof Event).to.be.true;
-});
-
-it('does not dispatch a "submit" event on Enter when disabled', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Button>(
-    html`<glide-core-button
-      label="Label"
-      type="submit"
-      disabled
-    ></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const spy = sinon.spy();
-  form.addEventListener('submit', spy);
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(spy.callCount).to.equal(0);
-});
-
-it('dispatches a "submit" event on Space', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Button>(
-    html`<glide-core-button label="Label" type="submit"></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  form.addEventListener('submit', (event) => event.preventDefault());
-
-  await sendKeys({ press: 'Tab' });
-  sendKeys({ press: ' ' });
-
-  const event = await oneEvent(form, 'submit');
-  expect(event instanceof Event).to.be.true;
-});
-
-it('does not dispatch a "submit" event on Space when disabled', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Button>(
-    html`<glide-core-button
-      label="Label"
-      type="submit"
-      disabled
-    ></glide-core-button>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const spy = sinon.spy();
-  form.addEventListener('submit', spy);
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: ' ' });
-
-  expect(spy.callCount).to.equal(0);
-});
+    expect(events).toHaveLength(0);
+  },
+);

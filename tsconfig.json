@@ -21,7 +21,10 @@
         "strict": true,
         "rules": {
           // https://github.com/runem/lit-analyzer/issues/253
-          "no-nullable-attribute-binding": "warning"
+          "no-nullable-attribute-binding": "warning",
+
+          // TODO: ?
+          "no-missing-import": "off"
         }
       }
     ]

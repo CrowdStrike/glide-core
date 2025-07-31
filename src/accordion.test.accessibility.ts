@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Accordion from './accordion.js';
 
-test('open=${true}', async ({ page }) => {
+test('open=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=accordion--accordion');
 
   await page
@@ -15,7 +15,7 @@ test('open=${true}', async ({ page }) => {
   `);
 });
 
-test('open=${false}', async ({ page }) => {
+test('open=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=accordion--accordion');
 
   await expect(page.locator('glide-core-accordion')).toMatchAriaSnapshot(`
