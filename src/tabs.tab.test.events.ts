@@ -3,7 +3,7 @@ import TabsTab from './tabs.tab.js';
 
 it('dispatches a "private-selected" event when selected', async () => {
   const host = await fixture<TabsTab>(
-    html`<glide-core-tabs-tab panel="1">One</glide-core-tabs-tab>`,
+    html`<glide-core-tabs-tab label="Label" panel="1"></glide-core-tabs-tab>`,
   );
 
   setTimeout(() => {

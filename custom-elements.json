@@ -8113,13 +8113,6 @@
               "type": {
                 "text": "Element"
               }
-            },
-            {
-              "name": "",
-              "description": "A label",
-              "type": {
-                "text": "Element | string"
-              }
             }
           ],
           "members": [
@@ -8131,6 +8124,15 @@
               },
               "static": true,
               "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -8208,6 +8210,14 @@
             }
           ],
           "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label",
+              "required": true
+            },
             {
               "name": "panel",
               "type": {
