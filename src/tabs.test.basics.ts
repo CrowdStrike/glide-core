@@ -22,8 +22,16 @@ it('registers itself', async () => {
 it('selects the first tab when none is selected', async () => {
   const host = await fixture<Tabs>(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -47,10 +55,17 @@ it('sets the width of its selected tab indicator to that of the selected tab', a
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="2" selected
-        >Two</glide-core-tabs-tab
-      >
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -79,11 +94,22 @@ it('offsets the width of its tab indicator when its first tab is selected', asyn
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1" selected
-        >One</glide-core-tabs-tab
-      >
-      <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -115,11 +141,22 @@ it('offsets the width of its tab indicator when its middle tab is selected', asy
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="2" selected
-        >Two</glide-core-tabs-tab
-      >
-      <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -151,11 +188,22 @@ it('offsets the width of its tab indicator when its last tab is selected', async
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="3" selected
-        >three</glide-core-tabs-tab
-      >
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -183,12 +231,18 @@ it('offsets the width of its tab indicator when its last tab is selected', async
 it('deselects all but its last selected tab when multiple are selected', async () => {
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1" selected
-        >One</glide-core-tabs-tab
-      >
-      <glide-core-tabs-tab slot="nav" panel="2" selected
-        >Two</glide-core-tabs-tab
-      >
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -223,7 +277,11 @@ it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
       <glide-core-tabs>
-        <glide-core-tabs-tab slot="nav" panel="1">Tab 1</glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tabs-tab>
         <div>Default Content</div>
       </glide-core-tabs>
     `);

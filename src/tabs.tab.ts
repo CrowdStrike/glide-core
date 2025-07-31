@@ -14,6 +14,7 @@ declare global {
 }
 
 /**
+ * @attr {string} label
  * @attr {string} panel
  * @attr {boolean} [disabled=false]
  *
@@ -28,7 +29,6 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {Element | string} - A label
  * @slot {Element} [icon]
  *
  * @fires {Event} selected
@@ -44,6 +44,10 @@ export default class TabsTab extends LitElement {
   /* c8 ignore stop */
 
   static override styles = styles;
+
+  @property({ reflect: true })
+  @required
+  label?: string;
 
   @property({ reflect: true })
   @required
@@ -105,12 +109,7 @@ export default class TabsTab extends LitElement {
           -->
         </slot>
 
-        <slot>
-          <!--
-            A label
-            @type {Element | string}
-          -->
-        </slot>
+        <span>${this.label}</span>
       </div>
     </div>`;
   }

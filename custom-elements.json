@@ -8367,207 +8367,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/tab.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/tab.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/tab.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "Tab",
-          "slots": [
-            {
-              "name": "icon",
-              "description": "",
-              "type": {
-                "text": "Element"
-              }
-            },
-            {
-              "name": "",
-              "description": "A label",
-              "type": {
-                "text": "Element | string"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
-            },
-            {
-              "kind": "field",
-              "name": "panel",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "panel",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "selected",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "id",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'tab'",
-              "attribute": "role",
-              "reflects": true
-            }
-          ],
-          "events": [
-            {
-              "name": "selected",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
-              "name": "private-selected",
-              "type": {
-                "text": "Event"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "panel",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "panel",
-              "required": true
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "selected"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "id"
-            },
-            {
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'tab'",
-              "fieldName": "role"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-tab",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "Tab",
-            "module": "src/tab.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-tab",
-          "declaration": {
-            "name": "Tab",
-            "module": "src/tab.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/tabs.panel.styles.ts",
       "declarations": [],
       "exports": [
@@ -8615,7 +8414,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -8747,6 +8546,217 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/tabs.tab.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/tabs.tab.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tabs.tab.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TabsTab",
+          "slots": [
+            {
+              "name": "icon",
+              "description": "",
+              "type": {
+                "text": "Element"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "panel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "panel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tab'",
+              "attribute": "role",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "selected",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-selected",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label",
+              "required": true
+            },
+            {
+              "name": "panel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "panel",
+              "required": true
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selected"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tab'",
+              "fieldName": "role"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-tabs-tab",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "TabsTab",
+            "module": "src/tabs.tab.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-tabs-tab",
+          "declaration": {
+            "name": "TabsTab",
+            "module": "src/tabs.tab.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/tabs.ts",
       "declarations": [
         {
@@ -8795,7 +8805,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",

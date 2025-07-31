@@ -16,10 +16,18 @@ import requestIdleCallback from './library/request-idle-callback.js';
 it('sets the selected tab using the `selected` attribute', async () => {
   const host = await fixture<Tabs>(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="2" slot="nav" selected
-        >Two</glide-core-tabs-tab
-      >
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
+
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
@@ -34,10 +42,18 @@ it('sets the selected tab using the `selected` attribute', async () => {
 it('selects a tab that is selected programmatically', async () => {
   const host = await fixture<Tabs>(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav" selected
-        >One</glide-core-tabs-tab
-      >
-      <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
+
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
@@ -61,10 +77,17 @@ it('selects a tab that is selected programmatically', async () => {
 it('selects its first tab when its selected tab is deselected programmatically', async () => {
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="2" selected
-        >Two</glide-core-tabs-tab
-      >
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -91,11 +114,22 @@ it('selects its first tab when its selected tab is deselected programmatically',
 it('changes tabs on click', async () => {
   const host = await fixture<Tabs>(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="3" slot="nav" disabled
-        >Three</glide-core-tabs-tab
-      >
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+        disabled
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -138,11 +172,22 @@ it('changes tabs on click', async () => {
 it('changes tabs on keyboard interaction', async () => {
   const host = await fixture<Tabs>(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="2" slot="nav" disabled
-        >Two</glide-core-tabs-tab
-      >
-      <glide-core-tabs-tab panel="3" slot="nav">Three</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        disabled
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -222,9 +267,21 @@ it('has overflow buttons when overflowing', async () => {
   const host = await fixture(
     html`
       <glide-core-tabs>
-        <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-        <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
-        <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+        ></glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="Three"
+          panel="3"
+          slot="nav"
+        ></glide-core-tabs-tab>
 
         <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
         <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -245,9 +302,21 @@ it('has overflow buttons when overflowing', async () => {
 it('does not have overflow buttons when not overflowing', async () => {
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -274,11 +343,21 @@ it('hides its overflow buttons when overall tab content is reduced', async () =>
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1"
-        >${'x'.repeat(500)}</glide-core-tabs-tab
-      >
-      <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label=${'x'.repeat(500)}
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -296,7 +375,7 @@ it('hides its overflow buttons when overall tab content is reduced', async () =>
   const firstTab = host.querySelector('glide-core-tabs-tab');
 
   assert(firstTab);
-  firstTab.innerHTML = 'One';
+  firstTab.label = 'One';
 
   await waitUntil(() => {
     return (
@@ -317,9 +396,21 @@ it('disables its overflow buttons on scroll', async () => {
   const host = await fixture(
     html`
       <glide-core-tabs>
-        <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-        <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
-        <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+        ></glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="Three"
+          panel="3"
+          slot="nav"
+        ></glide-core-tabs-tab>
 
         <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
         <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -370,9 +461,21 @@ it('scrolls when its overflow buttons are clicked', async () => {
   const host = await fixture(
     html`
       <glide-core-tabs>
-        <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-        <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
-        <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+        ></glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="Three"
+          panel="3"
+          slot="nav"
+        ></glide-core-tabs-tab>
 
         <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
         <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -418,9 +521,21 @@ it('has no overflow buttons when resized to not overflow', async () => {
   const host = await fixture(
     html`
       <glide-core-tabs>
-        <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-        <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
-        <glide-core-tabs-tab slot="nav" panel="3">Three</glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+        ></glide-core-tabs-tab>
+        <glide-core-tabs-tab
+          label="Three"
+          panel="3"
+          slot="nav"
+        ></glide-core-tabs-tab>
 
         <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
         <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -453,8 +568,16 @@ it('has no overflow buttons when resized to not overflow', async () => {
 it('sets the selected tab as tabbable on tab blur', async () => {
   const host = await fixture<Tabs>(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -487,15 +610,31 @@ it('sets the selected tab as tabbable on tab blur', async () => {
 it('can be nested', async () => {
   const host = await fixture<Tabs>(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
 
       <glide-core-tabs-panel name="2">
         <glide-core-tabs>
-          <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-          <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
+          <glide-core-tabs-tab
+            label="One"
+            panel="1"
+            slot="nav"
+          ></glide-core-tabs-tab>
+          <glide-core-tabs-tab
+            label="Two"
+            panel="2"
+            slot="nav"
+          ></glide-core-tabs-tab>
 
           <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
           <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -541,8 +680,16 @@ it('updates the width of its selected tab indicator when the label of a tab chan
 
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -572,8 +719,16 @@ it('updates the width of its selected tab indicator when the label of a tab chan
 it('sets aria attributes on tabs and panels when new ones are added', async () => {
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="2">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -583,7 +738,7 @@ it('sets aria attributes on tabs and panels when new ones are added', async () =
   const tab = document.createElement('glide-core-tabs-tab');
   tab.slot = 'nav';
   tab.panel = '3';
-  tab.textContent = 'Three';
+  tab.label = 'Three';
 
   const panel = document.createElement('glide-core-tabs-panel');
   panel.name = '3';
@@ -602,10 +757,17 @@ it('sets aria attributes on tabs and panels when new ones are added', async () =
 it('deselects all but its last selected tab when multiple are selected', async () => {
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab slot="nav" panel="1">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab slot="nav" panel="2" selected
-        >Two</glide-core-tabs-tab
-      >
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
@@ -616,7 +778,7 @@ it('deselects all but its last selected tab when multiple are selected', async (
   tab.selected = true;
   tab.slot = 'nav';
   tab.panel = '3';
-  tab.textContent = 'Three';
+  tab.label = 'Three';
 
   const panel = document.createElement('glide-core-tabs-panel');
   panel.name = '3';

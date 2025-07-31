@@ -8,8 +8,16 @@ import { click } from './library/mouse.js';
 it('dispatches a "selected" event on click', async () => {
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="1">Two</glide-core-tabs-panel>
@@ -33,8 +41,16 @@ it('dispatches a "selected" event on click', async () => {
 it('dispatches a "selected" event on Enter', async () => {
   const host = await fixture(html`
     <glide-core-tabs>
-      <glide-core-tabs-tab panel="1" slot="nav">One</glide-core-tabs-tab>
-      <glide-core-tabs-tab panel="2" slot="nav">Two</glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
       <glide-core-tabs-panel name="1">Two</glide-core-tabs-panel>
