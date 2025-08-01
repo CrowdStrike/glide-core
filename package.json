@@ -172,7 +172,7 @@
     "storybook": "^8.6.3",
     "stylelint": "^16.21.1",
     "stylelint-config-standard": "^36.0.1",
-    "stylelint-order": "^6.0.4",
+    "stylelint-order": "^7.0.0",
     "stylelint-prettier": "^5.0.2",
     "stylelint-use-logical": "^2.1.2",
     "stylelint-use-nesting": "^6.0.0",
