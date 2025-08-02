@@ -1,5 +1,5 @@
 import stylelint from 'stylelint';
-import { expect } from 'vitest';
+import { expect, test } from '@playwright/test';
 
 const config = {
   plugins: ['../plugin.js'],
@@ -8,7 +8,7 @@ const config = {
   },
 };
 
-it('warns if a custom property not on the host is unprefixed', async () => {
+test('warns if a custom property not on the host is unprefixed', async () => {
   const { results } = await stylelint.lint({
     code: `
       .component {
@@ -22,7 +22,7 @@ it('warns if a custom property not on the host is unprefixed', async () => {
   expect(results.at(0)?.warnings).toHaveLength(1);
 });
 
-it('does not warn if a custom property not on the host is prefixed', async () => {
+test('does not warn if a custom property not on the host is prefixed', async () => {
   const { results } = await stylelint.lint({
     code: `
       .component {
@@ -36,7 +36,7 @@ it('does not warn if a custom property not on the host is prefixed', async () =>
   expect(results.at(0)?.warnings).toHaveLength(0);
 });
 
-it('warns if a custom property on the host is prefixed', async () => {
+test('warns if a custom property on the host is prefixed', async () => {
   const { results } = await stylelint.lint({
     code: `
       :host {
@@ -50,7 +50,7 @@ it('warns if a custom property on the host is prefixed', async () => {
   expect(results.at(0)?.warnings).toHaveLength(1);
 });
 
-it('does not warn if a custom property on the host is unprefixed', async () => {
+test('does not warn if a custom property on the host is unprefixed', async () => {
   const { results } = await stylelint.lint({
     code: `
       :host {

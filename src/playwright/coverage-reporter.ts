@@ -1,0 +1,257 @@
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import path from 'node:path';
+import { URL } from 'node:url';
+import type {
+  FullConfig,
+  FullResult,
+  Reporter,
+  TestCase,
+  TestResult,
+} from '@playwright/test/reporter';
+import { createContext } from 'istanbul-lib-report';
+import istanbulLibCoverage from 'istanbul-lib-coverage';
+import convertSourceMap from 'convert-source-map';
+import {
+  create,
+  type HtmlOptions,
+  type LcovOptions,
+  type TextOptions,
+  type TextSummaryOptions,
+} from 'istanbul-reports';
+import v8ToIstanbul from 'v8-to-istanbul';
+import { type EncodedSourceMap } from '@jridgewell/trace-mapping';
+import { isMatch } from 'matcher';
+import {
+  outputDirectory,
+  coverageReportDirectory,
+  serializedOptionsPath,
+  v8CoverageAttachmentName,
+} from './constants.js';
+
+export interface Options {
+  exclude: string[];
+  include: string[];
+  // TODO: no longer used
+  outputDir: string;
+  reporters: (
+    | ['html']
+    | ['html', HtmlOptions]
+    | ['lcov']
+    | ['lcov', LcovOptions]
+    | ['text']
+    | ['text', TextOptions]
+    | ['text-summary']
+    | ['text-summary', TextSummaryOptions]
+  )[];
+  thresholds: {
+    statements: number;
+    functions: number;
+    branches: number;
+    lines: number;
+  };
+}
+
+interface V8Coverage {
+  result: {
+    functions: {
+      functionName: string;
+      isBlockCoverage: boolean;
+      ranges: { startOffset: number; endOffset: number; count: number }[];
+    }[];
+    scriptId: string;
+    source: string;
+    url: string;
+  }[];
+}
+
+export default class CoverageReporter implements Reporter {
+  onBegin(configuration: FullConfig) {
+    this.#isSharded = configuration.shard !== null;
+    this.#sourceCode.clear();
+    this.#sourceMaps.clear();
+    this.#v8Coverage = { result: [] };
+  }
+
+  async onEnd(result: FullResult) {
+    if (result.status !== 'passed' || !this.#isCoverageCollected) {
+      return;
+    }
+
+    const coverageMap = await this.#convertV8ToIstanbul();
+
+    const context = createContext({
+      coverageMap,
+      // TODO: say what this is
+      dir: path.resolve(
+        process.cwd(),
+        outputDirectory,
+        coverageReportDirectory,
+      ),
+      // TODOL: say what this is
+      sourceFinder(path) {
+        try {
+          return readFileSync(path, 'utf8');
+        } catch {
+          throw new Error(`Failed to read ${path}.`);
+        }
+      },
+      // Istanbul uses tuples for thresholds ("watermarks"). The first number is the
+      // failure level. The second is the success level. In between is the warning level.
+      //
+      // We're not concerned with warnings. So we take each threshold and use it for both
+      // failure and success. In other words, anything below a threshold in `thresholds`
+      // is counted as a failure.
+      watermarks: {
+        branches: [
+          this.#options.thresholds.branches,
+          this.#options.thresholds.branches,
+        ],
+        functions: [
+          this.#options.thresholds.functions,
+          this.#options.thresholds.functions,
+        ],
+        lines: [this.#options.thresholds.lines, this.#options.thresholds.lines],
+        statements: [
+          this.#options.thresholds.statements,
+          this.#options.thresholds.statements,
+        ],
+      },
+    });
+
+    if (!process.env.CI) {
+      /* eslint-disable no-console */
+      console.log('\n');
+      console.log('Full coverage report available at: http://localhost:6008');
+      /* eslint-enable no-console */
+    }
+
+    for (const [name, options] of this.#options.reporters) {
+      if (['text', 'text-summary'].includes(name)) {
+        // Both "text" and "text-summary" are logged to the console. So we put some
+        // vertical space between them to make the overall output more readable.
+        //
+        // eslint-disable-next-line no-console
+        console.log('\n');
+      }
+
+      create(name, options).execute(context);
+    }
+
+    const { branches, lines, functions, statements } =
+      coverageMap.getCoverageSummary();
+
+    const areThresholdsMet =
+      branches.pct >= this.#options.thresholds.branches &&
+      lines.pct >= this.#options.thresholds.lines &&
+      functions.pct >= this.#options.thresholds.functions &&
+      statements.pct >= this.#options.thresholds.statements;
+
+    if (this.#isSharded) {
+      // If the test run is sharded, we need a type of report that Istanbul supports
+      // merging. TODO
+      create('json', { file: 'coverage.json' }).execute(context);
+
+      // TODO: explain how it's use. also: this is the only place we have to the config.
+      mkdirSync(serializedOptionsPath.dir, { recursive: true });
+
+      writeFileSync(
+        path.join(serializedOptionsPath.dir, serializedOptionsPath.base),
+        JSON.stringify(this.#options),
+      );
+
+      // TODO: say why not shared
+    } else if (!areThresholdsMet && !this.#isSharded) {
+      result.status = 'failed';
+    }
+  }
+
+  onTestEnd(test: TestCase, result: TestResult) {
+    const coverageAttachment = result.attachments.find(
+      ({ name }) => name === v8CoverageAttachmentName,
+    );
+
+    if (coverageAttachment?.path) {
+      this.#isCoverageCollected = true;
+      this.#addV8Coverage(coverageAttachment.path);
+    }
+  }
+
+  constructor(options: Options) {
+    this.#options = options;
+  }
+
+  #isCoverageCollected = false;
+
+  #isSharded = false;
+
+  #options: Options;
+
+  #sourceCode = new Map<string, string>();
+
+  #sourceMaps = new Map<string, EncodedSourceMap>();
+
+  #v8Coverage: V8Coverage = { result: [] };
+
+  #addV8Coverage(path: string) {
+    // TODO: add error handling
+    const v8Coverage = JSON.parse(readFileSync(path, 'utf8')) as V8Coverage;
+
+    for (const script of v8Coverage.result) {
+      const sourceMap = convertSourceMap.fromSource(script.source);
+
+      if (sourceMap !== null) {
+        this.#sourceMaps.set(
+          script.url,
+          sourceMap.sourcemap as EncodedSourceMap,
+        );
+
+        this.#sourceCode.set(script.url, script.source);
+      }
+    }
+
+    this.#v8Coverage = {
+      result: [...this.#v8Coverage.result, ...v8Coverage.result],
+    };
+  }
+
+  async #convertV8ToIstanbul() {
+    const coverageMap = istanbulLibCoverage.createCoverageMap({});
+
+    for (const script of this.#v8Coverage.result) {
+      const sourceCode = this.#sourceCode.get(script.url);
+      const sourceMap = this.#sourceMaps.get(script.url);
+      const { pathname } = new URL(script.url);
+
+      if (sourceCode && sourceMap) {
+        const convertor = v8ToIstanbul(
+          path.join(path.join(process.cwd(), pathname)),
+          0,
+          {
+            source: sourceCode,
+            sourceMap: { sourcemap: sourceMap },
+          },
+          (pathname) => {
+            const include = isMatch(
+              path.relative(process.cwd(), pathname),
+              this.#options.include,
+            );
+
+            const exclude = isMatch(
+              path.relative(process.cwd(), pathname),
+              this.#options.exclude,
+            );
+
+            return !include || exclude;
+          },
+        );
+
+        await convertor.load();
+
+        convertor.applyCoverage(script.functions);
+        coverageMap.merge(convertor.toIstanbul());
+      }
+    }
+
+    return coverageMap;
+  }
+}
