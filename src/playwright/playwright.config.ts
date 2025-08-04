@@ -27,6 +27,7 @@ export default defineConfig({
     },
     {
       name: 'lint rules',
+      
       testMatch: [
         'src/eslint/rules/*.test.ts',
         'src/stylelint/rules/*.test.ts',
