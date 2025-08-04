@@ -1,5 +1,10 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import { test } from '@playwright/test';
 import { noNestedTemplateLiterals } from './no-nested-template-literals.js';
+
+RuleTester.afterAll = test.afterAll;
+RuleTester.describe = test.describe;
+RuleTester.it = test;
 
 const ruleTester = new RuleTester();
 

@@ -17,7 +17,6 @@ export default defineConfig({
   projects: [
     {
       name: 'aria',
-      snapshotPathTemplate: './src/aria-snapshots/{arg}{ext}',
       testMatch: /.*\.test\.aria\.ts/,
 
       use: {
@@ -26,6 +25,15 @@ export default defineConfig({
         channel: 'chromium',
       },
     },
+    {
+      name: 'lint rules',
+      testMatch: ['eslint/rules/*.test.ts', 'stylelint/rules/*.test.ts'],
+
+      // 30 seconds is the default. Each test should take much less than a second.
+      // Something has gone wrong if one takes longer. So we fail fast to give
+      // developers feedback quickly.
+      timeout: 1000,
+    },
     // Visual tests are their own project because testing every browser would be quite
     // expensive: both in CI and for PR reviewers inspecting the visual report. And,
     // while testing every browser would be useful, it's not nearly as useful as
@@ -33,8 +41,7 @@ export default defineConfig({
     {
       name: 'visuals',
 
-      // For whatever reason, Playwright can't find snapshots that exist in a
-      // subdirectory of `outputDir`. So they're at the top level.
+      // Outside of `./dist/playwright` because Playwright wipes that directory on start.
       snapshotPathTemplate: path.join(
         process.cwd(),
         'dist',
