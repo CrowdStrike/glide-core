@@ -1,9 +1,10 @@
 import { expect, test } from '@playwright/test';
 import type Checkbox from './checkbox.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Checkbox');
 
-for (const story of stories.Checkbox) {
+for (const story of stories) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {

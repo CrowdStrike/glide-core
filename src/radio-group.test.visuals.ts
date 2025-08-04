@@ -1,10 +1,11 @@
 import { expect, test } from '@playwright/test';
 import type RadioGroup from './radio-group.js';
 import type RadioGroupRadio from './radio-group.radio.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Radio Group');
 
-for (const story of stories['Radio Group']) {
+for (const story of stories) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {

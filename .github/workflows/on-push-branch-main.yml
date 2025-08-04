@@ -45,8 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  update-playwright-baseline-screenshots:
-    name: Update Playwright Baseline Screenshots
+  update-baseline-screenshots:
+    name: Update Baseline Screenshots
     runs-on: ubuntu-latest
     needs:
       - install-dependencies
@@ -69,8 +69,8 @@ jobs:
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: pnpm dlx playwright@1.54.2 install --only-shell --with-deps chromium
-      - run: pnpm exec playwright test --update-snapshots
+      - run: pnpm dlx playwright@1.54.2 install --no-shell --with-deps chromium
+      - run: pnpm exec playwright test -config ./src/playwright/configuration.ts --update-snapshots
       - run: aws s3 sync ./dist/playwright-baseline-screenshots s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/playwright-baseline-screenshots --delete --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
 
   build:

@@ -1,9 +1,10 @@
 import { expect, test } from '@playwright/test';
 import type InlineAlert from './inline-alert.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Inline Alert');
 
-for (const story of stories['Inline Alert']) {
+for (const story of stories) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
