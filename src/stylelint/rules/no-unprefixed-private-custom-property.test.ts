@@ -8,58 +8,74 @@ const config = {
   },
 };
 
-test('valid when a custom property not on the host is unprefixed', async () => {
-  const { results } = await stylelint.lint({
-    code: `
+test(
+  'valid when a custom property not on the host is unprefixed',
+  { tag: '@stylelint' },
+  async () => {
+    const { results } = await stylelint.lint({
+      code: `
       .component {
         --color: black;
       }
     `,
-    cwd: import.meta.dirname.replace('src', 'dist'),
-    config,
-  });
+      cwd: import.meta.dirname.replace('src', 'dist'),
+      config,
+    });
 
-  expect(results.at(0)?.warnings).toHaveLength(1);
-});
+    expect(results.at(0)?.warnings).toHaveLength(1);
+  },
+);
 
-test('valid when a custom property on the host is unprefixed', async () => {
-  const { results } = await stylelint.lint({
-    code: `
+test(
+  'valid when a custom property on the host is unprefixed',
+  { tag: '@stylelint' },
+  async () => {
+    const { results } = await stylelint.lint({
+      code: `
       :host {
         --color: black;
       }
     `,
-    cwd: import.meta.dirname.replace('src', 'dist'),
-    config,
-  });
+      cwd: import.meta.dirname.replace('src', 'dist'),
+      config,
+    });
 
-  expect(results.at(0)?.warnings).toHaveLength(0);
-});
+    expect(results.at(0)?.warnings).toHaveLength(0);
+  },
+);
 
-test('invalid when a custom property not on the host is prefixed', async () => {
-  const { results } = await stylelint.lint({
-    code: `
+test(
+  'invalid when a custom property not on the host is prefixed',
+  { tag: '@stylelint' },
+  async () => {
+    const { results } = await stylelint.lint({
+      code: `
       .component {
         --private-color: black;
       }
     `,
-    cwd: import.meta.dirname.replace('src', 'dist'),
-    config,
-  });
+      cwd: import.meta.dirname.replace('src', 'dist'),
+      config,
+    });
 
-  expect(results.at(0)?.warnings).toHaveLength(0);
-});
+    expect(results.at(0)?.warnings).toHaveLength(0);
+  },
+);
 
-test('invalid when a custom property on the host is prefixed', async () => {
-  const { results } = await stylelint.lint({
-    code: `
+test(
+  'invalid when a custom property on the host is prefixed',
+  { tag: '@stylelint' },
+  async () => {
+    const { results } = await stylelint.lint({
+      code: `
       :host {
         --private-color: black;
       }
     `,
-    cwd: import.meta.dirname.replace('src', 'dist'),
-    config,
-  });
+      cwd: import.meta.dirname.replace('src', 'dist'),
+      config,
+    });
 
-  expect(results.at(0)?.warnings).toHaveLength(1);
-});
+    expect(results.at(0)?.warnings).toHaveLength(1);
+  },
+);

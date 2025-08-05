@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Button from './button.js';
 
-test('disabled=${true}', async ({ page }) => {
+test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=button--button');
 
   await page.locator('glide-core-button').evaluate<void, Button>((element) => {
@@ -13,7 +13,7 @@ test('disabled=${true}', async ({ page }) => {
   `);
 });
 
-test('disabled=${false}', async ({ page }) => {
+test('disabled=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=button--button');
 
   await expect(page.locator('glide-core-button')).toMatchAriaSnapshot(`
@@ -21,7 +21,7 @@ test('disabled=${false}', async ({ page }) => {
   `);
 });
 
-test('tooltip', async ({ page }) => {
+test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=button--button');
 
   await page.locator('glide-core-button').evaluate<void, Button>((element) => {

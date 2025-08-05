@@ -133,11 +133,8 @@ jobs:
           name: web-test-runner-debugging-screenshots
           path: dist/web-test-runner-debugging-screenshots
 
-  # Its own job instead of putting it in `test-visuals` and renaming that job
-  # because `test-visual` sets `continue-on-error` so that missing and changed
-  # snapshots don't cause it to fail.
-  test-aria:
-    name: Test (ARIA)
+  test-functionality:
+    name: Test (Functionality)
     runs-on: ubuntu-latest
 
     timeout-minutes: 5 # Increase sharding if the job takes longer than this
@@ -152,7 +149,7 @@ jobs:
       - uses: ./.github/actions/pnpm
       - run: pnpm dlx playwright@1.54.2 install --no-shell --with-deps chromium
       - name: Test
-        run: pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project aria --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project functionality --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
   test-visuals:
     name: Test (Visuals)

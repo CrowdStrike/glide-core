@@ -16,8 +16,8 @@ export default defineConfig({
   outputDir: path.join(process.cwd(), 'dist', 'playwright'),
   projects: [
     {
-      name: 'aria',
-      testMatch: /.*\.test\.aria\.ts/,
+      name: 'functionality',
+      testMatch: ['src/*.test.accessibility.ts'],
 
       use: {
         // - https://playwright.dev/docs/browsers#chromium-new-headless-mode
@@ -27,7 +27,10 @@ export default defineConfig({
     },
     {
       name: 'lint rules',
-      testMatch: ['eslint/rules/*.test.ts', 'stylelint/rules/*.test.ts'],
+      testMatch: [
+        'src/eslint/rules/*.test.ts',
+        'src/stylelint/rules/*.test.ts',
+      ],
 
       // 30 seconds is the default. Each test should take much less than a second.
       // Something has gone wrong if one takes longer. So we fail fast to give
@@ -49,7 +52,7 @@ export default defineConfig({
         '{arg}{ext}',
       ),
 
-      testMatch: ['*.test.visuals.ts'],
+      testMatch: ['src/*.test.visuals.ts'],
 
       // 30 seconds is the default. Each test should only take a second or two.
       // Something has gone wrong if one takes longer. So we fail fast to give

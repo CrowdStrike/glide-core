@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Button from './button.js';
 
-test('variant="informational"', async ({ page }) => {
+test('variant="informational"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toast--toast');
 
   await page.locator('glide-core-button').evaluate<void, Button>((element) => {
@@ -17,7 +17,7 @@ test('variant="informational"', async ({ page }) => {
   `);
 });
 
-test('variant="success"', async ({ page }) => {
+test('variant="success"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toast--toast');
 
   await page.locator('glide-core-button').evaluate<void, Button>((element) => {
@@ -34,7 +34,7 @@ test('variant="success"', async ({ page }) => {
   `);
 });
 
-test('variant="error"', async ({ page }) => {
+test('variant="error"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toast--toast');
 
   await page.locator('glide-core-button').evaluate<void, Button>((element) => {
