@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type RadioGroup from './radio-group.js';
 import type RadioGroupRadio from './radio-group.radio.js';
 import fetchStories from './playwright/fetch-stories.js';

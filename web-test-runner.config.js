@@ -1,7 +1,5 @@
 import { fileURLToPath } from 'node:url';
 import os from 'node:os';
-import { mkdirSync, writeFileSync } from 'node:fs';
-import path from 'node:path';
 import { defaultReporter } from '@web/test-runner';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fromRollup } from '@web/dev-server-rollup';
@@ -26,6 +24,9 @@ export default {
 
       // Not much to test. Also untestable.
       'src/library/shadow-root-mode.ts',
+
+      // Migrated
+      'src/button.ts',
     ],
     reportDir: 'dist/web-test-runner-coverage',
     threshold: {
@@ -45,6 +46,9 @@ export default {
     '!src/**/*.*.test.accessibility.ts',
     '!src/**/*.test.accessibility.ts',
     '!src/**/*.test.visuals.ts',
+
+    // Migrated
+    '!src/button.test.*.ts',
   ],
   nodeResolve: {
     browser: true,
@@ -53,52 +57,6 @@ export default {
     exportConditions: ['production'],
   },
   plugins: [
-    {
-      // Useful when you have a suspicion that a test is failing because there's visual
-      // discrepancy between the test locally versus in CI. Screenshots are written to a
-      // directory named "web-test-runner-debugging-screenshots", which is uploaded as an
-      // artifact.
-      //
-      // Import `executeServerCommand` in your test suite, then call that function in
-      // tests wherever you need to take a screenshot.
-      //
-      // Keep in mind that `executeServerCommand()` is asynchronous. So, if the
-      // discrepancy is due to a timing issue, then calling `executeServerCommand()`
-      // may be just enough of a delay to overcome the issue, in which case the
-      // discrepancy may exist but may not show up in your screenshot.
-      //
-      // Usage:
-      //
-      // 1. `import { executeServerCommand } from '@web/test-runner-commands'`
-      // 2. `await executeServerCommand('debugging-screenshot', 'screenshot')`
-      name: 'debugging-screenshot',
-      async executeCommand({ payload, session }) {
-        if (!payload) {
-          throw new Error(
-            '`payload` is required and should be a string. Use it to give your screenshot a name.',
-          );
-        }
-
-        const screenshot = await session.browser
-          .getPage(session.id)
-          .screenshot();
-
-        mkdirSync('dist/web-test-runner-debugging-screenshots', {
-          recursive: true,
-        });
-
-        writeFileSync(
-          path.join(
-            import.meta.dirname,
-            'dist/web-test-runner-debugging-screenshots',
-            `${payload}.png`,
-          ),
-          screenshot,
-        );
-
-        return true;
-      },
-    },
     // Some modules still use CommonJS-style exports. This plugin handles them.
     //
     // https://github.com/modernweb-dev/web/issues/1700#issuecomment-1059441615

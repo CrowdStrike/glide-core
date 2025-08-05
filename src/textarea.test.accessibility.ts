@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type Textarea from './textarea.js';
 
 test('disabled', { tag: '@accessibility' }, async ({ page }) => {

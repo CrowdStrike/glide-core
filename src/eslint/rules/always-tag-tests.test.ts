@@ -1,5 +1,5 @@
 import { ESLint } from '@typescript-eslint/utils/ts-eslint';
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/test.js';
 import { alwaysTagTests } from './always-tag-tests.js';
 
 const eslint = new ESLint({
