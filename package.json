@@ -147,6 +147,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-lit": "^1.15.0",
     "eslint-plugin-lit-a11y": "^4.1.4",
+    "eslint-plugin-playwright": "^2.2.2",
     "eslint-plugin-sort-class-members": "^1.21.0",
     "eslint-plugin-unicorn": "^60.0.0",
     "globals": "^15.13.0",
