@@ -1,9 +1,10 @@
 import { expect, test } from '@playwright/test';
 import type Input from './input.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Input');
 
-for (const story of stories.Input) {
+for (const story of stories) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
@@ -71,7 +72,7 @@ for (const story of stories.Input) {
           });
         });
 
-        test.describe('disabled=${false}', async () => {
+        test.describe('disabled=${false}', () => {
           test(':focus', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
             await page.locator('glide-core-input').focus();
@@ -260,7 +261,7 @@ for (const story of stories.Input) {
           });
         });
 
-        test.describe('readonly=${false}', async () => {
+        test.describe('readonly=${false}', () => {
           test(':focus', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
             await page.locator('glide-core-input').focus();

@@ -1,9 +1,10 @@
 import { expect, test } from '@playwright/test';
 import type Button from './button.js';
+import fetchStories from './playwright/fetch-stories.js';
 
-const stories = JSON.parse(process.env.STORIES ?? '');
+const stories = await fetchStories('Button');
 
-for (const story of stories.Button) {
+for (const story of stories) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
