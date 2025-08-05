@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 
 // Not sure what to name this test. It's not really testing `size="medium"`.
 // It's testing the component in its default state because there aren't

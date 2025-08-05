@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type Spinner from './spinner.js';
 import fetchStories from './playwright/fetch-stories.js';
 

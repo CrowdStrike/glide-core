@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type Link from './link.js';
 
 test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {

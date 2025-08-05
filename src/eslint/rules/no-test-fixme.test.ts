@@ -1,5 +1,5 @@
 import { ESLint } from '@typescript-eslint/utils/ts-eslint';
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/test.js';
 import { noTestFixme } from './no-test-fixme.js';
 
 const eslint = new ESLint({
