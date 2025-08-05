@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type Modal from './modal.js';
 
 test('open', { tag: '@accessibility' }, async ({ page }) => {

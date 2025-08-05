@@ -1,5 +1,5 @@
 import { ESLint } from '@typescript-eslint/utils/ts-eslint';
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/test.js';
 import { noToContainClass } from './no-to-contain-class.js';
 
 const eslint = new ESLint({

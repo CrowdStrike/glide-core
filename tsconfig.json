@@ -21,7 +21,14 @@
         "strict": true,
         "rules": {
           // https://github.com/runem/lit-analyzer/issues/253
-          "no-nullable-attribute-binding": "warning"
+          "no-nullable-attribute-binding": "warning",
+
+          // It's unfortunate to disable this. But TS Lit Plugin doesn't provide a way to
+          // disable rules for specific files. And our component tests don't import any of the
+          // components they reference. Both because the components are imported for tests by
+          // `mount()` and because they can't import them given Playwright runs tests in
+          // Node.js.
+          "no-missing-import": "off"
         }
       }
     ]

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type Menu from './menu.js';
 import type Option from './option.js';
 import fetchStories from './playwright/fetch-stories.js';

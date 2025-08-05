@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type CheckboxGroup from './checkbox-group.js';
 import type Checkbox from './checkbox.js';
 
