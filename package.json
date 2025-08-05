@@ -83,8 +83,6 @@
     "test:development": "pnpm test:development:web-test-runner",
     "test:development:playwright": "playwright test --config ./src/playwright/playwright.config.ts --quiet --ui-port 6007 --update-snapshots --update-source-method=overwrite",
     "test:development:playwright:update": "rimraf ./src/aria-snapshots && playwright test --config ./src/playwright/playwright.config.ts --quiet --project aria --update-snapshots --update-source-method=overwrite --workers 100%",
-    "test:development:vitest": "vitest --config ./vitest.config.js & chokidar './src/eslint/**' './src/stylelint/**' --ignore './src/eslint/rules/*.test.ts' './src/stylelint/*.test.ts' --initial --silent --command 'tsc --noCheck --outDir ./dist'",
-    "test:development:vitest:comment": "Excluded from `test:development` because Vitest muddies the console when running alongside Web Test Runner.",
     "test:development:web-test-runner": "web-test-runner --watch",
     "test:production": "pnpm start:production:esbuild && npm-run-all --aggregate-output --print-label --parallel test:production:*",
     "test:production:playwright:aria": "playwright test --config ./src/playwright/playwright.config.ts --quiet --only-changed origin/main",
