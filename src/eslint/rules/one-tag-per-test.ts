@@ -13,7 +13,7 @@ export const oneTagPerTest = createRule({
     type: 'suggestion',
     messages: {
       oneTagPerTest: 'Tests should only have one tag.',
-      unnessaryArray:
+      unnecessaryArray:
         'An array for a single tag is unnecessary. Set `tag` to a string instead.',
     },
     schema: [],
@@ -65,7 +65,7 @@ export const oneTagPerTest = createRule({
           if (isTagArray) {
             context.report({
               node,
-              messageId: 'unnessaryArray',
+              messageId: 'unnecessaryArray',
             });
 
             return;

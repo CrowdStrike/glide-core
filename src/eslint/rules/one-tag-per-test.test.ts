@@ -9,12 +9,12 @@ const eslint = new ESLint({
       plugins: {
         '@crowdstrike/glide-core': {
           rules: {
-            'one-tag-per-tet': oneTagPerTest,
+            'one-tag-per-test': oneTagPerTest,
           },
         },
       },
       rules: {
-        '@crowdstrike/glide-core/one-tag-per-tet': 'error',
+        '@crowdstrike/glide-core/one-tag-per-test': 'error',
       },
     },
   ],
@@ -48,6 +48,6 @@ test('invalid when `tag` is an array', { tag: '@eslint' }, async () => {
   expect(result?.errorCount).toBe(1);
 
   expect(result?.messages.at(0)?.message).toBe(
-    oneTagPerTest.meta.messages.unnessaryArray,
+    oneTagPerTest.meta.messages.unnecessaryArray,
   );
 });

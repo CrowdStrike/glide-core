@@ -20,7 +20,7 @@ const eslint = new ESLint({
   ],
 });
 
-test('valid when only one tag is present', { tag: '@eslint' }, async () => {
+test('valid when the tag matches the suite', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
      test('registers itself', { tag: '@eslint' }, () => {});
   `);
@@ -28,7 +28,7 @@ test('valid when only one tag is present', { tag: '@eslint' }, async () => {
   expect(result?.errorCount).toBe(0);
 });
 
-test('invalid when multiple tags are present', { tag: '@eslint' }, async () => {
+test('invalid when the tag does not match the suite', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
      test('registers itself', { tag: '@mouse' }, () => {});
   `);
