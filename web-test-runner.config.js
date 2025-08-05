@@ -42,9 +42,8 @@ export default {
     '!**/icons/**',
     '!**/stylelint/**',
     '!**/translations/**',
-    '!src/**/*.*.test.aria.ts',
-    '!src/**/*.*.test.visuals.ts',
-    '!src/**/*.test.aria.ts',
+    '!src/**/*.*.test.accessibility.ts',
+    '!src/**/*.test.accessibility.ts',
     '!src/**/*.test.visuals.ts',
   ],
   nodeResolve: {

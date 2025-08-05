@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Textarea from './textarea.js';
 
-test('disabled', async ({ page }) => {
+test('disabled', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=textarea--textarea');
 
   await page
@@ -16,7 +16,7 @@ test('disabled', async ({ page }) => {
   `);
 });
 
-test('hide-label', async ({ page }) => {
+test('hide-label', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=textarea--textarea');
 
   await page
@@ -31,7 +31,7 @@ test('hide-label', async ({ page }) => {
   `);
 });
 
-test('max-length', async ({ page }) => {
+test('max-length', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=textarea--textarea');
 
   await page
@@ -49,7 +49,7 @@ test('max-length', async ({ page }) => {
   `);
 });
 
-test('slot="description"', async ({ page }) => {
+test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=textarea--textarea');
 
   await page
@@ -70,7 +70,7 @@ test('slot="description"', async ({ page }) => {
   `);
 });
 
-test('tooltip', async ({ page }) => {
+test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=textarea--textarea');
 
   await page

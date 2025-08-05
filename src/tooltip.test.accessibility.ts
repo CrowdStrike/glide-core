@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Tooltip from './tooltip.js';
 
-test('description', async ({ page }) => {
+test('description', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=tooltip--tooltip');
 
   await page
@@ -18,7 +18,7 @@ test('description', async ({ page }) => {
   `);
 });
 
-test('disabled=${true}', async ({ page }) => {
+test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=tooltip--tooltip');
 
   await page
@@ -35,7 +35,7 @@ test('disabled=${true}', async ({ page }) => {
   `);
 });
 
-test('disabled=${false}', async ({ page }) => {
+test('disabled=${false}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=tooltip--tooltip');
   await page.locator('glide-core-tooltip').waitFor();
 
@@ -53,7 +53,7 @@ test('disabled=${false}', async ({ page }) => {
   `);
 });
 
-test('shortcut', async ({ page }) => {
+test('shortcut', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=tooltip--tooltip');
 
   await page

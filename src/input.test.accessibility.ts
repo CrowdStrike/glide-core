@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type Input from './input.js';
 
-test('clearable', async ({ page }) => {
+test('clearable', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page.locator('glide-core-input').evaluate<void, Input>((element) => {
@@ -17,7 +17,7 @@ test('clearable', async ({ page }) => {
   `);
 });
 
-test('disabled', async ({ page }) => {
+test('disabled', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page.locator('glide-core-input').evaluate<void, Input>((element) => {
@@ -30,7 +30,7 @@ test('disabled', async ({ page }) => {
   `);
 });
 
-test('hide-label', async ({ page }) => {
+test('hide-label', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page.locator('glide-core-input').evaluate<void, Input>((element) => {
@@ -43,7 +43,7 @@ test('hide-label', async ({ page }) => {
   `);
 });
 
-test('max-length', async ({ page }) => {
+test('max-length', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page.locator('glide-core-input').evaluate<void, Input>((element) => {
@@ -59,7 +59,7 @@ test('max-length', async ({ page }) => {
   `);
 });
 
-test('password-toggle', async ({ page }) => {
+test('password-toggle', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page.locator('glide-core-input').evaluate<void, Input>((element) => {
@@ -74,7 +74,7 @@ test('password-toggle', async ({ page }) => {
   `);
 });
 
-test('slot="description"', async ({ page }) => {
+test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page.locator('glide-core-input').evaluate<void, Input>((element) => {
@@ -93,7 +93,7 @@ test('slot="description"', async ({ page }) => {
   `);
 });
 
-test('tooltip', async ({ page }) => {
+test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page.locator('glide-core-input').evaluate<void, Input>((element) => {
