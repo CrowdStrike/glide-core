@@ -24,19 +24,21 @@ test(
   },
 );
 
-test('<glide-core-button-group-button>[disabled=${false}]', async ({
-  page,
-}) => {
-  await page.goto('?id=button-group--button-group');
+test(
+  '<glide-core-button-group-button>[disabled=${false}]',
+  { tag: '@accessibility' },
+  async ({ page }) => {
+    await page.goto('?id=button-group--button-group');
 
-  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot(`
+    await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot(`
     - text: Label
     - radiogroup "Label":
       - radio "One" [checked]
       - radio "Two"
       - radio "Three"
   `);
-});
+  },
+);
 
 test(
   '<glide-core-button-group-button>[selected=${true}]',
@@ -54,23 +56,25 @@ test(
   },
 );
 
-test('<glide-core-button-group-button>[selected=${false}]', async ({
-  page,
-}) => {
-  await page.goto('?id=button-group--button-group');
+test(
+  '<glide-core-button-group-button>[selected=${false}]',
+  { tag: '@accessibility' },
+  async ({ page }) => {
+    await page.goto('?id=button-group--button-group');
 
-  await page
-    .locator('glide-core-button-group-button')
-    .first()
-    .evaluate<void, ButtonGroupButton>((element) => {
-      element.selected = false;
-    });
+    await page
+      .locator('glide-core-button-group-button')
+      .first()
+      .evaluate<void, ButtonGroupButton>((element) => {
+        element.selected = false;
+      });
 
-  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot(`
+    await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot(`
     - text: Label
     - radiogroup "Label":
       - radio "One"
       - radio "Two"
       - radio "Three"
   `);
-});
+  },
+);

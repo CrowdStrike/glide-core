@@ -9,6 +9,7 @@ import typescript from 'typescript-eslint';
 import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import html from '@html-eslint/eslint-plugin';
+import playwright from 'eslint-plugin-playwright';
 import glideCore from './dist/eslint/plugin.js';
 
 const compat = new FlatCompat();
@@ -365,6 +366,61 @@ export default defineConfig([
       '@crowdstrike/glide-core/slot-type-comment': 'off',
       '@crowdstrike/glide-core/public-property-expression-type': 'off',
       '@crowdstrike/glide-core/use-final-decorator': 'off',
+    },
+  },
+  {
+    ...playwright.configs['flat/recommended'],
+    files: [
+      'src/stylelint/rules/*.test.ts',
+      'src/eslint/rules/always-tag-tests.test.ts',
+      'src/*.test.accesibility.ts',
+      'src/*.test.visuals.ts',
+    ],
+    rules: {
+      ...playwright.configs['flat/recommended'].rules,
+      'playwright/no-commented-out-tests': ['error'],
+      'playwright/no-get-by-title': ['error'],
+      'playwright/no-hooks': ['error'],
+      'playwright/no-slowed-test': ['error'],
+      'playwright/prefer-comparison-matcher': ['error'],
+      'playwright/prefer-equality-matcher': ['error'],
+      'playwright/prefer-hooks-in-order': ['error'],
+      'playwright/prefer-hooks-on-top': ['error'],
+      'playwright/prefer-locator': ['error'],
+      'playwright/prefer-lowercase-title': ['error'],
+      'playwright/prefer-strict-equal': ['error'],
+      'playwright/prefer-to-be': ['error'],
+      'playwright/prefer-to-contain': ['error'],
+      'playwright/prefer-to-have-count': ['error'],
+      'playwright/prefer-to-have-length': ['error'],
+      'playwright/require-hook': ['error'],
+      'playwright/valid-test-tags': [
+        'error',
+        {
+          allowedTags: [
+            '@accessibility',
+            '@eslint',
+            '@forms',
+            '@keyboard',
+            '@miscellaneous',
+            '@mouse',
+            '@stylelint',
+          ],
+        },
+      ],
+      '@crowdstrike/glide-core/one-tag-per-test': 'error',
+      '@crowdstrike/glide-core/no-test-fail': 'error',
+      '@crowdstrike/glide-core/no-test-fixme': 'error',
+      '@crowdstrike/glide-core/no-to-contain-class': 'error',
+      '@crowdstrike/glide-core/no-tags-in-test-names': 'error',
+    },
+  },
+  {
+    files: ['src/*.test.*.ts', 'src/*.test.*.*.ts'],
+    ignores: ['src/*.test.visuals.ts'],
+    rules: {
+      '@crowdstrike/glide-core/always-tag-tests': 'error',
+      '@crowdstrike/glide-core/test-tag-matches-suite': 'error',
     },
   },
   {
