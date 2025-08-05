@@ -1,5 +1,10 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import { test } from '@playwright/test';
 import { noProtectedKeyword } from './no-protected-keyword.js';
+
+RuleTester.afterAll = test.afterAll;
+RuleTester.describe = test.describe;
+RuleTester.it = test;
 
 const ruleTester = new RuleTester();
 

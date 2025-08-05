@@ -92,6 +92,19 @@ jobs:
         env:
           NODE_ENV: production
 
+  test-lint-rules:
+    name: Test (Lint Rules)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - install-dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: pnpm start:production:typescript
+      - run: pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project "lint rules"
+        env:
+          PLAYWRIGHT_NO_WEBSERVER: true
   test:
     name: Test
     # https://github.com/CrowdStrike/glide-core/pull/529#discussion_r1886905184
@@ -139,7 +152,7 @@ jobs:
       - uses: ./.github/actions/pnpm
       - run: pnpm dlx playwright@1.54.2 install --no-shell --with-deps chromium
       - name: Test
-        run: pnpm exec playwright test --config ./src/playwright/configuration.ts --project aria --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project aria --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
   test-visuals:
     name: Test (Visuals)
@@ -164,23 +177,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: baseline-screenshots
-          path: dist/playwright-baseline-screenshots
+          path: ./dist/playwright-baseline-screenshots
       - name: Test
         id: test
-        # Failing would add quite a bit of time to CI. It would also add complexity, both
-        # for developers and to this workflow.
-        #
-        # To do it, we'd have to hack up GitHub's staged deployments feature to require
-        # an approval of the visual changes. After they're approved, we'd update the
-        # screenshots on R2. Then we'd force a re-run of this job so it passes for the
-        # branch in question. Lastly, after merge, we'd have to synchronize the
-        # screenshots again in case another branch was merged in the meantime and
-        # overwrote them.
-        #
-        # So we simply expect the developer and reviewers to look over the test report,
-        # deployed below, before merging.
         continue-on-error: true
-        run: pnpm exec playwright test --config ./src/playwright/configuration.ts --project visuals --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project visuals --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Get "Test" Job Outcome
         id: get-test-job-outcome
         run: |
@@ -212,7 +213,7 @@ jobs:
           pattern: visual-report-*
       - name: Merge Reports
         run: |
-          PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref  }}/visual-report/data/ pnpm exec playwright merge-reports --config ./src/playwright/configuration.ts --reporter html ./dist/playwright/test-reports
+          PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref  }}/visual-report/data/ pnpm exec playwright merge-reports --config ./src/playwright/playwright.config.ts --reporter html ./dist/playwright/test-reports
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
       - name: Install AWS CLI
         run: |

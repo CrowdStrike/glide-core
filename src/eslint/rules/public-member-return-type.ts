@@ -20,13 +20,25 @@ export const publicMemberReturnType = createRule({
   },
   defaultOptions: [],
   create(context) {
+    let isComponent = false;
+
     return {
+      ClassDeclaration(node) {
+        if (
+          node.superClass?.type === AST_NODE_TYPES.Identifier &&
+          node.superClass.name === 'LitElement'
+        ) {
+          isComponent = true;
+          return;
+        }
+      },
       MethodDefinition(node) {
         const isPseudoPrivate =
           node.key.type === AST_NODE_TYPES.Identifier &&
           node.key.name.startsWith('private');
 
         if (
+          isComponent &&
           node.kind !== 'constructor' &&
           node.kind !== 'set' &&
           node.key.type !== AST_NODE_TYPES.PrivateIdentifier &&

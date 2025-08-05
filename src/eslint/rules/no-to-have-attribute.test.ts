@@ -1,5 +1,10 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import { test } from '@playwright/test';
 import { noToHaveAttribute } from './no-to-have-attribute.js';
+
+RuleTester.afterAll = test.afterAll;
+RuleTester.describe = test.describe;
+RuleTester.it = test;
 
 const ruleTester = new RuleTester();
 
