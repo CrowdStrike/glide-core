@@ -1,6 +1,7 @@
 import './button.js';
 import './icons/storybook.js';
-import { html, nothing } from 'lit';
+import { nothing } from 'lit';
+import { html } from 'lit/static-html.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';

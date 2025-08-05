@@ -1,6 +1,7 @@
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html, nothing } from 'lit';
+import { nothing } from 'lit';
+import { html } from 'lit/static-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import TextareaComponent from './textarea.js';

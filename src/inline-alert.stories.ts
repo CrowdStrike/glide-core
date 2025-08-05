@@ -1,5 +1,6 @@
 import './inline-alert.js';
-import { html, nothing } from 'lit';
+import { nothing } from 'lit';
+import { html } from 'lit/static-html.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {

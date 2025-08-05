@@ -1,7 +1,8 @@
 import './button.js';
 import './link.js';
 import './toast.js';
-import { html, nothing } from 'lit';
+import { nothing } from 'lit';
+import { html } from 'lit/static-html.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { repeat } from 'lit/directives/repeat.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
