@@ -6,7 +6,6 @@ import fetchStories from './playwright/fetch-stories.js';
 const stories = await fetchStories('Tab Group');
 
 for (const story of stories) {
-  /* eslint-disable playwright/valid-title */
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
