@@ -36,7 +36,9 @@ export default [
       );
       border: none;
       border-radius: var(--glide-core-rounding-base-radius-sm);
-      box-shadow: var(--glide-core-effect-floating);
+      box-shadow: 0 var(--glide-core-color-effect-position-elevation-floating-y)
+        var(--glide-core-color-effect-blur-elevation-floating-blur)
+        var(--glide-core-color-effect-color-elevation-dialog);
       font-family: var(--glide-core-typography-family-primary);
       opacity: 0;
       padding: 0;
@@ -71,7 +73,9 @@ export default [
 
       &::backdrop {
         backdrop-filter: blur(3px);
-        background-color: rgba(0 0 0 / 40%);
+        background-color: var(
+          --glide-core-private-color-dialog-and-modal-surface-overlay
+        );
 
         @media (prefers-reduced-motion: no-preference) {
           animation: backdrop-fade-in 250ms;

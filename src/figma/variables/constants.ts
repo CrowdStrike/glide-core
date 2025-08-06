@@ -20,6 +20,7 @@ export const extendedVariables = [
   'Color/Checkbox/Surface/background-idle',
   'Color/Checkbox/Surface/background-selected--default',
   'Color/Dialog and Modal/Surface/container',
+  'Color/Dialog and Modal/Surface/overlay',
   'Color/Radio/Icon/default--disabled',
   'Color/Skeleton Loader/Surface/linear-gradient-middle',
   'Color/Skeleton Loader/Surface/linear-gradient-sides',
