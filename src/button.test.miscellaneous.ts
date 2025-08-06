@@ -10,7 +10,7 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 });
 
 test(
-  'focuses itself when `focus()` is called',
+  'receives focus when focused programmatically',
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(html`<glide-core-button label="Label"></glide-core-button>`);
@@ -26,7 +26,7 @@ test(
   'throws when `label` is undefined',
   { tag: '@miscellaneous' },
   async ({ mount }) => {
-    expect(
+    await expect(
       mount(html`<glide-core-button></glide-core-button>`),
     ).rejects.toThrow();
   },

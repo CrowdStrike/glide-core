@@ -26,6 +26,7 @@ export default {
       'src/library/shadow-root-mode.ts',
 
       // Migrated
+      'src/accordion.ts',
       'src/button.ts',
     ],
     reportDir: 'dist/web-test-runner-coverage',
@@ -43,11 +44,12 @@ export default {
     '!**/icons/**',
     '!**/stylelint/**',
     '!**/translations/**',
-    '!src/**/*.*.test.accessibility.ts',
-    '!src/**/*.test.accessibility.ts',
     '!src/**/*.test.visuals.ts',
 
     // Migrated
+    '!src/**/*.*.test.accessibility.ts',
+    '!src/**/*.test.accessibility.ts',
+    '!src/accordion.test.*.ts',
     '!src/button.test.*.ts',
   ],
   nodeResolve: {

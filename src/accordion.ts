@@ -72,6 +72,10 @@ export default class Accordion extends LitElement {
     }
 
     if (isOpen && hasChanged) {
+      // Used in a conditional below to avoid dispatching a "toggle" event on first
+      // render when Accordion is open initially.
+      const hasUpdated = this.hasUpdated;
+
       // Wait for `.summary` to re-render after the "active" class addition to
       // prevent animation jank, especially in Firefox and Safari.
       this.updateComplete.then(() => {
@@ -109,7 +113,7 @@ export default class Accordion extends LitElement {
               },
             )
             .addEventListener('finish', () => {
-              if (this.#detailsElementRef.value) {
+              if (this.#detailsElementRef.value && hasUpdated) {
                 this.dispatchEvent(
                   new Event('toggle', { bubbles: true, composed: true }),
                 );
@@ -262,17 +266,21 @@ export default class Accordion extends LitElement {
 
   #summaryElementRef = createRef<HTMLElement>();
 
+  /* v8 ignore start */
   #onPrefixIconSlotChange() {
     const assignedNodes = this.#prefixIconSlotElementRef.value?.assignedNodes();
     this.hasPrefixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
+  /* v8 ignore end */
 
+  /* v8 ignore start */
   #onSuffixIconsSlotChange() {
     const assignedNodes =
       this.#suffixIconsSlotElementRef.value?.assignedNodes();
 
     this.hasSuffixIcons = Boolean(assignedNodes && assignedNodes.length > 0);
   }
+  /* v8 ignore end */
 
   #onSummaryClick(event: MouseEvent) {
     // Canceling it prevents `details` from immediately showing and hiding

@@ -56,9 +56,7 @@ test(
 
     await host.click();
 
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(0);
+    expect(await eventsPromise).toHaveLength(0);
   },
 );
 
@@ -75,8 +73,6 @@ test(
 
     await callMethod(host, 'click');
 
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(0);
+    expect(await eventsPromise).toHaveLength(0);
   },
 );
