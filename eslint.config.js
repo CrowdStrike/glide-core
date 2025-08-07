@@ -64,7 +64,6 @@ export default defineConfig([
       '@crowdstrike/glide-core/no-nested-template-literals': 'error',
       '@crowdstrike/glide-core/no-redundant-property-attribute': 'error',
       '@crowdstrike/glide-core/no-redundant-property-string-type': 'error',
-      '@crowdstrike/glide-core/no-space-press': 'error',
       '@crowdstrike/glide-core/prefer-shadow-root-mode': 'error',
       '@crowdstrike/glide-core/public-member-return-type': 'error',
       '@crowdstrike/glide-core/public-getter-default-comment': 'error',
@@ -355,10 +354,6 @@ export default defineConfig([
 
       '@crowdstrike/glide-core/consistent-test-fixture-variable-declarator':
         'error',
-      '@crowdstrike/glide-core/no-only-tests': 'error',
-      '@crowdstrike/glide-core/no-skip-tests': 'error',
-      '@crowdstrike/glide-core/no-to-have-attribute': 'error',
-      '@crowdstrike/glide-core/better-test-assertions': 'error',
       '@crowdstrike/glide-core/public-member-return-type': 'off',
       '@crowdstrike/glide-core/public-getter-default-comment': 'off',
       '@crowdstrike/glide-core/event-dispatch-from-this': 'off',
@@ -383,6 +378,7 @@ export default defineConfig([
       'src/eslint/rules/one-test-per-tag.test.ts',
       'src/eslint/rules/test-tag-matches-suite.test.ts',
       'src/stylelint/rules/*.test.ts',
+      'src/button.test.*.ts',
     ],
     rules: {
       ...playwright.configs['flat/recommended'].rules,

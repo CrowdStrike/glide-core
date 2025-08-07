@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type Slider from './slider.js';
 
 test.describe('disabled', () => {

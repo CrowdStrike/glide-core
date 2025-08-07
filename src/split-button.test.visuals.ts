@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type SplitButton from './split-button.js';
 import type SplitButtonPrimaryButton from './split-button.primary-button.js';
 import type SplitButtonPrimaryLink from './split-button.primary-link.js';

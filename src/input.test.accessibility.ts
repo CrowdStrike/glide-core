@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type Input from './input.js';
 
 test('clearable', { tag: '@accessibility' }, async ({ page }) => {

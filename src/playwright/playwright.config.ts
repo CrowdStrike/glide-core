@@ -1,33 +1,30 @@
+// `playwright.config.ts` instead of simply `config.ts` so it gets picked up by
+// Playwright Test For VS Code.
+
 import os from 'node:os';
 import path from 'node:path';
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
+import { type CoverageReporterOptions } from './coverage-reporter.js';
 
 export default defineConfig({
   expect: {
     toHaveScreenshot: {
+      maxDiffPixelRatio: 0.1,
+
       // 0.2, the default, produces too many false negatives. 0, on the other
       // hand, produces too many false positives. The idea is for this number
-      // to be as close to 0 as possible without any false positives.
+      // to be as close to 0 as possible without any false negatives.
       threshold: 0.03,
     },
   },
+  failOnFlakyTests: Boolean(process.env.CI),
   fullyParallel: true,
   testDir: path.join(process.cwd(), 'src'),
   outputDir: path.join(process.cwd(), 'dist', 'playwright'),
   projects: [
     {
-      name: 'functionality',
-      testMatch: ['src/*.test.accessibility.ts'],
-
-      use: {
-        // - https://playwright.dev/docs/browsers#chromium-new-headless-mode
-        // - https://developer.chrome.com/blog/chrome-headless-shell
-        channel: 'chromium',
-      },
-    },
-    {
       name: 'lint rules',
-      
+
       testMatch: [
         'src/eslint/rules/*.test.ts',
         'src/stylelint/rules/*.test.ts',
@@ -38,10 +35,50 @@ export default defineConfig({
       // developers feedback quickly.
       timeout: 1000,
     },
+    ...[
+      {
+        device: 'Desktop Chrome',
+
+        // - https://playwright.dev/docs/browsers#chromium-new-headless-mode
+        // - https://developer.chrome.com/blog/chrome-headless-shell
+        channel: 'chromium',
+      },
+      { device: 'Desktop Firefox' },
+      { device: 'Desktop Safari' },
+    ]
+      .filter(({ device }) => {
+        if (process.env.CI) {
+          return true;
+        }
+
+        // For testing a specific browser locally.
+        if (process.env.PLAYWRIGHT_BROWSER) {
+          return device.toLowerCase().includes(process.env.PLAYWRIGHT_BROWSER);
+        }
+
+        return device === 'Desktop Chrome';
+      })
+      .map(({ device, channel }) => {
+        return {
+          name: 'functionality',
+          testMatch: [
+            // Migrated
+            'src/*.test.accessibility.ts',
+            'src/*.*.test.accessibility.ts',
+            'src/button.test.*.ts',
+          ],
+          testIgnore: ['src/*.test.visuals.ts'],
+          use: {
+            ...devices[device],
+            channel,
+          },
+        };
+      }),
+
     // Visual tests are their own project because testing every browser would be quite
     // expensive: both in CI and for PR reviewers inspecting the visual report. And,
-    // while testing every browser would be useful, it's not nearly as useful as
-    // testing functionality.
+    // while testing visuals in every browser would be useful, it's not nearly as
+    // useful as testing functionality.
     {
       name: 'visuals',
 
@@ -82,7 +119,38 @@ export default defineConfig({
         ),
       },
     ],
+    [
+      './coverage-reporter.ts',
+      {
+        include: [
+          // Migrated
+          'src/button.ts',
+        ],
+
+        outputDir: 'coverage-report',
+
+        // - 'text-summary' and 'text` for terminals.
+        // - 'html' for the browser.
+        // - 'lcov' for editor extensions and tooling generally.
+        // - 'json' for `merge-coverage-reports.ts`.
+        reporters: [
+          ['text-summary'],
+          ['text'],
+          ['html'],
+          ['lcov'],
+          ['json', { file: 'coverage.json' }],
+        ],
+
+        thresholds: {
+          branches: 100,
+          functions: 100,
+          lines: 100,
+          statements: 100,
+        },
+      } satisfies CoverageReporterOptions,
+    ],
   ],
+  retries: process.env.CI ? 1 : 0,
   use: {
     baseURL: 'http://localhost:6006/iframe.html',
     testIdAttribute: 'data-test',

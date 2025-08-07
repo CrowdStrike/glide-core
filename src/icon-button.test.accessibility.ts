@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type IconButton from './icon-button.js';
 
 test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {

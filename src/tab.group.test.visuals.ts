@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './playwright/test.js';
 import type TabGroup from './tab.group.js';
 import type Tab from './tab.js';
 import fetchStories from './playwright/fetch-stories.js';
