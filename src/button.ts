@@ -127,7 +127,6 @@ export default class Button extends LitElement {
           'prefix-icon': this.hasPrefixIcon,
           'suffix-icon': this.hasSuffixIcon,
         })}
-        data-test="button"
         slot="target"
         @click=${this.#onClick}
         ${ref(this.#buttonElementRef)}

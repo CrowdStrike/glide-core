@@ -35,7 +35,11 @@ export const expect = mergeExpects(
       type: string;
     }[],
   ) => Promise<void>;
-  toHaveFormData: (locator: Locator) => Promise<void>;
+  toHaveFormData: (
+    locator: Locator,
+    name: string,
+    value: unknown,
+  ) => Promise<void>;
 }>;
 
 export const test = mergeTests(

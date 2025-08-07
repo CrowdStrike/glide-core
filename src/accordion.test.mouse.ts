@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test(
-  'opens on click via mouse when animated',
+  'can be opened via mouse when animated',
   { tag: '@mouse' },
   async ({ browserName, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -35,7 +35,7 @@ test(
 );
 
 test(
-  'opens on click via mouse when not animated',
+  'can be opened via mouse when not animated',
   { tag: '@mouse' },
   async ({ browserName, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -70,7 +70,7 @@ test(
 );
 
 test(
-  'opens when clicked programmatically',
+  'can be opened via `click()`',
   { tag: '@mouse' },
   async ({ browserName, callMethod, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -103,7 +103,7 @@ test(
 );
 
 test(
-  'closes on click via mouse when animated',
+  'can be closed via mouse when animated',
   { tag: '@mouse' },
   async ({ browserName, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -138,7 +138,7 @@ test(
 );
 
 test(
-  'closes on click via mouse when not animated',
+  'can be closed mouse when not animated',
   { tag: '@mouse' },
   async ({ browserName, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -175,7 +175,7 @@ test(
 );
 
 test(
-  'closes when clicked programmatically',
+  'can be closed via `click()`',
   { tag: '@mouse' },
   async ({ browserName, callMethod, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
