@@ -17,7 +17,6 @@ export default defineConfig({
       threshold: 0.03,
     },
   },
-  failOnFlakyTests: Boolean(process.env.CI),
   fullyParallel: true,
   testDir: path.join(process.cwd(), 'src'),
   outputDir: path.join(process.cwd(), 'dist', 'playwright'),
@@ -35,43 +34,49 @@ export default defineConfig({
       // developers feedback quickly.
       timeout: 1000,
     },
-    ...[
-      {
-        device: 'Desktop Chrome',
-
-        // - https://playwright.dev/docs/browsers#chromium-new-headless-mode
-        // - https://developer.chrome.com/blog/chrome-headless-shell
-        channel: 'chromium',
-      },
-      { device: 'Desktop Firefox' },
-      { device: 'Desktop Safari' },
-    ]
-      .filter(({ device }) => {
+    ...['webkit', 'firefox', 'chromium']
+      .filter((browser) => {
         if (process.env.CI) {
           return true;
         }
 
         // For testing a specific browser locally.
         if (process.env.PLAYWRIGHT_BROWSER) {
-          return device.toLowerCase().includes(process.env.PLAYWRIGHT_BROWSER);
+          return process.env.PLAYWRIGHT_BROWSER === browser;
         }
 
-        return device === 'Desktop Chrome';
+        return browser === 'chromium';
       })
-      .map(({ device, channel }) => {
+      .map((browser) => {
         return {
           name: 'functionality',
           testMatch: [
             // Migrated
             'src/*.test.accessibility.ts',
             'src/*.*.test.accessibility.ts',
+            'src/accordion.test.*.ts',
             'src/button.test.*.ts',
           ],
           testIgnore: ['src/*.test.visuals.ts'],
-          use: {
-            ...devices[device],
-            channel,
-          },
+
+          // Ideally it would be lower locally. But ARIA snapshotting takes a bit.
+          timeout: process.env.CI ? undefined : 2500,
+
+          use:
+            browser === 'webkit'
+              ? {
+                  ...devices['Desktop Safari'],
+                }
+              : browser === 'firefox'
+                ? {
+                    ...devices['Desktop Firefox'],
+                  }
+                : {
+                    ...devices['Desktop Chromium'],
+                    // - https://playwright.dev/docs/browsers#chromium-new-headless-mode
+                    // - https://developer.chrome.com/blog/chrome-headless-shell
+                    channel: 'chromium',
+                  },
         };
       }),
 
@@ -124,6 +129,7 @@ export default defineConfig({
       {
         include: [
           // Migrated
+          'src/accordion.ts',
           'src/button.ts',
         ],
 
@@ -150,11 +156,10 @@ export default defineConfig({
       } satisfies CoverageReporterOptions,
     ],
   ],
-  retries: process.env.CI ? 1 : 0,
   use: {
     baseURL: 'http://localhost:6006/iframe.html',
     testIdAttribute: 'data-test',
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
   },
   webServer: process.env.PLAYWRIGHT_NO_WEBSERVER
     ? undefined

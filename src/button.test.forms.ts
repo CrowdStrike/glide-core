@@ -26,7 +26,7 @@ test(
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
     await mount(html`
-      <form action="/">
+      <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
     `);
@@ -51,7 +51,7 @@ test(
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
     await mount(html`
-      <form action="/">
+      <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
     `);
@@ -77,7 +77,7 @@ test(
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
     await mount(html`
-      <form action="/">
+      <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
     `);
@@ -123,7 +123,7 @@ test(
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
     await mount(html`
-      <form action="/">
+      <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
     `);

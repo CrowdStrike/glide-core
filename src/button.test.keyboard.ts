@@ -59,9 +59,7 @@ test(
     await host.focus();
     await host.press('Enter');
 
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(0);
+    expect(await eventsPromise).toHaveLength(0);
   },
 );
 
@@ -79,8 +77,6 @@ test(
     await host.focus();
     await host.press('Space');
 
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(0);
+    expect(await eventsPromise).toHaveLength(0);
   },
 );

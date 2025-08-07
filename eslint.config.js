@@ -378,6 +378,7 @@ export default defineConfig([
       'src/eslint/rules/one-test-per-tag.test.ts',
       'src/eslint/rules/test-tag-matches-suite.test.ts',
       'src/stylelint/rules/*.test.ts',
+      'src/accordion.test.*.ts',
       'src/button.test.*.ts',
     ],
     rules: {
