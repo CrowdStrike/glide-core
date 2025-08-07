@@ -34,15 +34,18 @@ test(
     const host = page.locator('glide-core-button');
     const form = page.locator('form');
 
-    const eventsPromise = addEventListener(form, 'submit', {
+    await addEventListener(form, 'submit', {
       preventDefault: true,
     });
 
-    host.click();
-
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(1);
+    await expect(form).toDispatchEvents(
+      () => host.click(),
+      [
+        {
+          type: 'submit',
+        },
+      ],
+    );
   },
 );
 
@@ -59,16 +62,18 @@ test(
     const host = page.locator('glide-core-button');
     const form = page.locator('form');
 
-    const eventsPromise = addEventListener(form, 'submit', {
+    await addEventListener(form, 'submit', {
       preventDefault: true,
     });
 
-    await host.focus();
-    host.press('Enter');
-
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(1);
+    await expect(form).toDispatchEvents(async () => {
+      await host.focus();
+      await host.press('Enter');
+    }, [
+      {
+        type: 'submit',
+      },
+    ]);
   },
 );
 
@@ -85,23 +90,80 @@ test(
     const host = page.locator('glide-core-button');
     const form = page.locator('form');
 
-    const eventsPromise = addEventListener(form, 'submit', {
+    await addEventListener(form, 'submit', {
       preventDefault: true,
     });
 
-    await host.focus();
-    host.press('Space');
-
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(1);
+    await expect(form).toDispatchEvents(async () => {
+      await host.focus();
+      await host.press('Space');
+    }, [
+      {
+        type: 'submit',
+      },
+    ]);
   },
 );
 
 test(
-  'resets its form when clicked programmatically',
+  'submits its form when clicked programmatically',
   { tag: '@forms' },
-  async ({ callMethod, mount, page }) => {
+  async ({ addEventListener, callMethod, mount, page }) => {
+    await mount(html`
+      <form>
+        <glide-core-button label="Label" type="submit"></glide-core-button>
+      </form>
+    `);
+
+    const host = page.locator('glide-core-button');
+    const form = page.locator('form');
+
+    await addEventListener(form, 'submit', {
+      preventDefault: true,
+    });
+
+    await expect(form).toDispatchEvents(
+      () => callMethod(host, 'click'),
+      [
+        {
+          type: 'submit',
+        },
+      ],
+    );
+  },
+);
+
+test(
+  'submits its form when `requestSubmit()` is called',
+  { tag: '@forms' },
+  async ({ addEventListener, callMethod, mount, page }) => {
+    await mount(html`
+      <form>
+        <glide-core-button label="Label" type="submit"></glide-core-button>
+      </form>
+    `);
+
+    const form = page.locator('form');
+
+    await addEventListener(form, 'submit', {
+      preventDefault: true,
+    });
+
+    await expect(form).toDispatchEvents(
+      () => callMethod(form, 'requestSubmit'),
+      [
+        {
+          type: 'submit',
+        },
+      ],
+    );
+  },
+);
+
+test(
+  'resets its form when clicked via mouse',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
     await mount(html`
       <form>
         <input value="one" />
@@ -113,32 +175,7 @@ test(
     const input = page.locator('input');
 
     await input.fill('two');
-    await callMethod(host, 'click');
+    await host.click();
     await expect(input).toHaveJSProperty('value', 'one');
-  },
-);
-
-test(
-  'submits its form when `requestSubmit()` is called',
-  { tag: '@forms' },
-  async ({ addEventListener, mount, page }) => {
-    await mount(html`
-      <form>
-        <glide-core-button label="Label" type="submit"></glide-core-button>
-      </form>
-    `);
-
-    const host = page.locator('glide-core-button');
-    const form = page.locator('form');
-
-    const eventsPromise = addEventListener(form, 'submit', {
-      preventDefault: true,
-    });
-
-    host.click();
-
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(1);
   },
 );

@@ -14,7 +14,7 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 test(
   'opens when opened programatically',
   { tag: '@miscellaneous' },
-  async ({ addEventListener, browserName, setProperty, mount, page }) => {
+  async ({ browserName, setProperty, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
@@ -26,25 +26,28 @@ test(
     );
 
     const host = page.locator('glide-core-accordion');
-    const eventsPromise = addEventListener(host, 'toggle');
 
-    await setProperty(host, 'open', true);
+    await expect(host).toDispatchEvents(
+      () => setProperty(host, 'open', true),
+      [
+        {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+          defaultPrevented: false,
+          type: 'toggle',
+        },
+      ],
+    );
+
     await expect(host).toHaveAttribute('open');
-
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(1);
-    expect(events.at(0)?.bubbles).toBe(true);
-    expect(events.at(0)?.cancelable).toBe(false);
-    expect(events.at(0)?.composed).toBe(true);
-    expect(events.at(0)?.defaultPrevented).toBe(false);
   },
 );
 
 test(
   'closes when closed programatically',
   { tag: '@miscellaneous' },
-  async ({ addEventListener, browserName, setProperty, mount, page }) => {
+  async ({ browserName, setProperty, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
@@ -58,18 +61,21 @@ test(
     );
 
     const host = page.locator('glide-core-accordion');
-    const eventsPromise = addEventListener(host, 'toggle');
 
-    await setProperty(host, 'open', false);
+    await expect(host).toDispatchEvents(
+      () => setProperty(host, 'open', false),
+      [
+        {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+          defaultPrevented: false,
+          type: 'toggle',
+        },
+      ],
+    );
+
     await expect(host).not.toHaveAttribute('open');
-
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(1);
-    expect(events.at(0)?.bubbles).toBe(true);
-    expect(events.at(0)?.cancelable).toBe(false);
-    expect(events.at(0)?.composed).toBe(true);
-    expect(events.at(0)?.defaultPrevented).toBe(false);
   },
 );
 
@@ -91,7 +97,7 @@ test(
 test(
   'does not dispatch a "toggle" event when already open and opened programmatically',
   { tag: '@miscellaneous' },
-  async ({ addEventListener, setProperty, mount, page }) => {
+  async ({ setProperty, mount, page }) => {
     await mount(
       html`<glide-core-accordion label="Label" open>
         Content
@@ -99,28 +105,28 @@ test(
     );
 
     const host = page.locator('glide-core-accordion');
-    const eventsPromise = addEventListener(host, 'toggle');
 
-    await setProperty(host, 'open', true);
-
-    expect(await eventsPromise).toHaveLength(0);
+    await expect(host).toDispatchEvents(
+      () => setProperty(host, 'open', true),
+      [],
+    );
   },
 );
 
 test(
   'does not dispatch a "toggle" event when already closed and closed programmatically',
   { tag: '@miscellaneous' },
-  async ({ addEventListener, setProperty, mount, page }) => {
+  async ({ setProperty, mount, page }) => {
     await mount(
       html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
-    const eventsPromise = addEventListener(host, 'toggle');
 
-    await setProperty(host, 'open', false);
-
-    expect(await eventsPromise).toHaveLength(0);
+    await expect(host).toDispatchEvents(
+      () => setProperty(host, 'open', true),
+      [],
+    );
   },
 );
 

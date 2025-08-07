@@ -4,7 +4,7 @@ import { expect, test } from './playwright/test.js';
 test(
   'opens on click via Enter',
   { tag: '@keyboard' },
-  async ({ addEventListener, browserName, mount, page }) => {
+  async ({ browserName, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
@@ -16,26 +16,28 @@ test(
     );
 
     const host = page.locator('glide-core-accordion');
-    const eventsPromise = addEventListener(host, 'toggle');
 
-    await host.focus();
-    await host.press('Enter');
+    await expect(host).toDispatchEvents(async () => {
+      await host.focus();
+      await host.press('Enter');
+    }, [
+      {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        defaultPrevented: false,
+        type: 'toggle',
+      },
+    ]);
+
     await expect(host).toHaveAttribute('open');
-
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(1);
-    expect(events.at(0)?.bubbles).toBe(true);
-    expect(events.at(0)?.cancelable).toBe(false);
-    expect(events.at(0)?.composed).toBe(true);
-    expect(events.at(0)?.defaultPrevented).toBe(false);
   },
 );
 
 test(
   'opens on click via Space',
   { tag: '@keyboard' },
-  async ({ addEventListener, browserName, mount, page }) => {
+  async ({ browserName, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
@@ -47,18 +49,20 @@ test(
     );
 
     const host = page.locator('glide-core-accordion');
-    const eventsPromise = addEventListener(host, 'toggle');
 
-    await host.focus();
-    await host.press('Space');
+    await expect(host).toDispatchEvents(async () => {
+      await host.focus();
+      await host.press('Space');
+    }, [
+      {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        defaultPrevented: false,
+        type: 'toggle',
+      },
+    ]);
+
     await expect(host).toHaveAttribute('open');
-
-    const events = await eventsPromise;
-
-    expect(events).toHaveLength(1);
-    expect(events.at(0)?.bubbles).toBe(true);
-    expect(events.at(0)?.cancelable).toBe(false);
-    expect(events.at(0)?.composed).toBe(true);
-    expect(events.at(0)?.defaultPrevented).toBe(false);
   },
 );
