@@ -70,7 +70,7 @@ test(
 );
 
 test(
-  'opens when clicked programmatically',
+  'opens when clicked via `click()`',
   { tag: '@mouse' },
   async ({ browserName, callMethod, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -175,7 +175,7 @@ test(
 );
 
 test(
-  'closes when clicked programmatically',
+  'closes when clicked via `click()`',
   { tag: '@mouse' },
   async ({ browserName, callMethod, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test

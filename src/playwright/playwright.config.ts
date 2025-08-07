@@ -54,6 +54,7 @@ export default defineConfig({
             'src/*.*.test.accessibility.ts',
             'src/accordion.test.*.ts',
             'src/button.test.*.ts',
+            'src/checkbox.test.*.ts',
             'src/spinner.test.*.ts',
           ],
           testIgnore: ['src/*.test.visuals.ts'],
@@ -130,6 +131,7 @@ export default defineConfig({
           // Migrated
           'src/accordion.ts',
           'src/button.ts',
+          'src/checkbox.ts',
           'src/spinner.ts',
         ],
 

@@ -60,7 +60,7 @@ test(
     await expect(host).toDispatchEvents(async () => {
       await host.focus();
       await host.press('Enter');
-    }, []);
+    }, [{ type: 'click' }]);
   },
 );
 
