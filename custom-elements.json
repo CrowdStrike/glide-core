@@ -4478,6 +4478,15 @@
             },
             {
               "kind": "field",
+              "name": "rel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "rel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "target",
               "type": {
                 "text": "'_blank' | '_parent' | '_self' | '_top' | undefined"
@@ -4530,6 +4539,13 @@
                 "text": "string | undefined"
               },
               "fieldName": "href"
+            },
+            {
+              "name": "rel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "rel"
             },
             {
               "name": "target",

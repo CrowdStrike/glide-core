@@ -20,6 +20,7 @@ declare global {
  * @attr {boolean} [disabled=false]
  * @attr {string} [download]
  * @attr {string} [href]
+ * @attr {string} [rel]
  * @attr {'_blank'|'_parent'|'_self'|'_top'} [target]
  *
  * @readonly
@@ -48,6 +49,9 @@ export default class Link extends LitElement {
 
   @property({ reflect: true })
   href?: string;
+
+  @property({ reflect: true })
+  rel?: string;
 
   @property({ reflect: true })
   target?: '_blank' | '_parent' | '_self' | '_top';
@@ -88,6 +92,7 @@ export default class Link extends LitElement {
           data-test="component"
           download=${ifDefined(this.download)}
           href=${ifDefined(this.href)}
+          rel=${ifDefined(this.rel)}
           target=${ifDefined(this.target)}
           @click=${this.#onClick}
           ${ref(this.#componentElementRef)}
