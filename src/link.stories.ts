@@ -54,6 +54,7 @@ const meta: Meta = {
         label=${arguments_.label || nothing}
         download=${arguments_.download || nothing}
         href=${arguments_.href || nothing}
+        rel=${arguments_.rel || nothing}
         target=${arguments_.target || nothing}
         ?disabled=${arguments_.disabled || nothing}
       ></glide-core-link>
@@ -65,6 +66,7 @@ const meta: Meta = {
     disabled: false,
     download: '',
     href: '/',
+    rel: '',
     target: '',
     version: '',
   },
@@ -98,6 +100,12 @@ const meta: Meta = {
       },
     },
     href: {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
+    },
+    rel: {
       table: {
         type: { summary: 'string' },
       },
