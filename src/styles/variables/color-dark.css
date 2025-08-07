@@ -136,6 +136,7 @@
   --glide-core-color-effect-color-elevation-raised-1: #ffffff00;
   --glide-core-color-effect-color-elevation-raised-2: #ffffff00;
   --glide-core-color-effect-color-elevation-floating: #14141459;
+  --glide-core-color-effect-color-elevation-dialog: #000000f2;
   --glide-core-color-effect-color-elevation-detail-panel: #000000f2;
   --glide-core-color-effect-color-scroll-shadow: #ffffff0d;
   --glide-core-color-effect-position-elevation-floating-y: 0.75rem;
@@ -148,6 +149,7 @@
   --glide-core-private-color-checkbox-icon-default--disabled: #434343;
   --glide-core-private-color-radio-icon-default--disabled: #434343;
   --glide-core-private-color-dialog-and-modal-surface-container: #292929;
+  --glide-core-private-color-dialog-and-modal-surface-overlay: #141414d9;
   --glide-core-private-color-skeleton-loader-surface-linear-gradient-sides: #ffffff0d;
   --glide-core-private-color-skeleton-loader-surface-linear-gradient-middle: #ffffff1a;
   --glide-core-private-color-slider-and-scrollbar-surface-handle: #2c2c2c;
