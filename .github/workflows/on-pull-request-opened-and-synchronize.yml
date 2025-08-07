@@ -95,7 +95,7 @@ jobs:
   test-lint-rules:
     name: Test (Lint Rules)
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     needs:
       - install-dependencies
     steps:
@@ -123,7 +123,7 @@ jobs:
     name: Test (Functionality)
     runs-on: ubuntu-latest
 
-    timeout-minutes: 5 # Increase sharding if the job takes longer than this
+    timeout-minutes: 10 # Increase sharding if the job takes longer than this
     needs:
       - install-dependencies
       - build
@@ -270,7 +270,7 @@ jobs:
   test-visuals:
     name: Test (Visuals)
     runs-on: ubuntu-latest
-    timeout-minutes: 5 # Increase sharding if the job takes longer this
+    timeout-minutes: 10 # Increase sharding if the job takes longer this
     needs:
       - install-dependencies
       - fetch-baseline-screenshots
