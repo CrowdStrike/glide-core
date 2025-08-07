@@ -70,7 +70,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
       - run: pnpm dlx playwright@1.54.2 install --no-shell --with-deps chromium
-      - run: pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project visuals --update-snapshots
+      - run: PLAYWRIGHT_SKIP_COVERAGE=true pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project visuals --update-snapshots
       - run: aws s3 sync ./dist/playwright-baseline-screenshots s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/playwright-baseline-screenshots --delete --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
 
   build:
