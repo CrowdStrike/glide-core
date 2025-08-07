@@ -28,6 +28,7 @@ export default {
       // Migrated
       'src/accordion.ts',
       'src/button.ts',
+      'src/spinner.ts',
     ],
     reportDir: 'dist/web-test-runner-coverage',
     threshold: {
@@ -51,6 +52,7 @@ export default {
     '!src/**/*.test.accessibility.ts',
     '!src/accordion.test.*.ts',
     '!src/button.test.*.ts',
+    '!src/spinner.test.*.ts',
   ],
   nodeResolve: {
     browser: true,

@@ -380,6 +380,7 @@ export default defineConfig([
       'src/stylelint/rules/*.test.ts',
       'src/accordion.test.*.ts',
       'src/button.test.*.ts',
+      'src/spinner.test.*.ts',
     ],
     rules: {
       ...playwright.configs['flat/recommended'].rules,
