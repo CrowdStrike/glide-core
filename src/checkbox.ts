@@ -258,11 +258,13 @@ export default class Checkbox extends LitElement implements FormControl {
     this.#intersectionObserver.observe(this);
   }
 
+  /* v8 ignore start */
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
     this.#intersectionObserver?.disconnect();
   }
+  /* v8 ignore end */
 
   get validity(): ValidityState {
     // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
@@ -474,8 +476,9 @@ export default class Checkbox extends LitElement implements FormControl {
                   html`<span
                     class="validity-message"
                     data-test="validity-message"
-                    >${unsafeHTML(this.validityMessage)}</span
-                  >`,
+                  >
+                    ${unsafeHTML(this.validityMessage)}
+                  </span>`,
               )}
             </div>
           </glide-core-private-label>`,
@@ -656,7 +659,7 @@ export default class Checkbox extends LitElement implements FormControl {
       this.checked = event.target.checked;
     }
 
-    // If the input is interacted with it's no longer indeterminate.
+    // If the input has been interacted with it's no longer indeterminate.
     this.indeterminate = false;
 
     if (event.type === 'change') {
