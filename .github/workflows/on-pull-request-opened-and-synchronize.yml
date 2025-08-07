@@ -294,7 +294,7 @@ jobs:
       - name: Test
         id: test
         continue-on-error: true
-        run: pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project visuals --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: PLAYWRIGHT_SKIP_COVERAGE=true pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project visuals --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Get "Test" Job Outcome
         id: get-test-job-outcome
         run: |

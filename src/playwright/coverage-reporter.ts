@@ -63,6 +63,10 @@ interface V8Coverage {
 
 export default class CoverageReporter implements Reporter {
   onBegin(configuration: FullConfig) {
+    if (process.env.PLAYWRIGHT_SKIP_COVERAGE) {
+      return;
+    }
+
     this.#isSharded = configuration.shard !== null;
     this.#sourceCode.clear();
     this.#sourceMaps.clear();
@@ -70,7 +74,11 @@ export default class CoverageReporter implements Reporter {
   }
 
   async onEnd(result: FullResult) {
-    if (result.status === 'interrupted' || !this.#wasCoverageCollected) {
+    if (
+      result.status === 'interrupted' ||
+      !this.#wasCoverageCollected ||
+      process.env.PLAYWRIGHT_SKIP_COVERAGE
+    ) {
       return;
     }
 
@@ -156,6 +164,10 @@ export default class CoverageReporter implements Reporter {
   }
 
   onTestEnd(test: TestCase, result: TestResult) {
+    if (process.env.PLAYWRIGHT_SKIP_COVERAGE) {
+      return;
+    }
+
     const coverageAttachment = result.attachments.find(
       ({ name }) => name === v8CoverageAttachmentName,
     );
