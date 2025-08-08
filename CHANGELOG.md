@@ -1,5 +1,31 @@
 # @crowdstrike/glide-core
 
+## 0.32.1
+
+### Patch Changes
+
+- [#1028](https://github.com/CrowdStrike/glide-core/pull/1028) [`0ad0fe7`](https://github.com/CrowdStrike/glide-core/commit/0ad0fe7075ec9348a0d3ffd16281098cc8bb5195) Thanks [@clintcs](https://github.com/clintcs)! - Accordion no longer dispatches a "toggle" event when open on initial render.
+
+- [#1007](https://github.com/CrowdStrike/glide-core/pull/1007) [`4abf4a5`](https://github.com/CrowdStrike/glide-core/commit/4abf4a5d4330ba5af77215de15d9dfb6f6751ea7) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Dropdown, Input, and Textarea have a more prominent border and box shadow when focused.
+
+- [#1027](https://github.com/CrowdStrike/glide-core/pull/1027) [`ea32870`](https://github.com/CrowdStrike/glide-core/commit/ea328709e0cef8bfc234245d2b026ae8bfb06c25) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Modal's backdrop background color and box shadow have been updated to match the latest from Figma and to increase color contrast.
+
+- [#1027](https://github.com/CrowdStrike/glide-core/pull/1027) [`ea32870`](https://github.com/CrowdStrike/glide-core/commit/ea328709e0cef8bfc234245d2b026ae8bfb06c25) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  #### Colors (Light)
+
+  ```diff
+  + --glide-core-color-effect-color-elevation-dialog: #00000040;
+  ```
+
+  #### Colors (Dark)
+
+  ```diff
+  + --glide-core-color-effect-color-elevation-dialog: #000000f2;
+  ```
+
+- [#1031](https://github.com/CrowdStrike/glide-core/pull/1031) [`3275183`](https://github.com/CrowdStrike/glide-core/commit/327518382773dc8c68773a9aec95641b353bb860) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Added the `rel` attribute to Link.
+
 ## 0.32.0
 
 ### Minor Changes
