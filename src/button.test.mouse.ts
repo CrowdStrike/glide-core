@@ -21,7 +21,7 @@ test('can be clicked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
 });
 
 test(
-  'can be clicked programmatically',
+  'can be clicked via `click()`',
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(html`<glide-core-button label="Label"></glide-core-button>`);
@@ -58,7 +58,7 @@ test(
 );
 
 test(
-  'cannot be clicked programmatically when disabled',
+  'cannot be clicked via `click()` when disabled',
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
