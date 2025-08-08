@@ -18,6 +18,7 @@ test(
     const host = page.locator('glide-core-button');
 
     await callMethod(host, 'focus');
+
     await expect(host).toBeFocused();
   },
 );

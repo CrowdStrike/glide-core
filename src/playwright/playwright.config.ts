@@ -59,7 +59,7 @@ export default defineConfig({
           testIgnore: ['src/*.test.visuals.ts'],
 
           // Ideally it would be lower locally. But ARIA snapshotting takes a bit.
-          timeout: process.env.CI ? undefined : 2500,
+          timeout: process.env.CI ? undefined : 5000,
 
           use:
             browser === 'webkit'
