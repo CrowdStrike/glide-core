@@ -233,7 +233,7 @@ jobs:
           pattern: coverage-report-*
       - name: Merge Coverage Reports
         id: merge
-        run: pnpm exec tsx ./src/playwright/merge-coverage-reports.ts ${{ github.head_ref }}
+        run: pnpm exec tsx ./src/playwright/merge-coverage-reports/run.ts ${{ github.head_ref }}
         continue-on-error: true
       - name: Install AWS CLI
         run: |
