@@ -205,8 +205,8 @@ export const expect = baseExpect.extend({
         : () =>
             this.utils.matcherHint(
               'toDispatchEvents',
-              hasTheRightEvents,
-              true,
+              sortedAndMappedReceivedEvents,
+              expectedEvents,
             ) +
             '\n\n' +
             // Locators have a `toString()` implementation that serializes nicely.
