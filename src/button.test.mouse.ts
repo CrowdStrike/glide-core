@@ -1,4 +1,4 @@
-import { html } from 'lit/static-html.js';
+import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test(

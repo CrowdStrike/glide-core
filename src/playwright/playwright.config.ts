@@ -9,8 +9,6 @@ import { type CoverageReporterOptions } from './coverage-reporter.js';
 export default defineConfig({
   expect: {
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.1,
-
       // 0.2, the default, produces too many false negatives. 0, on the other
       // hand, produces too many false positives. The idea is for this number
       // to be as close to 0 as possible without any false negatives.
