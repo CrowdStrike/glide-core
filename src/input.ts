@@ -468,7 +468,7 @@ export default class Input extends LitElement implements FormControl {
 
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing `this.validity.valid` are updated.
+    // Ensures that getters referencing `this.validity.valid` are re-run.
     this.requestUpdate();
 
     return isValid;

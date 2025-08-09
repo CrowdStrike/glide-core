@@ -46,6 +46,11 @@ declare global {
  * @slot {Element | Text} [content] - This is the unhappy path. It's the escape hatch where you can render arbitrary content and lay it out however you need to. If you go this route, `slot="icon"` and `slot="submenu"` will become unavailable. And the `label` and `description` attributes won't be rendered. The `label` attribute is still required. We'll show it in a tooltip when your content overflows. If you need a second line of text in the tooltip, provide you can provide it via the `description` attribute.
  * @slot {Element} [icon]
  * @slot {Menu} [submenu]
+ *
+ * @fires {Event} deselected
+ * @fires {Event} disabled
+ * @fires {Event} enabled
+ * @fires {Event} selected
  */
 @customElement('glide-core-option')
 @final
@@ -106,9 +111,17 @@ export default class Option extends LitElement {
   }
 
   set disabled(isDisabled: boolean) {
+    const hasChanged = isDisabled !== this.#isDisabled;
+
     this.#isDisabled = isDisabled;
     this.ariaDisabled = isDisabled ? 'true' : 'false';
-    this.dispatchEvent(new Event('private-disabled-change', { bubbles: true }));
+
+    // TODO: say why for?
+    if (hasChanged && isDisabled) {
+      this.dispatchEvent(new Event('disabled', { bubbles: true }));
+    } else if (hasChanged) {
+      this.dispatchEvent(new Event('enabled', { bubbles: true }));
+    }
   }
 
   @property({ reflect: true })
@@ -153,8 +166,28 @@ export default class Option extends LitElement {
   }
 
   set selected(isSelected: boolean) {
+    const hasChanged = isSelected !== this.#isSelected;
+
     this.ariaSelected = isSelected.toString();
     this.#isSelected = isSelected;
+
+    // TODO: test has changed. do same for disabled-change
+    if (hasChanged && isSelected) {
+      // TODO: say why for?
+      this.dispatchEvent(
+        new Event('selected', {
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    } else if (hasChanged) {
+      this.dispatchEvent(
+        new Event('deselected', {
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
   }
 
   @property({ attribute: 'tabindex', reflect: true, type: Number })
@@ -182,6 +215,14 @@ export default class Option extends LitElement {
     super.connectedCallback();
 
     this.ariaDisabled = this.disabled.toString();
+  }
+
+  override firstUpdated() {
+    const subMenu = this.querySelector<Menu>(':scope > glide-core-menu');
+
+    if (subMenu?.open) {
+      this.isSubmenuOpen = true;
+    }
   }
 
   override render() {

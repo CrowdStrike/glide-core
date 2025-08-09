@@ -1,7 +1,7 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import Options from './options.js';
 
-it('dispatches a "private-slot-change" event', async () => {
+it('dispatches a "slotchange" event', async () => {
   const host = await fixture<Options>(
     html`<glide-core-options></glide-core-options>`,
   );
@@ -13,7 +13,7 @@ it('dispatches a "private-slot-change" event', async () => {
     host.append(option);
   });
 
-  const event = await oneEvent(host, 'private-slot-change');
+  const event = await oneEvent(host, 'slotchange');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;

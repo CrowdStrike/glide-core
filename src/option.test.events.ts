@@ -65,30 +65,108 @@ it('does not dispatch a "click" event when disabled and clicked via `click()`', 
   expect(spy.callCount).to.equal(0);
 });
 
-it('dispatches a "private-disabled-change" event when enabled programmatically', async () => {
+it('dispatches an "enabled" event when enabled programmatically', async () => {
   const host = await fixture<Option>(
     html`<glide-core-option label="Label" disabled></glide-core-option>`,
   );
 
   const spy = sinon.spy();
 
-  host.addEventListener('private-disabled-change', spy);
+  host.addEventListener('enabled', spy);
   host.disabled = false;
 
   expect(spy.callCount).to.equal(1);
 });
 
-it('dispatches a "private-disabled-change" event when disabled programmatically', async () => {
+it('dispatches a "disabled" event when disabled programmatically', async () => {
   const host = await fixture<Option>(
     html`<glide-core-option label="Label"></glide-core-option>`,
   );
 
   const spy = sinon.spy();
 
-  host.addEventListener('private-disabled-change', spy);
+  host.addEventListener('disabled', spy);
   host.disabled = true;
 
   expect(spy.callCount).to.equal(1);
+});
+
+it('does not dispatch an "enabled" event when enabled programmatically and already enabled', async () => {
+  const host = await fixture<Option>(
+    html`<glide-core-option label="Label"></glide-core-option>`,
+  );
+
+  const spy = sinon.spy();
+
+  host.addEventListener('enabled', spy);
+  host.disabled = false;
+
+  expect(spy.callCount).to.equal(0);
+});
+
+it('does not dispatch a "disabled" event when disabled programmatically and already disabled', async () => {
+  const host = await fixture<Option>(
+    html`<glide-core-option label="Label" disabled></glide-core-option>`,
+  );
+
+  const spy = sinon.spy();
+
+  host.addEventListener('disabled', spy);
+  host.disabled = true;
+
+  expect(spy.callCount).to.equal(0);
+});
+
+it('dispatches a "selected" event when selected programmatically', async () => {
+  const host = await fixture<Option>(
+    html`<glide-core-option label="Label"></glide-core-option>`,
+  );
+
+  const spy = sinon.spy();
+
+  host.addEventListener('selected', spy);
+  host.selected = true;
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('dispatches a "deselected" event when deselected programmatically', async () => {
+  const host = await fixture<Option>(
+    html`<glide-core-option label="Label" selected></glide-core-option>`,
+  );
+
+  const spy = sinon.spy();
+
+  host.addEventListener('deselected', spy);
+  host.selected = false;
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('does not dispatch a "selected" event when selected programmatically and already selected', async () => {
+  const host = await fixture<Option>(
+    html`<glide-core-option label="Label" selected></glide-core-option>`,
+  );
+
+  const spy = sinon.spy();
+
+  host.addEventListener('selected', spy);
+  host.selected = true;
+
+  expect(spy.callCount).to.equal(0);
+});
+
+it('does not dispatch a "deselected" event when deselected programmatically and already deselected', async () => {
+  const host = await fixture<Option>(
+    html`<glide-core-option label="Label"></glide-core-option>`,
+  );
+
+  const spy = sinon.spy();
+
+  host.addEventListener('deselected', spy);
+  host.selected = false;
+
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not allow its "toggle" event to propagate', async () => {

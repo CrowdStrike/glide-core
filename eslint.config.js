@@ -342,7 +342,7 @@ export default defineConfig([
     ...typescript.configs.disableTypeChecked,
   },
   {
-    files: ['src/**/*.test.ts', 'src/*.test.*.ts', 'src/*.*.test.*.ts'],
+    files: ['src/library/*.test.ts', 'src/*.test.*.ts', 'src/*.*.test.*.ts'],
     rules: {
       // This rule isn't disabled by `disableTypeChecked` but frequently produces
       // an error in our tests, seemingly due to how Chai is typed.
@@ -365,9 +365,15 @@ export default defineConfig([
   },
   {
     ...playwright.configs['flat/recommended'],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     files: [
       // Migrated
-      'src/*.test.accesibility.ts',
+      'src/*.test.accessibility.ts',
       'src/*.test.visuals.ts',
       'src/eslint/rules/always-tag-tests.test.ts',
       'src/eslint/rules/comment-maximum-length.test.ts',
@@ -381,6 +387,7 @@ export default defineConfig([
       'src/stylelint/rules/*.test.ts',
       'src/accordion.test.*.ts',
       'src/button.test.*.ts',
+      'src/select.test.*.ts',
       'src/spinner.test.*.ts',
     ],
     rules: {
@@ -415,6 +422,7 @@ export default defineConfig([
           ],
         },
       ],
+      '@typescript-eslint/no-floating-promises': 'error',
       '@crowdstrike/glide-core/always-tag-tests': 'error',
       '@crowdstrike/glide-core/one-tag-per-test': 'error',
       '@crowdstrike/glide-core/no-test-fail': 'error',

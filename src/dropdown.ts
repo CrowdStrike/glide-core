@@ -1142,7 +1142,7 @@ export default class Dropdown extends LitElement implements FormControl {
     this.isReportValidityOrSubmit = true;
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing `this.validity.valid` are updated.
+    // Ensures that getters referencing `this.validity.valid` are re-run.
     this.requestUpdate();
 
     return isValid;
