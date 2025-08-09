@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test('can be clicked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
-  await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+  await mount(() => html`<glide-core-button label="Label"></glide-core-button>`);
 
   const host = page.locator('glide-core-button');
 
@@ -24,7 +24,7 @@ test(
   'can be clicked via `click()`',
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+    await mount(() => html`<glide-core-button label="Label"></glide-core-button>`);
 
     const host = page.locator('glide-core-button');
 
@@ -48,7 +48,7 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-button label="Label" disabled></glide-core-button>`,
+      () => html`<glide-core-button label="Label" disabled></glide-core-button>`,
     );
 
     const host = page.locator('glide-core-button');
@@ -65,7 +65,7 @@ test(
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      html`<glide-core-button label="Label" disabled></glide-core-button>`,
+      () => html`<glide-core-button label="Label" disabled></glide-core-button>`,
     );
 
     const host = page.locator('glide-core-button');

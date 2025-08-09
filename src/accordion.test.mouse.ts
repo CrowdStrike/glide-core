@@ -12,7 +12,7 @@ test(
     );
 
     await mount(
-      html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -47,7 +47,7 @@ test(
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
     await mount(
-      html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -80,7 +80,7 @@ test(
     );
 
     await mount(
-      html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -113,7 +113,7 @@ test(
     );
 
     await mount(
-      html`<glide-core-accordion label="Label" open>
+      () => html`<glide-core-accordion label="Label" open>
         Content
       </glide-core-accordion>`,
     );
@@ -150,7 +150,7 @@ test(
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
     await mount(
-      html`<glide-core-accordion label="Label" open>
+      () => html`<glide-core-accordion label="Label" open>
         Content
       </glide-core-accordion>`,
     );
@@ -185,7 +185,7 @@ test(
     );
 
     await mount(
-      html`<glide-core-accordion label="Label" open>
+      () => html`<glide-core-accordion label="Label" open>
         Content
       </glide-core-accordion>`,
     );

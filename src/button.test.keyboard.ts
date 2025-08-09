@@ -5,7 +5,7 @@ test(
   'can be clicked via Enter',
   { tag: '@keyboard' },
   async ({ mount, page }) => {
-    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+    await mount(() => html`<glide-core-button label="Label"></glide-core-button>`);
 
     const host = page.locator('glide-core-button');
 
@@ -28,7 +28,7 @@ test(
   'can be clicked via Space',
   { tag: '@keyboard' },
   async ({ mount, page }) => {
-    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+    await mount(() => html`<glide-core-button label="Label"></glide-core-button>`);
 
     const host = page.locator('glide-core-button');
 
@@ -52,7 +52,7 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-button label="Label" disabled></glide-core-button>`,
+      () => html`<glide-core-button label="Label" disabled></glide-core-button>`,
     );
 
     const host = page.locator('glide-core-button');
@@ -69,7 +69,7 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-button label="Label" disabled></glide-core-button>`,
+      () => html`<glide-core-button label="Label" disabled></glide-core-button>`,
     );
 
     const host = page.locator('glide-core-button');

@@ -366,12 +366,12 @@ export default class Textarea extends LitElement implements FormControl {
         this.form?.querySelector(':invalid') === this;
 
       if (isFirstInvalidFormElement) {
-        // - `this.#internals.delegatesFocus` is preferred because it's declarative. But
-        //    it's limited to focusing the first focusable element. That doesn't work for
-        //    us because our first focusable element is the tooltip when it's present.
+        // - `delegatesFocus` is preferred because it's declarative. But it's limited to
+        //    focusing the first focusable element. That doesn't work for us because the first
+        //    focusable element is the Tooltip when it's present.
         //
         // - Canceling this event means the input won't get focus, even if we were to use
-        //   `this.#internals.delegatesFocus`.
+        //   `delegatesFocus`.
         //
         // - The browser will ignore this if Input isn't the first invalid form control.
         //

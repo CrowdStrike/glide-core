@@ -1,37 +1,29 @@
 import { promises as fs } from 'node:fs';
 import { test } from '@playwright/test';
 import { type TemplateResult } from 'lit';
-import { render } from '@lit-labs/ssr';
-import { collectResult } from '@lit-labs/ssr/lib/render-result.js';
+import serialize from 'serialize-javascript';
 import customElements from '../../../custom-elements.json' with { type: 'json' };
 import { v8CoverageAttachmentName } from './../constants.js';
 
+type Context<Type> = Type extends void ? void : Type;
+
 export default test.extend<{
-  mount: (template: TemplateResult) => Promise<void>;
+  mount: <Type = void>(
+    template: (context: Type) => TemplateResult | Promise<TemplateResult>,
+    context?: Context<Type>,
+  ) => Promise<void>;
 }>({
   async mount({ page }, use, testInfo) {
-    await use(async function mount(template: TemplateResult): Promise<void> {
+    await use(async function mount<Type = void>(
+      template: (context: Type) => TemplateResult | Promise<TemplateResult>,
+      context?: Context<Type>,
+    ): Promise<void> {
       return test.step('mount()', async () => {
-        for (const string of template.strings) {
-          const hasEventListener = /@\w+=$/.test(string);
-
-          if (hasEventListener) {
-            throw new Error(
-              "Event listeners aren't allowed in templates. They're far too complicated to handle relative to their usefulness. Use the `addEventListener()` fixture instead.",
-            );
-          }
-        }
-
-        // Stop the browser from attempting to fetch a favicon so a 404 doesn't show up
-        // in the console.
         await page.route('favicon.ico', (route) => {
+          // Stop the browser from attempting to fetch a favicon so a 404 doesn't show up
+          // in the console.
           route.abort();
         });
-
-        await page.goto('/playwright.html');
-
-        const renderResult = render(template);
-        const html = await collectResult(renderResult);
 
         let pageError: Error | undefined;
 
@@ -39,14 +31,70 @@ export default test.extend<{
           pageError = error;
         });
 
-        const componentTags = await page.evaluate((html) => {
-          document.body.innerHTML = html;
+        await page.goto('/playwright.html');
 
+        // Now we leave Node.js Land and enter Browser Land:
+        //
+        // 1. Serialize both the template and its context so they make it across the wire,
+        //    and can be evaluated in the browser.
+        //
+        // 2. Evaluate and call the template function with its context.
+        //
+        // 3. Call Lit's `render()`, passing in the result of the evaluation and call.
+        await page.evaluate(
+          async ({ context, template }) => {
+            const { render } = await import('lit');
+
+            render(
+              // eslint-disable-next-line @typescript-eslint/no-implied-eval, @typescript-eslint/no-unsafe-call
+              await new Function(
+                'context',
+
+                // `html` is always referenced in templates, and `styleMap` sometimes is. So both
+                // need to be brought into scope.
+                //
+                // It's unlikely, but possible, that tests will use other Lit directives. If they
+                // do, those directives will also need to be brought into scope. When doing so,
+                // don't forget to update the import map in `playwright.html`.
+                //
+                // This approach simplifies tests. But you can imagine how it may not be suitable
+                // for a larger repository with more variation between tests, or in this repository
+                // if it sees more variation.
+                //
+                // An alternative approach would be to only evaluate the template and let tests
+                // bring themselves whatever they need into scope:
+                //
+                //   test('button', async ({ mount }) => {
+                //     await mount(async () => {
+                //       const { html } = await import('lit');
+                //
+                //       return html`<glide-core-button label="Label"></glide-core-button>`;
+                //     });
+                //    })
+                `
+                  return (async () => {
+                    const { html } = await import('lit');
+                    const { styleMap } = await import('lit/directives/style-map.js');
+
+                    return (${template})(eval('(' + context + ')'));
+                  })();
+                `,
+              )(context),
+              document.body,
+            );
+          },
+          {
+            context: serialize(context),
+            template: serialize(template),
+          },
+        );
+
+        const componentTags = await page.evaluate(() => {
           const tags: string[] = [];
           const elements = document.body.querySelectorAll('*');
 
           for (const element of elements) {
-            const isComponent = element.tagName.startsWith('GLIDE-CORE');
+            const isComponent = element.tagName.startsWith('GLIDE');
             const isDuplicate = tags.includes(element.tagName.toLowerCase());
 
             if (isComponent && !isDuplicate) {
@@ -55,7 +103,7 @@ export default test.extend<{
           }
 
           return tags;
-        }, html);
+        });
 
         for (const tag of componentTags) {
           const isAlreadyRegistered = await page.evaluate((tag) => {
@@ -77,8 +125,7 @@ export default test.extend<{
           // For example, `glide-core-dropdown-option` maps to `dropdown.option.ts` on disk
           // instead of mapping to `dropdown-option.ts`.
           //
-          // If it mapped to the latter, we could simply set `url` to
-          // `src/${component.replace('glide-core-', '')}.ts` and call it a day.
+          // If it mapped to the latter, we wouldn't have to do any of this.
           for (const module of customElements.modules) {
             const exportedComponent = module.exports.find(({ kind, name }) => {
               return kind === 'custom-element-definition' && name === tag;

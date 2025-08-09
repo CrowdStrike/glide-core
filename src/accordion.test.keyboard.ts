@@ -12,7 +12,7 @@ test(
     );
 
     await mount(
-      html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -45,7 +45,7 @@ test(
     );
 
     await mount(
-      html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');

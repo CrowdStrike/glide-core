@@ -7,7 +7,7 @@ test(
   { tag: '@accessibility' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox
+      () => html`<glide-core-checkbox
         label="Label"
         summary="Summary"
         tooltip="Tooltip"

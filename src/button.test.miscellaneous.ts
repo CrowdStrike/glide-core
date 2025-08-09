@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
-  await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+  await mount(() => html`<glide-core-button label="Label"></glide-core-button>`);
 
   const host = page.locator('glide-core-button');
 
@@ -13,7 +13,7 @@ test(
   'can be focused programmatically',
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+    await mount(() => html`<glide-core-button label="Label"></glide-core-button>`);
 
     const host = page.locator('glide-core-button');
 
@@ -27,7 +27,7 @@ test(
   'cannot be extended',
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
-    await mount(html`<glide-core-button label="Label"></glide-core-button>`);
+    await mount(() => html`<glide-core-button label="Label"></glide-core-button>`);
 
     const host = page.locator('glide-core-button');
 
@@ -40,7 +40,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount }) => {
     await expect(
-      mount(html`<glide-core-button></glide-core-button>`),
+      mount(() => html`<glide-core-button></glide-core-button>`),
     ).rejects.toThrow();
   },
 );

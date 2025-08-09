@@ -7,7 +7,7 @@ test(
   { tag: '@accessibility' },
   async ({ mount, page, setAttribute }) => {
     await mount(
-      html`<glide-core-button
+      () => html`<glide-core-button
         label="Label"
         aria-description="Description"
       ></glide-core-button>`,
