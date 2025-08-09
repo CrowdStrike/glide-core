@@ -138,7 +138,7 @@ export default defineConfig({
         // - 'text-summary' and 'text` for terminals.
         // - 'html' for the browser.
         // - 'lcov' for editor extensions and tooling generally.
-        // - 'json' for `merge-coverage-reports.ts`.
+        // - 'json' for `merge-coverage-reports/run.ts`.
         reporters: [
           ['text-summary'],
           ['text'],
