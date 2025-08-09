@@ -19,16 +19,16 @@ export default test.extend<{
       context?: Context<Type>,
     ): Promise<void> {
       return test.step('mount()', async () => {
-        await page.route('favicon.ico', (route) => {
-          // Stop the browser from attempting to fetch a favicon so a 404 doesn't show up
-          // in the console.
-          route.abort();
-        });
-
         let pageError: Error | undefined;
 
         page.on('pageerror', (error: Error) => {
           pageError = error;
+        });
+
+        await page.route('favicon.ico', (route) => {
+          // Stop the browser from attempting to fetch a favicon so a 404 doesn't show up
+          // in the console.
+          route.abort();
         });
 
         await page.goto('/playwright.html');

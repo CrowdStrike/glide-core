@@ -216,6 +216,32 @@ export default {
             }
           }
 
+          if (context.componentId === 'select') {
+            const isDropdownValueChanged =
+              context.args.value.toString() !==
+              context.initialArgs.value.toString();
+
+            if (isDropdownValueChanged) {
+              $component.setAttribute(
+                'value',
+                JSON.stringify(context.args.value),
+              );
+            }
+
+            for (const $option of $component.querySelectorAll(
+              'glide-core-options-group',
+            )) {
+              $option.removeAttribute('aria-label');
+            }
+
+            for (const $option of $component.querySelectorAll(
+              'glide-core-option',
+            )) {
+              $option.removeAttribute('aria-selected');
+              $option.removeAttribute('role');
+            }
+          }
+
           if (context.componentId === 'split-button') {
             for (const $option of $component.querySelectorAll(
               'glide-core-option',

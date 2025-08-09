@@ -68,12 +68,8 @@ const meta: Meta = {
     '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.one.selected': false,
-    '<glide-core-dropdown-option>.two.selected': false,
-    '<glide-core-dropdown-option>.three.selected': false,
     '<glide-core-dropdown-option>[slot="icon"]': '',
     '<glide-core-dropdown-option>.one.value': 'one',
-    '<glide-core-dropdown-option>.two.value': 'two',
-    '<glide-core-dropdown-option>.three.value': 'three',
     '<glide-core-dropdown-option>.one.version': '',
   },
   argTypes: {
