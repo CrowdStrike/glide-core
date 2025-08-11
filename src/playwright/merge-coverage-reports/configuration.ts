@@ -33,7 +33,7 @@ const jsonReporter = reporters.find(
 const jsonReporterFile = jsonReporter?.[1]?.file!;
 
 if (!jsonReporter) {
-  throw new Error("The reporter's configuration is missing a 'json' report.");
+  throw new Error(`The reporter's configuration is missing a "json" report.`);
 }
 
 if (!jsonReporterFile) {
