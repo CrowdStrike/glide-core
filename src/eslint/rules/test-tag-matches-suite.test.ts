@@ -22,21 +22,25 @@ const eslint = new ESLint({
 
 test('valid when the tag matches the suite', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-     test('registers itself', { tag: '@eslint' }, () => {});
+    test('test', { tag: '@eslint' }, () => {});
   `);
 
   expect(result?.errorCount).toBe(0);
 });
 
-test('invalid when the tag does not match the suite', { tag: '@eslint' }, async () => {
-  const [result] = await eslint.lintText(`
-     test('registers itself', { tag: '@mouse' }, () => {});
-  `);
+test(
+  'invalid when the tag does not match the suite',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+      test('test', { tag: '@mouse' }, () => {});
+    `);
 
-  expect(result?.errorCount).toBe(1);
+    expect(result?.errorCount).toBe(1);
 
-  expect(result?.messages.at(0)?.message).toBe(
-    // A raw string because the message is interpolated.
-    `A test's tag should reflect the name of its suite. "@mouse" should be "@eslint".`,
-  );
-});
+    expect(result?.messages.at(0)?.message).toBe(
+      // A raw string because the message is interpolated.
+      `A test's tag should reflect the name of its suite. "@mouse" should be "@eslint".`,
+    );
+  },
+);

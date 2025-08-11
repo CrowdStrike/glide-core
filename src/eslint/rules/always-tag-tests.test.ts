@@ -22,7 +22,7 @@ const eslint = new ESLint({
 
 test('valid when tagged', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-     test('registers itself', { tag: '@eslint' }, () => {});
+     test('test', { tag: '@eslint' }, () => {});
   `);
 
   expect(result?.errorCount).toBe(0);
@@ -30,7 +30,7 @@ test('valid when tagged', { tag: '@eslint' }, async () => {
 
 test('invalid when not tagged', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-     test('registers itself', { annotation: { type: 'type' } }, () => {});
+     test('test', { annotation: { type: 'type' } }, () => {});
   `);
 
   expect(result?.errorCount).toBe(1);

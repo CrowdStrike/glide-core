@@ -19,6 +19,7 @@ import { alwaysTagTests } from './rules/always-tag-tests.js';
 import { noTestFail } from './rules/no-test-fail.js';
 import { noTestFixme } from './rules/no-test-fixme.js';
 import { noToContainClass } from './rules/no-to-contain-class.js';
+import { noToHaveClass } from './rules/no-to-have-class.js';
 import { oneTagPerTest } from './rules/one-tag-per-test.js';
 import { testTagMatchesSuite } from './rules/test-tag-matches-suite.js';
 import { noTagsInTestNames } from './rules/no-tags-in-test-names.js';
@@ -48,6 +49,7 @@ export default {
     'no-test-fail': noTestFail,
     'no-test-fixme': noTestFixme,
     'no-to-contain-class': noToContainClass,
+    'no-to-have-class': noToHaveClass,
     'one-tag-per-test': oneTagPerTest,
     'test-tag-matches-suite': testTagMatchesSuite,
     'no-tags-in-test-names': noTagsInTestNames,

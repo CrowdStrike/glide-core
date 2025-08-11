@@ -25,7 +25,7 @@ test(
   { tag: '@eslint' },
   async () => {
     const [result] = await eslint.lintText(`
-      test('registers itself', async ({ page }) => {
+      test('test', async ({ page }) => {
         const host = page.locator('glide-core-button');
         await expect(host).toBeVisible();
       });
@@ -40,7 +40,7 @@ test(
   { tag: '@eslint' },
   async () => {
     const [result] = await eslint.lintText(`
-      test('registers itself', async ({ page }) => {
+      test('test', async ({ page }) => {
         const host = page.locator('glide-core-button');
         await expect(host).toContainClass('button');
       });

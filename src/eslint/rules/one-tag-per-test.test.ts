@@ -22,7 +22,7 @@ const eslint = new ESLint({
 
 test('valid when only one tag is present', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-     test('registers itself', { tag: '@eslint' }, () => {});
+     test('test', { tag: '@eslint' }, () => {});
   `);
 
   expect(result?.errorCount).toBe(0);
@@ -30,7 +30,7 @@ test('valid when only one tag is present', { tag: '@eslint' }, async () => {
 
 test('invalid when multiple tags are present', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-     test('registers itself', { tag: ['@eslint', '@stylelint'] }, () => {});
+     test('test', { tag: ['@eslint', '@stylelint'] }, () => {});
   `);
 
   expect(result?.errorCount).toBe(1);
@@ -42,7 +42,7 @@ test('invalid when multiple tags are present', { tag: '@eslint' }, async () => {
 
 test('invalid when `tag` is an array', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-     test('registers itself', { tag: ['@eslint'] }, () => {});
+     test('test', { tag: ['@eslint'] }, () => {});
   `);
 
   expect(result?.errorCount).toBe(1);
