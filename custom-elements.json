@@ -8555,6 +8555,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "default": "undefined",
               "attribute": "label",
               "reflects": true
             },
@@ -8627,6 +8628,18 @@
               }
             },
             {
+              "name": "private-icon-slotchange",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-label-change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
               "name": "private-selected",
               "type": {
                 "text": "Event"
@@ -8639,6 +8652,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "default": "undefined",
               "fieldName": "label",
               "required": true
             },

@@ -88,6 +88,8 @@ export default class Tabs extends LitElement {
           <slot
             name="nav"
             @private-selected=${this.#onTabSelected}
+            @private-label-change=${this.#onTabLabelChange}
+            @private-icon-slotchange=${this.#onTabIconSlotChange}
             @slotchange=${this.#onNavSlotChange}
             ${assertSlot([TabsTab])}
           >
@@ -269,6 +271,7 @@ export default class Tabs extends LitElement {
 
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
+    this.#updateSelectedTabIndicator();
   }
 
   #onNavSlotChange() {
@@ -310,6 +313,30 @@ export default class Tabs extends LitElement {
     }
   }
 
+  #onTabIconSlotChange() {
+    // Wait a tick for the icon slot to update, so the selected tab measurements
+    // will be accurate.
+    setTimeout(() => {
+      this.#updateSelectedTabIndicator();
+    });
+
+    this.#resizeTimeout = setTimeout(() => {
+      this.#setOverflowButtonsState();
+    });
+  }
+
+  #onTabLabelChange() {
+    // Wait a tick for the label to update, so the selected tab measurements
+    // will be accurate.
+    setTimeout(() => {
+      this.#updateSelectedTabIndicator();
+    });
+
+    this.#resizeTimeout = setTimeout(() => {
+      this.#setOverflowButtonsState();
+    });
+  }
+
   #onTabListFocusout() {
     // Set the last selected tab as tabbable so that when pressing Shift + Tab on the
     // Tab Panel focus goes back to the last selected tab.
@@ -322,22 +349,6 @@ export default class Tabs extends LitElement {
     if (this.#resizeTimeout) {
       clearTimeout(this.#resizeTimeout);
     }
-
-    // TODO
-    //
-    // This only needs to be called here so the indicator is updated when the content
-    // of Tab's slots changes.
-    //
-    // Tab's default slot will soon be replaced by a `label` attribute. When that
-    // happens, this call can be removed, and `#updateSelectedTabIndicator()` can be
-    // instead called when Tab dispatches "private-label-change" and
-    // "private-icon-slotchange" events.
-    //
-    // Those changes will certainly require slightly more code. But they'll make it
-    // much clearer why `#updateSelectedTabIndicator()` is being called. Additionally,
-    // Tab Group will no longer be doing unncessary work every time the viewport is
-    // resized.
-    this.#updateSelectedTabIndicator();
 
     // Toggling the overflow buttons will itself cause a resize. So we
     // wait a tick to avoid a loop.
