@@ -9,8 +9,6 @@ export default expect.extend({
     const message = isRegistered
       ? () => ''
       : () =>
-          this.utils.matcherHint('toBeRegistered', isRegistered, true) +
-          '\n\n' +
           // Locators have a `toString()` implementation that serializes nicely.
           //
           // eslint-disable-next-line @typescript-eslint/no-base-to-string

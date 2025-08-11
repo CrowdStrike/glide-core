@@ -19,8 +19,6 @@ export default expect.extend({
         ? () => ''
         : result.tagName === 'FORM'
           ? () =>
-              this.utils.matcherHint('toHaveFormData', result.value, value) +
-              '\n\n' +
               // Locators have a `toString()` implementation that serializes nicely.
               //
               // eslint-disable-next-line @typescript-eslint/no-base-to-string
@@ -28,8 +26,6 @@ export default expect.extend({
               `Expected: ${this.utils.printExpected(value)}\n` +
               `Received: ${this.utils.printReceived(result.value)}`
           : () =>
-              this.utils.matcherHint('toHaveFormData', result.value, value) +
-              '\n\n' +
               // Locators have a `toString()` implementation that serializes nicely.
               //
               // eslint-disable-next-line @typescript-eslint/no-base-to-string
