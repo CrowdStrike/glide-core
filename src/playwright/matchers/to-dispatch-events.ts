@@ -49,8 +49,8 @@ export default expect.extend({
             // resolved after a timeout because some tests assert that no events were
             // dispatched after an action.
             //
-            // `1000` because actions can take some time to execute, especially in CI.
-          }, 1000);
+            // `2500` because actions can take some time to execute, especially in CI.
+          }, 2500);
         });
 
         // Wait a tick to catch duplicate events, which tests assert against.

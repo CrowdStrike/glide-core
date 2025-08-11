@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test(
-  'opens on click via Enter',
+  'can be opened via Enter',
   { tag: '@keyboard' },
   async ({ browserName, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -35,7 +35,7 @@ test(
 );
 
 test(
-  'opens on click via Space',
+  'can be opened via Space',
   { tag: '@keyboard' },
   async ({ browserName, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test

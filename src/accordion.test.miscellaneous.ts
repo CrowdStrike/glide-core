@@ -12,7 +12,7 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 });
 
 test(
-  'opens when opened programatically',
+  'can be opened programatically',
   { tag: '@miscellaneous' },
   async ({ browserName, setProperty, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -45,7 +45,7 @@ test(
 );
 
 test(
-  'closes when closed programatically',
+  'can be closed programatically',
   { tag: '@miscellaneous' },
   async ({ browserName, setProperty, mount, page }) => {
     // eslint-disable-next-line playwright/no-skipped-test
@@ -80,7 +80,7 @@ test(
 );
 
 test(
-  'receives focus when focused programmatically',
+  'can be focused programmatically',
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(

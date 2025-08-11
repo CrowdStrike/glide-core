@@ -10,7 +10,7 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 });
 
 test(
-  'receives focus when focused programmatically',
+  'can be focused programmatically',
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(html`<glide-core-button label="Label"></glide-core-button>`);

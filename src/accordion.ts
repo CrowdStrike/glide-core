@@ -180,7 +180,6 @@ export default class Accordion extends LitElement {
           active: this.open || this.isClosing,
           open: this.open,
         })}
-        data-test="summary"
         @click=${this.#onSummaryClick}
         ${ref(this.#summaryElementRef)}
       >
@@ -226,7 +225,6 @@ export default class Accordion extends LitElement {
           'default-slot': true,
           indented: this.hasPrefixIcon,
         })}
-        data-test="default-slot"
         style=${styleMap({
           '--private-close-duration': 'var(--glide-core-duration-fast-02)',
           '--private-easing': 'var(--glide-core-animation-swoop)',
