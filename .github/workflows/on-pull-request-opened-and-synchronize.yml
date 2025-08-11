@@ -165,6 +165,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    if: github.event_name != 'merge_group'
     needs:
       - test-functionality
     steps:
@@ -217,6 +218,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    if: github.event_name != 'merge_group'
     needs:
       - test-functionality
     steps:
@@ -372,14 +374,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-
-    # Both `github.head_ref` and `github.event.pull_request.head.ref` are empty when
-    # a workflow is run in a merge queue. Take a look at the Deploy Storybook task
-    # below. Because those variables will be empty, letting that task run in a merge
-    # queue means the branch will be deployed to the root of R2 and thus to production.
-    # The point of this job is the Deploy Storybook task. So we just skip the entire job.
     if: github.event_name != 'merge_group'
-
     needs:
       - build
     steps:
