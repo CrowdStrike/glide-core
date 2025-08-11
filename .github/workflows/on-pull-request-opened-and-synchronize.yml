@@ -285,7 +285,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: pnpm dlx playwright@1.54.2 install --no-shell --with-deps chromium
+      - run: pnpm dlx playwright@1.54.2 install --only-shell --with-deps chromium
       - name: Download Baseline Screenshots
         uses: actions/download-artifact@v4
         with:

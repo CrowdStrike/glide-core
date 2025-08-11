@@ -100,12 +100,6 @@ export default defineConfig({
       // Something has gone wrong if one takes longer. So we fail fast to give
       // developers feedback quickly.
       timeout: 5000,
-
-      use: {
-        // - https://playwright.dev/docs/browsers#chromium-new-headless-mode
-        // - https://developer.chrome.com/blog/chrome-headless-shell
-        channel: 'chromium',
-      },
     },
   ],
   reporter: [
