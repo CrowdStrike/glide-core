@@ -12,25 +12,25 @@ test(
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
 
-    await expect(host).toDispatchEvents(async () => {
-      await checkbox.focus();
-      await checkbox.press('Space');
-    }, [
-      {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        defaultPrevented: false,
-        type: 'input',
-      },
-      {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        defaultPrevented: false,
-        type: 'change',
-      },
-    ]);
+    await expect(host).toDispatchEvents(
+      () => checkbox.press('Space'),
+      [
+        {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+          defaultPrevented: false,
+          type: 'input',
+        },
+        {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+          defaultPrevented: false,
+          type: 'change',
+        },
+      ],
+    );
 
     await expect(host).toHaveJSProperty('checked', true);
   },
