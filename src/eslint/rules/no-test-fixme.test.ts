@@ -22,7 +22,7 @@ const eslint = new ESLint({
 
 test('valid when `test.fixme()` is not used', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-     test('registers itself', () => {});
+     test('test', () => {});
   `);
 
   expect(result?.errorCount).toBe(0);
@@ -30,7 +30,7 @@ test('valid when `test.fixme()` is not used', { tag: '@eslint' }, async () => {
 
 test('invalid when `test.fixme()` is used', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-     test.fixme('registers itself', () => {});
+     test.fixme('test', () => {});
   `);
 
   expect(result?.errorCount).toBe(1);
