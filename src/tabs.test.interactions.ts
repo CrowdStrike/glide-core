@@ -696,9 +696,7 @@ it('updates the width of its selected tab indicator when the label of a tab chan
     </glide-core-tabs>
   `);
 
-  const firstTab = host
-    .querySelector('glide-core-tabs-tab')
-    ?.shadowRoot?.querySelector('[data-test="component"]');
+  const firstTab = host.querySelector('glide-core-tabs-tab');
 
   const selectedTabIndicator = host.shadowRoot?.querySelector(
     '[data-test="selected-tab-indicator"]',
@@ -708,10 +706,62 @@ it('updates the width of its selected tab indicator when the label of a tab chan
   assert(selectedTabIndicator);
 
   await requestIdleCallback(); // Wait for the Resize Observer
-  firstTab.innerHTML = 'One (But Longer)';
+
+  firstTab.label = 'One (But Longer)';
 
   await requestIdleCallback(); // Wait for the Resize Observer
-  expect(selectedTabIndicator?.clientWidth).to.equal(firstTab.clientWidth);
+
+  expect(selectedTabIndicator?.clientWidth).to.equal(
+    firstTab?.shadowRoot?.querySelector('[data-test="component"]')?.clientWidth,
+  );
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
+});
+
+it('updates the width of its selected tab indicator when the icon slot of a tab changes', async () => {
+  // The selected tab indicator transitions its width and position. The transitions
+  // are disabled to simplify and speed up the test.
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const host = await fixture(html`
+    <glide-core-tabs>
+      <glide-core-tabs-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tabs-tab>
+      <glide-core-tabs-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tabs-tab>
+
+      <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
+    </glide-core-tabs>
+  `);
+
+  const firstTab = host.querySelector('glide-core-tabs-tab');
+
+  const selectedTabIndicator = host.shadowRoot?.querySelector(
+    '[data-test="selected-tab-indicator"]',
+  );
+
+  assert(firstTab);
+  assert(selectedTabIndicator);
+
+  await requestIdleCallback(); // Wait for the Resize Observer
+
+  const div = document.createElement('div');
+  div.setAttribute('slot', 'icon');
+  div.textContent = 'two';
+  firstTab.append(div);
+
+  await requestIdleCallback(); // Wait for the Resize Observer
+
+  expect(selectedTabIndicator?.clientWidth).to.equal(
+    firstTab?.shadowRoot?.querySelector('[data-test="component"]')?.clientWidth,
+  );
 
   await emulateMedia({ reducedMotion: 'no-preference' });
 });

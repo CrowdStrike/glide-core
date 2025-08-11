@@ -45,9 +45,24 @@ export default class TabsTab extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
   @required
-  label?: string;
+  get label(): string | undefined {
+    return this.#label;
+  }
+
+  set label(label) {
+    this.#label = label;
+
+    this.dispatchEvent(
+      new Event('private-label-change', {
+        bubbles: true,
+      }),
+    );
+  }
 
   @property({ reflect: true })
   @required
@@ -103,7 +118,7 @@ export default class TabsTab extends LitElement {
       data-test="component"
     >
       <div class="container">
-        <slot name="icon">
+        <slot name="icon" @slotchange=${this.#onIconSlotChange}>
           <!--
             @type {Element}
           -->
@@ -129,5 +144,15 @@ export default class TabsTab extends LitElement {
     }
   }
 
+  #label?: string;
+
   #selected = false;
+
+  #onIconSlotChange() {
+    this.dispatchEvent(
+      new Event('private-icon-slotchange', {
+        bubbles: true,
+      }),
+    );
+  }
 }
