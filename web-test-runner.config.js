@@ -15,6 +15,8 @@ export default {
     include: ['src/**/*.ts'],
     report: true,
     exclude: [
+      'src/translations/*',
+
       // Juice not worth the squeeze. Testing this wouldn't add much given the
       // test code would look more or less like the code that's under test.
       // Testing whether the center of an element was clicked, for example, would
