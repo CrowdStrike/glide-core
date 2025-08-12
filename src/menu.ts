@@ -454,24 +454,35 @@ export default class Menu extends LitElement {
   }
 
   get #subMenus() {
-    return [
-      ...this.querySelectorAll<Menu>(
-        // The "content" slot case.
-        ':scope > glide-core-options > glide-core-option > [slot="content"] > glide-core-menu',
-      ),
-      ...this.querySelectorAll<Menu>(
-        // The "content" slot and Options Group case.
-        ':scope > glide-core-options > glide-core-options-group > glide-core-option > [slot="content"] > glide-core-menu',
-      ),
-      ...this.querySelectorAll<Menu>(
-        // The "content" slot fallback case.
-        ':scope > glide-core-options > glide-core-option > [slot="submenu"]',
-      ),
-      ...this.querySelectorAll<Menu>(
-        // The "content" slot fallback and Options Group case.
-        ':scope > glide-core-options > glide-core-options-group > glide-core-option > [slot="submenu"]',
-      ),
-    ];
+    const assignedElements =
+      this.#defaultSlotElementRef.value?.assignedElements({ flatten: true });
+
+    if (!assignedElements) {
+      return [];
+    }
+
+    return assignedElements
+      .filter((element) => element instanceof Options)
+      .flatMap((element) => {
+        return [
+          ...element.querySelectorAll<Menu>(
+            // The "content" slot case.
+            ':scope > glide-core-option > [slot="content"] > glide-core-menu',
+          ),
+          ...element.querySelectorAll<Menu>(
+            // The "content" slot and Options Group case.
+            ':scope > glide-core-options-group > glide-core-option > [slot="content"] > glide-core-menu',
+          ),
+          ...element.querySelectorAll<Menu>(
+            // The "content" slot fallback case.
+            ':scope > glide-core-option > [slot="submenu"]',
+          ),
+          ...element.querySelectorAll<Menu>(
+            // The "content" slot fallback and Options Group case.
+            ':scope > glide-core-options-group > glide-core-option > [slot="submenu"]',
+          ),
+        ];
+      });
   }
 
   get #targetElement() {

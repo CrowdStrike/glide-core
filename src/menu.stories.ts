@@ -302,7 +302,7 @@ const meta: Meta = {
       ?.addEventListener('toggle', (event: Event) => {
         const isSubmenu =
           event.target instanceof Element &&
-          event.target.closest('glide-core-menu');
+          event.target.closest('glide-core-option');
 
         if (event.target instanceof MenuComponent && !isSubmenu) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
