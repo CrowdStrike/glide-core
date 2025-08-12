@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.32.2
+
+### Patch Changes
+
+- [#1048](https://github.com/CrowdStrike/glide-core/pull/1048) [`0e498e2`](https://github.com/CrowdStrike/glide-core/commit/0e498e29ae6c0bbbf4eb2234ea5bdc7530419cb5) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Button now supports `variant="link"`.
+
 ## 0.32.1
 
 ### Patch Changes
