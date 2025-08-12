@@ -111,19 +111,28 @@ const meta: Meta = {
         defaultValue: {
           summary: '"large"',
         },
-        type: { summary: '"large" | "small"' },
+        type: {
+          summary: '"large" | "small"',
+          detail: '// Unsupported with `variant="link"`',
+        },
       },
     },
     'slot="prefix-icon"': {
       control: false,
       table: {
-        type: { summary: 'Element' },
+        type: {
+          summary: 'Element',
+          detail: '// Unsupported with `variant="link"`',
+        },
       },
     },
     'slot="suffix-icon"': {
       control: false,
       table: {
-        type: { summary: 'Element' },
+        type: {
+          summary: 'Element',
+          detail: '// Unsupported with `variant="link"`',
+        },
       },
     },
     tooltip: {
@@ -154,12 +163,12 @@ const meta: Meta = {
     },
     variant: {
       control: { type: 'radio' },
-      options: ['primary', 'secondary', 'tertiary'],
+      options: ['primary', 'secondary', 'tertiary', 'link'],
       table: {
         defaultValue: {
           summary: '"primary"',
         },
-        type: { summary: '"primary" | "secondary" | "tertiary"' },
+        type: { summary: '"primary" | "secondary" | "tertiary" | "link"' },
       },
     },
     version: {

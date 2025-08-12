@@ -714,7 +714,7 @@
               "kind": "field",
               "name": "variant",
               "type": {
-                "text": "'primary' | 'secondary' | 'tertiary'"
+                "text": "'primary' | 'secondary' | 'tertiary' | 'link'"
               },
               "default": "'primary'",
               "attribute": "variant",
@@ -810,7 +810,7 @@
             {
               "name": "variant",
               "type": {
-                "text": "'primary' | 'secondary' | 'tertiary'"
+                "text": "'primary' | 'secondary' | 'tertiary' | 'link'"
               },
               "default": "'primary'",
               "fieldName": "variant"
