@@ -45,9 +45,10 @@ test(
     );
 
     const host = page.locator('glide-core-checkbox');
+    const checkbox = page.getByRole('checkbox');
 
     await expect(host).toDispatchEvents(
-      () => page.getByRole('checkbox').press('Space'),
+      () => checkbox.press('Space'),
       [
         {
           bubbles: true,
