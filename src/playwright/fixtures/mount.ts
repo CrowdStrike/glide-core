@@ -57,43 +57,50 @@ export default test.extend<{
           return tags;
         }, html);
 
-        await Promise.all(
-          componentTags.map((tag) => {
-            let url: string | undefined;
+        for (const tag of componentTags) {
+          const isAlreadyRegistered = await page.evaluate((tag) => {
+            return Boolean(window.customElements.get(tag));
+          }, tag);
 
-            // Digging through the manifest is only necessary because sub-component names don't
-            // map directly to filenames.
-            //
-            // For example, `glide-core-dropdown-option` maps to `dropdown.option.ts` on disk
-            // instead of mapping to `dropdown-option.ts`.
-            //
-            // If it mapped to the latter, we could simply set `url` to
-            // `src/${component.replace('glide-core-', '')}.ts` and call it a day.
-            for (const module of customElements.modules) {
-              const exportedComponent = module.exports.find(
-                ({ kind, name }) => {
-                  return kind === 'custom-element-definition' && name === tag;
-                },
-              );
+          // Some components import other components because they depend on them. So a
+          // tag may already be registered. If it is, we move on so we don't cause an
+          // error when the component is registered again via `addScriptTag()` below.
+          if (isAlreadyRegistered) {
+            continue;
+          }
 
-              if (exportedComponent) {
-                url = exportedComponent.declaration.module;
-                break;
-              }
-            }
+          let url: string | undefined;
 
-            if (!url) {
-              throw new Error(
-                `"${tag}" wasn't found in \`custom-elements.json\`. Does the component exist? If so, is the manifest up to date? Run \`pnpm start\` to update the manifest.`,
-              );
-            }
-
-            return page.addScriptTag({
-              url,
-              type: 'module',
+          // Digging through the manifest is only necessary because sub-component names don't
+          // map directly to filenames.
+          //
+          // For example, `glide-core-dropdown-option` maps to `dropdown.option.ts` on disk
+          // instead of mapping to `dropdown-option.ts`.
+          //
+          // If it mapped to the latter, we could simply set `url` to
+          // `src/${component.replace('glide-core-', '')}.ts` and call it a day.
+          for (const module of customElements.modules) {
+            const exportedComponent = module.exports.find(({ kind, name }) => {
+              return kind === 'custom-element-definition' && name === tag;
             });
-          }),
-        );
+
+            if (exportedComponent) {
+              url = exportedComponent.declaration.module;
+              break;
+            }
+          }
+
+          if (!url) {
+            throw new Error(
+              `"${tag}" wasn't found in \`custom-elements.json\`. Does the component exist? If so, is the manifest up to date? Run \`pnpm start\` to update the manifest.`,
+            );
+          }
+
+          await page.addScriptTag({
+            url,
+            type: 'module',
+          });
+        }
 
         await page.evaluate(async () => {
           const elements = document.body.querySelectorAll('*');
