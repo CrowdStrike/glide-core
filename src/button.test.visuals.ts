@@ -83,6 +83,23 @@ for (const story of stories) {
               `${test.titlePath.join('.')}.png`,
             );
           });
+
+          test('variant="link"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-button')
+              .evaluate<void, Button>((element) => {
+                element.variant = 'link';
+              });
+
+            await page.locator('glide-core-button').hover();
+            await page.mouse.down();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
         test.describe(':focus', () => {
@@ -171,6 +188,22 @@ for (const story of stories) {
               `${test.titlePath.join('.')}.png`,
             );
           });
+
+          test('variant="link"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-button')
+              .evaluate<void, Button>((element) => {
+                element.variant = 'link';
+              });
+
+            await page.locator('glide-core-button').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
         test('size="small"', async ({ page }, test) => {
@@ -217,6 +250,20 @@ for (const story of stories) {
             .locator('glide-core-button')
             .evaluate<void, Button>((element) => {
               element.variant = 'tertiary';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('variant="link"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-button')
+            .evaluate<void, Button>((element) => {
+              element.variant = 'link';
             });
 
           await expect(page).toHaveScreenshot(

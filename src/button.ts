@@ -24,7 +24,7 @@ declare global {
  * @attr {string} [tooltip]
  * @attr {'button'|'submit'|'reset'} [type='button']
  * @attr {string} [value='']
- * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
+ * @attr {'primary'|'secondary'|'tertiary'|'link'} [variant='primary']
  *
  * @readonly
  * @attr {string} [version]
@@ -90,7 +90,7 @@ export default class Button extends LitElement {
   value = '';
 
   @property({ reflect: true, useDefault: true })
-  variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
+  variant: 'primary' | 'secondary' | 'tertiary' | 'link' = 'primary';
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
@@ -121,6 +121,7 @@ export default class Button extends LitElement {
           primary: this.variant === 'primary',
           secondary: this.variant === 'secondary',
           tertiary: this.variant === 'tertiary',
+          link: this.variant === 'link',
           large: this.size === 'large',
           small: this.size === 'small',
           disabled: this.disabled,
@@ -132,6 +133,10 @@ export default class Button extends LitElement {
         ${ref(this.#buttonElementRef)}
       >
         <slot
+          class=${classMap({
+            'prefix-icon-slot': true,
+            hidden: this.variant === 'link',
+          })}
           name="prefix-icon"
           @slotchange=${this.#onPrefixIconSlotChange}
           ${ref(this.#prefixIconSlotElementRef)}
@@ -145,6 +150,10 @@ export default class Button extends LitElement {
         ${this.label}
 
         <slot
+          class=${classMap({
+            'suffix-icon-slot': true,
+            hidden: this.variant === 'link',
+          })}
           name="suffix-icon"
           @slotchange=${this.#onSuffixIconSlotChange}
           ${ref(this.#suffixIconSlotElementRef)}

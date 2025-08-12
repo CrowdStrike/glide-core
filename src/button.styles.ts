@@ -136,16 +136,47 @@ export default [
         }
       }
 
-      &.large {
+      &.link {
+        background-color: initial;
+        border: none;
+        border-radius: var(--glide-core-rounding-base-radius-xxs);
+        color: var(--glide-core-color-interactive-text-link);
+        font-size: var(--glide-core-typography-size-body-default);
+        font-weight: var(--glide-core-typography-weight-regular);
+        padding: 0;
+
+        &.disabled {
+          color: var(--glide-core-color-interactive-text-link--disabled);
+        }
+
+        &:not(:active):hover:not(.disabled) {
+          color: var(--glide-core-color-interactive-text-link--hover);
+          text-decoration: underline;
+        }
+      }
+
+      &.large:not(.link) {
         block-size: 2.125rem;
         font-size: var(--glide-core-typography-size-body-large);
         min-inline-size: 2.75rem;
       }
 
-      &.small {
+      &.small:not(.link) {
         block-size: 1.75rem;
         font-size: var(--glide-core-typography-size-body-small);
         min-inline-size: 2.5625rem;
+      }
+    }
+
+    .prefix-icon-slot {
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .suffix-icon-slot {
+      &.hidden {
+        display: none;
       }
     }
   `,
