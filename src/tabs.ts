@@ -91,7 +91,7 @@ export default class Tabs extends LitElement {
             @private-label-change=${this.#onTabLabelChange}
             @private-icon-slotchange=${this.#onTabIconSlotChange}
             @slotchange=${this.#onNavSlotChange}
-            ${assertSlot([TabsTab])}
+            ${assertSlot([TabsTab], true)}
           >
             <!-- @type {Tab} -->
           </slot>
@@ -128,7 +128,10 @@ export default class Tabs extends LitElement {
         )}
       </div>
 
-      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabsPanel])}>
+      <slot
+        @slotchange=${this.#onDefaultSlotChange}
+        ${assertSlot([TabsPanel], true)}
+      >
         <!-- @type {TabPanel} -->
       </slot>
     </div>`;
@@ -154,6 +157,8 @@ export default class Tabs extends LitElement {
   #resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   #selectedTabIndicatorElementRef = createRef<HTMLElement>();
+
+  #tabAndPanelValidationTimeout: ReturnType<typeof setTimeout> | null = null;
 
   #tabListElementRef = createRef<HTMLElement>();
 
@@ -272,6 +277,7 @@ export default class Tabs extends LitElement {
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
     this.#updateSelectedTabIndicator();
+    this.#validateTabAndPanelPairing();
   }
 
   #onNavSlotChange() {
@@ -296,6 +302,7 @@ export default class Tabs extends LitElement {
 
     this.#setAriaAttributes();
     this.#setOverflowButtonsState();
+    this.#validateTabAndPanelPairing();
   }
 
   #onOverflowButtonClick(button: 'start' | 'end') {
@@ -458,5 +465,31 @@ export default class Tabs extends LitElement {
         `${selectedTabWidth - selectedTabInlinePadding}px`,
       );
     }
+  }
+
+  #validateTabAndPanelPairing() {
+    if (this.#tabAndPanelValidationTimeout) {
+      clearTimeout(this.#tabAndPanelValidationTimeout);
+    }
+
+    // Wait a tick to allow both slots to update in case Tabs and Panels are added
+    // in separate render cycles.
+    this.#tabAndPanelValidationTimeout = setTimeout(() => {
+      for (const tab of this.#tabElements) {
+        if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
+          throw new Error(
+            `Tab with panel="${tab.panel}" has no matching Panel.`,
+          );
+        }
+      }
+
+      for (const panel of this.#panelElements) {
+        if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
+          throw new Error(
+            `Panel with name="${panel.name}" has no matching Tab.`,
+          );
+        }
+      }
+    });
   }
 }
