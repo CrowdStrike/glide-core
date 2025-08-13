@@ -111,6 +111,7 @@ export default class Button extends LitElement {
 
   override render() {
     return html`<glide-core-tooltip
+      class="tooltip"
       label=${this.tooltip ?? ''}
       ?disabled=${!this.disabled || !this.tooltip}
     >
@@ -147,7 +148,7 @@ export default class Button extends LitElement {
           -->
         </slot>
 
-        ${this.label}
+        <span class="label">${this.label}</span>
 
         <slot
           class=${classMap({
