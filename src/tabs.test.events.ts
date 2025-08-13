@@ -20,7 +20,7 @@ it('dispatches a "selected" event on click', async () => {
       ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
-      <glide-core-tabs-panel name="1">Two</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
@@ -53,7 +53,7 @@ it('dispatches a "selected" event on Enter', async () => {
       ></glide-core-tabs-tab>
 
       <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
-      <glide-core-tabs-panel name="1">Two</glide-core-tabs-panel>
+      <glide-core-tabs-panel name="2">Two</glide-core-tabs-panel>
     </glide-core-tabs>
   `);
 
