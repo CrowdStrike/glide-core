@@ -1,5 +1,18 @@
 # @crowdstrike/glide-core
 
+## 0.32.3
+
+### Patch Changes
+
+- [#1053](https://github.com/CrowdStrike/glide-core/pull/1053) [`a1c1ff2`](https://github.com/CrowdStrike/glide-core/commit/a1c1ff2f9fb6f98bb0414d441c0bc96f2ef2671d) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Button can now truncate and show an ellipsis when the label overflows by adding the following to the host:
+
+  ```css
+  max-width: 100%;
+  white-space: nowrap;
+  ```
+
+- [#1046](https://github.com/CrowdStrike/glide-core/pull/1046) [`a08be18`](https://github.com/CrowdStrike/glide-core/commit/a08be18226a93de962908a5564e933e6c9710195) Thanks [@clintcs](https://github.com/clintcs)! - Menu sub-Menus now work correctly when Menu's default slot contains another slot.
+
 ## 0.32.2
 
 ### Patch Changes
