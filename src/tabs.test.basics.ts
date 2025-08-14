@@ -308,31 +308,25 @@ it('throws when its "nav" slot is the wrong type', async () => {
 });
 
 it('throws when a Tab does not have a corresponding Panel', async () => {
-  const host = await fixture<Tabs>(html` <glide-core-tabs></glide-core-tabs>`);
-
-  await expectWindowError(async () => {
-    const tab = document.createElement('glide-core-tabs-tab');
-    tab.label = 'Three';
-    tab.panel = 'three';
-    tab.slot = 'nav';
-
-    host.append(tab);
-
-    await host.updateComplete;
-    await aTimeout(0); // Wait for `#validateTabAndPanelPairing()`
+  await expectWindowError(() => {
+    return fixture(html`
+      <glide-core-tabs>
+        <glide-core-tabs-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tabs-tab>
+      </glide-core-tabs>
+    `);
   });
 });
 
 it('throws when a Panel does not have a corresponding Tab', async () => {
-  const host = await fixture<Tabs>(html`<glide-core-tabs></glide-core-tabs>`);
-
-  await expectWindowError(async () => {
-    const panel = document.createElement('glide-core-tabs-panel');
-    panel.name = 'three';
-
-    host.append(panel);
-
-    await host.updateComplete;
-    await aTimeout(0); // Wait for `#validateTabAndPanelPairing()`
+  await expectWindowError(() => {
+    return fixture(html`
+      <glide-core-tabs>
+        <glide-core-tabs-panel name="1">One</glide-core-tabs-panel>
+      </glide-core-tabs>
+    `);
   });
 });

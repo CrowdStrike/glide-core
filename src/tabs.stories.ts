@@ -44,8 +44,6 @@ const meta: Meta = {
     '--tabs-padding-inline-start': '',
     '<glide-core-tabs-tab>.panel': '',
     '<glide-core-tabs-tab>.label': 'One',
-    // TODO: Remove this, or update it if we need a suffix slot.
-    // '<glide-core-tabs-tab>[slot="default"]': 'One',
     '<glide-core-tabs-tab>.addEventListener(event, handler)': '',
     '<glide-core-tabs-tab>.disabled': false,
     '<glide-core-tabs-tab>.1.selected': true,
@@ -61,7 +59,7 @@ const meta: Meta = {
     '<glide-core-tabs-tab>.10.selected': false,
     '<glide-core-tabs-tab>.version': false,
     '<glide-core-tabs-panel>.name': '',
-    '<glide-core-tabs-panel>[slot="default"]': 'Panel',
+    '<glide-core-tabs-panel>[slot="default"]': 'One',
     '<glide-core-tabs-panel>.version': '',
     '<glide-core-tabs-panel>[--padding-inline-end]': '',
     '<glide-core-tabs-panel>[--padding-inline-start]': '',
@@ -127,7 +125,7 @@ const meta: Meta = {
         >
           ${unsafeHTML(arguments_['<glide-core-tabs-panel>[slot="default"]'])}
         </glide-core-tabs-panel>
-        <glide-core-tabs-panel name="2"> With Icon </glide-core-tabs-panel>
+        <glide-core-tabs-panel name="2"> Two </glide-core-tabs-panel>
       </glide-core-tabs>
     `;
   },
@@ -200,16 +198,6 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    // TODO: Remove this, or update it if we need a suffix slot.
-    // '<glide-core-tabs-tab>[slot="default"]': {
-    //   name: 'slot="default"',
-    //   control: 'text',
-    //   table: {
-    //     category: 'Tab',
-    //     type: { summary: 'Element | string' },
-    //   },
-    //   type: { name: 'function', required: true },
-    // },
     '<glide-core-tabs-tab>.addEventListener(event, handler)': {
       control: false,
       name: 'addEventListener(event, handler)',
@@ -508,7 +496,7 @@ export const WithIcons: StoryObj = {
         >
           ${unsafeHTML(arguments_['<glide-core-tabs-panel>[slot="default"]'])}
         </glide-core-tabs-panel>
-        <glide-core-tabs-panel name="2"> With Icon </glide-core-tabs-panel>
+        <glide-core-tabs-panel name="2"> Two </glide-core-tabs-panel>
       </glide-core-tabs>
     `;
   },
