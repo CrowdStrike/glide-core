@@ -39,121 +39,129 @@ for (const story of stories) {
           );
         });
 
-        if (story.id.includes('primary-link')) {
-          test('<glide-core-split-button-primary-link>.disabled', async ({
-            page,
-          }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test('<glide-core-split-button-primary-link>.disabled', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'split-button--primary-link');
 
-            await page
-              .locator('glide-core-split-button-primary-link')
-              .evaluate<void, SplitButtonPrimaryLink>((element) => {
-                element.disabled = true;
-              });
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
+          await page
+            .locator('glide-core-split-button-primary-link')
+            .evaluate<void, SplitButtonPrimaryLink>((element) => {
+              element.disabled = true;
+            });
 
-          test('<glide-core-split-button-primary-link>:active', async ({
-            page,
-          }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
-            await page.locator('glide-core-split-button-primary-link').hover();
+        test('<glide-core-split-button-primary-link>:active', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'split-button--primary-link');
 
-            await page.mouse.down();
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-split-button-primary-link').hover();
+          await page.mouse.down();
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
-          test('<glide-core-split-button-primary-link>:focus', async ({
-            page,
-          }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test('<glide-core-split-button-primary-link>:focus', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'split-button--primary-link');
 
-            await page.locator('glide-core-split-button-primary-link').focus();
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-split-button-primary-link').focus();
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
-          test('<glide-core-split-button-primary-link>:hover', async ({
-            page,
-          }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test('<glide-core-split-button-primary-link>:hover', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'split-button--primary-link');
 
-            await page.locator('glide-core-split-button-primary-link').hover();
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-split-button-primary-link').hover();
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        } else {
-          test('<glide-core-split-button-primary-button>.disabled', async ({
-            page,
-          }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
-            await page
-              .locator('glide-core-split-button-primary-button')
-              .evaluate<void, SplitButtonPrimaryButton>((element) => {
-                element.disabled = true;
-              });
+        test('<glide-core-split-button-primary-button>:active', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'split-button--primary-link');
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-split-button-primary-button').hover();
+          await page.mouse.down();
 
-          test('<glide-core-split-button-primary-button>:active', async ({
-            page,
-          }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
-            await page
-              .locator('glide-core-split-button-primary-button')
-              .hover();
+        test('<glide-core-split-button-primary-button>.disabled', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'split-button--primary-link');
 
-            await page.mouse.down();
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
+          await page
+            .locator('glide-core-split-button-primary-button')
+            .evaluate<void, SplitButtonPrimaryButton>((element) => {
+              element.disabled = true;
+            });
 
-          test('<glide-core-split-button-primary-button>:focus', async ({
-            page,
-          }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
-            await page
-              .locator('glide-core-split-button-primary-button')
-              .focus();
+        test('<glide-core-split-button-primary-button>:focus', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'split-button--primary-link');
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-split-button-primary-button').focus();
 
-          test('<glide-core-split-button-primary-button>:hover', async ({
-            page,
-          }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
-            await page
-              .locator('glide-core-split-button-primary-button')
-              .hover();
+        test('<glide-core-split-button-primary-button>:hover', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'split-button--primary-link');
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        }
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-split-button-primary-button').hover();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
         test('<glide-core-split-button-secondary-button>.disabled', async ({
           page,

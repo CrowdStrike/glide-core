@@ -97,10 +97,8 @@ export default defineConfig({
 
       testMatch: ['src/*.test.visuals.ts'],
 
-      // 30 seconds is the default. Each test should only take a second or two.
-      // Something has gone wrong if one takes longer. So we fail fast to give
-      // developers feedback quickly.
-      timeout: 5000,
+      // Ideally it would be lower locally. But visual snapshotting takes a bit.
+      timeout: process.env.CI ? undefined : 5000,
     },
   ],
   reporter: [

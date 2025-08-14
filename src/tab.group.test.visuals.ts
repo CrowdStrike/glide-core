@@ -37,16 +37,17 @@ for (const story of stories) {
           );
         });
 
-        if (story.id.includes('with-overflow')) {
-          test(':hover', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-            await page.getByTestId('overflow-end-button').hover();
+        test(':hover', async ({ page }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'tab-group--with-overflow');
 
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        }
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.getByTestId('overflow-end-button').hover();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
 
         test('<glide-core-tab>.disabled', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);

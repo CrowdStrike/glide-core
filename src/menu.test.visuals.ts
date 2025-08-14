@@ -2,6 +2,7 @@ import { expect, test } from './playwright/test.js';
 import type Menu from './menu.js';
 import type Option from './option.js';
 import fetchStories from './playwright/fetch-stories.js';
+import type OptionsGroup from './options.group.js';
 
 const stories = await fetchStories('Menu');
 
@@ -33,6 +34,12 @@ for (const story of stories) {
             .first()
             .evaluate<void, Menu>((element) => {
               element.offset = 50;
+              element.open = true;
+            });
+
+          await page
+            .locator('glide-core-menu glide-core-menu')
+            .evaluate<void, Menu>((element) => {
               element.open = true;
             });
 
@@ -71,6 +78,55 @@ for (const story of stories) {
               `${test.titlePath.join('.')}.png`,
             );
           });
+        });
+
+        test('placement="right-end"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-menu')
+            .first()
+            .evaluate<void, Menu>((element) => {
+              element.placement = 'right-end';
+              element.open = true;
+            });
+
+          await page
+            .locator('glide-core-menu glide-core-menu')
+            .evaluate<void, Menu>((element) => {
+              element.open = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('<glide-core-options-group>.hide-label', async ({
+          page,
+        }, test) => {
+          // eslint-disable-next-line playwright/no-skipped-test
+          test.skip(story.id !== 'menu--with-groups');
+
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-menu')
+            .first()
+            .evaluate<void, Menu>((element) => {
+              element.open = true;
+            });
+
+          await page
+            .locator('glide-core-options-group')
+            .first()
+            .evaluate<void, OptionsGroup>((element) => {
+              element.hideLabel = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
         test('<glide-core-option>.description', async ({ page }, test) => {

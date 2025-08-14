@@ -88,7 +88,7 @@ export default defineConfig([
       'html/no-trailing-spaces': 'error',
 
       // Enabling this rule would force us to `await` any function that returns a
-      // promise. One example is a function that itself `await`s `updateComplete`. The
+      // promise. One example is a function that itself awaits `updateComplete`. The
       // rule is a bit cumbersome in practice.
       '@typescript-eslint/no-floating-promises': 'off',
 

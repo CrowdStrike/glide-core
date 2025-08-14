@@ -4,10 +4,10 @@ import { expect, test } from './playwright/test.js';
 test(
   'is accessible',
   { tag: '@accessibility' },
-  async ({ isAccessible, mount }) => {
+  async ({ mount, page }) => {
     await mount(html`<glide-core-spinner label="Label"></glide-core-spinner>`);
 
-    expect(await isAccessible('glide-core-spinner')).toStrictEqual([]);
+    await expect(page).toBeAccessible('glide-core-spinner');
   },
 );
 
