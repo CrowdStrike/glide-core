@@ -20,14 +20,16 @@
 - I have scheduled a design review.
 - I have reviewed the Storybook and Visual Test Report links below.
 
-## 🔬 Testing
+## 🔬 Manual Testing
 
 <!--
 
-  Tell us how to reproduce and verify your changes:
+  Tell us how to manually verify your changes:
 
   1. Navigate to Checkbox in Storybook.
   1. Click the label.
   1. Verify Checkbox is checked.
+
+  Write "N/A" if your changes can't be manually tested or don't benefit from manual testing.
 
 -->
