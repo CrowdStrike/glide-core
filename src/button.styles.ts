@@ -179,5 +179,12 @@ export default [
         display: none;
       }
     }
+
+    .label {
+      min-inline-size: 3ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: inherit;
+    }
   `,
 ];
