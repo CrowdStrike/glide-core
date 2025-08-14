@@ -181,8 +181,8 @@ export default [
     }
 
     .label {
-      min-inline-size: 3ch;
-      overflow: hidden;
+      /* min-inline-size: 3ch;
+      overflow: hidden; */
       text-overflow: ellipsis;
       white-space: inherit;
     }
