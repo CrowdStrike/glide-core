@@ -310,6 +310,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    if: github.event_name != 'merge_group'
     needs:
       - test-visuals
     steps:
