@@ -5,7 +5,7 @@ import type Button from './button.js';
 test(
   'is accessible',
   { tag: '@accessibility' },
-  async ({ isAccessible, mount, page, setAttribute }) => {
+  async ({ mount, page, setAttribute }) => {
     await mount(
       html`<glide-core-button
         label="Label"
@@ -13,7 +13,7 @@ test(
       ></glide-core-button>`,
     );
 
-    expect(await isAccessible('glide-core-button')).toStrictEqual([]);
+    await expect(page).toBeAccessible('glide-core-button');
 
     const host = page.locator('glide-core-button');
     await setAttribute(host, 'aria-description', 'Description');

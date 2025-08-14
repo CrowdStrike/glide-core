@@ -1,25 +1,33 @@
 import {
   type Expect,
   type Locator,
+  type Page,
   mergeExpects,
   mergeTests,
 } from '@playwright/test';
 import addEventListener from './fixtures/add-event-listener.js';
 import callMethod from './fixtures/call-method.js';
-import isAccessible from './fixtures/is-accessible.js';
 import mount from './fixtures/mount.js';
 import removeAttribute from './fixtures/remove-attribute.js';
 import setAttribute from './fixtures/set-attribute.js';
 import setProperty from './fixtures/set-property.js';
+import toBeAccessible from './matchers/to-be-accessible.js';
 import toBeRegistered from './matchers/to-be-registered.js';
 import toDispatchEvents from './matchers/to-dispatch-events.js';
 import toHaveFormData from './matchers/to-have-form-data.js';
 
 export const expect = mergeExpects(
+  toBeAccessible,
   toBeRegistered,
   toDispatchEvents,
   toHaveFormData,
 ) as Expect<{
+  toBeAccessible: (
+    page: Page,
+    selector: string,
+    violations?: string[],
+  ) => Promise<void>;
+
   toBeRegistered: (locator: Locator, name: string) => Promise<void>;
 
   toDispatchEvents: (
@@ -33,7 +41,7 @@ export const expect = mergeExpects(
       type: string;
     }[],
   ) => Promise<void>;
-  
+
   toHaveFormData: (
     locator: Locator,
     name: string,
@@ -44,7 +52,6 @@ export const expect = mergeExpects(
 export const test = mergeTests(
   addEventListener,
   callMethod,
-  isAccessible,
   mount,
   removeAttribute,
   setAttribute,

@@ -3,15 +3,13 @@ import { type Locator, expect } from '@playwright/test';
 export default expect.extend({
   async toHaveFormData(locator: Locator, name: string, value: unknown) {
     const result = await locator.evaluate((node, name) => {
-      return node instanceof HTMLFormElement
-        ? {
-            tagName: node.tagName,
-            value: new FormData(node).get(name),
-          }
-        : {
-            tagName: node.tagName,
-            value: null,
-          };
+      const value =
+        node instanceof HTMLFormElement ? new FormData(node).get(name) : null;
+
+      return {
+        tagName: node.tagName,
+        value,
+      };
     }, name);
 
     const message =

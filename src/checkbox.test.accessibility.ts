@@ -5,7 +5,7 @@ import type Checkbox from './checkbox.js';
 test(
   'is accessible',
   { tag: '@accessibility' },
-  async ({ isAccessible, mount }) => {
+  async ({ mount, page }) => {
     await mount(
       html`<glide-core-checkbox
         label="Label"
@@ -16,7 +16,7 @@ test(
       </glide-core-checkbox>`,
     );
 
-    expect(await isAccessible('glide-core-checkbox')).toStrictEqual([]);
+    await expect(page).toBeAccessible('glide-core-checkbox');
   },
 );
 
