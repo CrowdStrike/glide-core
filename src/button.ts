@@ -147,7 +147,7 @@ export default class Button extends LitElement {
           -->
         </slot>
 
-        ${this.label}
+        <span>${this.label}</span>
 
         <slot
           class=${classMap({
