@@ -23,6 +23,7 @@ export default [
       font-weight: var(--glide-core-typography-weight-bold);
       gap: var(--glide-core-spacing-base-xs);
       justify-content: center;
+      max-inline-size: 100%;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-md);
       transition-duration: var(--glide-core-duration-moderate-02);
@@ -144,6 +145,7 @@ export default [
         font-size: var(--glide-core-typography-size-body-default);
         font-weight: var(--glide-core-typography-weight-regular);
         padding: 0;
+        text-align: start;
 
         &.disabled {
           color: var(--glide-core-color-interactive-text-link--disabled);
@@ -168,10 +170,22 @@ export default [
       }
     }
 
+    .tooltip {
+      max-inline-size: 100%;
+      white-space: inherit;
+    }
+
     .prefix-icon-slot {
       &.hidden {
         display: none;
       }
+    }
+
+    .label {
+      min-inline-size: 3ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: inherit;
     }
 
     .suffix-icon-slot {
