@@ -31,6 +31,7 @@ declare global {
  * @slot {Element | string} [description] - Additional information or context
  *
  * @fires {Event} change
+ * @fires {Event} input
  */
 @customElement('glide-core-toggle')
 @final
@@ -169,9 +170,17 @@ export default class Toggle extends LitElement {
       this.checked = event.target.checked;
     }
 
+    // Our analyzer plugin (`add-events.ts`) doesn't and can't account for events that
+    // are implicitly dispatched by a native form control in a component. So we stop
+    // the original event and dispatch our own.
+    if (event.type === 'input') {
+      event.stopPropagation();
+      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    }
+
     if (event.type === 'change') {
-      // Unlike "input" events, "change" events aren't composed. So we have to
-      // manually dispatch them.
+      // Unlike "input" events, "change" events aren't composed. So we have to manually
+      // dispatch them.
       this.dispatchEvent(
         new Event('change', { bubbles: true, composed: true }),
       );

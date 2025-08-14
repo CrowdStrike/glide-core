@@ -42,6 +42,7 @@ declare global {
  * @slot {Element} [private-icon]
  *
  * @fires {Event} change
+ * @fires {Event} input
  * @fires {Event} invalid
  *
  * @readonly
@@ -635,12 +636,12 @@ export default class Checkbox extends LitElement implements FormControl {
     this.isBlurring = false;
   }
 
-  // Only "change" would need to be handled if not for some consumers needing
-  // to force Checkbox checked or unchecked until the user has completed some action.
+  // Only "change" would need to be handled if not for some consumers needing to
+  // force Checkbox checked or unchecked until the user has completed some action.
   //
-  // The way to force Checkbox checked or unchecked is to add an "input" or
-  // "change" handler and then immediately set `checked` back to its desired
-  // state inside that handler.
+  // The way they can force Checkbox to be checked or unchecked is to add an "input"
+  // or "change" handler and then immediately set `checked` back to its desired state
+  // inside that handler.
   //
   // To do that, consumers need to await `this.updateComplete` so `checked` isn't
   // immediately reverted after Checkbox updates, which happens asynchronously and
@@ -650,9 +651,9 @@ export default class Checkbox extends LitElement implements FormControl {
   // why we're handling "input" as well: so that "input", like "change", results
   // in an update that can be awaited.
   //
-  // If "input" events were dispatched after "change" events, only handling
-  // "change" here would suffice because an update from "change" would already
-  // be pending by the time "input" is dispatched.
+  // If "input" events were dispatched after "change" events, only handling "change"
+  // here would suffice because an update from "change" would already be pending by
+  // the time "input" is dispatched.
   #onInputChangeOrInput(event: Event) {
     if (event.target instanceof HTMLInputElement) {
       this.checked = event.target.checked;
@@ -661,9 +662,17 @@ export default class Checkbox extends LitElement implements FormControl {
     // If the input has been interacted with it's no longer indeterminate.
     this.indeterminate = false;
 
+    // Our analyzer plugin (`add-events.ts`) doesn't and can't account for events that
+    // are implicitly dispatched by a native form control in a component. So we stop
+    // the original event and dispatch our own.
+    if (event.type === 'input') {
+      event.stopPropagation();
+      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    }
+
     if (event.type === 'change') {
-      // Unlike "input" events, "change" events aren't composed. So we have to
-      // manually dispatch them.
+      // Unlike "input" events, "change" events aren't composed. So we have to manually
+      // dispatch them.
       this.dispatchEvent(
         new Event('change', { bubbles: true, composed: true }),
       );

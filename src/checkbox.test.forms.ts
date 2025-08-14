@@ -1,6 +1,22 @@
 import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
+test('has a `form` property', { tag: '@forms' }, async ({ mount, page }) => {
+  await mount(html`
+    <form>
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
+    </form>
+  `);
+
+  const host = page.locator('glide-core-checkbox');
+
+  const hasform = await host.evaluate((element) => {
+    return 'form' in element && element.form instanceof HTMLFormElement;
+  });
+
+  expect(hasform).toBe(true);
+});
+
 test(
   'can be reset',
   { tag: '@forms' },
@@ -277,10 +293,10 @@ test(
       preventDefault: true,
     });
 
-    await expect(host).toDispatchEvents(async () => {
-      await host.focus();
-      await checkbox.press('Enter');
-    }, []);
+    await expect(host).toDispatchEvents(
+      async () => checkbox.press('Enter'),
+      [],
+    );
 
     await expect(host).toHaveJSProperty('validity.valid', true);
     await expect(host).toHaveJSProperty('validity.valueMissing', false);
@@ -361,14 +377,14 @@ test(
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
 
-    await expect(host).toDispatchEvents(async () => {
-      await host.focus();
-      await checkbox.press('Enter');
-    }, [
-      {
-        type: 'invalid',
-      },
-    ]);
+    await expect(host).toDispatchEvents(
+      () => checkbox.press('Enter'),
+      [
+        {
+          type: 'invalid',
+        },
+      ],
+    );
 
     await expect(checkbox).toBeFocused();
     await expect(host).toHaveJSProperty('validity.valid', false);
@@ -387,7 +403,6 @@ test(
       </form>
     `);
 
-    const host = page.locator('glide-core-checkbox');
     const form = page.locator('form');
     const checkbox = page.getByRole('checkbox');
 
@@ -395,10 +410,10 @@ test(
       preventDefault: true,
     });
 
-    await expect(form).toDispatchEvents(async () => {
-      await host.focus();
-      await checkbox.press('Enter');
-    }, [{ type: 'submit' }]);
+    await expect(form).toDispatchEvents(
+      () => checkbox.press('Enter'),
+      [{ type: 'submit' }],
+    );
   },
 );
 

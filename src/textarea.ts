@@ -42,6 +42,7 @@ declare global {
  * @slot {Element | string} [description] - Additional information or context
  *
  * @fires {Event} change
+ * @fires {Event} input
  * @fires {Event} invalid
  *
  * @readonly
@@ -443,14 +444,22 @@ export default class Textarea extends LitElement implements FormControl {
       this.value = this.#textareaElementRef.value.value;
     }
 
-    // Unlike "input" events, "change" events aren't composed. So we have to
-    // manually dispatch them.
+    // Unlike "input" events, "change" events aren't composed. So we have to manually
+    // dispatch them.
     this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
   }
 
-  #onTextareaInput() {
+  #onTextareaInput(event: Event) {
     if (this.#textareaElementRef.value) {
       this.value = this.#textareaElementRef.value.value;
+    }
+
+    // Our analyzer plugin (`add-events.ts`) doesn't and can't account for events that
+    // are implicitly dispatched by a native form control in a component. So we stop
+    // the original event and dispatch our own.
+    if (event.type === 'input') {
+      event.stopPropagation();
+      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
     }
   }
 

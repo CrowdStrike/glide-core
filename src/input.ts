@@ -632,8 +632,8 @@ export default class Input extends LitElement implements FormControl {
       this.value = this.#inputElementRef.value?.value;
     }
 
-    // Unlike "input" events, "change" events aren't composed. So we have to
-    // manually dispatch them.
+    // Unlike "input" events, "change" events aren't composed. So we have to manually
+    // dispatch them.
     this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
   }
 
