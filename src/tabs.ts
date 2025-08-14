@@ -158,8 +158,6 @@ export default class Tabs extends LitElement {
 
   #selectedTabIndicatorElementRef = createRef<HTMLElement>();
 
-  #tabAndPanelValidationTimeout: ReturnType<typeof setTimeout> | null = null;
-
   #tabListElementRef = createRef<HTMLElement>();
 
   get #firstTab() {
@@ -277,7 +275,18 @@ export default class Tabs extends LitElement {
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
     this.#updateSelectedTabIndicator();
-    this.#validateTabAndPanelPairing();
+
+    for (const tab of this.#tabElements) {
+      if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
+        throw new Error(`Tab with panel="${tab.panel}" has no matching Panel.`);
+      }
+    }
+
+    for (const panel of this.#panelElements) {
+      if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
+        throw new Error(`Panel with name="${panel.name}" has no matching Tab.`);
+      }
+    }
   }
 
   #onNavSlotChange() {
@@ -302,7 +311,6 @@ export default class Tabs extends LitElement {
 
     this.#setAriaAttributes();
     this.#setOverflowButtonsState();
-    this.#validateTabAndPanelPairing();
   }
 
   #onOverflowButtonClick(button: 'start' | 'end') {
@@ -465,31 +473,5 @@ export default class Tabs extends LitElement {
         `${selectedTabWidth - selectedTabInlinePadding}px`,
       );
     }
-  }
-
-  #validateTabAndPanelPairing() {
-    if (this.#tabAndPanelValidationTimeout) {
-      clearTimeout(this.#tabAndPanelValidationTimeout);
-    }
-
-    // Wait a tick to allow both slots to update in case Tabs and Panels are added
-    // in separate render cycles.
-    this.#tabAndPanelValidationTimeout = setTimeout(() => {
-      for (const tab of this.#tabElements) {
-        if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
-          throw new Error(
-            `Tab with panel="${tab.panel}" has no matching Panel.`,
-          );
-        }
-      }
-
-      for (const panel of this.#panelElements) {
-        if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
-          throw new Error(
-            `Panel with name="${panel.name}" has no matching Tab.`,
-          );
-        }
-      }
-    });
   }
 }
