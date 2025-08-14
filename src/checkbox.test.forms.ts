@@ -10,11 +10,11 @@ test('has a `form` property', { tag: '@forms' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-checkbox');
 
-  const hasform = await host.evaluate((element) => {
+  const hasForm = await host.evaluate((element) => {
     return 'form' in element && element.form instanceof HTMLFormElement;
   });
 
-  expect(hasform).toBe(true);
+  expect(hasForm).toBe(true);
 });
 
 test(
