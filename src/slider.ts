@@ -1014,8 +1014,8 @@ export default class Slider extends LitElement implements FormControl {
 
       this.#updateHandlesAndTrack();
 
-      // Unlike "input" events, "change" events aren't composed. So
-      // we have to manually dispatch them.
+      // Unlike "input" events, "change" events aren't composed. So we have to manually
+      // dispatch them.
       this.dispatchEvent(
         new Event('change', { bubbles: true, composed: true }),
       );
@@ -1067,8 +1067,8 @@ export default class Slider extends LitElement implements FormControl {
 
       this.#updateHandlesAndTrack();
 
-      // Unlike "input" events, "change" events aren't composed. So
-      // we have to manually dispatch them.
+      // Unlike "input" events, "change" events aren't composed. So we have to manually
+      // dispatch them.
       this.dispatchEvent(
         new Event('change', { bubbles: true, composed: true }),
       );

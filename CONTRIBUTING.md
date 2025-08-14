@@ -117,9 +117,25 @@ When a new file is received from the translators, please update all `src/transla
 
 ### Components
 
-Each component has a JSDoc comment above it generated from the [elements manifest](https://github.com/CrowdStrike/glide-core/blob/main/custom-elements.json).
+Each component will have a JSDoc comment [above](https://github.com/CrowdStrike/glide-core/blob/main/src/button.ts#L18-L37) it generated from the [elements manifest](https://github.com/CrowdStrike/glide-core/blob/main/custom-elements.json).
 So no need to write one yourself.
-It'll get overwritten when you run `pnpm start`.
+If you do, it'll get overwritten when you run `pnpm start`.
+The generated comment should be exhaustive except for:
+
+#### Events
+
+If your component relies on a native element to dispatch an event, make sure to stop propagation of the event and dispatch it manually so the [analyzer](https://github.com/CrowdStrike/glide-core/blob/main/src/cem-analyzer-plugins/add-events.ts) can find it:
+
+```ts
+#onInput(event: Event) {
+  event.stopPropagation();
+  this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+}
+```
+
+> Don't forget to leave a comment explaining why you're redispatching the event.
+
+#### Slots
 
 If you need to get information into the comment—such as an attribute description—simply add a comment above the attribute:
 

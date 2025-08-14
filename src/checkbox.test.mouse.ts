@@ -181,8 +181,9 @@ test(
     const host = page.locator('glide-core-checkbox');
 
     await host.evaluate((host) => {
-      host.addEventListener('input', () => {
-        if ('checked' in host) {
+      host.addEventListener('input', async () => {
+        if ('checked' in host && 'updateComplete' in host) {
+          await host.updateComplete;
           host.checked = false;
         }
       });
