@@ -1,60 +1,128 @@
-import { RuleTester } from '@typescript-eslint/rule-tester';
-import { test } from '@playwright/test';
+import parser from '@typescript-eslint/parser';
+import { ESLint } from '@typescript-eslint/utils/ts-eslint';
+import { expect, test } from '../../playwright/test.js';
 import { consistentReferenceElementDeclarations } from './consistent-reference-element-declarations.js';
 
-RuleTester.afterAll = test.afterAll;
-RuleTester.describe = test.describe;
-RuleTester.it = test;
+const eslint = new ESLint({
+  overrideConfigFile: true,
+  overrideConfig: [
+    {
+      languageOptions: {
+        parser,
+      },
+      plugins: {
+        '@crowdstrike/glide-core': {
+          rules: {
+            'consistent-reference-element-declarations':
+              consistentReferenceElementDeclarations,
+          },
+        },
+      },
+      rules: {
+        '@crowdstrike/glide-core/consistent-reference-element-declarations':
+          'error',
+      },
+    },
+  ],
+});
 
-const ruleTester = new RuleTester();
+test(
+  'valid when a private field ends with "ElementRef"',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    class TestComponent extends LitElement {
+      #anElementRef = createRef();
+    }
+  `);
 
-ruleTester.run(
-  'consistent-reference-element-declarations',
-  consistentReferenceElementDeclarations,
-  {
-    valid: [
-      {
-        code: 'class TestComponent extends LitElement { #anElementRef = createRef<HTMLSlotElement>(); }',
-      },
-      {
-        code: 'class TestComponent extends LitElement { #anElementRef = createRef(); }',
-      },
-      {
-        code: 'class TestComponent extends LitElement { #aPrivateField = notUsingARef(); }',
-      },
-    ],
-    invalid: [
-      {
-        code: 'class TestComponent extends LitElement { elementField = createRef<HTMLSlotElement>(); }',
-        errors: [
-          { messageId: 'preferPrivateField' },
-          { messageId: 'addSuffix' },
-        ],
-      },
-      {
-        code: 'class TestComponent extends LitElement { prefixSlotElementRef = createRef<HTMLSlotElement>(); }',
-        errors: [{ messageId: 'preferPrivateField' }],
-      },
-      {
-        code: 'class TestComponent extends LitElement { prefixSlotElementRef = createRef(); }',
-        errors: [{ messageId: 'preferPrivateField' }],
-      },
-      {
-        code: 'class TestComponent extends LitElement { #prefixSlotElement = createRef<HTMLSlotElement>(); }',
-        errors: [{ messageId: 'addSuffix' }],
-      },
-      {
-        code: 'class TestComponent extends LitElement { #prefixSlot = createRef<HTMLSlotElement>(); }',
-        errors: [{ messageId: 'addSuffix' }],
-      },
-      {
-        code: 'class TestComponent extends LitElement { #prefixSlot = createRef(); }',
-        errors: [{ messageId: 'addSuffix' }],
-      },
-      {
-        code: 'class TestComponent extends LitElement { #prefixSlotRef = createRef<HTMLSlotElement>(); }',
-        errors: [{ messageId: 'addSuffix' }],
-      },
-    ],
+    expect(result?.errorCount).toBe(0);
+  },
+);
+
+test(
+  'valid when a private field does not use `createRef()`',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    export default class TestComponent {
+      #aPrivateField = notUsingARef();
+    }
+  `);
+
+    expect(result?.errorCount).toBe(0);
+  },
+);
+
+test(
+  'invalid when a public field uses `createRef()` without an "ElementRef" suffix',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    export default class TestComponent {
+      elementField = createRef();
+    }
+  `);
+
+    expect(result?.errorCount).toBe(2);
+
+    expect(result?.messages.map((m) => m.message)).toStrictEqual([
+      consistentReferenceElementDeclarations.meta.messages.preferPrivateField,
+      consistentReferenceElementDeclarations.meta.messages.addSuffix,
+    ]);
+  },
+);
+
+test(
+  'invalid when a public field uses `createRef()` with an "ElementRef" suffix',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    export default class TestComponent {
+      prefixSlotElementRef = createRef();
+    }
+  `);
+
+    expect(result?.errorCount).toBe(1);
+
+    expect(result?.messages.at(0)?.message).toBe(
+      consistentReferenceElementDeclarations.meta.messages.preferPrivateField,
+    );
+  },
+);
+
+test(
+  'invalid when a private field uses `createRef()` but lacks an "ElementRef" suffix',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    export default class TestComponent {
+      #prefixSlotElement = createRef();
+    }
+  `);
+
+    expect(result?.errorCount).toBe(1);
+
+    expect(result?.messages.at(0)?.message).toBe(
+      consistentReferenceElementDeclarations.meta.messages.addSuffix,
+    );
+  },
+);
+
+test(
+  'invalid when a private field ends with "Ref" but not "ElementRef"',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    export default class TestComponent {
+      #prefixSlotRef = createRef();
+    }
+  `);
+
+    expect(result?.errorCount).toBe(1);
+
+    expect(result?.messages.at(0)?.message).toBe(
+      consistentReferenceElementDeclarations.meta.messages.addSuffix,
+    );
   },
 );

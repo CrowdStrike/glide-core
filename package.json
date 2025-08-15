@@ -137,7 +137,6 @@
     "@types/istanbul-reports": "^3.0.4",
     "@types/mocha": "^10.0.10",
     "@types/sinon": "^17.0.3",
-    "@typescript-eslint/rule-tester": "^8.33.0",
     "@typescript-eslint/types": "^8.33.0",
     "@typescript-eslint/utils": "^8.33.0",
     "@web/dev-server-esbuild": "^1.0.4",
