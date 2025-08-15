@@ -152,17 +152,22 @@ export default expect.extend({
       const receivedEvent = receivedEvents[index];
 
       if (!receivedEvent) {
-        return false;
+        return this.isNot;
       }
 
-      return (
-        receivedEvent &&
-        receivedEvent.bubbles === expectedEvent.bubbles &&
-        receivedEvent.cancelable === expectedEvent.cancelable &&
-        receivedEvent.composed === expectedEvent.composed &&
-        receivedEvent.defaultPrevented === expectedEvent.defaultPrevented &&
-        receivedEvent.type === expectedEvent.type
-      );
+      return this.isNot
+        ? receivedEvent &&
+            receivedEvent.bubbles !== expectedEvent.bubbles &&
+            receivedEvent.cancelable !== expectedEvent.cancelable &&
+            receivedEvent.composed !== expectedEvent.composed &&
+            receivedEvent.defaultPrevented !== expectedEvent.defaultPrevented &&
+            receivedEvent.type !== expectedEvent.type
+        : receivedEvent &&
+            receivedEvent.bubbles === expectedEvent.bubbles &&
+            receivedEvent.cancelable === expectedEvent.cancelable &&
+            receivedEvent.composed === expectedEvent.composed &&
+            receivedEvent.defaultPrevented === expectedEvent.defaultPrevented &&
+            receivedEvent.type === expectedEvent.type;
     });
 
     const hasTooManyOrTooFewEvents =
@@ -172,14 +177,16 @@ export default expect.extend({
       hasTheRightEvents && !hasTooManyOrTooFewEvents
         ? () => ''
         : () =>
-            this.utils.matcherHint('toDispatchEvents', 'locator', 'events') +
+            this.utils.matcherHint('toDispatchEvents', 'locator', 'events', {
+              isNot: this.isNot,
+            }) +
             '\n\n' +
             // Locators have a `toString()` implementation that serializes nicely.
             //
             // eslint-disable-next-line @typescript-eslint/no-base-to-string
             `Locator: ${locator.toString()}\n` +
             `${this.utils.printDiffOrStringify(
-              expectedEvents,
+              this.isNot ? [] : expectedEvents,
               receivedEvents,
               'Expected',
               'Received',
@@ -188,10 +195,12 @@ export default expect.extend({
 
     return {
       message,
-      pass: hasTheRightEvents && !hasTooManyOrTooFewEvents,
+      pass: this.isNot
+        ? !hasTheRightEvents
+        : hasTheRightEvents && !hasTooManyOrTooFewEvents,
       name: 'toDispatchEvents',
       actual: receivedEvents,
-      expected: expectedEvents,
+      expected: this.isNot ? [] : expectedEvents,
     };
   },
 });

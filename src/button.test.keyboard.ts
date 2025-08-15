@@ -57,10 +57,10 @@ test(
 
     const host = page.locator('glide-core-button');
 
-    await expect(host).toDispatchEvents(async () => {
-      await host.focus();
-      await host.press('Enter');
-    }, []);
+    await expect(host).not.toDispatchEvents(
+      () => host.press('Enter'),
+      [{ type: 'click' }],
+    );
   },
 );
 
@@ -74,9 +74,9 @@ test(
 
     const host = page.locator('glide-core-button');
 
-    await expect(host).toDispatchEvents(async () => {
-      await host.focus();
-      await host.press('Space');
-    }, []);
+    await expect(host).not.toDispatchEvents(
+      () => host.press('Space'),
+      [{ type: 'click' }],
+    );
   },
 );

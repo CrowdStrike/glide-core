@@ -53,7 +53,10 @@ test(
 
     const host = page.locator('glide-core-button');
 
-    await expect(host).toDispatchEvents(() => host.click(), []);
+    await expect(host).not.toDispatchEvents(
+      () => host.click(),
+      [{ type: 'click' }],
+    );
   },
 );
 
@@ -67,6 +70,9 @@ test(
 
     const host = page.locator('glide-core-button');
 
-    await expect(host).toDispatchEvents(() => callMethod(host, 'click'), []);
+    await expect(host).not.toDispatchEvents(
+      () => callMethod(host, 'click'),
+      [{ type: 'click' }],
+    );
   },
 );
