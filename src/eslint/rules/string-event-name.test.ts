@@ -1,48 +1,83 @@
-import { RuleTester } from '@typescript-eslint/rule-tester';
-import { test } from '@playwright/test';
+import parser from '@typescript-eslint/parser';
+import { ESLint } from '@typescript-eslint/utils/ts-eslint';
+import { expect, test } from '../../playwright/test.js';
 import { stringEventName } from './string-event-name.js';
 
-RuleTester.afterAll = test.afterAll;
-RuleTester.describe = test.describe;
-RuleTester.it = test;
-
-const ruleTester = new RuleTester();
-
-ruleTester.run('string-event-name', stringEventName, {
-  valid: [
+const eslint = new ESLint({
+  overrideConfigFile: true,
+  overrideConfig: [
     {
-      code: `
-        this.dispatchEvent(new Event('change'));
-      `,
-    },
-    {
-      code: `
-        this.dispatchEvent(new CustomEvent('change'));
-      `,
-    },
-  ],
-  invalid: [
-    {
-      code: `
-        const variable = 'change';
-        this.dispatchEvent(new Event(variable));
-      `,
-      errors: [
-        {
-          messageId: 'stringEventName',
+      languageOptions: {
+        parser,
+      },
+      plugins: {
+        '@crowdstrike/glide-core': {
+          rules: {
+            'string-event-name': stringEventName,
+          },
         },
-      ],
-    },
-    {
-      code: `
-        const variable = 'change';
-        this.dispatchEvent(new CustomEvent(variable));
-      `,
-      errors: [
-        {
-          messageId: 'stringEventName',
-        },
-      ],
+      },
+      rules: {
+        '@crowdstrike/glide-core/string-event-name': 'error',
+      },
     },
   ],
 });
+
+test(
+  'valid when an `Event` constructor uses a string literal',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    this.dispatchEvent(new Event('change'));
+  `);
+
+    expect(result?.errorCount).toBe(0);
+  },
+);
+
+test(
+  'valid when a `CustomEvent` constructor uses a string literal',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    this.dispatchEvent(new CustomEvent('change'));
+  `);
+
+    expect(result?.errorCount).toBe(0);
+  },
+);
+
+test(
+  'invalid when an `Event` constructor uses a variable',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    const variable = 'change';
+    this.dispatchEvent(new Event(variable));
+  `);
+
+    expect(result?.errorCount).toBe(1);
+
+    expect(result?.messages.at(0)?.message).toBe(
+      stringEventName.meta.messages.stringEventName,
+    );
+  },
+);
+
+test(
+  'invalid when a `CustomEvent` constructor uses a variable',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+    const variable = 'change';
+    this.dispatchEvent(new CustomEvent(variable));
+  `);
+
+    expect(result?.errorCount).toBe(1);
+
+    expect(result?.messages.at(0)?.message).toBe(
+      stringEventName.meta.messages.stringEventName,
+    );
+  },
+);
