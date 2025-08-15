@@ -45,7 +45,7 @@ export default [
       border-radius: var(--glide-core-rounding-base-radius-xxs);
       box-sizing: border-box;
       color: var(
-        --glide-core-private-color-checkbox-surface-background-selected--default
+        --glide-core-private-color-checkbox-surface-background-selected
       );
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
