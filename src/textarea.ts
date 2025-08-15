@@ -303,7 +303,7 @@ export default class Textarea extends LitElement implements FormControl {
 
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing `this.validity.valid` are updated.
+    // Ensures getters referencing `this.validity.valid` re-run.
     this.requestUpdate();
 
     return isValid;

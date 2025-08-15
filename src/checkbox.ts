@@ -490,7 +490,7 @@ export default class Checkbox extends LitElement implements FormControl {
     this.privateIsReportValidityOrSubmit = true;
     const isValid = this.#internals.reportValidity();
 
-    // Ensures that getters referencing `this.validity.valid` are updated.
+    // Ensures getters referencing `this.validity.valid` re-run.
     this.requestUpdate();
 
     return isValid;
