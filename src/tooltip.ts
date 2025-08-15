@@ -343,11 +343,7 @@ export default class Tooltip extends LitElement {
             ])}
           </div>
 
-          <div
-            class=${classMap({
-              content: true,
-            })}
-          >
+          <div class="content">
             <slot class="default-slot" name="private">
               <!--
                 @type {TooltipContainer}

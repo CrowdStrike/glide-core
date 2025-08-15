@@ -32,6 +32,22 @@ test(
 );
 
 test(
+  'cannot be extended',
+  { tag: '@miscellaneous' },
+  async ({ mount, page }) => {
+    await mount(
+      html`<glide-core-icon-button label="Label">
+        <div>Icon</div>
+      </glide-core-icon-button>`,
+    );
+
+    const host = page.locator('glide-core-icon-button');
+
+    await expect(host).not.toBeExtensible();
+  },
+);
+
+test(
   'throws when `label` is undefined',
   { tag: '@miscellaneous' },
   async ({ mount }) => {
