@@ -132,11 +132,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - name: Download Storybook
-        uses: actions/download-artifact@v4
-        with:
-          name: storybook
-          path: ./dist/storybook
       - run: pnpm dlx playwright@1.54.2 install --no-shell --with-deps chromium firefox webkit
       - name: Test
         id: test

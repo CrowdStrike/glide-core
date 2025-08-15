@@ -47,6 +47,15 @@ const config = {
         // So `event.target` and `event.srcElement` in the Actions tab aren't mangled.
         minify: false,
       },
+      optimizeDeps: {
+        // TODO
+        //
+        // This is a test to see if disabling Hot Module Reloading eliminates the Vite
+        // cache misses we've been seeing in CI with Playwright tests. We'll need to keep
+        // this in place for a while to see if it solves the problem. If it does, I'll
+        // replace this comment with an explanation of the problem and why this solved it.
+        noDiscovery: Boolean(process.env.CI),
+      },
     });
   },
 };
