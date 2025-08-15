@@ -1,5 +1,4 @@
 import { html, LitElement } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
@@ -99,10 +98,7 @@ export default class Options extends LitElement {
     // `role="option"`).
     return html`<div class="component" role="none">
       <slot
-        class=${classMap({
-          'default-slot': true,
-          loading: this.privateLoading,
-        })}
+        ?hidden=${this.privateLoading}
         @slotchange=${this.#onDefaultSlotChange}
         ${assertSlot([OptionsGroup, Option, Text], true)}
       >
