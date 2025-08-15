@@ -1,4 +1,4 @@
-import './button.js';
+import './icon-button.js';
 import './icons/storybook.js';
 import './options.js';
 import './options.group.js';
@@ -343,7 +343,9 @@ const meta: Meta = {
       ?loading=${arguments_.loading}
       ?open=${arguments_.open}
     >
-      <glide-core-button label="Toggle" slot="target"></glide-core-button>
+      <glide-core-icon-button label="Toggle" slot="target">
+        <glide-core-example-icon name="three-dots"></glide-core-example-icon>
+      </glide-core-icon-button>
 
       <glide-core-options>
         <glide-core-option
@@ -415,7 +417,9 @@ export const WithGroups: StoryObj = {
       ?loading=${arguments_.loading}
       ?open=${arguments_.open}
     >
-      <glide-core-button label="Toggle" slot="target"></glide-core-button>
+      <glide-core-icon-button label="Toggle" slot="target">
+        <glide-core-example-icon name="three-dots"></glide-core-example-icon>
+      </glide-core-icon-button>
 
       <glide-core-options>
         <glide-core-options-group
@@ -496,7 +500,9 @@ export const WithIcons: StoryObj = {
       ?loading=${arguments_.loading}
       ?open=${arguments_.open}
     >
-      <glide-core-button label="Toggle" slot="target"></glide-core-button>
+      <glide-core-icon-button label="Toggle" slot="target">
+        <glide-core-example-icon name="three-dots"></glide-core-example-icon>
+      </glide-core-icon-button>
 
       <glide-core-options>
         <glide-core-option
