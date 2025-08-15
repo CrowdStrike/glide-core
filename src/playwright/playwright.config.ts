@@ -55,6 +55,7 @@ export default defineConfig({
             'src/accordion.test.*.ts',
             'src/button.test.*.ts',
             'src/checkbox.test.*.ts',
+            'src/icon-button.test.*.ts',
             'src/spinner.test.*.ts',
           ],
           testIgnore: ['src/*.test.visuals.ts'],
@@ -124,6 +125,7 @@ export default defineConfig({
           'src/accordion.ts',
           'src/button.ts',
           'src/checkbox.ts',
+          'src/icon-button.ts',
           'src/spinner.ts',
         ],
 

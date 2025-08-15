@@ -31,6 +31,7 @@ export default {
       'src/accordion.ts',
       'src/button.ts',
       'src/checkbox.ts',
+      'src/icon-button.ts',
       'src/spinner.ts',
     ],
     reportDir: 'dist/web-test-runner-coverage',
@@ -56,6 +57,7 @@ export default {
     '!src/accordion.test.*.ts',
     '!src/button.test.*.ts',
     '!src/checkbox.test.*.ts',
+    '!src/icon-button.test.*.ts',
     '!src/spinner.test.*.ts',
   ],
   nodeResolve: {
