@@ -134,11 +134,8 @@ export default class Button extends LitElement {
         ${ref(this.#buttonElementRef)}
       >
         <slot
-          class=${classMap({
-            'prefix-icon-slot': true,
-            hidden: this.variant === 'link',
-          })}
           name="prefix-icon"
+          ?hidden=${this.variant === 'link'}
           @slotchange=${this.#onPrefixIconSlotChange}
           ${ref(this.#prefixIconSlotElementRef)}
         >
@@ -151,11 +148,8 @@ export default class Button extends LitElement {
         <span class="label">${this.label}</span>
 
         <slot
-          class=${classMap({
-            'suffix-icon-slot': true,
-            hidden: this.variant === 'link',
-          })}
           name="suffix-icon"
+          ?hidden=${this.variant === 'link'}
           @slotchange=${this.#onSuffixIconSlotChange}
           ${ref(this.#suffixIconSlotElementRef)}
         >

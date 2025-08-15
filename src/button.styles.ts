@@ -175,23 +175,11 @@ export default [
       white-space: inherit;
     }
 
-    .prefix-icon-slot {
-      &.hidden {
-        display: none;
-      }
-    }
-
     .label {
       min-inline-size: 3ch;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: inherit;
-    }
-
-    .suffix-icon-slot {
-      &.hidden {
-        display: none;
-      }
     }
   `,
 ];

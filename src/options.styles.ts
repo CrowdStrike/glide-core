@@ -12,11 +12,5 @@ export default [
       */
       display: block;
     }
-
-    .default-slot {
-      &.loading {
-        display: none;
-      }
-    }
   `,
 ];
