@@ -1,5 +1,6 @@
-import './icon-button.js';
 import './icons/storybook.js';
+import './menu.js';
+import './icon-button.js';
 import './options.js';
 import './options.group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -7,17 +8,15 @@ import { html, nothing } from 'lit';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { withActions } from '@storybook/addon-actions/decorator';
-import Option from './option.js';
-import MenuComponent from './menu.js';
+import './option.js';
+import SelectComponent from './select.js';
 
 const meta: Meta = {
-  title: 'Menu',
+  title: 'Select',
   decorators: [withActions],
   parameters: {
     actions: {
-      // "glide-core-option" is selected so "click" events from Menu's target aren't
-      // picked up, muddying the Actions tab.
-      handles: ['click glide-core-option', 'toggle'],
+      handles: ['change', 'input', 'toggle'],
     },
     docs: {
       story: {
@@ -33,8 +32,8 @@ const meta: Meta = {
     offset: 4,
     open: false,
     placement: 'bottom-start',
+    value: [],
     version: '',
-    '<glide-core-options>.addEventListener(event, handler)': '',
     '<glide-core-options>[slot="default"]': '',
     '<glide-core-options>.version': '',
     '<glide-core-options-group>.label': 'A',
@@ -43,11 +42,12 @@ const meta: Meta = {
     '<glide-core-option>.addEventListener(event, handler)': '',
     '<glide-core-option>.description': '',
     '<glide-core-option>.disabled': false,
-    '<glide-core-option>.href': '/',
+    '<glide-core-option>.href': '',
+    '<glide-core-option>.selected': false,
     '<glide-core-option>[slot="content"]': '',
     '<glide-core-option>[slot="icon"]': '',
     '<glide-core-option>[slot="submenu"]': '',
-    '<glide-core-option>.value': '',
+    '<glide-core-option>.value': 'one',
     '<glide-core-option>.version': '',
   },
   argTypes: {
@@ -62,11 +62,10 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail: `
-// The element to which Menu will anchor. Can be any focusable element unless it's the target
-// of a sub-Menu, in which case the element shouldn't be focusable.
+// The element to which Select will anchor.
 //
-// If you want Menu to be filterable, put an Input in this slot. Listen for Input's "input"
-// event, then add and remove Option(s) from Menu's default slot based on Input's value.
+// If you want Select to be filterable, put an Input in this slot. Listen for Input's "input"
+// event, then add and remove Option(s) from Select's default slot based on Input's value.
 `,
         },
       },
@@ -77,7 +76,8 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "toggle", handler: (event: Event) => void): void',
+          detail:
+            '(event: "change" | "input" | "toggle", handler: (event: Event) => void): void',
         },
       },
     },
@@ -129,6 +129,14 @@ const meta: Meta = {
         },
       },
     },
+    value: {
+      table: {
+        defaultValue: { summary: '[]' },
+        type: {
+          summary: 'string[]',
+        },
+      },
+    },
     version: {
       control: false,
       table: {
@@ -136,19 +144,6 @@ const meta: Meta = {
           summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
-      },
-    },
-    '<glide-core-options>.addEventListener(event, handler)': {
-      name: 'addEventListener(event, handler)',
-      control: false,
-      table: {
-        category: 'Options',
-        type: {
-          summary: 'method',
-          // TODO: explain
-          detail:
-            '(event: "slotchange", handler: (event: Event) => void): void',
-        },
       },
     },
     '<glide-core-options>[slot="default"]': {
@@ -214,9 +209,7 @@ const meta: Meta = {
         category: 'Option',
         type: {
           summary: 'method',
-          // TODO: explain
-          detail:
-            '(event: "click" | "disabled" | "deselected" | "enabled" | "selected", handler: (event: Event) => void): void',
+          detail: '(event: "click", handler: (event: Event) => void): void',
         },
       },
     },
@@ -236,11 +229,11 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    '<glide-core-option>.href': {
-      name: 'href',
+    '<glide-core-option>.selected': {
+      name: 'selected',
       table: {
         category: 'Option',
-        type: { summary: 'string' },
+        type: { summary: 'boolean' },
       },
     },
     '<glide-core-option>[slot="content"]': {
@@ -313,14 +306,29 @@ const meta: Meta = {
     },
   },
   play(context) {
+    const option = context.canvasElement.querySelector('glide-core-option');
+
     context.canvasElement
-      .querySelector('glide-core-menu')
+      .querySelector('glide-core-select')
+      ?.addEventListener('change', (event: Event) => {
+        if (option && event.target instanceof SelectComponent) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              value: event.target.value,
+            },
+          });
+        }
+      });
+
+    context.canvasElement
+      .querySelector('glide-core-select')
       ?.addEventListener('toggle', (event: Event) => {
         const isSubmenu =
           event.target instanceof Element &&
           event.target.closest('glide-core-option');
 
-        if (event.target instanceof MenuComponent && !isSubmenu) {
+        if (event.target instanceof SelectComponent && !isSubmenu) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -331,27 +339,35 @@ const meta: Meta = {
       });
 
     context.canvasElement
-      .querySelector('glide-core-menu')
-      ?.addEventListener('click', (event: Event) => {
-        // If the URL is anything but `/`, then the user has changed the URL and wants
-        // to navigate to it.
-        if (
-          event.target instanceof Option &&
-          event.target.href === '/' &&
-          window.top
-        ) {
-          event.preventDefault();
-          // The Storybook user expects to navigate when the link is clicked but
-          // doesn't expect to be redirected to the first story, which "/" would do.
-          // So we refresh the page to give the impression of a navigation while keeping
-          // the user on the same page.
-          window.top.location.reload();
-        }
+      .querySelector('form')
+      ?.addEventListener('submit', (event: Event) => {
+        event.preventDefault();
+
+        // We reload the page to give the impression of a submission while keeping
+        // the user on the same page.
+        window.location.reload();
       });
+
+    // if (
+    //   context.name.includes('Error') &&
+    //   dropdown instanceof DropdownComponent
+    // ) {
+    //   dropdown.reportValidity();
+
+    //   // `reportValidity()` scrolls the element into view, which means the "autodocs"
+    //   // story upon load will be scrolled to the first error story. No good.
+    //   document.documentElement.scrollTop = 0;
+
+    //   if (document.activeElement instanceof HTMLElement) {
+    //     // Calling `reportValidity()` focuses the element. Focus is expected to be
+    //     // on `document.body` on page load.
+    //     document.activeElement.blur();
+    //   }
+    // }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-    return html`<glide-core-menu
+    return html` <glide-core-select
       offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
       placement=${arguments_.placement === 'bottom-start'
         ? nothing
@@ -360,7 +376,7 @@ const meta: Meta = {
       ?open=${arguments_.open}
     >
       <glide-core-icon-button label="Toggle" slot="target">
-        <glide-core-example-icon name="three-dots"></glide-core-example-icon>
+        <glide-core-example-icon name="chevron-down"></glide-core-example-icon>
       </glide-core-icon-button>
 
       <glide-core-options>
@@ -370,6 +386,7 @@ const meta: Meta = {
           nothing}
           value=${arguments_['<glide-core-option>.value'] || nothing}
           ?disabled=${arguments_['<glide-core-option>.disabled']}
+          ?selected=${arguments_['<glide-core-option>.selected']}
         >
           <glide-core-menu slot="submenu">
             <glide-core-example-icon
@@ -385,28 +402,27 @@ const meta: Meta = {
           </glide-core-menu>
         </glide-core-option>
 
-        <glide-core-option label="Two"></glide-core-option>
-        <glide-core-option
-          label="Three"
-          href=${arguments_['<glide-core-option>.href'] || nothing}
-        ></glide-core-option>
+        <glide-core-option label="Two" value="two"></glide-core-option>
+        <glide-core-option label="Three" value="three"></glide-core-option>
       </glide-core-options>
-    </glide-core-menu>`;
+    </glide-core-select>`;
   },
 };
 
 export default meta;
 
-export const Menu: StoryObj = {
+export const Select: StoryObj = {
   decorators: [
     (story) => html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/menu.js';
-        import '@crowdstrike/glide-core/options.js';
-        import '@crowdstrike/glide-core/option.js';
-      </script>
+      <form action="/">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/select.js';
+          import '@crowdstrike/glide-core/options.js';
+          import '@crowdstrike/glide-core/option.js';
+        </script>
 
-      ${story()}
+        ${story()}
+      </form>
     `,
   ],
 };
@@ -414,18 +430,20 @@ export const Menu: StoryObj = {
 export const WithGroups: StoryObj = {
   decorators: [
     (story) => html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/menu.js';
-        import '@crowdstrike/glide-core/options.js';
-        import '@crowdstrike/glide-core/options.group.js';
-        import '@crowdstrike/glide-core/option.js';
-      </script>
+      <form action="/">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/select.js';
+          import '@crowdstrike/glide-core/options.js';
+          import '@crowdstrike/glide-core/options.group.js';
+          import '@crowdstrike/glide-core/option.js';
+        </script>
 
-      ${story()}
+        ${story()}
+      </form>
     `,
   ],
   render(arguments_) {
-    return html`<glide-core-menu
+    return html`<glide-core-select
       offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
       placement=${arguments_.placement === 'bottom-start'
         ? nothing
@@ -434,7 +452,7 @@ export const WithGroups: StoryObj = {
       ?open=${arguments_.open}
     >
       <glide-core-icon-button label="Toggle" slot="target">
-        <glide-core-example-icon name="three-dots"></glide-core-example-icon>
+        <glide-core-example-icon name="chevron-down"></glide-core-example-icon>
       </glide-core-icon-button>
 
       <glide-core-options>
@@ -448,6 +466,7 @@ export const WithGroups: StoryObj = {
             nothing}
             value=${arguments_['<glide-core-option>.value'] || nothing}
             ?disabled=${arguments_['<glide-core-option>.disabled']}
+            ?selected=${arguments_['<glide-core-option>.selected']}
           >
             <glide-core-menu slot="submenu">
               <glide-core-example-icon
@@ -463,32 +482,29 @@ export const WithGroups: StoryObj = {
             </glide-core-menu>
           </glide-core-option>
 
-          <glide-core-option label="Two"></glide-core-option>
-          <glide-core-option label="Three"></glide-core-option>
+          <glide-core-option label="Two" value="two"></glide-core-option>
+          <glide-core-option label="Three" value="three"></glide-core-option>
         </glide-core-options-group>
 
         <glide-core-options-group
           label="B"
           ?hide-label=${arguments_['<glide-core-options-group>.hide-label']}
         >
-          <glide-core-option label="Four"></glide-core-option>
-          <glide-core-option label="Five"></glide-core-option>
-          <glide-core-option label="Six"></glide-core-option>
+          <glide-core-option label="Four" value="four"></glide-core-option>
+          <glide-core-option label="Five" value="five"></glide-core-option>
+          <glide-core-option label="Six" value="six"></glide-core-option>
         </glide-core-options-group>
 
         <glide-core-options-group
           label="C"
           ?hide-label=${arguments_['<glide-core-options-group>.hide-label']}
         >
-          <glide-core-option label="Seven"></glide-core-option>
-          <glide-core-option label="Eight"></glide-core-option>
-          <glide-core-option
-            label="Nine"
-            href=${arguments_['<glide-core-option>.href'] || nothing}
-          ></glide-core-option>
+          <glide-core-option label="Seven" value="seven"></glide-core-option>
+          <glide-core-option label="Eight" value="eight"></glide-core-option>
+          <glide-core-option label="Nine" value="nine"></glide-core-option>
         </glide-core-options-group>
       </glide-core-options>
-    </glide-core-menu>`;
+    </glide-core-select>`;
   },
 };
 
@@ -496,7 +512,7 @@ export const WithIcons: StoryObj = {
   decorators: [
     (story) => html`
       <script type="ignore">
-        import '@crowdstrike/glide-core/menu.js';
+        import '@crowdstrike/glide-core/select.js';
         import '@crowdstrike/glide-core/options.js';
         import '@crowdstrike/glide-core/option.js';
       </script>
@@ -504,11 +520,8 @@ export const WithIcons: StoryObj = {
       ${story()}
     `,
   ],
-  args: {
-    '<glide-core-option>.label': 'Edit',
-  },
   render(arguments_) {
-    return html`<glide-core-menu
+    return html`<glide-core-select
       offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
       placement=${arguments_.placement === 'bottom-start'
         ? nothing
@@ -517,7 +530,7 @@ export const WithIcons: StoryObj = {
       ?open=${arguments_.open}
     >
       <glide-core-icon-button label="Toggle" slot="target">
-        <glide-core-example-icon name="three-dots"></glide-core-example-icon>
+        <glide-core-example-icon name="chevron-down"></glide-core-example-icon>
       </glide-core-icon-button>
 
       <glide-core-options>
@@ -540,21 +553,21 @@ export const WithIcons: StoryObj = {
             ></glide-core-example-icon>
 
             <glide-core-options>
-              <glide-core-option label="Settings">
+              <glide-core-option label="Four">
                 <glide-core-example-icon
                   slot="icon"
                   name="settings"
                 ></glide-core-example-icon>
               </glide-core-option>
 
-              <glide-core-option label="Calendar">
+              <glide-core-option label="Five">
                 <glide-core-example-icon
                   slot="icon"
                   name="calendar"
                 ></glide-core-example-icon>
               </glide-core-option>
 
-              <glide-core-option label="Info">
+              <glide-core-option label="Six">
                 <glide-core-example-icon
                   slot="icon"
                   name="info"
@@ -564,23 +577,20 @@ export const WithIcons: StoryObj = {
           </glide-core-menu>
         </glide-core-option>
 
-        <glide-core-option label="Move">
+        <glide-core-option label="Two" value="two">
           <glide-core-example-icon
             slot="icon"
             name="move"
           ></glide-core-example-icon>
         </glide-core-option>
 
-        <glide-core-option
-          label="Share"
-          href=${arguments_['<glide-core-option>.href'] || nothing}
-        >
+        <glide-core-option label="Three" value="three">
           <glide-core-example-icon
             slot="icon"
             name="share"
           ></glide-core-example-icon>
         </glide-core-option>
       </glide-core-options>
-    </glide-core-menu>`;
+    </glide-core-select>`;
   },
 };

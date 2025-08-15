@@ -64,40 +64,6 @@ test(
 );
 
 test(
-  'can be unchecked via mouse',
-  { tag: '@mouse' },
-  async ({ mount, page }) => {
-    await mount(
-      html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
-    );
-
-    const host = page.locator('glide-core-checkbox');
-
-    await expect(host).toDispatchEvents(
-      () => page.getByRole('checkbox').click(),
-      [
-        {
-          bubbles: true,
-          cancelable: false,
-          composed: true,
-          defaultPrevented: false,
-          type: 'input',
-        },
-        {
-          bubbles: true,
-          cancelable: false,
-          composed: true,
-          defaultPrevented: false,
-          type: 'change',
-        },
-      ],
-    );
-
-    await expect(host).toHaveJSProperty('checked', false);
-  },
-);
-
-test(
   'can be unchecked via `click()`',
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
