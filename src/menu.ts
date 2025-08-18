@@ -301,8 +301,8 @@ export default class Menu extends LitElement {
           @keydown=${this.#onTargetAndDefaultSlotKeyDown}
           @mousedown=${this.#onDefaultSlotMouseDown}
           @mouseover=${this.#onDefaultSlotMouseOver}
-          @private-disabled-change=${this.#onDefaultSlotDisabledChange}
-          @private-slot-change=${this.#onDefaultSlotSlotChange}
+          @disabled=${this.#onDefaultSlotDisabled}
+          @slotchange=${this.#onDefaultSlotSlotChange}
           @toggle=${this.#onDefaultSlotToggle}
           ${assertSlot([Element])}
           ${ref(this.#defaultSlotElementRef)}
@@ -639,7 +639,7 @@ export default class Menu extends LitElement {
     });
   }
 
-  #onDefaultSlotDisabledChange(event: Event) {
+  #onDefaultSlotDisabled(event: Event) {
     if (
       this.#activeOption === event.target &&
       event.target instanceof Option &&
