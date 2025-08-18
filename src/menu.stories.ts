@@ -34,6 +34,7 @@ const meta: Meta = {
     open: false,
     placement: 'bottom-start',
     version: '',
+    '<glide-core-options>.addEventListener(event, handler)': '',
     '<glide-core-options>[slot="default"]': '',
     '<glide-core-options>.version': '',
     '<glide-core-options-group>.label': 'A',
@@ -137,6 +138,22 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
+    '<glide-core-options>.addEventListener(event, handler)': {
+      name: 'addEventListener(event, handler)',
+      control: false,
+      table: {
+        category: 'Options',
+        type: {
+          summary: 'method',
+          detail: `
+// "slotchange" is useful when you are abstracting over Menu to add functionality to it. See Select's
+// use of this event for an example.
+
+(event: "slotchange", handler: (event: Event) => void): void
+`,
+        },
+      },
+    },
     '<glide-core-options>[slot="default"]': {
       name: 'slot="default"',
       control: false,
@@ -200,7 +217,13 @@ const meta: Meta = {
         category: 'Option',
         type: {
           summary: 'method',
-          detail: '(event: "click", handler: (event: Event) => void): void',
+          detail: `
+// Listen for "click" when you want to know when an Option is selected.
+//
+// "enabled", "disabled", "selected", and "deselected" are useful when you are abstracting over Menu
+// to add functionality to it. See Select's use of these events for an example.
+
+(event: "click" | "enabled" | "disabled" | "selected" | "deselected", handler: (event: Event) => void): void'`,
         },
       },
     },

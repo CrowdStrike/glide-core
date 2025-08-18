@@ -48,6 +48,8 @@ declare global {
  * @attr {string} [version]
  *
  * @slot {Option | Text}
+ *
+ * @fires {Event} slotchange
  */
 @customElement('glide-core-options')
 @final
@@ -114,6 +116,6 @@ export default class Options extends LitElement {
   }
 
   #onDefaultSlotChange() {
-    this.dispatchEvent(new Event('private-slot-change', { bubbles: true }));
+    this.dispatchEvent(new Event('slotchange', { bubbles: true }));
   }
 }

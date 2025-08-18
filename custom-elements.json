@@ -5384,7 +5384,25 @@
           ],
           "events": [
             {
-              "name": "private-disabled-change",
+              "name": "disabled",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "enabled",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "deselected",
               "type": {
                 "text": "Event"
               }
@@ -5770,7 +5788,7 @@
           ],
           "events": [
             {
-              "name": "private-slot-change",
+              "name": "slotchange",
               "type": {
                 "text": "Event"
               }
