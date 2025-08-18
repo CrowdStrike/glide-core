@@ -9,7 +9,7 @@ import { v8CoverageAttachmentName } from './../constants.js';
 export default test.extend<{
   mount: (template: TemplateResult) => Promise<void>;
 }>({
-  async mount({ page }, use) {
+  async mount({ page }, use, testInfo) {
     await use(async function mount(template: TemplateResult): Promise<void> {
       return test.step('mount()', async () => {
         for (const string of template.strings) {
@@ -69,7 +69,7 @@ export default test.extend<{
             continue;
           }
 
-          let url: string | undefined;
+          let scriptPath: string | undefined;
 
           // Digging through the manifest is only necessary because sub-component names don't
           // map directly to filenames.
@@ -85,21 +85,33 @@ export default test.extend<{
             });
 
             if (exportedComponent) {
-              url = exportedComponent.declaration.module;
+              scriptPath = exportedComponent.declaration.module;
               break;
             }
           }
 
-          if (!url) {
+          if (!scriptPath) {
             throw new Error(
               `"${tag}" wasn't found in \`custom-elements.json\`. Does the component exist? If so, is the manifest up to date? Run \`pnpm start\` to update the manifest.`,
             );
           }
 
-          await page.addScriptTag({
-            url,
-            type: 'module',
-          });
+          try {
+            await page.addScriptTag({
+              url: scriptPath,
+              type: 'module',
+            });
+          } catch {
+            if (testInfo.config.webServer?.url) {
+              const url = new URL(testInfo.config.webServer.url);
+
+              url.pathname = scriptPath;
+
+              throw new Error(`Failed to load "${url.toString()}".`);
+            } else {
+              throw new Error(`Failed to load "${scriptPath}".`);
+            }
+          }
         }
 
         await page.evaluate(async () => {
