@@ -65,6 +65,13 @@ for (const story of stories) {
                 element.open = true;
               });
 
+            // Wait for the sub-Menu to settle
+            await page.waitForFunction(() => {
+              return new Promise((resolve) => {
+                requestIdleCallback(() => resolve(true));
+              });
+            });
+
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
             );
