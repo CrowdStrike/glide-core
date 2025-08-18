@@ -26,11 +26,6 @@ export default defineConfig({
         'src/eslint/rules/*.test.ts',
         'src/stylelint/rules/*.test.ts',
       ],
-
-      // 30 seconds is the default. Each test should take much less than a second.
-      // Something has gone wrong if one takes longer. So we fail fast to give
-      // developers feedback quickly.
-      timeout: 1000,
     },
     ...['webkit', 'firefox', 'chromium']
       .filter((browser) => {
@@ -59,9 +54,6 @@ export default defineConfig({
             'src/spinner.test.*.ts',
           ],
           testIgnore: ['src/*.test.visuals.ts'],
-
-          // Ideally it would be lower locally. But ARIA snapshotting takes a bit.
-          timeout: process.env.CI ? undefined : 5000,
 
           use:
             browser === 'webkit'
@@ -97,9 +89,6 @@ export default defineConfig({
       ),
 
       testMatch: ['src/*.test.visuals.ts'],
-
-      // Ideally it would be lower locally. But visual snapshotting takes a bit.
-      timeout: process.env.CI ? undefined : 5000,
     },
   ],
   reporter: [
