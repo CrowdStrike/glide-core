@@ -103,6 +103,20 @@ test(
 );
 
 test(
+  'cannot be extended',
+  { tag: '@miscellaneous' },
+  async ({ mount, page }) => {
+    await mount(
+      html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+    );
+
+    const host = page.locator('glide-core-checkbox');
+
+    await expect(host).not.toBeExtensible();
+  },
+);
+
+test(
   'throws when `label` is undefined',
   { tag: '@miscellaneous' },
   async ({ mount }) => {

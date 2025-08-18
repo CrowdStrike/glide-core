@@ -131,6 +131,20 @@ test(
 );
 
 test(
+  'cannot be extended',
+  { tag: '@miscellaneous' },
+  async ({ mount, page }) => {
+    await mount(
+      html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+    );
+
+    const host = page.locator('glide-core-accordion');
+
+    await expect(host).not.toBeExtensible();
+  },
+);
+
+test(
   'throws when `label` is undefined',
   { tag: '@miscellaneous' },
   async ({ mount }) => {
