@@ -529,7 +529,10 @@ export default class Menu extends LitElement {
     }
   }
 
-  #hide() {
+  async #hide() {
+    // There's a comment in `#show()` explaining why.
+    await this.#activeOption?.updateComplete;
+
     this.#cleanUpFloatingUi?.();
     this.#defaultSlotElementRef.value?.hidePopover();
 
@@ -1409,7 +1412,47 @@ export default class Menu extends LitElement {
     this.open = true;
   }
 
-  #show() {
+  async #show() {
+    if (
+      this.#previouslyActiveOption &&
+      !this.#previouslyActiveOption.disabled &&
+      this.#optionsElement
+    ) {
+      this.#previouslyActiveOption.privateActive = true;
+    } else if (this.#firstEnabledOption && this.#optionsElement) {
+      this.#firstEnabledOption.privateActive = true;
+      this.#previouslyActiveOption = this.#firstEnabledOption;
+    }
+
+    if (this.#optionsElement && this.#activeOption?.id) {
+      this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
+      this.#activeOption.privateTooltipOpen = this.privateOpenedViaKeyboard;
+    } else if (this.#optionsElement) {
+      this.#optionsElement.ariaActivedescendant = '';
+    }
+
+    // If we don't wait for the Option to update, it'll briefly appear as inactive when
+    // Menu opens because `showPopover()` is synchronous and component updates are not.
+    //
+    // A side effect of waiting, however, is that calling `#show()` then immediately
+    // calling `#hide()` won't work as expected: Menu will never close because the
+    // `showPopover()` call below will be slightly delayed. So `hidePopover()`, via
+    // `#hide()`, will be called just before `showPopover()`.
+    //
+    // That's why we also wait for the Option to update in `#hide()`. `#hide()` being
+    // called immediately after `#show()` may seem unlikely. But Menu itself does it
+    // when multiple sub-Menus are initially open.
+    //
+    // When, for example, Menu and two of its sub-Menus are initially open, each
+    // sub-Menu's `open` setter will get called, and each `open` setter will call
+    // `#show()`.
+    //
+    // But two open sub-Menus doesn't make sense. So Menu, shortly after the sub-Menus'
+    // `open` setters are initially called, will set the `open` property of the other
+    // sub-Menu to `false` in `firstUpdated()`. Thus a `#hide()` call immediately after
+    // `#show()`.
+    await this.#activeOption?.updateComplete;
+
     this.#cleanUpFloatingUi?.();
 
     // Ideally, we wouldn't show the popover until after Floating UI has calculated its
@@ -1464,32 +1507,10 @@ export default class Menu extends LitElement {
       this.#targetElement.ariaExpanded = 'true';
     }
 
-    if (this.#optionsElement && this.#activeOption?.id) {
-      this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
-    }
-
-    if (
-      this.#previouslyActiveOption &&
-      !this.#previouslyActiveOption.disabled &&
-      this.#optionsElement
-    ) {
-      this.#previouslyActiveOption.privateActive = true;
-
-      this.#previouslyActiveOption.privateTooltipOpen =
-        this.privateOpenedViaKeyboard;
-
-      this.#optionsElement.ariaActivedescendant =
-        this.#previouslyActiveOption.id;
-    } else if (this.#firstEnabledOption && this.#optionsElement) {
-      this.#firstEnabledOption.privateActive = true;
-
-      this.#firstEnabledOption.privateTooltipOpen =
-        this.privateOpenedViaKeyboard;
-
-      this.#previouslyActiveOption = this.#firstEnabledOption;
-      this.#optionsElement.ariaActivedescendant = this.#firstEnabledOption.id;
-    } else if (this.#optionsElement) {
-      this.#optionsElement.ariaActivedescendant = '';
+    if (this.#isSubMenu && this.#parentOption) {
+      this.#parentOption.ariaExpanded = 'true';
+    } else if (!this.#isSubMenu && this.#targetElement) {
+      this.#targetElement.ariaExpanded = 'true';
     }
 
     if (this.#targetElement && this.#defaultSlotElementRef.value) {
