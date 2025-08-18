@@ -11,6 +11,7 @@ import mount from './fixtures/mount.js';
 import removeAttribute from './fixtures/remove-attribute.js';
 import setAttribute from './fixtures/set-attribute.js';
 import setProperty from './fixtures/set-property.js';
+import waitForVisualSettlement from './fixtures/wait-for-visual-settlement.js';
 import toBeAccessible from './matchers/to-be-accessible.js';
 import toBeRegistered from './matchers/to-be-registered.js';
 import toDispatchEvents from './matchers/to-dispatch-events.js';
@@ -56,4 +57,5 @@ export const test = mergeTests(
   removeAttribute,
   setAttribute,
   setProperty,
+  waitForVisualSettlement,
 );

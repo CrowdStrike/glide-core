@@ -49,7 +49,10 @@ for (const story of stories) {
         });
 
         test.describe('open', () => {
-          test('open=${true}', async ({ page }, test) => {
+          test('open=${true}', async ({
+            page,
+            waitForVisualSettlement,
+          }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -64,6 +67,8 @@ for (const story of stories) {
               .evaluate<void, Menu>((element) => {
                 element.open = true;
               });
+
+            await waitForVisualSettlement('sub-Menu');
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
