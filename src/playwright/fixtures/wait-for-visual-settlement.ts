@@ -9,7 +9,8 @@ export default test.extend<{
         let previousScreenshot: Buffer | null = null;
 
         while (true) {
-          await page.evaluate(() => new Promise(requestAnimationFrame));
+          // https://github.com/CrowdStrike/glide-core/pull/1071#discussion_r2283391089
+          await new Promise((resolve) => setTimeout(resolve, 500));
 
           const currentScreenshot = await page.screenshot({
             animations: 'disabled',
