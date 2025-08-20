@@ -5,7 +5,7 @@ test(
   'is accessible',
   { tag: '@accessibility' },
   async ({ mount, page }) => {
-    await mount(html`<glide-core-spinner label="Label"></glide-core-spinner>`);
+    await mount(() => html`<glide-core-spinner label="Label"></glide-core-spinner>`);
 
     await expect(page).toBeAccessible('glide-core-spinner');
   },

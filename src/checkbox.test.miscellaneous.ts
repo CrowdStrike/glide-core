@@ -3,7 +3,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { expect, test } from './playwright/test.js';
 
 test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
-  await mount(html`<glide-core-checkbox label="Label"></glide-core-checkbox>`);
+  await mount(() => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`);
 
   const host = page.locator('glide-core-checkbox');
 
@@ -12,7 +12,7 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
 test('can be disabled', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
-    html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox>`,
+    () => html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox>`,
   );
 
   const host = page.locator('glide-core-checkbox');
@@ -25,7 +25,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -42,7 +42,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox
+      () => html`<glide-core-checkbox
         style=${styleMap({
           display: 'block',
           maxWidth: '6.25rem',
@@ -69,7 +69,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox
+      () => html`<glide-core-checkbox
         label="Label"
         private-variant="minimal"
         private-show-label-tooltip
@@ -87,7 +87,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page, setProperty }) => {
     await mount(
-      html`<glide-core-checkbox
+      () => html`<glide-core-checkbox
         label="Label"
         value="one"
       ></glide-core-checkbox>`,
@@ -107,7 +107,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -121,7 +121,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount }) => {
     expect(
-      mount(html`<glide-core-checkbox></glide-core-checkbox>`),
+      mount(() => html`<glide-core-checkbox></glide-core-checkbox>`),
     ).rejects.toThrow();
   },
 );

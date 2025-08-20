@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test('can be checked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
-  await mount(html`<glide-core-checkbox label="Label"></glide-core-checkbox>`);
+  await mount(() => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`);
 
   const host = page.locator('glide-core-checkbox');
 
@@ -34,7 +34,7 @@ test(
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -68,7 +68,7 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -102,7 +102,7 @@ test(
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -136,7 +136,7 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox
+      () => html`<glide-core-checkbox
         label="Label"
         indeterminate
       ></glide-core-checkbox>`,
@@ -155,7 +155,7 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox
+      () => html`<glide-core-checkbox
         label="Label"
         checked
         indeterminate
@@ -175,7 +175,7 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -199,7 +199,7 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -222,7 +222,7 @@ test(
   { tag: '@mouse' },
   async ({ addEventListener, mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');

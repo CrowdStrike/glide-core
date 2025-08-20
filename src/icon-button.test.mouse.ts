@@ -3,7 +3,7 @@ import { expect, test } from './playwright/test.js';
 
 test('can be clicked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
   await mount(
-    html`<glide-core-icon-button label="Label">
+    () => html`<glide-core-icon-button label="Label">
       <div>Icon</div>
     </glide-core-icon-button>`,
   );
@@ -29,7 +29,7 @@ test(
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label">
+      () => html`<glide-core-icon-button label="Label">
         <div>Icon</div>
       </glide-core-icon-button>`,
     );
@@ -56,7 +56,7 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label" disabled>
+      () => html`<glide-core-icon-button label="Label" disabled>
         <div>Icon</div>
       </glide-core-icon-button>`,
     );
@@ -75,7 +75,7 @@ test(
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label" disabled>
+      () => html`<glide-core-icon-button label="Label" disabled>
         <div>Icon</div>
       </glide-core-icon-button>`,
     );

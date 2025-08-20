@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test('has a `form` property', { tag: '@forms' }, async ({ mount, page }) => {
-  await mount(html`
+  await mount(() => html`
     <form>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
     </form>
@@ -21,7 +21,7 @@ test(
   'can be reset',
   { tag: '@forms' },
   async ({ callMethod, mount, page, setProperty }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -47,7 +47,7 @@ test(
   'has form data when checked',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -68,7 +68,7 @@ test(
   'has form data when checked and indeterminate',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -90,7 +90,7 @@ test(
   'has no form data when unchecked',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -110,7 +110,7 @@ test(
   'has no form data when unchecked and indeterminate',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -131,7 +131,7 @@ test(
   'has no form data when checked and disabled',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -153,7 +153,7 @@ test(
   'has no form data when checked and without a name',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -173,7 +173,7 @@ test(
   'has no form data when checked and without a value',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -193,7 +193,7 @@ test(
   'is valid when unchecked but not required',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox label="Label" checked></glide-core-checkbox>
       </form>
@@ -217,10 +217,10 @@ test(
 );
 
 test(
-  'is valid when unchecked and required but made not required programmatically',
+  'is valid when required and unchecked but made not required programmatically',
   { tag: '@forms' },
   async ({ callMethod, mount, page, removeAttribute }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox label="Label" required></glide-core-checkbox>
       </form>
@@ -249,7 +249,7 @@ test(
   'is both valid and invalid when unchecked and required but disabled',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -275,7 +275,7 @@ test(
   'is valid on submit when required and checked',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -308,7 +308,7 @@ test(
   'is invalid when unchecked and required',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox label="Label" required></glide-core-checkbox>
       </form>
@@ -335,7 +335,7 @@ test(
   'is invalid when required but unchecked via click',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -368,7 +368,7 @@ test(
   'is invalid on submit when required and unchecked',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox label="Label" required></glide-core-checkbox>
       </form>
@@ -397,7 +397,7 @@ test(
   'submits its form on Enter',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox label="Label"></glide-core-checkbox>
       </form>
@@ -421,7 +421,7 @@ test(
   'updates its validity on blur',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox label="Label" required></glide-core-checkbox>
       </form>
@@ -447,7 +447,7 @@ test(
   'supports `setCustomValidity()`',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox label="Label" required></glide-core-checkbox>
       </form>
@@ -481,7 +481,7 @@ test(
   'supports `setValidity()`',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox
           label="Label"
@@ -510,7 +510,7 @@ test(
   'supports `resetValidityFeedback()`',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-checkbox label="Label" required></glide-core-checkbox>
       </form>

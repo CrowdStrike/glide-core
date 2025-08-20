@@ -95,7 +95,7 @@ export default expect.extend({
             // and "change" events and instead relies on those events to come from a native
             // checkbox. Then, under ideal conditions, the timestamps of those events will be
             // the same. And, if we didn't account for timestamp equality, then the test would
-            // falsly fail.
+            // falsely fail.
             //
             // In my testing, events that are manually and sequentially dispatched never have
             // the same timestamp. However, after writing more tests, if we learn that those

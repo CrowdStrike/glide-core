@@ -6,7 +6,7 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label">
+      () => html`<glide-core-icon-button label="Label">
         <div>Icon</div>
       </glide-core-icon-button>`,
     );
@@ -33,7 +33,7 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label">
+      () => html`<glide-core-icon-button label="Label">
         <div>Icon</div>
       </glide-core-icon-button>`,
     );
@@ -60,7 +60,7 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label" disabled>
+      () => html`<glide-core-icon-button label="Label" disabled>
         <div>Icon</div>
       </glide-core-icon-button>`,
     );
@@ -79,7 +79,7 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label" disabled>
+      () => html`<glide-core-icon-button label="Label" disabled>
         <div>Icon</div>
       </glide-core-icon-button>`,
     );

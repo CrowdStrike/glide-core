@@ -5,7 +5,7 @@ test(
   'has a `form` property that returns its form',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-button label="Label"></glide-core-button>
       </form>
@@ -25,7 +25,7 @@ test(
   'submits its form when clicked via mouse',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
@@ -53,7 +53,7 @@ test(
   'submits its form when clicked via Enter',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
@@ -81,7 +81,7 @@ test(
   'submits its form when clicked via Space',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
@@ -109,7 +109,7 @@ test(
   'submits its form when clicked programmatically',
   { tag: '@forms' },
   async ({ addEventListener, callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
@@ -137,7 +137,7 @@ test(
   'submits its form when `requestSubmit()` is called',
   { tag: '@forms' },
   async ({ addEventListener, callMethod, mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <glide-core-button label="Label" type="submit"></glide-core-button>
       </form>
@@ -164,7 +164,7 @@ test(
   'resets its form when clicked via mouse',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(html`
+    await mount(() => html`
       <form>
         <input value="one" />
         <glide-core-button label="Label" type="reset"></glide-core-button>

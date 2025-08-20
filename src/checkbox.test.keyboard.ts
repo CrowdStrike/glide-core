@@ -6,7 +6,7 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -41,7 +41,7 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
+      () => html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');

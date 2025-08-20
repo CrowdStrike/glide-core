@@ -365,9 +365,15 @@ export default defineConfig([
   },
   {
     ...playwright.configs['flat/recommended'],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     files: [
       // Migrated
-      'src/*.test.accesibility.ts',
+      'src/*.test.accessibility.ts',
       'src/*.test.visuals.ts',
       'src/eslint/rules/*.test.ts',
       'src/stylelint/rules/*.test.ts',
@@ -407,6 +413,7 @@ export default defineConfig([
           ],
         },
       ],
+      '@typescript-eslint/no-floating-promises': 'error',
       '@crowdstrike/glide-core/always-tag-tests': 'error',
       '@crowdstrike/glide-core/one-tag-per-test': 'error',
       '@crowdstrike/glide-core/no-test-fail': 'error',

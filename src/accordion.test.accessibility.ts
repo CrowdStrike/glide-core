@@ -7,7 +7,7 @@ test(
   { tag: '@accessibility' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
     );
 
     await expect(page).toBeAccessible('glide-core-accordion');

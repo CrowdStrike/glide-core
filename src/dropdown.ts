@@ -1206,7 +1206,7 @@ export default class Dropdown extends LitElement implements FormControl {
       // We only want to focus the input if the "invalid" event resulted from either:
       //
       // 1. A form submission.
-      // 2. A call of `reportValidity()` that did not result from Checkbox's "blur"
+      // 2. A call of `reportValidity()` that did not result from Dropdown's "blur"
       //    event.
       if (this.isCheckingValidity || this.isBlurring) {
         return;
@@ -1219,7 +1219,7 @@ export default class Dropdown extends LitElement implements FormControl {
 
       if (isFirstInvalidFormElement) {
         // Canceling the event means Dropdown won't get focus, even if we were to use
-        // `this.#internals.delegatesFocus`. So we have to focus manually.
+        // `delegatesFocus`. So we have to focus manually.
         this.focus();
       }
     });

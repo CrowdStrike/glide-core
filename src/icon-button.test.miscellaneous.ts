@@ -3,7 +3,7 @@ import { expect, test } from './playwright/test.js';
 
 test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
-    html`<glide-core-icon-button label="Label">
+    () => html`<glide-core-icon-button label="Label">
       <div>Icon</div>
     </glide-core-icon-button>`,
   );
@@ -18,7 +18,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label">
+      () => html`<glide-core-icon-button label="Label">
         <div>Icon</div>
       </glide-core-icon-button>`,
     );
@@ -36,7 +36,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
-      html`<glide-core-icon-button label="Label">
+      () => html`<glide-core-icon-button label="Label">
         <div>Icon</div>
       </glide-core-icon-button>`,
     );
@@ -53,7 +53,7 @@ test(
   async ({ mount }) => {
     await expect(
       mount(
-        html`<glide-core-icon-button>
+        () => html`<glide-core-icon-button>
           <div>Icon</div>
         </glide-core-icon-button>`,
       ),
@@ -66,7 +66,7 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount }) => {
     await expect(
-      mount(html`<glide-core-icon-button></glide-core-icon-button>`),
+      mount(() => html`<glide-core-icon-button></glide-core-icon-button>`),
     ).rejects.toThrow();
   },
 );
