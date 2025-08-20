@@ -43,16 +43,17 @@ for (const story of stories) {
               element.open = true;
             });
 
+          await expect(
+            page.locator('glide-core-menu glide-core-menu'),
+          ).toBeStable();
+
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
           );
         });
 
         test.describe('open', () => {
-          test('open=${true}', async ({
-            page,
-            waitForVisualSettlement,
-          }, test) => {
+          test('open=${true}', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
             await page
@@ -68,7 +69,9 @@ for (const story of stories) {
                 element.open = true;
               });
 
-            await waitForVisualSettlement('sub-Menu');
+            await expect(
+              page.locator('glide-core-menu glide-core-menu'),
+            ).toBeStable();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,

@@ -202,10 +202,10 @@ test(
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
 
-    await expect(host).toDispatchEvents(async () => {
+    await expect(host).not.toDispatchEvents(async () => {
       await callMethod(host, 'checkValidity');
       await callMethod(host, 'reportValidity');
-    }, []);
+    }, [{ type: 'invalid' }]);
 
     await expect(host).toHaveJSProperty('validity.valid', true);
     await expect(host).toHaveJSProperty('validity.valueMissing', false);
@@ -231,10 +231,10 @@ test(
 
     await removeAttribute(host, 'required');
 
-    await expect(host).toDispatchEvents(async () => {
+    await expect(host).not.toDispatchEvents(async () => {
       await callMethod(host, 'checkValidity');
       await callMethod(host, 'reportValidity');
-    }, []);
+    }, [{ type: 'invalid' }]);
 
     await expect(host).toHaveJSProperty('validity.valid', true);
     await expect(host).toHaveJSProperty('validity.valueMissing', false);
@@ -293,9 +293,9 @@ test(
       preventDefault: true,
     });
 
-    await expect(host).toDispatchEvents(
+    await expect(host).not.toDispatchEvents(
       async () => checkbox.press('Enter'),
-      [],
+      [{ type: 'invalid' }],
     );
 
     await expect(host).toHaveJSProperty('validity.valid', true);

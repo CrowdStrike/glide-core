@@ -1129,9 +1129,9 @@ export default class Dropdown extends LitElement implements FormControl {
           ${when(
             this.#isShowValidationFeedback && this.validityMessage,
             () =>
-              html`<span class="validity-message" data-test="validity-message"
-                >${unsafeHTML(this.validityMessage)}</span
-              >`,
+              html`<span class="validity-message" data-test="validity-message">
+                ${unsafeHTML(this.validityMessage)}
+              </span>`,
           )}
         </div>
       </glide-core-private-label>

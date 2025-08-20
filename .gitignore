@@ -8,3 +8,4 @@
 !.vscode/extensions.json
 dist/
 node_modules/
+test-results/

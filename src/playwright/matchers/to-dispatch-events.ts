@@ -15,6 +15,10 @@ export default expect.extend({
     action: () => Promise<void>,
     expectedEvents: Omit<SerializableEvent, 'timeStamp'>[],
   ) {
+    if (expectedEvents.length === 0) {
+      throw new Error('`expectedEvents` should contain at least one event.');
+    }
+
     await locator.evaluate((element, expectedEvents) => {
       // Sadly, there doesn't appear to be another way. We need to be certain that the
       // event listeners are in place before the action call is awaited. And the only

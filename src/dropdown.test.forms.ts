@@ -167,8 +167,9 @@ it('sets the validity message with `setCustomValidity()`', async () => {
   await host.updateComplete;
 
   expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
+    host.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
   ).to.equal('validity message');
 });
 
@@ -220,8 +221,9 @@ it('is invalid when `setValidity()` is called', async () => {
   await host.updateComplete;
 
   expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
+    host.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
   ).to.equal('validity message');
 });
 
@@ -277,8 +279,9 @@ it('sets the validity message with `setCustomValidity()` when `filterable`', asy
   await host.updateComplete;
 
   expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
+    host.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
   ).to.equal('validity message');
 });
 
@@ -319,8 +322,9 @@ it('is invalid when `setValidity()` is called when `filterable`', async () => {
 
   // Like native, the message shouldn't display until `reportValidity()` is called.
   expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
+    host.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
   ).to.be.undefined;
 
   expect(host.validity?.customError).to.be.true;
@@ -330,8 +334,9 @@ it('is invalid when `setValidity()` is called when `filterable`', async () => {
   await host.updateComplete;
 
   expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
+    host.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
   ).to.equal('validity message');
 });
 
@@ -389,8 +394,9 @@ it('removes its validity feedback but retains its validity state when `resetVali
   await host.updateComplete;
 
   expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
+    host.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
   ).to.equal('validity message');
 
   host.resetValidityFeedback();
