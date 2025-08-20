@@ -38,6 +38,28 @@ class WhenNotUsedInsideATag extends LitElement {
   }
 }
 
+@customElement('glide-core-reslotted')
+class Reslotted extends LitElement {
+  @property()
+  name?: string;
+
+  @property({ type: Boolean })
+  optional = false;
+
+  @property({ type: Array })
+  slotted?: (typeof Element | typeof Text)[] = [];
+
+  override render() {
+    return html`<glide-core-with-slot
+      name=${ifDefined(this.name)}
+      .slotted=${this.slotted}
+      ?optional=${this.optional}
+    >
+      <slot name=${ifDefined(this.name)}></slot>
+    </glide-core-with-slot>`;
+  }
+}
+
 it('throws when a required default slot is empty', async () => {
   const stub = sinon.stub(console, 'error');
   const spy = sinon.spy();
@@ -431,4 +453,116 @@ it('throws when not used inside an opening tag', async () => {
   expect(spy.args.at(0)?.at(0).message).to.equal(
     "Directive must be inside the element's opening tag.",
   );
+});
+
+it('throws when a reslotted and required default slot is empty', async () => {
+  const stub = sinon.stub(console, 'error');
+  const spy = sinon.spy();
+  const onerror = window.onerror;
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = spy;
+
+  await fixture<Reslotted>(
+    html`<glide-core-reslotted
+      .slotted=${[HTMLDivElement]}
+    ></glide-core-reslotted>`,
+  );
+
+  expect(spy.callCount).to.equal(1);
+
+  expect(spy.args.at(0)?.at(0)).to.equal(
+    'Uncaught TypeError: Expected WithSlot to have a slotted element that extends HTMLDivElement.',
+  );
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = onerror;
+
+  stub.restore();
+});
+
+it('throws when a reslotted default slot has the wrong element', async () => {
+  const stub = sinon.stub(console, 'error');
+  const spy = sinon.spy();
+  const onerror = window.onerror;
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = spy;
+
+  await fixture<Reslotted>(
+    html`<glide-core-reslotted .slotted=${[HTMLDivElement]}>
+      <a href="/">Link</a>
+    </glide-core-reslotted>`,
+  );
+
+  expect(spy.callCount).to.equal(1);
+
+  expect(spy.args.at(0)?.at(0)).to.equal(
+    'Uncaught TypeError: Expected WithSlot to have a slotted element that extends HTMLDivElement. Extends HTMLAnchorElement instead.',
+  );
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = onerror;
+
+  stub.restore();
+});
+
+it('does not throw when a reslotted default slot has the correct element', async () => {
+  const spy = sinon.spy();
+  window.addEventListener('error', spy);
+
+  await fixture<Reslotted>(
+    html`<glide-core-reslotted .slotted=${[HTMLDivElement]}>
+      <div>Content</div>
+    </glide-core-reslotted>`,
+  );
+
+  expect(spy.callCount).to.equal(0);
+});
+
+it('throws when a reslotted and required named slot is empty', async () => {
+  const stub = sinon.stub(console, 'error');
+  const spy = sinon.spy();
+
+  window.addEventListener('unhandledrejection', spy, { once: true });
+
+  await fixture<Reslotted>(
+    html`<glide-core-reslotted
+      name="test"
+      .slotted=${[HTMLDivElement]}
+    ></glide-core-reslotted>`,
+  );
+
+  await waitUntil(() => spy.callCount);
+
+  expect(spy.callCount).to.equal(1);
+  expect(spy.args.at(0)?.at(0) instanceof PromiseRejectionEvent).to.be.true;
+
+  expect(spy.args.at(0)?.at(0).reason.message).to.equal(
+    'Expected the "test" slot of WithSlot to have a slotted element that extends HTMLDivElement.',
+  );
+
+  stub.restore();
+});
+
+it('does not throw when a reslotted optional named slot is empty', async () => {
+  const spy = sinon.spy();
+  window.addEventListener('unhandledrejection', spy, { once: true });
+
+  await fixture<Reslotted>(
+    html`<glide-core-reslotted name="test" optional></glide-core-reslotted>`,
+  );
+
+  expect(spy.callCount).to.equal(0);
+});
+
+it('does not throw when a reslotted optional slot is empty', async () => {
+  const spy = sinon.spy();
+  window.addEventListener('unhandledrejection', spy, { once: true });
+
+  await fixture<Reslotted>(
+    html`<glide-core-reslotted optional></glide-core-reslotted>`,
+  );
+
+  expect(spy.callCount).to.equal(0);
 });

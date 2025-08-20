@@ -78,14 +78,14 @@ class AssertSlot extends Directive {
             if (
               isOptional &&
               part.element instanceof HTMLSlotElement &&
-              part.element.assignedNodes().length === 0
+              part.element.assignedNodes({ flatten: true }).length === 0
             ) {
               return;
             }
 
             if (
               part.element instanceof HTMLSlotElement &&
-              part.element.assignedNodes().length === 0
+              part.element.assignedNodes({ flatten: true }).length === 0
             ) {
               if (slotted && slotted.length > 0) {
                 const message = part.element.name
