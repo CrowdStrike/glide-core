@@ -17,7 +17,8 @@ export default (selector: string) => {
 
     ${unsafeCSS(selector)} {
       @media (prefers-reduced-motion: no-preference) {
-        animation: opacity-and-scale 250ms cubic-bezier(0.25, 0, 0.3, 1);
+        animation: opacity-and-scale var(--glide-core-duration-moderate-02)
+          var(--glide-core-animation-swoop);
       }
     }
   `;
