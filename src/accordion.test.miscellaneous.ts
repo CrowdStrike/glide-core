@@ -106,9 +106,9 @@ test(
 
     const host = page.locator('glide-core-accordion');
 
-    await expect(host).toDispatchEvents(
+    await expect(host).not.toDispatchEvents(
       () => setProperty(host, 'open', true),
-      [],
+      [{ type: 'toggle' }],
     );
   },
 );
@@ -123,9 +123,9 @@ test(
 
     const host = page.locator('glide-core-accordion');
 
-    await expect(host).toDispatchEvents(
-      () => setProperty(host, 'open', true),
-      [],
+    await expect(host).not.toDispatchEvents(
+      () => setProperty(host, 'open', false),
+      [{ type: 'toggle' }],
     );
   },
 );
