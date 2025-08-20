@@ -2734,7 +2734,7 @@ export default class Dropdown extends LitElement implements FormControl {
             // Another is Dropdown's `value` setter, which calls this method indirectly when
             // it selects options programmatically. We have a few options if `value` is set
             // programmatically to include the value of a disabled option: we can throw, remove
-            // the value from `this.value`, or enable the option. ing can be disruptive if
+            // the value from `this.value`, or enable the option. Throwing can be disruptive if
             // errors aren't handled downstream, which they often aren't. So we avoid throwing
             // unless we have to. And removing the value would, in a small way, be a breach of
             // Dropdown's contract with consumers. So we enable it.
