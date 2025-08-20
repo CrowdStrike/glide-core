@@ -47,6 +47,7 @@ const meta: Meta = {
     '<glide-core-option>[slot="content"]': '',
     '<glide-core-option>[slot="icon"]': '',
     '<glide-core-option>[slot="submenu"]': '',
+    '<glide-core-option>[slot="submenu"].open': '',
     '<glide-core-option>.value': '',
     '<glide-core-option>.version': '',
   },
@@ -293,6 +294,11 @@ const meta: Meta = {
       },
       type: { name: 'function' },
     },
+    '<glide-core-option>[slot="submenu"].open': {
+      table: {
+        disable: true,
+      },
+    },
     '<glide-core-option>.value': {
       name: 'value',
       table: {
@@ -323,15 +329,28 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-menu')
       ?.addEventListener('toggle', (event: Event) => {
-        const isSubmenu =
+        const isFromSubMenu =
           event.target instanceof Element &&
           event.target.closest('glide-core-option');
 
-        if (event.target instanceof MenuComponent && !isSubmenu) {
+        if (event.target instanceof MenuComponent && !isFromSubMenu) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
               open: event.target.open,
+            },
+          });
+        }
+      });
+
+    context.canvasElement
+      .querySelector('glide-core-menu glide-core-menu')
+      ?.addEventListener('toggle', (event: Event) => {
+        if (event.target instanceof MenuComponent) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              '<glide-core-option>[slot="submenu"].open': event.target.open,
             },
           });
         }
@@ -378,7 +397,10 @@ const meta: Meta = {
           value=${arguments_['<glide-core-option>.value'] || nothing}
           ?disabled=${arguments_['<glide-core-option>.disabled']}
         >
-          <glide-core-menu slot="submenu">
+          <glide-core-menu
+            slot="submenu"
+            ?open=${arguments_['<glide-core-option>[slot="submenu"].open']}
+          >
             <glide-core-example-icon
               slot="target"
               name="three-dots"
@@ -456,7 +478,10 @@ export const WithGroups: StoryObj = {
             value=${arguments_['<glide-core-option>.value'] || nothing}
             ?disabled=${arguments_['<glide-core-option>.disabled']}
           >
-            <glide-core-menu slot="submenu">
+            <glide-core-menu
+              slot="submenu"
+              ?open=${arguments_['<glide-core-option>[slot="submenu"].open']}
+            >
               <glide-core-example-icon
                 slot="target"
                 name="three-dots"
@@ -540,7 +565,10 @@ export const WithIcons: StoryObj = {
             name="edit"
           ></glide-core-example-icon>
 
-          <glide-core-menu slot="submenu">
+          <glide-core-menu
+            slot="submenu"
+            ?open=${arguments_['<glide-core-option>[slot="submenu"].open']}
+          >
             <glide-core-example-icon
               slot="target"
               name="three-dots"
