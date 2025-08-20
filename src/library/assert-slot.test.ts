@@ -46,10 +46,13 @@ class Reslotted extends LitElement {
   @property({ type: Boolean })
   optional = false;
 
+  @property({ type: Array })
+  slotted?: (typeof Element | typeof Text)[] = [];
+
   override render() {
     return html`<glide-core-with-slot
       name=${ifDefined(this.name)}
-      .slotted=${this.optional ? undefined : [HTMLDivElement]}
+      .slotted=${this.slotted}
       ?optional=${this.optional}
     >
       <slot name=${ifDefined(this.name)}></slot>
@@ -452,7 +455,7 @@ it('throws when not used inside an opening tag', async () => {
   );
 });
 
-it('throws when a reslotted default slot is empty', async () => {
+it('throws when a reslotted and required default slot is empty', async () => {
   const stub = sinon.stub(console, 'error');
   const spy = sinon.spy();
   const onerror = window.onerror;
@@ -460,7 +463,11 @@ it('throws when a reslotted default slot is empty', async () => {
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
 
-  await fixture<Reslotted>(html`<glide-core-reslotted></glide-core-reslotted>`);
+  await fixture<Reslotted>(
+    html`<glide-core-reslotted
+      .slotted=${[HTMLDivElement]}
+    ></glide-core-reslotted>`,
+  );
 
   expect(spy.callCount).to.equal(1);
 
@@ -483,7 +490,7 @@ it('throws when a reslotted default slot has the wrong element', async () => {
   window.onerror = spy;
 
   await fixture<Reslotted>(
-    html`<glide-core-reslotted>
+    html`<glide-core-reslotted .slotted=${[HTMLDivElement]}>
       <a href="/">Link</a>
     </glide-core-reslotted>`,
   );
@@ -505,7 +512,7 @@ it('does not throw when a reslotted default slot has the correct element', async
   window.addEventListener('error', spy);
 
   await fixture<Reslotted>(
-    html`<glide-core-reslotted>
+    html`<glide-core-reslotted .slotted=${[HTMLDivElement]}>
       <div>Content</div>
     </glide-core-reslotted>`,
   );
@@ -513,14 +520,17 @@ it('does not throw when a reslotted default slot has the correct element', async
   expect(spy.callCount).to.equal(0);
 });
 
-it('throws when a reslotted required named slot is empty', async () => {
+it('throws when a reslotted and required named slot is empty', async () => {
   const stub = sinon.stub(console, 'error');
   const spy = sinon.spy();
 
   window.addEventListener('unhandledrejection', spy, { once: true });
 
   await fixture<Reslotted>(
-    html`<glide-core-reslotted name="test"></glide-core-reslotted>`,
+    html`<glide-core-reslotted
+      name="test"
+      .slotted=${[HTMLDivElement]}
+    ></glide-core-reslotted>`,
   );
 
   await waitUntil(() => spy.callCount);
