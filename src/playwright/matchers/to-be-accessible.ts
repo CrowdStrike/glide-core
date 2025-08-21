@@ -31,7 +31,7 @@ export default expect.extend({
             expectedViolations ?? [],
             result.violations.filter((violation) => {
               return expectedViolations
-                ? expectedViolations.find((id) => id !== violation.id)
+                ? expectedViolations.every((id) => id !== violation.id)
                 : result.violations;
             }),
             'Expected',
