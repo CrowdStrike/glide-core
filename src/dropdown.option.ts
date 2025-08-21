@@ -258,6 +258,15 @@ export default class DropdownOption extends LitElement {
     this.#intersectionObserver.observe(this);
   }
 
+  @state()
+  private get countSuffix() {
+    return typeof this.count === 'number' && this.count >= 0
+      ? this.count >= 1000
+        ? '999+'
+        : this.count.toString()
+      : '';
+  }
+
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.#intersectionObserver?.disconnect();
@@ -267,6 +276,11 @@ export default class DropdownOption extends LitElement {
     if (this.#checkboxElementRef.value) {
       this.#checkboxElementRef.value.checked = this.selected && !this.disabled;
     }
+  }
+
+  @state()
+  private get isCountGreaterThanZero() {
+    return typeof this.count === 'number' && this.count >= 0;
   }
 
   privateEdit() {
@@ -343,7 +357,7 @@ export default class DropdownOption extends LitElement {
                 class=${classMap({
                   'edit-button': true,
                   active: this.privateIsEditActive,
-                  count: Boolean(this.count),
+                  count: this.isCountGreaterThanZero,
                   disabled: this.disabled,
                   multiple: Boolean(this.isMultiple),
                 })}
@@ -355,7 +369,7 @@ export default class DropdownOption extends LitElement {
                 ${pencilIcon}
               </button>`;
             })}
-            ${when(this.count && this.count > 0, () => {
+            ${when(this.isCountGreaterThanZero, () => {
               return html`<div
                 class=${classMap({
                   'count-container': true,
@@ -363,18 +377,7 @@ export default class DropdownOption extends LitElement {
                 })}
                 data-test="count-container"
               >
-                ${when(
-                  // `this.count` is guaranteed to be defined by the `when()` above.
-                  //
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  this.count! >= 1000,
-                  () => {
-                    return '999+';
-                  },
-                  () => {
-                    return this.count;
-                  },
-                )}
+                ${this.countSuffix}
               </div>`;
             })}
           `;
@@ -384,7 +387,7 @@ export default class DropdownOption extends LitElement {
             <div
               class=${classMap({
                 option: true,
-                count: Boolean(this.count),
+                count: this.isCountGreaterThanZero,
                 disabled: this.disabled,
                 editable: this.editable,
               })}
@@ -447,7 +450,7 @@ export default class DropdownOption extends LitElement {
                   class=${classMap({
                     'edit-button': true,
                     active: this.privateActive && this.privateIsEditActive,
-                    count: Boolean(this.count),
+                    count: this.isCountGreaterThanZero,
                     disabled: this.disabled,
                   })}
                   data-test="edit-button"
@@ -459,7 +462,7 @@ export default class DropdownOption extends LitElement {
                 </button>`;
               })}
 
-              ${when(this.count && this.count > 0, () => {
+              ${when(this.isCountGreaterThanZero, () => {
                 return html`<div
                   class=${classMap({
                     'count-container': true,
@@ -467,18 +470,7 @@ export default class DropdownOption extends LitElement {
                   })}
                   data-test="count-container"
                 >
-                  ${when(
-                    // `this.count` is guaranteed to be defined by the `when()` above.
-                    //
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    this.count! >= 1000,
-                    () => {
-                      return '999+';
-                    },
-                    () => {
-                      return this.count;
-                    },
-                  )}
+                  ${this.countSuffix}
                 </div>`;
               })}
             </div>
