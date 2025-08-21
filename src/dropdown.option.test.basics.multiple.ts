@@ -122,6 +122,12 @@ it('has a count', async () => {
 
   expect(count?.checkVisibility()).to.be.true;
   expect(count?.textContent?.trim()).to.equal('999+');
+
+  host.count = 0;
+  await host.updateComplete;
+
+  expect(count?.checkVisibility()).to.be.true;
+  expect(count?.textContent?.trim()).to.equal('0');
 });
 
 it('does not have a count when negative', async () => {

@@ -355,7 +355,7 @@ export default class DropdownOption extends LitElement {
                 ${pencilIcon}
               </button>`;
             })}
-            ${when(this.count && this.count > 0, () => {
+            ${when(this.#hasValidCount, () => {
               return html`<div
                 class=${classMap({
                   'count-container': true,
@@ -384,7 +384,7 @@ export default class DropdownOption extends LitElement {
             <div
               class=${classMap({
                 option: true,
-                count: Boolean(this.count),
+                count: this.#hasValidCount,
                 disabled: this.disabled,
                 editable: this.editable,
               })}
@@ -447,7 +447,7 @@ export default class DropdownOption extends LitElement {
                   class=${classMap({
                     'edit-button': true,
                     active: this.privateActive && this.privateIsEditActive,
-                    count: Boolean(this.count),
+                    count: this.#hasValidCount,
                     disabled: this.disabled,
                   })}
                   data-test="edit-button"
@@ -459,7 +459,7 @@ export default class DropdownOption extends LitElement {
                 </button>`;
               })}
 
-              ${when(this.count && this.count > 0, () => {
+              ${when(this.#hasValidCount, () => {
                 return html`<div
                   class=${classMap({
                     'count-container': true,
@@ -533,6 +533,10 @@ export default class DropdownOption extends LitElement {
   #selected = false;
 
   #value = '';
+
+  get #hasValidCount() {
+    return typeof this.count === 'number' && this.count >= 0;
+  }
 
   #onCheckboxClick(event: MouseEvent) {
     // Form controls emit two events when their labels are clicked: one from the
