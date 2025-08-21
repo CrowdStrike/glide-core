@@ -45,7 +45,7 @@ for (const story of stories) {
 
           await expect(
             page.locator('glide-core-menu glide-core-menu'),
-          ).toBeStable();
+          ).toBeConsistentlyStable();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
@@ -71,7 +71,7 @@ for (const story of stories) {
 
             await expect(
               page.locator('glide-core-menu glide-core-menu'),
-            ).toBeStable();
+            ).toBeConsistentlyStable();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
