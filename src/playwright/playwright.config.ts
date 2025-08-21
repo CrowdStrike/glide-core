@@ -149,6 +149,7 @@ export default defineConfig({
   webServer: process.env.PLAYWRIGHT_NO_WEBSERVER
     ? undefined
     : {
+        name: 'Storybook',
         command: 'pnpm start:development:storybook',
         reuseExistingServer: true,
         url: 'http://localhost:6006',
