@@ -122,7 +122,7 @@
   --glide-core-color-severity-stroke-high: #e7a649;
   --glide-core-color-severity-stroke-medium: #f0cf4f;
   --glide-core-color-severity-stroke-low: #727272;
-  --glide-core-color-severity-text-citical: #e67873;
+  --glide-core-color-severity-text-critical: #e67873;
   --glide-core-color-severity-text-high: #ffb64f;
   --glide-core-color-severity-text-medium: #f0cf4f;
   --glide-core-color-severity-text-low: #f9f9f9;
@@ -152,7 +152,7 @@
   --glide-core-private-color-dialog-and-modal-surface-overlay: #141414d9;
   --glide-core-private-color-skeleton-loader-surface-linear-gradient-sides: #ffffff0d;
   --glide-core-private-color-skeleton-loader-surface-linear-gradient-middle: #ffffff1a;
-  --glide-core-private-color-slider-and-scrollbar-surface-handle: #2c2c2c;
+  --glide-core-private-color-slider-surface-handle: #2c2c2c;
   --glide-core-private-color-tabs-stroke-underline: #ffffff26;
   --glide-core-private-color-template-surface-container-detail: #222222;
   --glide-core-private-color-tooltip-surface-container: #dcdcdc;

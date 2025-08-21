@@ -119,9 +119,7 @@ export default [
     }
 
     .handle {
-      background-color: var(
-        --glide-core-private-color-slider-and-scrollbar-surface-handle
-      );
+      background-color: var(--glide-core-private-color-slider-surface-handle);
       block-size: 1.5rem;
       border: 2px solid var(--glide-core-color-interactive-stroke-active);
       border-radius: var(--glide-core-rounding-base-radius-round);
