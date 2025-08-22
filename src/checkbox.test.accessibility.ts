@@ -1,24 +1,21 @@
 import { html } from 'lit';
-import { expect, test } from './playwright/test.js';
 import type Checkbox from './checkbox.js';
+import { expect, test } from '@/src/playwright/test.js';
 
-test(
-  'is accessible',
-  { tag: '@accessibility' },
-  async ({ mount, page }) => {
-    await mount(
-      () => html`<glide-core-checkbox
+test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
+  await mount(
+    () =>
+      html`<glide-core-checkbox
         label="Label"
         summary="Summary"
         tooltip="Tooltip"
       >
         <div slot="description">Description</div>
       </glide-core-checkbox>`,
-    );
+  );
 
-    await expect(page).toBeAccessible('glide-core-checkbox');
-  },
-);
+  await expect(page).toBeAccessible('glide-core-checkbox');
+});
 
 test('checked=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');

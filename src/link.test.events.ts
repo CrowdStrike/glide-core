@@ -2,7 +2,7 @@ import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import { sendKeys } from '@web/test-runner-commands';
 import Link from './link.js';
-import { click } from './library/mouse.js';
+import { click } from '@/src/library/mouse.js';
 
 it('dispatches a "click" event on click', async () => {
   const host = await fixture<Link>(

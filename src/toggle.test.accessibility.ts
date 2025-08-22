@@ -1,5 +1,5 @@
-import { expect, test } from './playwright/test.js';
 import type Toggle from './toggle.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('checked=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');

@@ -5,6 +5,7 @@ import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fromRollup } from '@web/dev-server-rollup';
 import { playwrightLauncher } from '@web/test-runner-playwright';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
+import rollupPluginAlias from '@rollup/plugin-alias';
 
 export default {
   browsers: [playwrightLauncher()],
@@ -66,6 +67,16 @@ export default {
     exportConditions: ['production'],
   },
   plugins: [
+    // Handle path aliases for TypeScript paths
+    fromRollup(rollupPluginAlias)({
+      entries: [
+        {
+          find: '@/src',
+          replacement: fileURLToPath(new URL('src', import.meta.url)),
+        },
+        { find: '@', replacement: import.meta.dirname },
+      ],
+    }),
     // Some modules still use CommonJS-style exports. This plugin handles them.
     //
     // https://github.com/modernweb-dev/web/issues/1700#issuecomment-1059441615

@@ -1,5 +1,5 @@
-import { expect, test } from './playwright/test.js';
 import type Modal from './modal.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('open', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--modal');

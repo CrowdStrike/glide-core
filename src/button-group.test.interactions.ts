@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import './button-group.button.js';
-import { click } from './library/mouse.js';
 import ButtonGroup from './button-group.js';
+import { click } from '@/src/library/mouse.js';
 
 it('selects a button on click', async () => {
   const host = await fixture<ButtonGroup>(

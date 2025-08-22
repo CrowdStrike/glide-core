@@ -8,12 +8,12 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { choose } from 'lit/directives/choose.js';
 import { when } from 'lit/directives/when.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import xIcon from './icons/x.js';
-import { LocalizeController } from './library/localize.js';
 import styles from './toast.toasts.styles.js';
-import final from './library/final.js';
 import Toast from './toast.js';
 import Link from './link.js';
+import xIcon from '@/src/icons/x.js';
+import { LocalizeController } from '@/src/library/localize.js';
+import final from '@/src/library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {

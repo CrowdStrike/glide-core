@@ -4,8 +4,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 import styles from './tooltip.container.styles.js';
-import final from './library/final.js';
-import uniqueId from './library/unique-id.js';
+import final from '@/src/library/final.js';
+import uniqueId from '@/src/library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {

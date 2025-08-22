@@ -4,14 +4,14 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import packageJson from '../package.json' with { type: 'json' };
 import Menu from './menu.js';
-import chevronIcon from './icons/chevron.js';
 import styles from './split-button.secondary-button.styles.js';
-import assertSlot from './library/assert-slot.js';
-import final from './library/final.js';
-import required from './library/required.js';
 import Option from './option.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import chevronIcon from '@/src/icons/chevron.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {

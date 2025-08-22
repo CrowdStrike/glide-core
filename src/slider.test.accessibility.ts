@@ -1,5 +1,5 @@
-import { expect, test } from './playwright/test.js';
 import type Slider from './slider.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test.describe('disabled', () => {
   test('multiple=${true}', { tag: '@accessibility' }, async ({ page }) => {

@@ -3,12 +3,12 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import packageJson from '../package.json' with { type: 'json' };
-import chevronIcon from './icons/chevron.js';
 import styles from './accordion.styles.js';
-import assertSlot from './library/assert-slot.js';
-import final from './library/final.js';
-import required from './library/required.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import assertSlot from '@/src/library/assert-slot.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
+import chevronIcon from '@/src/icons/chevron.js';
 
 declare global {
   interface HTMLElementTagNameMap {

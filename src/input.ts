@@ -8,14 +8,14 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
-import { LocalizeController } from './library/localize.js';
-import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import styles from './input.styles.js';
-import xIcon from './icons/x.js';
-import type FormControl from './library/form-control.js';
-import final from './library/final.js';
-import required from './library/required.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import { LocalizeController } from '@/src/library/localize.js';
+import magnifyingGlassIcon from '@/src/icons/magnifying-glass.js';
+import xIcon from '@/src/icons/x.js';
+import type FormControl from '@/src/library/form-control.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {

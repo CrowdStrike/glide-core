@@ -1,8 +1,8 @@
 import { html } from 'lit';
-import { expect, test } from './playwright/test.js';
 import type Select from './select.js';
 import type Menu from './menu.js';
 import Option from './option.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
   await mount(

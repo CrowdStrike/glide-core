@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { expect, test } from './playwright/test.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(() => html`<glide-core-button label="Label"></glide-core-button>`);

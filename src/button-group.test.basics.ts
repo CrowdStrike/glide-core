@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import ButtonGroup from './button-group.js';
 import './button-group.button.js';
-import expectWindowError from './library/expect-window-error.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends ButtonGroup {}

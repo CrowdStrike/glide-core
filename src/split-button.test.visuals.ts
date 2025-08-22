@@ -1,9 +1,9 @@
-import { expect, test } from './playwright/test.js';
 import type SplitButton from './split-button.js';
 import type SplitButtonPrimaryButton from './split-button.primary-button.js';
 import type SplitButtonPrimaryLink from './split-button.primary-link.js';
 import type SplitButtonSecondaryButton from './split-button.secondary-button.js';
-import fetchStories from './playwright/fetch-stories.js';
+import { expect, test } from '@/src/playwright/test.js';
+import fetchStories from '@/src/playwright/fetch-stories.js';
 
 const stories = await fetchStories('Split Button');
 

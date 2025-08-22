@@ -1,6 +1,6 @@
 import { css } from 'lit';
-import focusOutline from './styles/focus-outline.js';
-import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
+import focusOutline from '@/src/styles/focus-outline.js';
+import opacityAndScaleAnimation from '@/src/styles/opacity-and-scale-animation.js';
 
 export default [
   css`

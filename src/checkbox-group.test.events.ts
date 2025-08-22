@@ -1,8 +1,8 @@
 import './checkbox.js';
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import CheckboxGroup from './checkbox-group.js';
+import { click } from '@/src/library/mouse.js';
 
 it('dispatches a "click" event on click', async () => {
   const host = await fixture<CheckboxGroup>(

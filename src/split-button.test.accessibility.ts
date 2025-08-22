@@ -1,7 +1,7 @@
-import { expect, test } from './playwright/test.js';
 import type SplitButtonPrimaryButton from './split-button.primary-button.js';
 import type SplitButtonPrimaryLink from './split-button.primary-link.js';
 import type SplitButtonSecondaryButton from './split-button.secondary-button.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test(
   '<glide-core-split-button-primary-button>[disabled=${true}]',

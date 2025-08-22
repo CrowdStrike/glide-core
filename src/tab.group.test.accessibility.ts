@@ -1,5 +1,5 @@
-import { expect, test } from './playwright/test.js';
 import type Tab from './tab.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test(
   '<glide-core-tab>.disabled',

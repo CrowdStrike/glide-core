@@ -2,7 +2,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import ButtonGroupButton from './button-group.button.js';
-import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectUnhandledRejection from '@/src/library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends ButtonGroupButton {}

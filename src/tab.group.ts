@@ -4,15 +4,15 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
-import { LocalizeController } from './library/localize.js';
 import Tab from './tab.js';
 import TabPanel from './tab.panel.js';
-import chevronIcon from './icons/chevron.js';
-import onResize from './library/on-resize.js';
 import styles from './tab.group.styles.js';
-import assertSlot from './library/assert-slot.js';
-import final from './library/final.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import { LocalizeController } from '@/src/library/localize.js';
+import chevronIcon from '@/src/icons/chevron.js';
+import onResize from '@/src/library/on-resize.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import final from '@/src/library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {

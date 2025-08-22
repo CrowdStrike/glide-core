@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { expect, test } from './playwright/test.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test(
   'can be opened via mouse when animated',

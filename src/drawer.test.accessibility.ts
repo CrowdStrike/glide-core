@@ -1,5 +1,5 @@
-import { expect, test } from './playwright/test.js';
 import type Drawer from './drawer.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('open', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=drawer--drawer');

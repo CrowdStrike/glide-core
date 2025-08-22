@@ -6,15 +6,15 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
-import checkedIcon from './icons/checked.js';
-import pencilIcon from './icons/pencil.js';
-import { LocalizeController } from './library/localize.js';
 import styles from './dropdown.option.styles.js';
 import type Checkbox from './checkbox.js';
-import final from './library/final.js';
-import required from './library/required.js';
-import uniqueId from './library/unique-id.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import checkedIcon from '@/src/icons/checked.js';
+import pencilIcon from '@/src/icons/pencil.js';
+import { LocalizeController } from '@/src/library/localize.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
+import uniqueId from '@/src/library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {

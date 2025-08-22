@@ -3,13 +3,13 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
-import { LocalizeController } from './library/localize.js';
-import pencilIcon from './icons/pencil.js';
 import styles from './tag.styles.js';
-import xIcon from './icons/x.js';
-import final from './library/final.js';
-import required from './library/required.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import { LocalizeController } from '@/src/library/localize.js';
+import pencilIcon from '@/src/icons/pencil.js';
+import xIcon from '@/src/icons/x.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {

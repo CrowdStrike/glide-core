@@ -2,16 +2,16 @@ import { html, LitElement } from 'lit';
 import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import packageJson from '../package.json' with { type: 'json' };
-import { LocalizeController } from './library/localize.js';
 import Options from './options.js';
 import OptionsGroup from './options.group.js';
 import Option from './option.js';
 import Input from './input.js';
-import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
-import final from './library/final.js';
-import uniqueId from './library/unique-id.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import { LocalizeController } from '@/src/library/localize.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import final from '@/src/library/final.js';
+import uniqueId from '@/src/library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {

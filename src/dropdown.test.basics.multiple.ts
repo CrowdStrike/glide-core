@@ -3,7 +3,7 @@ import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import Dropdown from './dropdown.js';
 import Tag from './tag.js';
 import type DropdownOption from './dropdown.option.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('is accessible', async () => {
   const host = await fixture<Dropdown>(

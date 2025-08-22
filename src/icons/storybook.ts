@@ -4,7 +4,7 @@
  */
 import { css, html, LitElement, svg } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import final from '../library/final.js';
+import final from '@/src/library/final.js';
 
 @customElement('glide-core-example-icon')
 @final

@@ -3,13 +3,13 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import packageJson from '../package.json' with { type: 'json' };
 import styles from './inline-alert.styles.js';
-import severityInformationalIcon from './icons/severity-informational.js';
-import severityMediumIcon from './icons/severity-medium.js';
-import severityCriticalIcon from './icons/severity-critical.js';
-import assertSlot from './library/assert-slot.js';
-import final from './library/final.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import severityInformationalIcon from '@/src/icons/severity-informational.js';
+import severityMediumIcon from '@/src/icons/severity-medium.js';
+import severityCriticalIcon from '@/src/icons/severity-critical.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import final from '@/src/library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {

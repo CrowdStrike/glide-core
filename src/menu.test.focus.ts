@@ -3,7 +3,7 @@ import './options.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Menu from './menu.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('closes when it loses focus', async () => {
   const host = await fixture<Menu>(

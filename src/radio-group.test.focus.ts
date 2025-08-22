@@ -2,7 +2,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import RadioGroup from './radio-group.js';
 import './radio-group.radio.js';
-import { click } from './library/mouse.js';
+import { click } from '@/src/library/mouse.js';
 
 it('focuses an enabled radio on click', async () => {
   const host = await fixture(

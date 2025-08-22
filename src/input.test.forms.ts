@@ -2,7 +2,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import Input from './input.js';
-import { click } from './library/mouse.js';
+import { click } from '@/src/library/mouse.js';
 
 it('can be reset to its initial value', async () => {
   const form = document.createElement('form');

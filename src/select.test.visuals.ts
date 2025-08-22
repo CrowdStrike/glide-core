@@ -1,9 +1,9 @@
-import { expect, test } from './playwright/test.js';
 import type Select from './select.js';
-import fetchStories from './playwright/fetch-stories.js';
 import type Menu from './menu.js';
 import type Option from './option.js';
 import type OptionsGroup from './options.group.js';
+import fetchStories from '@/src/playwright/fetch-stories.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 const stories = await fetchStories('Select');
 

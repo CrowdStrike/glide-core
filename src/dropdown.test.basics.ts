@@ -3,9 +3,9 @@ import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
-import expectWindowError from './library/expect-window-error.js';
 import type Tooltip from './tooltip.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 // You'll notice quite a few duplicated tests among the "*.single.ts",
 // "*.multiple.ts", and "*.filterable.ts" test suites. The thinking is that

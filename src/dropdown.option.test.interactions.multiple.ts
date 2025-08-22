@@ -1,6 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { hover } from './library/mouse.js';
 import DropdownOption from './dropdown.option.js';
+import { hover } from '@/src/library/mouse.js';
 
 it('is selected when programmatically selected', async () => {
   const host = await fixture<DropdownOption>(

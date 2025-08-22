@@ -9,7 +9,7 @@ import { addons } from '@storybook/preview-api';
 import { withActions } from '@storybook/addon-actions/decorator';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import uniqueId from './library/unique-id.js';
+import uniqueId from '@/src/library/unique-id.js';
 
 interface Toast {
   description?: string;

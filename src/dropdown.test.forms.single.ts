@@ -1,8 +1,8 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
 import Dropdown from './dropdown.js';
-import { click } from './library/mouse.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('can be reset after an option is selected via click', async () => {
   const form = document.createElement('form');

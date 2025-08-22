@@ -2,7 +2,7 @@ import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
 import Options from './options.js';
-import expectWindowError from './library/expect-window-error.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
 
 customElement('glide-core-subclassed');
 class Subclassed extends Options {}

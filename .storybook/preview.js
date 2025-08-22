@@ -1,7 +1,7 @@
 /** @type { import('@storybook/web-components').Preview } */
 
-import '../src/styles/fonts.css';
-import '../src/styles/variables.css';
+import '@/src/styles/fonts.css';
+import '@/src/styles/variables.css';
 import './overrides.css';
 import { create } from '@storybook/theming';
 import { html } from 'lit';

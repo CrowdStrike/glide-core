@@ -12,20 +12,20 @@ import { range } from 'lit/directives/range.js';
 import { map } from 'lit/directives/map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
-import onResize from './library/on-resize.js';
 import DropdownOption from './dropdown.option.js';
-import { LocalizeController } from './library/localize.js';
 import Tag from './tag.js';
-import chevronIcon from './icons/chevron.js';
-import magnifyingGlassIcon from './icons/magnifying-glass.js';
-import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.styles.js';
-import assertSlot from './library/assert-slot.js';
-import type FormControl from './library/form-control.js';
-import final from './library/final.js';
-import required from './library/required.js';
-import uniqueId from './library/unique-id.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import onResize from '@/src/library/on-resize.js';
+import { LocalizeController } from '@/src/library/localize.js';
+import chevronIcon from '@/src/icons/chevron.js';
+import magnifyingGlassIcon from '@/src/icons/magnifying-glass.js';
+import pencilIcon from '@/src/icons/pencil.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import type FormControl from '@/src/library/form-control.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
+import uniqueId from '@/src/library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {

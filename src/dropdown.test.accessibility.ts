@@ -1,6 +1,6 @@
-import { expect, test } from './playwright/test.js';
 import type Dropdown from './dropdown.js';
 import type DropdownOption from './dropdown.option.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');

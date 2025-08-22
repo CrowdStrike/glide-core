@@ -1,5 +1,5 @@
-import { expect, test } from './playwright/test.js';
 import type ButtonGroupButton from './button-group.button.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test(
   '<glide-core-button-group-button>[disabled=${true}]',

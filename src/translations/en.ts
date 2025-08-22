@@ -1,4 +1,4 @@
-import type { Translation } from '../library/localize.js';
+import type { Translation } from '@/src/library/localize.js';
 
 const translation: Translation = {
   $code: 'en',

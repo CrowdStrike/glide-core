@@ -1,8 +1,8 @@
 import * as sinon from 'sinon';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import { click } from './library/mouse.js';
 import Dropdown from './dropdown.js';
+import { click } from '@/src/library/mouse.js';
 import './dropdown.option.js';
 
 it('dispatches an "add" event on Add button selection via click', async () => {

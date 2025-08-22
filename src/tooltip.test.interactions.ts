@@ -8,10 +8,10 @@ import {
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
-import { hover } from './library/mouse.js';
 import Tooltip from './tooltip.js';
 import TooltipContainer from './tooltip.container.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { hover } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('passes down certain properties to its container', async () => {
   const host = await fixture<Tooltip>(

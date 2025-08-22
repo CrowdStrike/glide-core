@@ -1,6 +1,6 @@
 import { ESLint } from '@typescript-eslint/utils/ts-eslint';
-import { expect, test } from '../../playwright/test.js';
 import { commentMaximumLength } from './comment-maximum-length.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 const eslint = new ESLint({
   overrideConfigFile: true,

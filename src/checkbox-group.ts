@@ -6,13 +6,13 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
 import Checkbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
-import assertSlot from './library/assert-slot.js';
-import type FormControl from './library/form-control.js';
-import final from './library/final.js';
-import required from './library/required.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import assertSlot from '@/src/library/assert-slot.js';
+import type FormControl from '@/src/library/form-control.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {

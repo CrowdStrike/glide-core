@@ -1,7 +1,7 @@
 import parser from '@typescript-eslint/parser';
 import { ESLint } from '@typescript-eslint/utils/ts-eslint';
-import { expect, test } from '../../playwright/test.js';
 import { publicGetterDefaultComment } from './public-getter-default-comment.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 const eslint = new ESLint({
   overrideConfigFile: true,

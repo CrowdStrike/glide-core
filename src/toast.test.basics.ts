@@ -3,8 +3,8 @@ import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import { emulateMedia } from '@web/test-runner-commands';
-import expectWindowError from './library/expect-window-error.js';
 import Toast from './toast.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
 
 // "transitionend" is dispatched manually throughout these tests because that
 // event isn't consistently emitted in CI. It's not clear why. The below issue

@@ -1,6 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import Toggle from './toggle.js';
+import { click } from '@/src/library/mouse.js';
 
 it('is checked after being clicked', async () => {
   const host = await fixture<Toggle>(

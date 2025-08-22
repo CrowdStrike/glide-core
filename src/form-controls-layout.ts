@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import packageJson from '../package.json' with { type: 'json' };
 import Checkbox from './checkbox.js';
 import CheckboxGroup from './checkbox-group.js';
 import Dropdown from './dropdown.js';
@@ -10,8 +9,9 @@ import RadioGroup from './radio-group.js';
 import Slider from './slider.js';
 import TextArea from './textarea.js';
 import styles from './form-controls-layout.styles.js';
-import assertSlot from './library/assert-slot.js';
-import final from './library/final.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import assertSlot from '@/src/library/assert-slot.js';
+import final from '@/src/library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {

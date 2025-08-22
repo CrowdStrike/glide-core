@@ -1,4 +1,4 @@
-import { expect, test } from './playwright/test.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 // Not sure what to name this test. It's not really testing
 // `variant="informational"`. It's testing the component in its default

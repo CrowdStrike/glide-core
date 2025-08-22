@@ -2,7 +2,7 @@ import { assert, expect, fixture, html } from '@open-wc/testing';
 import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import Slider from './slider.js';
-import { hover } from './library/mouse.js';
+import { hover } from '@/src/library/mouse.js';
 
 // You'd think you'd be able to call `resetMouse()` anywhere. But, for whatever
 // reason, calling it outside `afterEach()` results in sporadic bouts of the

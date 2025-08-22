@@ -1,16 +1,17 @@
 import { html } from 'lit';
-import { expect, test } from './playwright/test.js';
 import type Button from './button.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test(
   'is accessible',
   { tag: '@accessibility' },
   async ({ mount, page, setAttribute }) => {
     await mount(
-      () => html`<glide-core-button
-        label="Label"
-        aria-description="Description"
-      ></glide-core-button>`,
+      () =>
+        html`<glide-core-button
+          label="Label"
+          aria-description="Description"
+        ></glide-core-button>`,
     );
 
     await expect(page).toBeAccessible('glide-core-button');

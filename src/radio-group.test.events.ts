@@ -10,7 +10,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import './radio-group.js';
 import './radio-group.radio.js';
-import { click } from './library/mouse.js';
+import { click } from '@/src/library/mouse.js';
 
 it('dispatches a "change" event when arrowing', async () => {
   const host = await fixture(

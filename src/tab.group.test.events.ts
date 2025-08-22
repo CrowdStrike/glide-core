@@ -3,7 +3,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
-import { click } from './library/mouse.js';
+import { click } from '@/src/library/mouse.js';
 
 it('dispatches a "selected" event on click', async () => {
   const host = await fixture(html`

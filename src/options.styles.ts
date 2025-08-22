@@ -1,5 +1,5 @@
 import { css } from 'lit';
-import skeleton from './styles/skeleton.js';
+import skeleton from '@/src/styles/skeleton.js';
 
 export default [
   css`

@@ -1,6 +1,6 @@
 import { html } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
-import { expect, test } from './playwright/test.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(() => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`);

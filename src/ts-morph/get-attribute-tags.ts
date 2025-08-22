@@ -1,5 +1,5 @@
 import { type JSDocTagStructure, type OptionalKind } from 'ts-morph';
-import manifest from '../../custom-elements.json' with { type: 'json' };
+import manifest from '@/custom-elements.json' with { type: 'json' };
 
 export default (
   declaration: (typeof manifest)['modules'][number]['declarations'][number],

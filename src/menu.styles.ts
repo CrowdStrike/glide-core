@@ -1,5 +1,5 @@
 import { css } from 'lit';
-import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
+import opacityAndScaleAnimation from '@/src/styles/opacity-and-scale-animation.js';
 
 export default [
   css`

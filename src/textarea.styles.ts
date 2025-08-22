@@ -1,5 +1,5 @@
 import { css, unsafeCSS } from 'lit';
-import visuallyHidden from './styles/visually-hidden.js';
+import visuallyHidden from '@/src/styles/visually-hidden.js';
 
 /*
   `field-sizing` is only supported in Chrome and Edge

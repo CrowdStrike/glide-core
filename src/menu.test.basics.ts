@@ -5,9 +5,9 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Menu from './menu.js';
-import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-import expectWindowError from './library/expect-window-error.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import expectUnhandledRejection from '@/src/library/expect-unhandled-rejection.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Menu {}

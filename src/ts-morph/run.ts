@@ -1,11 +1,11 @@
 import { Project } from 'ts-morph';
-import manifest from '../../custom-elements.json' with { type: 'json' };
 import getAttributeTags from './get-attribute-tags.js';
 import getCssPropertyTags from './get-css-property-tags.js';
 import getPropertyTags from './get-property-tags.js';
 import getSlotTags from './get-slot-tags.js';
 import getEventTags from './get-event-tags.js';
 import getMethodTags from './get-method-tags.js';
+import manifest from '@/custom-elements.json' with { type: 'json' };
 
 /**
  * Uses the information in the elements manifest to add a top-level JSDoc

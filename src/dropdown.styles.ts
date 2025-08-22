@@ -1,7 +1,7 @@
 import { css } from 'lit';
-import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
-import visuallyHidden from './styles/visually-hidden.js';
-import skeleton from './styles/skeleton.js';
+import opacityAndScaleAnimation from '@/src/styles/opacity-and-scale-animation.js';
+import visuallyHidden from '@/src/styles/visually-hidden.js';
+import skeleton from '@/src/styles/skeleton.js';
 
 export default [
   css`

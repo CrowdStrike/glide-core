@@ -1,7 +1,7 @@
 import './checkbox.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import CheckboxGroup from './checkbox-group.js';
+import { click } from '@/src/library/mouse.js';
 
 it('checks and unchecks checkboxes when its `value` is set programmatically', async () => {
   const host = await fixture<CheckboxGroup>(

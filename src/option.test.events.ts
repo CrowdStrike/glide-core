@@ -3,9 +3,9 @@ import sinon from 'sinon';
 import Option from './option.js';
 import './options.js';
 import './menu.js';
-import { click, hover } from './library/mouse.js';
-import pencilIcon from './icons/pencil.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click, hover } from '@/src/library/mouse.js';
+import pencilIcon from '@/src/icons/pencil.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('dispatches a "click" event when clicked via mouse', async () => {
   const host = await fixture<Option>(

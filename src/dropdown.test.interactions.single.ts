@@ -9,11 +9,11 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
 import sinon from 'sinon';
-import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import DropdownOption from './dropdown.option.js';
 import type Tooltip from './tooltip.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click, hover } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('opens on click', async () => {
   const host = await fixture<Dropdown>(

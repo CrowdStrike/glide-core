@@ -2,11 +2,11 @@ import './icon-button.js';
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import packageJson from '../package.json' with { type: 'json' };
 import styles from './modal.icon-button.styles.js';
-import assertSlot from './library/assert-slot.js';
-import final from './library/final.js';
-import required from './library/required.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import assertSlot from '@/src/library/assert-slot.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {

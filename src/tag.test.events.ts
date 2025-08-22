@@ -1,8 +1,8 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import { click } from './library/mouse.js';
 import Tag from './tag.js';
+import { click } from '@/src/library/mouse.js';
 
 it('dispatches one "remove" event on click', async () => {
   const host = await fixture(

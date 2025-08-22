@@ -4,8 +4,8 @@ import sinon from 'sinon';
 import { sendKeys } from '@web/test-runner-commands';
 import Dropdown from './dropdown.js';
 import Tag from './tag.js';
-import { click } from './library/mouse.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('can be reset after options are selected via click', async () => {
   const form = document.createElement('form');

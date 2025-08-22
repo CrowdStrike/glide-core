@@ -2,8 +2,8 @@ import { promises as fs } from 'node:fs';
 import { test } from '@playwright/test';
 import { type TemplateResult } from 'lit';
 import serialize from 'serialize-javascript';
-import customElements from '../../../custom-elements.json' with { type: 'json' };
-import { v8CoverageAttachmentName } from './../constants.js';
+import { v8CoverageAttachmentName } from '@/src/playwright/constants.js';
+import customElements from '@/custom-elements.json' with { type: 'json' };
 
 type Context<Type> = Type extends void ? void : Type;
 

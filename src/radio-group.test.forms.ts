@@ -1,9 +1,9 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import { click } from './library/mouse.js';
 import RadioGroup from './radio-group.js';
 import RadioGroupRadio from './radio-group.radio.js';
+import { click } from '@/src/library/mouse.js';
 
 it('can be reset when `value` is programmatically changed', async () => {
   const form = document.createElement('form');

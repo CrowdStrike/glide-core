@@ -12,11 +12,11 @@ import {
 } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
-import requestIdleCallback from './library/request-idle-callback.js';
-import { click, hover } from './library/mouse.js';
 import Menu from './menu.js';
-import './option.js';
 import Tooltip from './tooltip.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
+import { click, hover } from '@/src/library/mouse.js';
+import './option.js';
 
 @customElement('glide-core-options-in-nested-slot')
 class OptionsInNestedSlot extends LitElement {

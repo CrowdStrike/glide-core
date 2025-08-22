@@ -1,6 +1,6 @@
-import { expect, test } from './playwright/test.js';
 import type CheckboxGroup from './checkbox-group.js';
 import type Checkbox from './checkbox.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');

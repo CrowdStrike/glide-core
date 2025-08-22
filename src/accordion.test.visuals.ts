@@ -1,6 +1,6 @@
-import { expect, test } from './playwright/test.js';
 import type Accordion from './accordion.js';
-import fetchStories from './playwright/fetch-stories.js';
+import fetchStories from '@/src/playwright/fetch-stories.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 const stories = await fetchStories('accordion');
 

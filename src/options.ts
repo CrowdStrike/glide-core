@@ -3,13 +3,13 @@ import { customElement, property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 import { range } from 'lit/directives/range.js';
-import packageJson from '../package.json' with { type: 'json' };
 import styles from './options.styles.js';
-import final from './library/final.js';
-import uniqueId from './library/unique-id.js';
-import assertSlot from './library/assert-slot.js';
 import Option from './option.js';
 import OptionsGroup from './options.group.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import final from '@/src/library/final.js';
+import uniqueId from '@/src/library/unique-id.js';
+import assertSlot from '@/src/library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {

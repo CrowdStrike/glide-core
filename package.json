@@ -116,6 +116,7 @@
     "@jridgewell/trace-mapping": "^0.3.29",
     "@open-wc/testing": "^4.0.0",
     "@playwright/test": "^1.54.2",
+    "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-commonjs": "^28.0.2",
     "@storybook/addon-actions": "^8.6.14",
     "@storybook/addon-controls": "^8.6.14",

@@ -1,8 +1,8 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import DropdownOption from './dropdown.option.js';
-import { hover } from './library/mouse.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { hover } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('dispatches a "private-label-change" event', async () => {
   const host = await fixture<DropdownOption>(

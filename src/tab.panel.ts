@@ -1,11 +1,11 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
-import packageJson from '../package.json' with { type: 'json' };
 import styles from './tab.panel.styles.js';
-import final from './library/final.js';
-import required from './library/required.js';
-import uniqueId from './library/unique-id.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
+import uniqueId from '@/src/library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -4,8 +4,8 @@ import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import FormControlsLayout from './form-controls-layout.js';
-import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-import expectWindowError from './library/expect-window-error.js';
+import expectUnhandledRejection from '@/src/library/expect-unhandled-rejection.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends FormControlsLayout {}

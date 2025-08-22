@@ -6,8 +6,8 @@ import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import SplitButton from './split-button.js';
 import './split-button.secondary-button.js';
-import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-import expectWindowError from './library/expect-window-error.js';
+import expectUnhandledRejection from '@/src/library/expect-unhandled-rejection.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends SplitButton {}

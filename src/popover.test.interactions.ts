@@ -1,9 +1,9 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
-import { click } from './library/mouse.js';
 import Popover from './popover.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('opens when opened programmatically', async () => {
   const host = await fixture<Popover>(

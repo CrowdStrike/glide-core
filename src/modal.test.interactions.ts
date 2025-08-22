@@ -1,7 +1,7 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import { click } from './library/mouse.js';
 import Modal from './modal.js';
+import { click } from '@/src/library/mouse.js';
 
 it('can be opened programmatically', async () => {
   const host = await fixture<Modal>(

@@ -10,11 +10,11 @@ import {
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
-import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import DropdownOption from './dropdown.option.js';
 import Tag from './tag.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click, hover } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 @customElement('glide-core-dropdown-in-another-component')
 class DropdownInAnotherComponent extends LitElement {

@@ -1,12 +1,12 @@
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import packageJson from '../package.json' with { type: 'json' };
 import styles from './options.group.styles.js';
-import final from './library/final.js';
-import assertSlot from './library/assert-slot.js';
 import Option from './option.js';
-import required from './library/required.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import final from '@/src/library/final.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import required from '@/src/library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {

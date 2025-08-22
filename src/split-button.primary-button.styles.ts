@@ -1,5 +1,5 @@
 import { css } from 'lit';
-import focusOutline from './styles/focus-outline.js';
+import focusOutline from '@/src/styles/focus-outline.js';
 
 // These styles are shared between Split Button Primary Button and Split Button
 // Primary Link.

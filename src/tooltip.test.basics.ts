@@ -3,8 +3,8 @@ import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import Tooltip from './tooltip.js';
 import TooltipContainer from './tooltip.container.js';
-import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import expectUnhandledRejection from '@/src/library/expect-unhandled-rejection.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Tooltip {}

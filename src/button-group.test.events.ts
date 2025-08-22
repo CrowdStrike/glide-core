@@ -2,7 +2,7 @@ import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import ButtonGroupButton from './button-group.button.js';
-import { click } from './library/mouse.js';
+import { click } from '@/src/library/mouse.js';
 import './button-group.js';
 
 it('dispatches a "selected" event when a button is clicked and not already selected', async () => {

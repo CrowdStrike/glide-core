@@ -1,7 +1,7 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import Toast from './toast.js';
-import { click, hover } from './library/mouse.js';
+import { click, hover } from '@/src/library/mouse.js';
 
 // "transitionend" is dispatched manually throughout these tests because that
 // event isn't consistently emitted in CI. It's not clear why. The below issue

@@ -1,6 +1,6 @@
-import { expect, test } from './playwright/test.js';
 import type Tooltip from './tooltip.js';
-import fetchStories from './playwright/fetch-stories.js';
+import { expect, test } from '@/src/playwright/test.js';
+import fetchStories from '@/src/playwright/fetch-stories.js';
 
 const stories = await fetchStories('Tooltip');
 

@@ -1,5 +1,5 @@
-import { expect, test } from './playwright/test.js';
 import type Tag from './tag.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=tag--tag');

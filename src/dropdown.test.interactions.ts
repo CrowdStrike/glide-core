@@ -1,11 +1,11 @@
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 import type Tooltip from './tooltip.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click, hover } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('opens when opened programmatically', async () => {
   const host = await fixture<Dropdown>(

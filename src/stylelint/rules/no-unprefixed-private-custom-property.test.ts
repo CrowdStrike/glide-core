@@ -1,5 +1,5 @@
 import stylelint from 'stylelint';
-import { expect, test } from '../../playwright/test.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 const config = {
   plugins: ['../plugin.js'],

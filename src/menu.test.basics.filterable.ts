@@ -2,11 +2,11 @@ import './options.js';
 import { LitElement } from 'lit';
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import { click } from './library/mouse.js';
+import Menu from './menu.js';
+import { click } from '@/src/library/mouse.js';
 import './option.js';
 import './input.js';
-import Menu from './menu.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 @customElement('glide-core-target-as-slot')
 class TargetAsSlot extends LitElement {

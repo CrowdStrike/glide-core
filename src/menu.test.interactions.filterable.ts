@@ -1,13 +1,13 @@
 import './options.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import { click } from './library/mouse.js';
 import Menu from './menu.js';
 import './option.js';
 import './input.js';
 import './button.js';
 import Tooltip from './tooltip.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('opens on "input"', async () => {
   const host = await fixture<Menu>(

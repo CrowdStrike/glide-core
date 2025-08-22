@@ -1,5 +1,5 @@
-import { expect, test } from './playwright/test.js';
 import type Tooltip from './tooltip.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('description', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=tooltip--tooltip');

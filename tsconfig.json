@@ -15,6 +15,11 @@
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
     "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/src/*": ["./src/*"]
+    },
     "plugins": [
       {
         "name": "ts-lit-plugin",

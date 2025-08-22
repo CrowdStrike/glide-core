@@ -1,7 +1,7 @@
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
 
 import { mergeConfig } from 'vite';
-import packageJson from '../package.json';
+import packageJson from '@/package.json';
 
 const config = {
   stories: ['../src/*.stories.ts'],
@@ -43,6 +43,12 @@ const config = {
   },
   viteFinal(config) {
     return mergeConfig(config, {
+      resolve: {
+        alias: {
+          '@': new URL('..', import.meta.url).pathname,
+          '@/src': new URL('../src', import.meta.url).pathname,
+        },
+      },
       build: {
         // So `event.target` and `event.srcElement` in the Actions tab aren't mangled.
         minify: false,

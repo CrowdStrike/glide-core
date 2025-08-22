@@ -8,10 +8,10 @@ import {
   waitUntil,
 } from '@open-wc/testing';
 import './tab.js';
-import { click } from './library/mouse.js';
 import TabGroup from './tab.group.js';
+import { click } from '@/src/library/mouse.js';
 import './tab.panel.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('sets the selected tab using the `selected` attribute', async () => {
   const host = await fixture<TabGroup>(html`

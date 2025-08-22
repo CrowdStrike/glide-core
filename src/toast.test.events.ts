@@ -2,7 +2,7 @@ import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import './link.js';
 import './toast.js';
-import { click } from './library/mouse.js';
+import { click } from '@/src/library/mouse.js';
 
 afterEach(() => {
   // Toasts isn't removed for us by `fixture()` because Toasts is rendered as

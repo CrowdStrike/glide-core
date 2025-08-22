@@ -1,13 +1,13 @@
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import packageJson from '../package.json' with { type: 'json' };
 import SplitButtonPrimaryButton from './split-button.primary-button.js';
 import SplitButtonPrimaryLink from './split-button.primary-link.js';
 import SplitButtonSecondaryButton from './split-button.secondary-button.js';
 import styles from './split-button.styles.js';
-import assertSlot from './library/assert-slot.js';
-import final from './library/final.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import assertSlot from '@/src/library/assert-slot.js';
+import final from '@/src/library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {

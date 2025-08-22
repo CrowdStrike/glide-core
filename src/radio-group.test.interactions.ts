@@ -1,8 +1,8 @@
 import './radio-group.radio.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import { click } from './library/mouse.js';
 import RadioGroup from './radio-group.js';
+import { click } from '@/src/library/mouse.js';
 
 it('checks a radio when `value` is set programmatically', async () => {
   const host = await fixture<RadioGroup>(html`

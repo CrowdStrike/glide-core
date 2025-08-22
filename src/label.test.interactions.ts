@@ -1,7 +1,7 @@
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import Label from './label.js';
 import Tooltip from './tooltip.js';
-import { hover } from './library/mouse.js';
+import { hover } from '@/src/library/mouse.js';
 
 it('shows a label tooltip on hover', async () => {
   const host = await fixture<Label>(

@@ -8,7 +8,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import ModalComponent from './modal.js';
-import focusOutline from './styles/focus-outline.js';
+import focusOutline from '@/src/styles/focus-outline.js';
 
 const meta: Meta = {
   title: 'Modal',

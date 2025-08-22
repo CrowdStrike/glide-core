@@ -9,9 +9,9 @@ import {
   waitUntil,
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import { click } from './library/mouse.js';
 import Dropdown from './dropdown.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('dispatches one "change" event when an option is selected via click', async () => {
   const host = await fixture<Dropdown>(

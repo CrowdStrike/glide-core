@@ -4,8 +4,8 @@ import { assert, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Modal from './modal.js';
-import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-import expectWindowError from './library/expect-window-error.js';
+import expectUnhandledRejection from '@/src/library/expect-unhandled-rejection.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Modal {}

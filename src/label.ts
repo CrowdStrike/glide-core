@@ -7,10 +7,10 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import styles from './label.styles.js';
-import { LocalizeController } from './library/localize.js';
-import assertSlot from './library/assert-slot.js';
-import onResize from './library/on-resize.js';
-import final from './library/final.js';
+import { LocalizeController } from '@/src/library/localize.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import onResize from '@/src/library/on-resize.js';
+import final from '@/src/library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -5,8 +5,8 @@ import sinon from 'sinon';
 import TabGroup from './tab.group.js';
 import './tab.js';
 import TabPanel from './tab.panel.js';
-import expectWindowError from './library/expect-window-error.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import expectWindowError from '@/src/library/expect-window-error.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends TabGroup {}

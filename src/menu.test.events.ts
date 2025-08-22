@@ -10,9 +10,9 @@ import {
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import { click } from './library/mouse.js';
 import Menu from './menu.js';
-import requestIdleCallback from './library/request-idle-callback.js';
+import { click } from '@/src/library/mouse.js';
+import requestIdleCallback from '@/src/library/request-idle-callback.js';
 
 it('dispatches a "click" event when an Option is selected via mouse', async () => {
   const host = await fixture<Menu>(

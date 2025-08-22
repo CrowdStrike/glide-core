@@ -1,6 +1,6 @@
-import { expect, test } from './playwright/test.js';
 import type Menu from './menu.js';
 import Option from './option.js';
+import { expect, test } from '@/src/playwright/test.js';
 
 test('loading', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=menu--menu');

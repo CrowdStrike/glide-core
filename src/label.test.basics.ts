@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import Label from './label.js';
 import './tooltip.js';
-import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectUnhandledRejection from '@/src/library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
 class Subclassed extends Label {}

@@ -5,16 +5,16 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
 import { html, unsafeStatic } from 'lit/static-html.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import packageJson from '../package.json' with { type: 'json' };
 import styles from './option.styles.js';
-import assertSlot from './library/assert-slot.js';
-import checkedIcon from './icons/checked.js';
-import final from './library/final.js';
-import uniqueId from './library/unique-id.js';
 import Menu from './menu.js';
-import './options.js';
 import Tooltip from './tooltip.js';
-import required from './library/required.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import assertSlot from '@/src/library/assert-slot.js';
+import checkedIcon from '@/src/icons/checked.js';
+import final from '@/src/library/final.js';
+import uniqueId from '@/src/library/unique-id.js';
+import './options.js';
+import required from '@/src/library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {

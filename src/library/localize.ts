@@ -3,9 +3,9 @@ import {
   registerTranslation,
 } from '@shoelace-style/localize';
 import type { Translation as DefaultTranslation } from '@shoelace-style/localize';
-import en from '../translations/en.js'; // Register English as the default/fallback language
-import fr from '../translations/fr.js';
-import ja from '../translations/ja.js';
+import en from '@/src/translations/en.js'; // Register English as the default/fallback language
+import fr from '@/src/translations/fr.js';
+import ja from '@/src/translations/ja.js';
 
 // Extend the controller and apply our own translation interface for better typings
 export class LocalizeController extends DefaultLocalizationController<Translation> {

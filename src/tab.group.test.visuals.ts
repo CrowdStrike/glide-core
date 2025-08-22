@@ -1,7 +1,7 @@
-import { expect, test } from './playwright/test.js';
 import type TabGroup from './tab.group.js';
 import type Tab from './tab.js';
-import fetchStories from './playwright/fetch-stories.js';
+import { expect, test } from '@/src/playwright/test.js';
+import fetchStories from '@/src/playwright/fetch-stories.js';
 
 const stories = await fetchStories('Tab Group');
 

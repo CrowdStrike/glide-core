@@ -1,15 +1,15 @@
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import packageJson from '../package.json' with { type: 'json' };
-import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
-import final from './library/final.js';
 import Menu from './menu.js';
 import Option from './option.js';
 import Options from './options.js';
 import OptionsGroup from './options.group.js';
-import type FormControl from './library/form-control.js';
+import final from '@/src/library/final.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import type FormControl from '@/src/library/form-control.js';
 
 declare global {
   interface HTMLElementTagNameMap {

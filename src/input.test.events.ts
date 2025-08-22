@@ -1,8 +1,8 @@
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import { click } from './library/mouse.js';
 import Input from './input.js';
+import { click } from '@/src/library/mouse.js';
 
 it('dispatches a "change" event on input', async () => {
   const host = await fixture<Input>(

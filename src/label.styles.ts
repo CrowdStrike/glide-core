@@ -1,6 +1,6 @@
 import { css } from 'lit';
-import focusOutline from './styles/focus-outline.js';
-import visuallyHidden from './styles/visually-hidden.js';
+import focusOutline from '@/src/styles/focus-outline.js';
+import visuallyHidden from '@/src/styles/visually-hidden.js';
 
 export default [
   css`

@@ -4,20 +4,20 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
-import { LocalizeController } from './library/localize.js';
 import ModalIconButton from './modal.icon-button.js';
 import Button from './button.js';
 import Tooltip from './tooltip.js';
 import styles from './modal.styles.js';
-import xIcon from './icons/x.js';
-import assertSlot from './library/assert-slot.js';
-import severityInformationalIcon from './icons/severity-informational.js';
-import severityMediumIcon from './icons/severity-medium.js';
-import severityCriticalIcon from './icons/severity-critical.js';
-import final from './library/final.js';
-import required from './library/required.js';
-import onResize from './library/on-resize.js';
+import { LocalizeController } from '@/src/library/localize.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import xIcon from '@/src/icons/x.js';
+import assertSlot from '@/src/library/assert-slot.js';
+import severityInformationalIcon from '@/src/icons/severity-informational.js';
+import severityMediumIcon from '@/src/icons/severity-medium.js';
+import severityCriticalIcon from '@/src/icons/severity-critical.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
+import onResize from '@/src/library/on-resize.js';
 
 declare global {
   interface HTMLElementTagNameMap {

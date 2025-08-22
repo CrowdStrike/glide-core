@@ -8,12 +8,12 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import packageJson from '../package.json' with { type: 'json' };
-import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
-import type FormControl from './library/form-control.js';
-import final from './library/final.js';
-import required from './library/required.js';
+import packageJson from '@/package.json' with { type: 'json' };
+import checkedIcon from '@/src/icons/checked.js';
+import type FormControl from '@/src/library/form-control.js';
+import final from '@/src/library/final.js';
+import required from '@/src/library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
