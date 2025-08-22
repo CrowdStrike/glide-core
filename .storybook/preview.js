@@ -127,11 +127,11 @@ export default {
           }
 
           if (context.componentId === 'form-controls-layout') {
-            const isDropdownValueChanged =
+            const hasValueChanged =
               context.args['<glide-core-dropdown>.value'].toString() !==
               context.initialArgs['<glide-core-dropdown>.value'].toString();
 
-            if (isDropdownValueChanged) {
+            if (hasValueChanged) {
               $component
                 .querySelector('glide-core-dropdown')
                 .setAttribute(
@@ -173,11 +173,11 @@ export default {
           }
 
           if (context.componentId === 'dropdown') {
-            const isDropdownValueChanged =
+            const hasValueChanged =
               context.args.value.toString() !==
               context.initialArgs.value.toString();
 
-            if (isDropdownValueChanged) {
+            if (hasValueChanged) {
               $component.setAttribute(
                 'value',
                 JSON.stringify(context.args.value),
@@ -213,6 +213,32 @@ export default {
               $radio.removeAttribute('aria-checked');
               $radio.removeAttribute('aria-disabled');
               $radio.removeAttribute('aria-label');
+            }
+          }
+
+          if (context.componentId === 'select') {
+            const hasValueChanged =
+              context.args.value.toString() !==
+              context.initialArgs.value.toString();
+
+            if (hasValueChanged) {
+              $component.setAttribute(
+                'value',
+                JSON.stringify(context.args.value),
+              );
+            }
+
+            for (const $option of $component.querySelectorAll(
+              'glide-core-options-group',
+            )) {
+              $option.removeAttribute('aria-label');
+            }
+
+            for (const $option of $component.querySelectorAll(
+              'glide-core-option',
+            )) {
+              $option.removeAttribute('aria-selected');
+              $option.removeAttribute('role');
             }
           }
 

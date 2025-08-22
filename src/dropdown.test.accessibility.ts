@@ -369,6 +369,87 @@ test.describe('multiple=${false}', () => {
     `);
   });
 
+  test('placeholder', { tag: '@accessibility' }, async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.placeholder = 'Placeholder';
+      });
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+    - text: Label Placeholder
+    - button "Label"
+  `);
+  });
+
+  test('select-all', { tag: '@accessibility' }, async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.multiple = true;
+        element.open = true;
+        element.selectAll = true;
+      });
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+    - text: Label
+    - button "Label" [expanded]
+    - listbox:
+      - option "Select all":
+        - checkbox "Select all"
+      - option "One":
+        - checkbox "One"
+      - option "Two":
+        - checkbox "Two"
+      - option "Three":
+        - checkbox "Three"
+  `);
+  });
+
+  test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        const div = document.createElement('div');
+
+        div.textContent = 'Description';
+        div.slot = 'description';
+
+        element.append(div);
+      });
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+    - text: Label
+    - button "Label"
+    - text: Description
+  `);
+  });
+
+  test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.tooltip = 'Tooltip';
+      });
+
+    await page.locator('glide-core-tooltip').getByRole('button').focus();
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+    - button "Tooltip:"
+    - tooltip "Tooltip"
+    - text: Label
+    - button "Label"
+  `);
+  });
+
   test(
     '<glide-core-dropdown-option>.count',
     { tag: '@accessibility' },
@@ -459,85 +540,4 @@ test.describe('multiple=${false}', () => {
       `);
     },
   );
-});
-
-test('placeholder', { tag: '@accessibility' }, async ({ page }) => {
-  await page.goto('?id=dropdown--dropdown');
-
-  await page
-    .locator('glide-core-dropdown')
-    .evaluate<void, Dropdown>((element) => {
-      element.placeholder = 'Placeholder';
-    });
-
-  await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - text: Label Placeholder
-    - button "Label"
-  `);
-});
-
-test('select-all', { tag: '@accessibility' }, async ({ page }) => {
-  await page.goto('?id=dropdown--dropdown');
-
-  await page
-    .locator('glide-core-dropdown')
-    .evaluate<void, Dropdown>((element) => {
-      element.multiple = true;
-      element.open = true;
-      element.selectAll = true;
-    });
-
-  await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - text: Label
-    - button "Label" [expanded]
-    - listbox:
-      - option "Select all":
-        - checkbox "Select all"
-      - option "One":
-        - checkbox "One"
-      - option "Two":
-        - checkbox "Two"
-      - option "Three":
-        - checkbox "Three"
-  `);
-});
-
-test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
-  await page.goto('?id=dropdown--dropdown');
-
-  await page
-    .locator('glide-core-dropdown')
-    .evaluate<void, Dropdown>((element) => {
-      const div = document.createElement('div');
-
-      div.textContent = 'Description';
-      div.slot = 'description';
-
-      element.append(div);
-    });
-
-  await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - text: Label
-    - button "Label"
-    - text: Description
-  `);
-});
-
-test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
-  await page.goto('?id=dropdown--dropdown');
-
-  await page
-    .locator('glide-core-dropdown')
-    .evaluate<void, Dropdown>((element) => {
-      element.tooltip = 'Tooltip';
-    });
-
-  await page.locator('glide-core-tooltip').getByRole('button').focus();
-
-  await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - button "Tooltip:"
-    - tooltip "Tooltip"
-    - text: Label
-    - button "Label"
-  `);
 });

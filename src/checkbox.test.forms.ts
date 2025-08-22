@@ -2,11 +2,13 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test('has a `form` property', { tag: '@forms' }, async ({ mount, page }) => {
-  await mount(() => html`
-    <form>
-      <glide-core-checkbox label="Label"></glide-core-checkbox>
-    </form>
-  `);
+  await mount(
+    () => html`
+      <form>
+        <glide-core-checkbox label="Label"></glide-core-checkbox>
+      </form>
+    `,
+  );
 
   const host = page.locator('glide-core-checkbox');
 
@@ -21,15 +23,17 @@ test(
   'can be reset',
   { tag: '@forms' },
   async ({ callMethod, mount, page, setProperty }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          checked
-          indeterminate
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            checked
+            indeterminate
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const form = page.locator('form');
@@ -47,16 +51,18 @@ test(
   'has form data when checked',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          name="name"
-          value="value"
-          checked
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            name="name"
+            value="value"
+            checked
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
 
@@ -68,17 +74,19 @@ test(
   'has form data when checked and indeterminate',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          name="name"
-          value="value"
-          checked
-          indeterminate
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            name="name"
+            value="value"
+            checked
+            indeterminate
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
 
@@ -90,15 +98,17 @@ test(
   'has no form data when unchecked',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          name="name"
-          value="value"
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            name="name"
+            value="value"
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
 
@@ -110,16 +120,18 @@ test(
   'has no form data when unchecked and indeterminate',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          name="name"
-          value="value"
-          indeterminate
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            name="name"
+            value="value"
+            indeterminate
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
 
@@ -131,17 +143,19 @@ test(
   'has no form data when checked and disabled',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          name="name"
-          value="value"
-          checked
-          disabled
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            name="name"
+            value="value"
+            checked
+            disabled
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
 
@@ -153,15 +167,17 @@ test(
   'has no form data when checked and without a name',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          value="value"
-          checked
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            value="value"
+            checked
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
 
@@ -170,18 +186,22 @@ test(
 );
 
 test(
-  'has no form data when checked and without a value',
+  'has no form data when disabled',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          name="name"
-          checked
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            name="name"
+            value="value"
+            checked
+            disabled
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
 
@@ -193,11 +213,13 @@ test(
   'is valid when unchecked but not required',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox label="Label" checked></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox label="Label" checked></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
@@ -220,11 +242,13 @@ test(
   'is valid when required and unchecked but made not required programmatically',
   { tag: '@forms' },
   async ({ callMethod, mount, page, removeAttribute }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox label="Label" required></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox label="Label" required></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
@@ -249,15 +273,17 @@ test(
   'is both valid and invalid when unchecked and required but disabled',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          disabled
-          required
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            disabled
+            required
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
@@ -275,15 +301,17 @@ test(
   'is valid on submit when required and checked',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          checked
-          required
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            checked
+            required
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const form = page.locator('form');
@@ -308,11 +336,13 @@ test(
   'is invalid when unchecked and required',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox label="Label" required></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox label="Label" required></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
@@ -335,15 +365,17 @@ test(
   'is invalid when required but unchecked via click',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          checked
-          required
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            checked
+            required
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
@@ -368,11 +400,13 @@ test(
   'is invalid on submit when required and unchecked',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox label="Label" required></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox label="Label" required></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
@@ -397,11 +431,13 @@ test(
   'submits its form on Enter',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox label="Label"></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox label="Label"></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
     const checkbox = page.getByRole('checkbox');
@@ -421,11 +457,13 @@ test(
   'updates its validity on blur',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox label="Label" required></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox label="Label" required></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const checkbox = page.getByRole('checkbox');
@@ -447,11 +485,13 @@ test(
   'supports `setCustomValidity()`',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox label="Label" required></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox label="Label" required></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const validityMessage = page.locator('[data-test="validity-message"]');
@@ -481,15 +521,17 @@ test(
   'supports `setValidity()`',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox
-          label="Label"
-          checked
-          required
-        ></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            checked
+            required
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const validityMessage = page.locator('[data-test="validity-message"]');
@@ -510,11 +552,13 @@ test(
   'supports `resetValidityFeedback()`',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-checkbox label="Label" required></glide-core-checkbox>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox label="Label" required></glide-core-checkbox>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-checkbox');
     const validityMessage = page.locator('[data-test="validity-message"]');

@@ -147,7 +147,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report-${{ matrix.shardIndex }}
-          path: dist/playwright/coverage-report
+          path: ./dist/playwright/coverage-report
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
