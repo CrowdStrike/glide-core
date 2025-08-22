@@ -31,6 +31,7 @@ export default {
       'src/icon-button.ts',
       'src/spinner.ts',
       'src/select.ts',
+      'src/tag.ts',
     ],
     reportDir: 'dist/web-test-runner-coverage',
     threshold: {
@@ -58,6 +59,7 @@ export default {
     '!src/icon-button.test.*.ts',
     '!src/select.test.*.ts',
     '!src/spinner.test.*.ts',
+    '!src/tag.test.*.ts',
   ],
   nodeResolve: {
     browser: true,
