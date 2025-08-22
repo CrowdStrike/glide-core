@@ -100,7 +100,6 @@ for (const story of stories) {
         test('<glide-core-options-group>.hide-label', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'select--with-groups');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
