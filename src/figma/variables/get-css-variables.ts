@@ -164,6 +164,7 @@ function generateCSSVariablesFromTokens({
 
       switch (value.$type) {
         case 'color':
+        case 'fontFamily':
         case 'string': {
           cssValue = value.$value;
           break;
@@ -176,10 +177,6 @@ function generateCSSVariablesFromTokens({
         case 'number':
         case 'fontWeight': {
           cssValue = value.$value.toString();
-          break;
-        }
-        case 'fontFamily': {
-          cssValue = `"${value.$value}"`;
           break;
         }
 
