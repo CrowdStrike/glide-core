@@ -16,11 +16,8 @@ for (const story of stories) {
             .locator('glide-core-tab-group')
             .evaluate<void, TabGroup>((element) => {
               element.style.setProperty('--tabs-padding-block-end', '5rem');
-
               element.style.setProperty('--tabs-padding-block-start', '5rem');
-
               element.style.setProperty('--tabs-padding-inline-end', '5rem');
-
               element.style.setProperty('--tabs-padding-inline-start', '5rem');
             });
 
@@ -38,7 +35,6 @@ for (const story of stories) {
         });
 
         test(':hover', async ({ page }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'tab-group--with-overflow');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);

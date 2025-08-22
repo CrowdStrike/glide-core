@@ -400,6 +400,7 @@ export default defineConfig([
       'playwright/prefer-to-have-count': 'error',
       'playwright/prefer-to-have-length': 'error',
       'playwright/require-hook': 'error',
+      'playwright/no-skipped-test': ['error', { allowConditional: true }],
       'playwright/valid-test-tags': [
         'error',
         {
