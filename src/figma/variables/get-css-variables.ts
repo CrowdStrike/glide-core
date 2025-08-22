@@ -160,11 +160,23 @@ function generateCSSVariablesFromTokens({
         isExtendedVariable = true;
       }
 
+      // The way Figma font family variables are defined don't align with the syntax used
+      // in CSS:
+      //
+      // 1. Fallbacks cannot be defined (e.g., 'Nunito', system-ui).
+      // 2. It doesn't like quotes (e.g., "Nunito").
+      //
+      // So unfortunately we need to maintain font family variables manually via our
+      // `src/styles/variables/miscellaneous.css` file. Luckily these don't change
+      // frequently.
+      if (value.$type === 'fontFamily') {
+        continue;
+      }
+
       let cssValue: string;
 
       switch (value.$type) {
         case 'color':
-        case 'fontFamily':
         case 'string': {
           cssValue = value.$value;
           break;

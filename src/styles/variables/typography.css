@@ -9,9 +9,6 @@
   --glide-core-typography-size-body-default: 0.875rem;
   --glide-core-typography-size-body-small: 0.75rem;
   --glide-core-typography-size-component-chartlabel-md: 0.625rem;
-  --glide-core-typography-family-primary: 'Nunito', system-ui;
-  --glide-core-typography-family-monospace:
-    'Oxygen Mono', ui-monospace, monospace;
   --glide-core-typography-weight-light: 300;
   --glide-core-typography-weight-regular: 400;
   --glide-core-typography-weight-semibold: 600;

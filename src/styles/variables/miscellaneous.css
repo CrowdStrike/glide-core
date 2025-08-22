@@ -1,10 +1,15 @@
 /*
-  Variables defined in Figma, but not easily
-  exportable via scripting. The naming of
-  variables is a manual process, but they
-  should align with the name in Figma.
+  Variables defined in Figma, but they're Figma effects, not easily exportable via scripting,
+  or Figma doesn't support similar syntax to CSS. The naming of these variables is a manual
+  process. They should align with the naming format in Figma.
+
+  --glide-core-{collection}-{category*}-{scope*}-{property}-{variant*}--{state*}
+  * = optional
 */
 :root {
+  --glide-core-typography-family-primary: 'Nunito', system-ui;
+  --glide-core-typography-family-monospace:
+    'Oxygen Mono', ui-monospace, monospace;
   --glide-core-effect-hovered: 0px 0px 2px 0px
     var(--glide-core-color-effect-color-elevation-hovered);
   --glide-core-effect-lifted: 0px 2px 8px 0px
