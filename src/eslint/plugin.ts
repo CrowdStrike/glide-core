@@ -23,6 +23,7 @@ import { noToHaveClass } from './rules/no-to-have-class.js';
 import { oneTagPerTest } from './rules/one-tag-per-test.js';
 import { testTagMatchesSuite } from './rules/test-tag-matches-suite.js';
 import { noTagsInTestNames } from './rules/no-tags-in-test-names.js';
+import { useExtendedPlaywright } from './rules/use-extended-playwright.js';
 
 export default {
   rules: {
@@ -53,5 +54,6 @@ export default {
     'one-tag-per-test': oneTagPerTest,
     'test-tag-matches-suite': testTagMatchesSuite,
     'no-tags-in-test-names': noTagsInTestNames,
+    'use-extended-playwright': useExtendedPlaywright,
   },
 };
