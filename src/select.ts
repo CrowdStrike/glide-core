@@ -460,14 +460,14 @@ export default class Select
       : null;
   }
 
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of the form.
   #onFormdata = ({ formData }: FormDataEvent) => {
     if (this.name && this.value.length > 0 && !this.disabled) {
       formData.append(this.name, JSON.stringify(this.value));
     }
   };
 
-  // An arrow function field instead of a method so `this` is closed over and
-  // set to the component instead of the form.
   #onDefaultSlotClick(event: Event) {
     const isSubMenuOption = this.#optionElements?.every(
       (option) => option !== event.target,
