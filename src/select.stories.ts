@@ -27,7 +27,6 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="target"': '',
-    targetLabelPrefix: '',
     'addEventListener(event, handler)': '',
     'checkValidity()': '',
     disabled: false,
@@ -73,21 +72,6 @@ const meta: Meta = {
 //
 // If you want Select to be filterable, put an Input in this slot. Listen for Input's "input"
 // event, then add and remove Option(s) from Select's default slot based on Input's value.
-`,
-        },
-      },
-      type: { name: 'function', required: true },
-    },
-    targetLabelPrefix: {
-      table: {
-        defaultValue: { summary: '""' },
-        type: {
-          summary: 'getter',
-          detail: `
-// Returns a string containing the \`label\` of each selected Option.
-//
-// Update the label of your target to include this string whenever an Option is selected or deselected
-// so screenreaders know which Option(s) are selected.
 `,
         },
       },
@@ -401,7 +385,6 @@ const meta: Meta = {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
-              targetLabelPrefix: event.target.targetLabelPrefix,
               value: event.target.value,
             },
           });
@@ -463,12 +446,7 @@ const meta: Meta = {
       ?open=${arguments_.open}
       ?required=${arguments_.required}
     >
-      <glide-core-icon-button
-        label=${arguments_.targetLabelPrefix
-          ? arguments_.targetLabelPrefix + ' Toggle'
-          : 'Toggle'}
-        slot="target"
-      >
+      <glide-core-icon-button label="Toggle" slot="target">
         <glide-core-example-icon name="chevron-down"></glide-core-example-icon>
       </glide-core-icon-button>
 

@@ -6839,14 +6839,6 @@
               "readonly": true
             },
             {
-              "kind": "field",
-              "name": "targetLabelPrefix",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            },
-            {
               "kind": "method",
               "name": "checkValidity",
               "return": {

@@ -41,9 +41,6 @@ declare global {
  * @prop {HTMLFormElement | null} form
  *
  * @readonly
- * @prop {string} targetLabelPrefix
- *
- * @readonly
  * @prop {ValidityState} validity
  *
  * @method checkValidity
@@ -204,16 +201,6 @@ export default class Select
 
   get form(): HTMLFormElement | null {
     return this.#internals.form;
-  }
-
-  get targetLabelPrefix(): string {
-    return this.#optionElements
-      ? this.#optionElements
-          .filter(({ selected }) => selected)
-          .map(({ label }) => label)
-          .join(',')
-          .concat(',')
-      : '';
   }
 
   checkValidity(): boolean {
@@ -536,6 +523,24 @@ export default class Select
   }
 
   #onDefaultSlotSelected(event: Event) {
+    if (this.#targetElement) {
+      // The `label` of the selected Option(s) should actually be read before the label
+      // or text content of the target. But we don't always know what the target's label
+      // is because the target is an arbitrary element.
+      //
+      // For example, it could be a custom element without `textContent`. Button is like
+      // this. Button doesn't have any `textContent` because nothing gets slotted into
+      // it. Yet it is labeled.
+      //
+      // So the best we can do is set `ariaDescription`.
+      this.#targetElement.ariaDescription = this.#optionElements
+        ? this.#optionElements
+            .filter(({ selected }) => selected)
+            .map(({ label }) => label)
+            .join(',')
+        : '';
+    }
+
     if (this.#isSelectionFromValueSetter) {
       return;
     }
