@@ -44,10 +44,10 @@ export default expect.extend({
 
           previousScreenshot = currentScreenshot;
 
-          // 250 is large enough not to saturate a machine's cores but small enough that the
+          // 500 is large enough not to saturate a machine's cores but small enough that the
           // the matcher will return relatively quickly. Still, this matcher will add at
-          // least 750 milliseconds to your test. So only use it if you have to.
-          await new Promise((resolve) => setTimeout(resolve, 250));
+          // least 1500 milliseconds to your test. So only use it if you have to.
+          await new Promise((resolve) => setTimeout(resolve, 500));
         }
       })();
     });
