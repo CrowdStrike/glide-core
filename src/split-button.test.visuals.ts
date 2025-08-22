@@ -42,7 +42,6 @@ for (const story of stories) {
         test('<glide-core-split-button-primary-link>.disabled', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'split-button--primary-link');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
@@ -61,7 +60,6 @@ for (const story of stories) {
         test('<glide-core-split-button-primary-link>:active', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'split-button--primary-link');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
@@ -76,7 +74,6 @@ for (const story of stories) {
         test('<glide-core-split-button-primary-link>:focus', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'split-button--primary-link');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
@@ -90,7 +87,6 @@ for (const story of stories) {
         test('<glide-core-split-button-primary-link>:hover', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'split-button--primary-link');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
@@ -104,7 +100,6 @@ for (const story of stories) {
         test('<glide-core-split-button-primary-button>:active', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'split-button--primary-link');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
@@ -119,7 +114,6 @@ for (const story of stories) {
         test('<glide-core-split-button-primary-button>.disabled', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'split-button--primary-link');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
@@ -138,7 +132,6 @@ for (const story of stories) {
         test('<glide-core-split-button-primary-button>:focus', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'split-button--primary-link');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
@@ -152,7 +145,6 @@ for (const story of stories) {
         test('<glide-core-split-button-primary-button>:hover', async ({
           page,
         }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'split-button--primary-link');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
