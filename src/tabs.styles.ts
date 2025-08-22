@@ -83,6 +83,7 @@ export default [
 
       &.disabled {
         color: var(--glide-core-color-interactive-icon-default--disabled);
+        cursor: not-allowed;
       }
 
       &.start {

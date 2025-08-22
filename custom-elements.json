@@ -8283,140 +8283,26 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/tab.group.styles.ts",
+      "path": "src/tabs.panel.styles.ts",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/tab.group.styles.ts"
+            "module": "src/tabs.panel.styles.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tab.group.ts",
+      "path": "src/tabs.panel.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "TabGroup",
-          "cssProperties": [
-            {
-              "name": "--tabs-padding-block-end",
-              "default": "0rem"
-            },
-            {
-              "name": "--tabs-padding-block-start",
-              "default": "0rem"
-            },
-            {
-              "name": "--tabs-padding-inline-end",
-              "default": "0rem"
-            },
-            {
-              "name": "--tabs-padding-inline-start",
-              "default": "0rem"
-            }
-          ],
-          "slots": [
-            {
-              "name": "nav",
-              "description": "",
-              "type": {
-                "text": "Tab"
-              }
-            },
-            {
-              "name": "",
-              "description": "",
-              "type": {
-                "text": "TabPanel"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-tab-group",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "TabGroup",
-            "module": "src/tab.group.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-tab-group",
-          "declaration": {
-            "name": "TabGroup",
-            "module": "src/tab.group.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/tab.panel.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/tab.panel.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/tab.panel.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "TabPanel",
+          "name": "TabsPanel",
           "cssProperties": [
             {
               "name": "--padding-inline-end",
@@ -8430,7 +8316,7 @@
           "slots": [
             {
               "name": "",
-              "description": "The content of the panel",
+              "description": "The content of the panel.",
               "type": {
                 "text": "Element | string"
               }
@@ -8452,14 +8338,14 @@
               "type": {
                 "text": "string | undefined"
               },
-              "description": "The corresponding Tab should have a `panel` attribute with this name",
+              "description": "The corresponding Tab should have a `panel` attribute with this name.",
               "attribute": "name",
               "reflects": true
             },
             {
               "kind": "field",
-              "name": "privateIsSelected",
-              "attribute": "privateIsSelected"
+              "name": "privateSelected",
+              "attribute": "privateSelected"
             },
             {
               "kind": "field",
@@ -8499,13 +8385,13 @@
               "type": {
                 "text": "string | undefined"
               },
-              "description": "The corresponding Tab should have a `panel` attribute with this name",
+              "description": "The corresponding Tab should have a `panel` attribute with this name.",
               "fieldName": "name",
               "required": true
             },
             {
-              "name": "privateIsSelected",
-              "fieldName": "privateIsSelected"
+              "name": "privateSelected",
+              "fieldName": "privateSelected"
             },
             {
               "name": "version",
@@ -8537,7 +8423,7 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "glide-core-tab-panel",
+          "tagName": "glide-core-tabs-panel",
           "customElement": true
         }
       ],
@@ -8546,55 +8432,62 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "TabPanel",
-            "module": "src/tab.panel.ts"
+            "name": "TabsPanel",
+            "module": "src/tabs.panel.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "glide-core-tab-panel",
+          "name": "glide-core-tabs-panel",
           "declaration": {
-            "name": "TabPanel",
-            "module": "src/tab.panel.ts"
+            "name": "TabsPanel",
+            "module": "src/tabs.panel.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tab.styles.ts",
+      "path": "src/tabs.styles.ts",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/tab.styles.ts"
+            "module": "src/tabs.styles.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tab.ts",
+      "path": "src/tabs.tab.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/tabs.tab.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tabs.tab.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "Tab",
+          "name": "TabsTab",
           "slots": [
             {
               "name": "icon",
               "description": "",
               "type": {
                 "text": "Element"
-              }
-            },
-            {
-              "name": "",
-              "description": "A label",
-              "type": {
-                "text": "Element | string"
               }
             }
           ],
@@ -8607,6 +8500,16 @@
               },
               "static": true,
               "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "label",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -8677,6 +8580,18 @@
               }
             },
             {
+              "name": "private-icon-slotchange",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-label-change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
               "name": "private-selected",
               "type": {
                 "text": "Event"
@@ -8684,6 +8599,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "label",
+              "required": true
+            },
             {
               "name": "panel",
               "type": {
@@ -8738,7 +8662,7 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "glide-core-tab",
+          "tagName": "glide-core-tabs-tab",
           "customElement": true
         }
       ],
@@ -8747,16 +8671,116 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "Tab",
-            "module": "src/tab.ts"
+            "name": "TabsTab",
+            "module": "src/tabs.tab.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "glide-core-tab",
+          "name": "glide-core-tabs-tab",
           "declaration": {
-            "name": "Tab",
-            "module": "src/tab.ts"
+            "name": "TabsTab",
+            "module": "src/tabs.tab.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tabs.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Tabs",
+          "cssProperties": [
+            {
+              "name": "--tabs-padding-block-end",
+              "default": "0rem"
+            },
+            {
+              "name": "--tabs-padding-block-start",
+              "default": "0rem"
+            },
+            {
+              "name": "--tabs-padding-inline-end",
+              "default": "0rem"
+            },
+            {
+              "name": "--tabs-padding-inline-start",
+              "default": "0rem"
+            }
+          ],
+          "slots": [
+            {
+              "name": "nav",
+              "description": "",
+              "type": {
+                "text": "Tab"
+              }
+            },
+            {
+              "name": "",
+              "description": "",
+              "type": {
+                "text": "TabPanel"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-tabs",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "Tabs",
+            "module": "src/tabs.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-tabs",
+          "declaration": {
+            "name": "Tabs",
+            "module": "src/tabs.ts"
           }
         }
       ]

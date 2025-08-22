@@ -6,18 +6,18 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import Tab from './tab.js';
-import TabPanel from './tab.panel.js';
+import TabsTab from './tabs.tab.js';
+import TabsPanel from './tabs.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
-import styles from './tab.group.styles.js';
+import styles from './tabs.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tab-group': TabGroup;
+    'glide-core-tabs': Tabs;
   }
 }
 
@@ -33,9 +33,9 @@ declare global {
  * @cssprop [--tabs-padding-inline-end=0rem]
  * @cssprop [--tabs-padding-inline-start=0rem]
  */
-@customElement('glide-core-tab-group')
+@customElement('glide-core-tabs')
 @final
-export default class TabGroup extends LitElement {
+export default class Tabs extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -87,8 +87,10 @@ export default class TabGroup extends LitElement {
           <slot
             name="nav"
             @private-selected=${this.#onTabSelected}
+            @private-label-change=${this.#onTabLabelChange}
+            @private-icon-slotchange=${this.#onTabIconSlotChange}
             @slotchange=${this.#onNavSlotChange}
-            ${assertSlot([Tab])}
+            ${assertSlot([TabsTab], true)}
           >
             <!-- @type {Tab} -->
           </slot>
@@ -125,7 +127,10 @@ export default class TabGroup extends LitElement {
         )}
       </div>
 
-      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabPanel])}>
+      <slot
+        @slotchange=${this.#onDefaultSlotChange}
+        ${assertSlot([TabsPanel], true)}
+      >
         <!-- @type {TabPanel} -->
       </slot>
     </div>`;
@@ -164,20 +169,20 @@ export default class TabGroup extends LitElement {
 
   get #panelElements() {
     return [
-      ...this.querySelectorAll<TabPanel>(':scope > glide-core-tab-panel'),
+      ...this.querySelectorAll<TabsPanel>(':scope > glide-core-tabs-panel'),
     ];
   }
 
   get #tabElements() {
-    return [...this.querySelectorAll<Tab>(':scope > glide-core-tab')];
+    return [...this.querySelectorAll<TabsTab>(':scope > glide-core-tabs-tab')];
   }
 
   #onComponentClick(event: Event) {
     const target = event.target as HTMLElement;
-    const clickedTab = target.closest('glide-core-tab');
+    const clickedTab = target.closest('glide-core-tabs-tab');
 
     if (
-      clickedTab instanceof Tab &&
+      clickedTab instanceof TabsTab &&
       !clickedTab.disabled &&
       // Tab Panels can themselves include a Tab Group. We want to ensure
       // we're dealing with one of this instance's Tabs and not a Tab in
@@ -191,11 +196,11 @@ export default class TabGroup extends LitElement {
   #onComponentKeydown(event: KeyboardEvent) {
     const tab =
       event.target instanceof HTMLElement &&
-      event.target.closest('glide-core-tab');
+      event.target.closest('glide-core-tabs-tab');
 
     if (
       ['Enter', ' '].includes(event.key) &&
-      tab instanceof Tab &&
+      tab instanceof TabsTab &&
       !tab.disabled
     ) {
       tab.selected = true;
@@ -216,7 +221,7 @@ export default class TabGroup extends LitElement {
         tab.matches(':focus'),
       );
 
-      if (focusedElement instanceof Tab) {
+      if (focusedElement instanceof TabsTab) {
         let index = this.#tabElements.indexOf(focusedElement);
 
         switch (event.key) {
@@ -268,6 +273,19 @@ export default class TabGroup extends LitElement {
 
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
+    this.#updateSelectedTabIndicator();
+
+    for (const tab of this.#tabElements) {
+      if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
+        throw new Error(`Tab with panel="${tab.panel}" has no matching Panel.`);
+      }
+    }
+
+    for (const panel of this.#panelElements) {
+      if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
+        throw new Error(`Panel with name="${panel.name}" has no matching Tab.`);
+      }
+    }
   }
 
   #onNavSlotChange() {
@@ -286,7 +304,7 @@ export default class TabGroup extends LitElement {
     }
 
     for (const panel of this.#panelElements) {
-      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
 
@@ -309,6 +327,30 @@ export default class TabGroup extends LitElement {
     }
   }
 
+  #onTabIconSlotChange() {
+    // Wait a tick for the icon slot to update, so the selected tab measurements
+    // will be accurate.
+    setTimeout(() => {
+      this.#updateSelectedTabIndicator();
+    });
+
+    this.#resizeTimeout = setTimeout(() => {
+      this.#setOverflowButtonsState();
+    });
+  }
+
+  #onTabLabelChange() {
+    // Wait a tick for the label to update, so the selected tab measurements
+    // will be accurate.
+    setTimeout(() => {
+      this.#updateSelectedTabIndicator();
+    });
+
+    this.#resizeTimeout = setTimeout(() => {
+      this.#setOverflowButtonsState();
+    });
+  }
+
   #onTabListFocusout() {
     // Set the last selected tab as tabbable so that when pressing Shift + Tab on the
     // Tab Panel focus goes back to the last selected tab.
@@ -322,22 +364,6 @@ export default class TabGroup extends LitElement {
       clearTimeout(this.#resizeTimeout);
     }
 
-    // TODO
-    //
-    // This only needs to be called here so the indicator is updated when the content
-    // of Tab's slots changes.
-    //
-    // Tab's default slot will soon be replaced by a `label` attribute. When that
-    // happens, this call can be removed, and `#updateSelectedTabIndicator()` can be
-    // instead called when Tab dispatches "private-label-change" and
-    // "private-icon-slotchange" events.
-    //
-    // Those changes will certainly require slightly more code. But they'll make it
-    // much clearer why `#updateSelectedTabIndicator()` is being called. Additionally,
-    // Tab Group will no longer be doing unncessary work every time the viewport is
-    // resized.
-    this.#updateSelectedTabIndicator();
-
     // Toggling the overflow buttons will itself cause a resize. So we
     // wait a tick to avoid a loop.
     this.#resizeTimeout = setTimeout(() => {
@@ -346,7 +372,7 @@ export default class TabGroup extends LitElement {
   }
 
   #onTabSelected(event: Event) {
-    if (event.target instanceof Tab && event.target.selected) {
+    if (event.target instanceof TabsTab && event.target.selected) {
       event.target.privateSelect();
       event.target.tabIndex = 0;
 
@@ -364,7 +390,7 @@ export default class TabGroup extends LitElement {
     this.#updateSelectedTabIndicator();
 
     for (const panel of this.#panelElements) {
-      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
   }
