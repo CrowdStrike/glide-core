@@ -264,6 +264,28 @@ test(
 );
 
 test(
+  'cannot be extended',
+  { tag: '@miscellaneous' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <glide-core-select>
+          <button slot="target">Target</button>
+
+          <glide-core-options>
+            <glide-core-option label="Label"></glide-core-option>
+          </glide-core-options>
+        </glide-core-select>
+      `,
+    );
+
+    const host = page.locator('glide-core-select');
+
+    await expect(host).not.toBeExtensible();
+  },
+);
+
+test(
   'throws when more than one option is selected initially',
   { tag: '@miscellaneous' },
   async ({ mount }) => {
