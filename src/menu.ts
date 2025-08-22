@@ -1280,6 +1280,15 @@ export default class Menu extends LitElement {
       }
     });
 
+    if (
+      this.#targetElement?.ariaDescription !== null &&
+      this.#targetElement?.ariaDescription !== this.#localize.term('loading')
+    ) {
+      throw new Error(
+        "Menu will overwrite the `aria-description` on your target when Menu's `loading` attribute it set.",
+      );
+    }
+
     if (this.#targetElement && this.#optionsElement) {
       observer.observe(this.#targetElement, {
         attributeFilter: ['aria-disabled', 'disabled'],

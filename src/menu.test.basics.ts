@@ -1,3 +1,4 @@
+import './button.js';
 import './options.js';
 import './option.js';
 import './input.js';
@@ -547,6 +548,22 @@ it('does not clobber the ID of its target', async () => {
   );
 
   expect(host.querySelector('button')?.id).to.equal('id');
+});
+
+it('throws when its target has an `aria-description` attribute', async () => {
+  await expectUnhandledRejection(() => {
+    return fixture(
+      html`<glide-core-menu>
+        <glide-core-button aria-description="Description" slot="target">
+          Target
+        </glide-core-button>
+
+        <glide-core-options>
+          <glide-core-option label="Label"></glide-core-option>
+        </glide-core-options>
+      </glide-core-menu>`,
+    );
+  });
 });
 
 it('throws when subclassed', async () => {
