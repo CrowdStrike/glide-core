@@ -1791,8 +1791,7 @@ export default class Dropdown extends LitElement implements FormControl {
               this.inputValue = this.activeOption.label;
 
               // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
-              // is off by one relative to `clientWidth` when they should be the same. It
-              // happens whenever the input field was overflowing and now isn't.
+              // is off by one relative to `clientWidth` when they should be the same.
               this.isInputOverflowing =
                 this.#inputElementRef.value.scrollWidth - 1 >
                 this.#inputElementRef.value.clientWidth;
@@ -2326,7 +2325,9 @@ export default class Dropdown extends LitElement implements FormControl {
   #onInputResize() {
     if (this.#inputElementRef.value) {
       this.isInputOverflowing =
-        this.#inputElementRef.value.scrollWidth >
+        // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
+        // is off by one relative to `clientWidth` when they should be the same.
+        this.#inputElementRef.value.scrollWidth - 1 >
         this.#inputElementRef.value.clientWidth;
     }
   }
@@ -2433,8 +2434,7 @@ export default class Dropdown extends LitElement implements FormControl {
           this.inputValue = option.label;
 
           // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
-          // is off by one relative to `clientWidth` when they should be the same. It
-          // happens whenever the input field was overflowing and now isn't.
+          // is off by one relative to `clientWidth` when they should be the same.
           this.isInputOverflowing =
             this.#inputElementRef.value.scrollWidth - 1 >
             this.#inputElementRef.value.clientWidth;
@@ -2528,8 +2528,7 @@ export default class Dropdown extends LitElement implements FormControl {
         this.inputValue = this.lastSelectedAndEnabledOption?.label ?? '';
 
         // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
-        // is off by one relative to `clientWidth` when they should be the same. It
-        // happens whenever the input field was overflowing and now isn't.
+        // is off by one relative to `clientWidth` when they should be the same.
         this.isInputOverflowing =
           this.#inputElementRef.value.scrollWidth - 1 >
           this.#inputElementRef.value.clientWidth;
@@ -2607,8 +2606,7 @@ export default class Dropdown extends LitElement implements FormControl {
         this.inputValue = event.target.label;
 
         // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
-        // is off by one relative to `clientWidth` when they should be the same. It
-        // happens whenever the input field was overflowing and now isn't.
+        // is off by one relative to `clientWidth` when they should be the same.
         this.isInputOverflowing =
           this.#inputElementRef.value.scrollWidth - 1 >
           this.#inputElementRef.value.clientWidth;
@@ -2653,8 +2651,10 @@ export default class Dropdown extends LitElement implements FormControl {
 
         this.inputValue = this.lastSelectedAndEnabledOption.label;
 
+        // One is subtracted to account for an apparent Chrome bug where `scrollWidth`
+        // is off by one relative to `clientWidth` when they should be the same.
         this.isInputOverflowing =
-          this.#inputElementRef.value.scrollWidth >
+          this.#inputElementRef.value.scrollWidth - 1 >
           this.#inputElementRef.value.clientWidth;
       } else {
         // The option's label has changed and is reactive. But it's a separate component.
