@@ -400,6 +400,7 @@ export default defineConfig([
       'playwright/prefer-to-have-count': 'error',
       'playwright/prefer-to-have-length': 'error',
       'playwright/require-hook': 'error',
+      'playwright/no-skipped-test': ['error', { allowConditional: true }],
       'playwright/valid-test-tags': [
         'error',
         {
@@ -415,6 +416,7 @@ export default defineConfig([
         },
       ],
       '@typescript-eslint/no-floating-promises': 'error',
+      '@crowdstrike/glide-core/add-conditionally-skipped-test-message': 'error',
       '@crowdstrike/glide-core/always-tag-tests': 'error',
       '@crowdstrike/glide-core/one-tag-per-test': 'error',
       '@crowdstrike/glide-core/no-test-fail': 'error',

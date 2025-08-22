@@ -3,7 +3,8 @@ import { expect, test } from './playwright/test.js';
 
 test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
-    () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+    () =>
+      html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
   const host = page.locator('glide-core-accordion');
@@ -14,15 +15,17 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 test(
   'can be opened programatically',
   { tag: '@miscellaneous' },
-  async ({ browserName, setProperty, mount, page }) => {
-    // eslint-disable-next-line playwright/no-skipped-test
+  async ({ browserName, mount, page, setProperty }) => {
     test.skip(
       browserName === 'webkit',
       '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
     );
 
     await mount(
-      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label">
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -47,17 +50,17 @@ test(
 test(
   'can be closed programatically',
   { tag: '@miscellaneous' },
-  async ({ browserName, setProperty, mount, page }) => {
-    // eslint-disable-next-line playwright/no-skipped-test
+  async ({ browserName, mount, page, setProperty }) => {
     test.skip(
       browserName === 'webkit',
       '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
     );
 
     await mount(
-      () => html`<glide-core-accordion label="Label" open>
-        Content
-      </glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label" open>
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -84,7 +87,10 @@ test(
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label">
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -99,9 +105,10 @@ test(
   { tag: '@miscellaneous' },
   async ({ setProperty, mount, page }) => {
     await mount(
-      () => html`<glide-core-accordion label="Label" open>
-        Content
-      </glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label" open>
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -118,7 +125,10 @@ test(
   { tag: '@miscellaneous' },
   async ({ setProperty, mount, page }) => {
     await mount(
-      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label">
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -135,7 +145,10 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label">
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -159,7 +172,9 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount }) => {
     await expect(
-      mount(() => html`<glide-core-accordion label="Label"></glide-core-accordion>`),
+      mount(
+        () => html`<glide-core-accordion label="Label"></glide-core-accordion>`,
+      ),
     ).rejects.toThrow();
   },
 );

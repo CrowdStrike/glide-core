@@ -38,7 +38,6 @@ for (const story of stories) {
         });
 
         test(':hover', async ({ page }, test) => {
-          // eslint-disable-next-line playwright/no-skipped-test
           test.skip(story.id !== 'tab-group--with-overflow');
 
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);

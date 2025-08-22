@@ -20,7 +20,7 @@ const eslint = new ESLint({
   ],
 });
 
-test('valid when tagged', { tag: '@eslint' }, async () => {
+test('valid', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
      test('test', { tag: '@eslint' }, () => {});
   `);
@@ -28,7 +28,7 @@ test('valid when tagged', { tag: '@eslint' }, async () => {
   expect(result?.errorCount).toBe(0);
 });
 
-test('invalid when not tagged', { tag: '@eslint' }, async () => {
+test('invalid', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
      test('test', { annotation: { type: 'type' } }, () => {});
   `);
