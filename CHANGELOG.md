@@ -1,5 +1,72 @@
 # @crowdstrike/glide-core
 
+## 0.33.0
+
+### Minor Changes
+
+- [#1095](https://github.com/CrowdStrike/glide-core/pull/1095) [`50fbc4b`](https://github.com/CrowdStrike/glide-core/commit/50fbc4bfffcfd207e78a1f7facb0088b46fb6392) Thanks [@clintcs](https://github.com/clintcs)! - Menu overwrites the `aria-description` of its target when Menu's `loading` attribute is set. So Menu now warns when `aria-description` is present.
+
+### Patch Changes
+
+- [#1086](https://github.com/CrowdStrike/glide-core/pull/1086) [`048b198`](https://github.com/CrowdStrike/glide-core/commit/048b19878340643ca8d5e464c1b9e5fb62cd2117) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Dropdown Option now shows the count when it is set to 0.
+
+- [#1090](https://github.com/CrowdStrike/glide-core/pull/1090) [`099468a`](https://github.com/CrowdStrike/glide-core/commit/099468aee94639edac1e94f25cece61cded156c8) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `--glide-core-typography-family-primary` and `--glide-core-typography-family-monospace` now fall back to system defaults.
+
+- [#1069](https://github.com/CrowdStrike/glide-core/pull/1069) [`5589e6b`](https://github.com/CrowdStrike/glide-core/commit/5589e6bff772dbdc33499f619889fbb49c070a4c) Thanks [@clintcs](https://github.com/clintcs)! - - Option now dispatches "enabled" and "disabled" events when programmatically enabled or disabled.
+
+  - Option now dispatches "selected" and "deselected" events when programmatically selected or deselected.
+  - Options now dispatches a "slotchange" event when the contents of its default slot have changed.
+
+  You probably don't need to listen for these events. But they may come in handy if you're abstracting over Menu to add functionality to it.
+
+- [#1077](https://github.com/CrowdStrike/glide-core/pull/1077) [`2b82109`](https://github.com/CrowdStrike/glide-core/commit/2b8210944fde035d4ab5a6d0fb122c01e80b4201) Thanks [@clintcs](https://github.com/clintcs)! - Menu's menu no longer remains in the viewport when Menu is open and scrolled out of view.
+
+- [#1044](https://github.com/CrowdStrike/glide-core/pull/1044) [`a81a81c`](https://github.com/CrowdStrike/glide-core/commit/a81a81cb663a72d043daff36cb94e7a37930b247) Thanks [@clintcs](https://github.com/clintcs)! - Added a Select component. Select is like Menu but as a form control. Select has `name` and `value` attributes, and it supports form control methods like `reportValidity()` and `setValidity()`.
+
+  Select does not support Form Controls Layout or multiselection. Multiselection support is coming soon.
+
+- [#1065](https://github.com/CrowdStrike/glide-core/pull/1065) [`ab2925b`](https://github.com/CrowdStrike/glide-core/commit/ab2925b3f54b069eeb1853874df03686b7146b1b) Thanks [@clintcs](https://github.com/clintcs)! - Menu's active Option is now visually active the moment Menu is opened instead of after a short delay.
+
+- [#1072](https://github.com/CrowdStrike/glide-core/pull/1072) [`cbafaf2`](https://github.com/CrowdStrike/glide-core/commit/cbafaf2a61367a45905979a0db56882987d0ba88) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Slot assertions now properly evaluate the slotted contents when wrapped.
+
+  ```js
+  @customElement('wrapped-modal')
+  export default class WrappedModal extends LitElement {
+    render() {
+      return html`
+        <glide-core-modal label="Label">
+          <!-- Reslotting the Modal's primary slot. -->
+          <slot name="primary" slot="primary"></slot>
+        </glide-core-modal>
+      `;
+    }
+  }
+  ```
+
+  This will no longer produce an error.
+
+  ```html
+  <wrapped-modal>
+    <glide-core-button label="Submit" slot="primary"></glide-core-button>
+  </wrapped-modal>
+  ```
+
+  But this will, as the element is expected to be a GlideCoreButton.
+
+  ```html
+  <wrapped-modal>
+    <div slot="primary"></div>
+  </wrapped-modal>
+  ```
+
+  ```bash
+  Uncaught TypeError: Expected Modal to have a slotted element that extends GlideCoreButton. Extends HTMLDivElement instead.
+  ```
+
+- [#1078](https://github.com/CrowdStrike/glide-core/pull/1078) [`ae9c450`](https://github.com/CrowdStrike/glide-core/commit/ae9c450a84b969d7b2e59ec286f24c6582ee8bbb) Thanks [@clintcs](https://github.com/clintcs)! - Menu, Dropdown, Popover, and Tooltip's opening and closing animations now start slightly slower and accelerate sharply.
+
+- [#1089](https://github.com/CrowdStrike/glide-core/pull/1089) [`18ad7d8`](https://github.com/CrowdStrike/glide-core/commit/18ad7d8ea06b8af4a4ad27e991f07cb7f43b16e7) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown, when filterable and in Form Controls Layout in a Modal, now longer has a flickering ellipsis when the viewport is resized.
+
 ## 0.32.3
 
 ### Patch Changes
