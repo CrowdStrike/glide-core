@@ -11,7 +11,6 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import xIcon from './icons/x.js';
 import { LocalizeController } from './library/localize.js';
 import styles from './toast.toasts.styles.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import Toast from './toast.js';
 import Link from './link.js';
@@ -37,10 +36,12 @@ declare global {
 @customElement('glide-core-private-toasts')
 @final
 export default class Toasts extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

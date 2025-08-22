@@ -5,7 +5,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './button-group.button.styles.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -31,10 +30,12 @@ declare global {
 @customElement('glide-core-button-group-button')
 @final
 export default class ButtonGroupButton extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

@@ -383,16 +383,14 @@ this.dispatchEvent(new Event('selected');
 The shadow DOM prevents styles from leaking into components.
 But programmatic access to a component's DOM—including its styles—is still allowed if its shadow root is open.
 
-Our components extend `LitElement`, whose shadow root is open by default.
-Use `shadowRootMode` to close their shadow roots while keeping them open in tests.
+Our components extend `LitElement`, which has an open shadow root by default.
+Use a ternary to close shadow roots while keeping them open in tests.
 Opening shadow roots in tests facilitates querying elements and accessibility assertions.
 
 ```ts
-import shadowRootMode from './src/library/shadow-root-mode.ts';
-
 static shadowRootOptions: ShadowRootInit = {
   ...LitElement.shadowRootOptions,
-  mode: shadowRootMode,
+  mode: window.navigator.webdriver ? 'open' : 'closed',
 };
 ```
 

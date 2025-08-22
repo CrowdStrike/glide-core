@@ -8,7 +8,6 @@ import { LocalizeController } from './library/localize.js';
 import pencilIcon from './icons/pencil.js';
 import styles from './tag.styles.js';
 import xIcon from './icons/x.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -34,10 +33,11 @@ declare global {
 @customElement('glide-core-tag')
 @final
 export default class Tag extends LitElement {
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
 
   static override styles = styles;

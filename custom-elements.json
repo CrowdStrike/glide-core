@@ -83,7 +83,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -219,7 +219,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -470,7 +470,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -630,7 +630,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -970,7 +970,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -1369,7 +1369,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -1961,7 +1961,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -2113,7 +2113,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -2544,7 +2544,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -3115,7 +3115,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -3250,7 +3250,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -3498,7 +3498,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -3628,7 +3628,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, delegatesFocus: true, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', delegatesFocus: true, }"
             },
             {
               "kind": "field",
@@ -4246,7 +4246,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -4443,7 +4443,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -4698,7 +4698,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -4914,7 +4914,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -5048,7 +5048,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -5262,7 +5262,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -5569,7 +5569,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -5713,7 +5713,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -5926,7 +5926,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -6085,7 +6085,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -6313,7 +6313,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -6738,7 +6738,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -7065,7 +7065,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, delegatesFocus: true, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', delegatesFocus: true, }"
             },
             {
               "kind": "field",
@@ -7510,7 +7510,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -7636,7 +7636,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -7834,7 +7834,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -8008,7 +8008,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -8213,7 +8213,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -8345,7 +8345,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -8444,7 +8444,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -8606,7 +8606,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -8800,7 +8800,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -8991,7 +8991,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, delegatesFocus: true, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', delegatesFocus: true, }"
             },
             {
               "kind": "field",
@@ -9453,7 +9453,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -9566,7 +9566,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -9802,7 +9802,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -10047,7 +10047,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",
@@ -10250,7 +10250,7 @@
                 "text": "ShadowRootInit"
               },
               "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
             },
             {
               "kind": "field",

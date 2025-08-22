@@ -12,7 +12,6 @@ import Tooltip from './tooltip.js';
 import styles from './modal.styles.js';
 import xIcon from './icons/x.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import severityInformationalIcon from './icons/severity-informational.js';
 import severityMediumIcon from './icons/severity-medium.js';
 import severityCriticalIcon from './icons/severity-critical.js';
@@ -57,10 +56,12 @@ globalStylesheet.insertRule(`
 @customElement('glide-core-modal')
 @final
 export default class Modal extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

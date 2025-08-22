@@ -7,7 +7,6 @@ import SplitButtonPrimaryLink from './split-button.primary-link.js';
 import SplitButtonSecondaryButton from './split-button.secondary-button.js';
 import styles from './split-button.styles.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 
 declare global {
@@ -28,10 +27,12 @@ declare global {
 @customElement('glide-core-split-button')
 @final
 export default class SplitButton extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

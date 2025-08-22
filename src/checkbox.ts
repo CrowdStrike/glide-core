@@ -12,7 +12,6 @@ import packageJson from '../package.json' with { type: 'json' };
 import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
 import type FormControl from './library/form-control.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -74,10 +73,12 @@ declare global {
 export default class Checkbox extends LitElement implements FormControl {
   static formAssociated = true;
 
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

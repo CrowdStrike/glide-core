@@ -4,19 +4,20 @@ const createRule = ESLintUtils.RuleCreator((name) => {
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
 });
 
-export const preferClosedShadowRoot = createRule({
-  name: 'prefer-shadow-root-mode',
+export const conditionallyOpenShadowRoots = createRule({
+  name: 'conditionally-open-shadow-roots',
   meta: {
     docs: {
       description:
-        'Ensures Glide Components conditionally open and close their shadow roots.',
+        'Ensures shadow roots are open for tests but otherwise closed.',
     },
     type: 'suggestion',
     messages: {
-      missingShadowRootOptions: 'Prefer overriding shadow root options.',
-      missingMode: 'Prefer setting `mode` on `shadowRootOptions`.',
+      noShadowRootOptions:
+        'Add a static `shadowRootOptions` property to your component. See other components for an example.',
+      noMode: 'Add a `mode` property to `shadowRootOptions`.',
       wrongMode:
-        "Prefer setting `mode` on `shadowRootOptions` to `shadowRootMode`. Import `shadowRootMode` from 'src/library/shadow-root-mode.ts'.",
+        '`mode` should be closed by default but open in tests. See other components for an example.',
     },
     schema: [],
   },
@@ -40,7 +41,7 @@ export const preferClosedShadowRoot = createRule({
           if (!shadowRootOptions) {
             context.report({
               node,
-              messageId: 'missingShadowRootOptions',
+              messageId: 'noShadowRootOptions',
             });
           }
         }
@@ -50,7 +51,7 @@ export const preferClosedShadowRoot = createRule({
           node.key.type === AST_NODE_TYPES.Identifier &&
           node.key.name === 'shadowRootOptions'
         ) {
-          const shadowRootMode =
+          const mode =
             node.value?.type === AST_NODE_TYPES.ObjectExpression &&
             node.value.properties?.find(
               (property) =>
@@ -59,22 +60,34 @@ export const preferClosedShadowRoot = createRule({
                 property.key.name === 'mode',
             );
 
-          if (!shadowRootMode) {
+          if (!mode) {
             context.report({
               node,
-              messageId: 'missingMode',
+              messageId: 'noMode',
             });
 
             return;
           }
 
-          const isUsingShadowRootModeLibrary =
-            shadowRootMode &&
-            shadowRootMode.type === AST_NODE_TYPES.Property &&
-            shadowRootMode.value.type === AST_NODE_TYPES.Identifier &&
-            shadowRootMode.value.name === 'shadowRootMode';
+          const isOnlyOpenInTests =
+            mode &&
+            mode.type === AST_NODE_TYPES.Property &&
+            mode.value.type === AST_NODE_TYPES.ConditionalExpression &&
+            mode.value.consequent.type === AST_NODE_TYPES.Literal &&
+            mode.value.consequent.value === 'open' &&
+            mode.value.alternate.type === AST_NODE_TYPES.Literal &&
+            mode.value.alternate.value === 'closed' &&
+            mode.value.test.type === AST_NODE_TYPES.MemberExpression &&
+            mode.value.test.object.type === AST_NODE_TYPES.MemberExpression &&
+            mode.value.test.object.property.type ===
+              AST_NODE_TYPES.Identifier &&
+            mode.value.test.object.property.name === 'navigator' &&
+            mode.value.test.property.type === AST_NODE_TYPES.Identifier &&
+            mode.value.test.property.name === 'webdriver' &&
+            mode.value.test.object.object.type === AST_NODE_TYPES.Identifier &&
+            mode.value.test.object.object.name === 'window';
 
-          if (!isUsingShadowRootModeLibrary) {
+          if (!isOnlyOpenInTests) {
             context.report({
               node,
               messageId: 'wrongMode',

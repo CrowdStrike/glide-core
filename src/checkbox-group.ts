@@ -11,7 +11,6 @@ import Checkbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -69,10 +68,12 @@ declare global {
 export default class CheckboxGroup extends LitElement implements FormControl {
   static formAssociated = true;
 
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 
