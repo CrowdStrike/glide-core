@@ -178,9 +178,9 @@ export default class Menu extends LitElement {
     if (this.#optionsElement && this.#targetElement) {
       this.#optionsElement.privateLoading = this.loading;
 
-      this.#targetElement.ariaDescription = this.loading
-        ? this.#localize.term('loading')
-        : null;
+      if (this.loading) {
+        this.#targetElement.ariaDescription = this.#localize.term('loading');
+      }
     }
 
     if (this.open && !this.isTargetDisabled) {
@@ -1279,6 +1279,18 @@ export default class Menu extends LitElement {
         this.#hide();
       }
     });
+
+    /* c8 ignore start */
+    if (
+      this.#targetElement?.ariaDescription !== null &&
+      this.#targetElement?.ariaDescription !== this.#localize.term('loading')
+    ) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "Menu will overwrite the `aria-description` on your target when Menu's `loading` attribute it set.",
+      );
+    }
+    /* c8 ignore end */
 
     if (this.#targetElement && this.#optionsElement) {
       observer.observe(this.#targetElement, {
