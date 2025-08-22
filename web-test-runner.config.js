@@ -24,9 +24,6 @@ export default {
       // calculations that are in the library itself.
       'src/library/mouse.ts',
 
-      // Not much to test. Also untestable.
-      'src/library/shadow-root-mode.ts',
-
       // Migrated
       'src/accordion.ts',
       'src/button.ts',

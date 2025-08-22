@@ -4,7 +4,6 @@ import { customElement, property, state } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import Menu from './menu.js';
 import Option from './option.js';
@@ -70,10 +69,12 @@ export default class Select
 {
   static formAssociated = true;
 
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

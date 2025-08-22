@@ -10,7 +10,6 @@ import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import styles from './slider.styles.js';
 import type FormControl from './library/form-control.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -73,9 +72,10 @@ declare global {
 export default class Slider extends LitElement implements FormControl {
   static formAssociated = true;
 
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
     delegatesFocus: true,
   };
 

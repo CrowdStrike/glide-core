@@ -6,7 +6,6 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './icon-button.styles.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -33,10 +32,11 @@ declare global {
 @customElement('glide-core-icon-button')
 @final
 export default class IconButton extends LitElement {
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
 
   static override styles = styles;

@@ -12,7 +12,6 @@ import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
 import styles from './tab.group.styles.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 
 declare global {
@@ -36,10 +35,12 @@ declare global {
 @customElement('glide-core-tab-group')
 @final
 export default class TabGroup extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

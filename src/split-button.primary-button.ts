@@ -4,7 +4,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './split-button.primary-button.styles.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -29,10 +28,11 @@ declare global {
 @customElement('glide-core-split-button-primary-button')
 @final
 export default class SplitButtonPrimaryButton extends LitElement {
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
 
   static override styles = styles;

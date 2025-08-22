@@ -5,7 +5,6 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './button.styles.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -40,11 +39,13 @@ declare global {
 export default class Button extends LitElement {
   static formAssociated = true;
 
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

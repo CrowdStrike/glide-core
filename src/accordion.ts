@@ -7,7 +7,6 @@ import packageJson from '../package.json' with { type: 'json' };
 import chevronIcon from './icons/chevron.js';
 import styles from './accordion.styles.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -33,11 +32,13 @@ declare global {
 @customElement('glide-core-accordion')
 @final
 export default class Accordion extends LitElement {
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

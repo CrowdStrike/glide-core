@@ -9,7 +9,6 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './option.styles.js';
 import assertSlot from './library/assert-slot.js';
 import checkedIcon from './icons/checked.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import uniqueId from './library/unique-id.js';
 import Menu from './menu.js';
@@ -55,10 +54,12 @@ declare global {
 @customElement('glide-core-option')
 @final
 export default class Option extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

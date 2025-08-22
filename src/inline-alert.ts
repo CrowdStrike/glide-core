@@ -9,7 +9,6 @@ import severityInformationalIcon from './icons/severity-informational.js';
 import severityMediumIcon from './icons/severity-medium.js';
 import severityCriticalIcon from './icons/severity-critical.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 
 declare global {
@@ -29,10 +28,12 @@ declare global {
 @customElement('glide-core-inline-alert')
 @final
 export default class InlineAlert extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

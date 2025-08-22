@@ -14,7 +14,6 @@ import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import styles from './input.styles.js';
 import xIcon from './icons/x.js';
 import type FormControl from './library/form-control.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
@@ -87,9 +86,10 @@ declare global {
 export default class Input extends LitElement implements FormControl {
   static formAssociated = true;
 
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
     delegatesFocus: true,
   };
 

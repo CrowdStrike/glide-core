@@ -12,7 +12,6 @@ import pencilIcon from './icons/pencil.js';
 import { LocalizeController } from './library/localize.js';
 import styles from './dropdown.option.styles.js';
 import type Checkbox from './checkbox.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
@@ -52,10 +51,12 @@ declare global {
 @customElement('glide-core-dropdown-option')
 @final
 export default class DropdownOption extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

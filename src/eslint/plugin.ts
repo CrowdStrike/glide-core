@@ -3,7 +3,7 @@ import { consistentTestFixtureVariableDeclarator } from './rules/consistent-test
 import { noNestedTemplateLiterals } from './rules/no-nested-template-literals.js';
 import { noRedudantPropertyAttribute } from './rules/no-redundant-property-attribute.js';
 import { noRedudantPropertyStringType } from './rules/no-redundant-property-string-type.js';
-import { preferClosedShadowRoot } from './rules/prefer-shadow-root-mode.js';
+import { conditionallyOpenShadowRoots } from './rules/conditionally-open-shadow-roots.js';
 import { publicMemberReturnType } from './rules/public-member-return-type.js';
 import { publicGetterDefaultComment } from './rules/public-getter-default-comment.js';
 import { eventDispatchFromThis } from './rules/event-dispatch-from-this.js';
@@ -33,7 +33,7 @@ export default {
     'no-nested-template-literals': noNestedTemplateLiterals,
     'no-redundant-property-attribute': noRedudantPropertyAttribute,
     'no-redundant-property-string-type': noRedudantPropertyStringType,
-    'prefer-shadow-root-mode': preferClosedShadowRoot,
+    'conditionally-open-shadow-roots': conditionallyOpenShadowRoots,
     'public-member-return-type': publicMemberReturnType,
     'public-getter-default-comment': publicGetterDefaultComment,
     'event-dispatch-from-this': eventDispatchFromThis,

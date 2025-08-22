@@ -4,7 +4,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 import styles from './tooltip.container.styles.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import uniqueId from './library/unique-id.js';
 
@@ -44,10 +43,12 @@ declare global {
 @customElement('glide-core-private-tooltip-container')
 @final
 export default class TooltipContainer extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

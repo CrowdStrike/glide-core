@@ -3,7 +3,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './options.group.styles.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import assertSlot from './library/assert-slot.js';
 import Option from './option.js';
@@ -28,10 +27,12 @@ declare global {
 @customElement('glide-core-options-group')
 @final
 export default class OptionsGroup extends LitElement {
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

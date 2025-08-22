@@ -64,7 +64,7 @@ export default defineConfig([
       '@crowdstrike/glide-core/no-nested-template-literals': 'error',
       '@crowdstrike/glide-core/no-redundant-property-attribute': 'error',
       '@crowdstrike/glide-core/no-redundant-property-string-type': 'error',
-      '@crowdstrike/glide-core/prefer-shadow-root-mode': 'error',
+      '@crowdstrike/glide-core/conditionally-open-shadow-roots': 'error',
       '@crowdstrike/glide-core/public-member-return-type': 'error',
       '@crowdstrike/glide-core/public-getter-default-comment': 'error',
       '@crowdstrike/glide-core/event-dispatch-from-this': 'error',
@@ -350,7 +350,7 @@ export default defineConfig([
 
       // One-off components in tests can do whatever they need to with their shadow
       // roots. Though most will stick with Lit's default, which is open.
-      '@crowdstrike/glide-core/prefer-shadow-root-mode': 'off',
+      '@crowdstrike/glide-core/conditionally-open-shadow-roots': 'off',
 
       '@crowdstrike/glide-core/consistent-test-fixture-variable-declarator':
         'error',

@@ -9,7 +9,6 @@ import Menu from './menu.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './split-button.secondary-button.styles.js';
 import assertSlot from './library/assert-slot.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 import Option from './option.js';
@@ -34,10 +33,11 @@ declare global {
 @customElement('glide-core-split-button-secondary-button')
 @final
 export default class SplitButtonSecondaryButton extends LitElement {
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
 
   static override styles = styles;

@@ -23,7 +23,6 @@ import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
-import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
@@ -99,10 +98,12 @@ declare global {
 export default class Dropdown extends LitElement implements FormControl {
   static formAssociated = true;
 
+    /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: shadowRootMode,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 
