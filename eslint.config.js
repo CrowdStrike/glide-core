@@ -422,6 +422,7 @@ export default defineConfig([
       '@crowdstrike/glide-core/no-to-contain-class': 'error',
       '@crowdstrike/glide-core/no-to-have-class': 'error',
       '@crowdstrike/glide-core/no-tags-in-test-names': 'error',
+      '@crowdstrike/glide-core/use-extended-playwright': 'error',
     },
   },
   {

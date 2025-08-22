@@ -1,6 +1,6 @@
 import { ESLint } from '@typescript-eslint/utils/ts-eslint';
 import { expect, test } from '../../playwright/test.js';
-import { alwaysTagTests } from './always-tag-tests.js';
+import { useExtendedPlaywright } from './use-extended-playwright.js';
 
 const eslint = new ESLint({
   overrideConfigFile: true,
@@ -9,33 +9,33 @@ const eslint = new ESLint({
       plugins: {
         '@crowdstrike/glide-core': {
           rules: {
-            'always-tag-tests': alwaysTagTests,
+            'use-extended-playwright': useExtendedPlaywright,
           },
         },
       },
       rules: {
-        '@crowdstrike/glide-core/always-tag-tests': 'error',
+        '@crowdstrike/glide-core/use-extended-playwright': 'error',
       },
     },
   ],
 });
 
-test('valid when tagged', { tag: '@eslint' }, async () => {
+test('valid', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-    test('test', { tag: '@eslint' }, () => {});
+    import { expect, test } from './playwright/test.js';
   `);
 
   expect(result?.errorCount).toBe(0);
 });
 
-test('invalid when not tagged', { tag: '@eslint' }, async () => {
+test('invalid', { tag: '@eslint' }, async () => {
   const [result] = await eslint.lintText(`
-    test('test', { annotation: { type: 'type' } }, () => {});
+    import { expect, test } from '@playwright/test';
   `);
 
   expect(result?.errorCount).toBe(1);
 
   expect(result?.messages.at(0)?.message).toBe(
-    alwaysTagTests.meta.messages.alwaysTagTests,
+    useExtendedPlaywright.meta.messages.useExtendedPlaywright,
   );
 });
