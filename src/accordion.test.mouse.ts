@@ -5,14 +5,16 @@ test(
   'can be opened via mouse when animated',
   { tag: '@mouse' },
   async ({ browserName, mount, page }) => {
-    // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
       '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
     );
 
     await mount(
-      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label">
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -38,7 +40,6 @@ test(
   'can be opened via mouse when not animated',
   { tag: '@mouse' },
   async ({ browserName, mount, page }) => {
-    // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
       '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
@@ -47,7 +48,10 @@ test(
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
     await mount(
-      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label">
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -73,14 +77,16 @@ test(
   'can be opened via `click()`',
   { tag: '@mouse' },
   async ({ browserName, callMethod, mount, page }) => {
-    // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
       '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
     );
 
     await mount(
-      () => html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label">
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -106,16 +112,16 @@ test(
   'can be closed via mouse when animated',
   { tag: '@mouse' },
   async ({ browserName, mount, page }) => {
-    // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
       '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
     );
 
     await mount(
-      () => html`<glide-core-accordion label="Label" open>
-        Content
-      </glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label" open>
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -141,7 +147,6 @@ test(
   'can be closed mouse when not animated',
   { tag: '@mouse' },
   async ({ browserName, mount, page }) => {
-    // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
       '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
@@ -150,9 +155,10 @@ test(
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
     await mount(
-      () => html`<glide-core-accordion label="Label" open>
-        Content
-      </glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label" open>
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
@@ -178,16 +184,16 @@ test(
   'can be closed via `click()`',
   { tag: '@mouse' },
   async ({ browserName, callMethod, mount, page }) => {
-    // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
       '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
     );
 
     await mount(
-      () => html`<glide-core-accordion label="Label" open>
-        Content
-      </glide-core-accordion>`,
+      () =>
+        html`<glide-core-accordion label="Label" open>
+          Content
+        </glide-core-accordion>`,
     );
 
     const host = page.locator('glide-core-accordion');
