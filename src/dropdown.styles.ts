@@ -94,9 +94,10 @@ export default [
       }
 
       &.readonly {
-        background-color: transparent;
+        background-color: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
         border-color: transparent;
-        padding-inline-start: 0;
       }
 
       &.quiet {
@@ -250,6 +251,14 @@ export default [
       align-content: center;
       color: var(--glide-core-color-interactive-text-link);
       white-space: nowrap;
+
+      &.disabled {
+        color: var(--glide-core-color-interactive-text-link--disabled);
+      }
+
+      &.readonly {
+        color: var(--glide-core-color-interactive-text-default);
+      }
     }
 
     .single-select-icon-slot {
@@ -298,6 +307,10 @@ export default [
 
       &:focus {
         outline: none;
+      }
+
+      &.hidden {
+        display: none;
       }
     }
 

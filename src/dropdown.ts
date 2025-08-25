@@ -98,7 +98,7 @@ declare global {
 export default class Dropdown extends LitElement implements FormControl {
   static formAssociated = true;
 
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
@@ -741,6 +741,7 @@ export default class Dropdown extends LitElement implements FormControl {
                           removable
                           ?disabled=${this.disabled || this.readonly}
                           ?private-editable=${option.editable}
+                          ?private-readonly=${this.readonly}
                           @edit=${this.#onTagEdit}
                           @remove=${this.#onTagRemove.bind(this, option)}
                         >
@@ -775,7 +776,11 @@ export default class Dropdown extends LitElement implements FormControl {
               () => {
                 return html`<div
                   aria-hidden="true"
-                  class="tag-overflow-text"
+                  class=${classMap({
+                    'tag-overflow-text': true,
+                    disabled: this.disabled,
+                    readonly: this.readonly,
+                  })}
                   id="tag-overflow-text"
                 >
                   +
@@ -959,7 +964,10 @@ export default class Dropdown extends LitElement implements FormControl {
                 aria-haspopup="listbox"
                 aria-hidden=${this.filterable || this.isFilterable}
                 aria-labelledby="selected-option-labels label loading-feedback"
-                class="primary-button"
+                class=${classMap({
+                  'primary-button': true,
+                  hidden: this.disabled || this.readonly,
+                })}
                 data-test="primary-button"
                 id="primary-button"
                 tabindex=${this.filterable || this.isFilterable || this.disabled
