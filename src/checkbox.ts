@@ -358,7 +358,8 @@ export default class Checkbox extends LitElement implements FormControl {
                   disabled: this.disabled,
                 })}
               >
-                <div class="checked-icon">${checkedIcon}</div>
+                <div class="checked-icon" role="none">${checkedIcon}</div>
+
                 ${icons.indeterminate}
               </div>
             </div>
@@ -410,7 +411,7 @@ export default class Checkbox extends LitElement implements FormControl {
               Screenreaders will come across the tooltip naturally as focus moves toward
               the Checkbox.
             -->
-            <div class="input-and-checkbox" slot="control">
+            <div class="input-and-checkbox" slot="control" role="none">
               <input
                 aria-describedby="summary description"
                 aria-invalid=${this.#isShowValidationFeedback}
