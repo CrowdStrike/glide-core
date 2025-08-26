@@ -43,10 +43,6 @@ for (const story of stories) {
               element.open = true;
             });
 
-          await expect(
-            page.locator('glide-core-menu glide-core-menu'),
-          ).toBeConsistentlyStable();
-
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
           );
@@ -68,10 +64,6 @@ for (const story of stories) {
               .evaluate<void, Menu>((element) => {
                 element.open = true;
               });
-
-            await expect(
-              page.locator('glide-core-menu glide-core-menu'),
-            ).toBeConsistentlyStable();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,

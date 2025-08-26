@@ -81,6 +81,18 @@ export default defineConfig({
     {
       name: 'visuals',
 
+      // We've found that elements that have nested popovers that are positioned using
+      // Floating UI can vary slightly in CI from run to run. For example, Menu and
+      // Select's sub-Menus may be positioned slightly to the left or right from one run
+      // to the next.
+      //
+      // We could use `maxDiffPixelRatio` in those tests. But it would have to be set
+      // pretty high and would lead to false negatives. So we retry.
+      //
+      // TODO: Try removing this when we move from Floating UI to Anchor Positioning,
+      //       which we can do as soon as Firefox supports it.
+      retries: 3,
+
       // Outside of `./dist/playwright` because Playwright wipes that directory on start.
       snapshotPathTemplate: path.join(
         process.cwd(),

@@ -12,7 +12,6 @@ import removeAttribute from './fixtures/remove-attribute.js';
 import setAttribute from './fixtures/set-attribute.js';
 import setProperty from './fixtures/set-property.js';
 import toBeAccessible from './matchers/to-be-accessible.js';
-import toBeConsistentlyStable from './matchers/to-be-consistently-stable.js';
 import toHaveFormData from './matchers/to-have-form-data.js';
 import toBeExtensible from './matchers/to-be-extensible.js';
 import toBeRegistered from './matchers/to-be-registered.js';
@@ -20,7 +19,6 @@ import toDispatchEvents from './matchers/to-dispatch-events.js';
 
 export const expect = mergeExpects(
   toBeAccessible,
-  toBeConsistentlyStable,
   toBeExtensible,
   toBeRegistered,
   toDispatchEvents,
@@ -31,8 +29,6 @@ export const expect = mergeExpects(
     selector: string,
     violations?: string[],
   ) => Promise<void>;
-
-  toBeConsistentlyStable: (locator: Locator) => Promise<void>;
 
   toBeExtensible: (locator: Locator) => Promise<void>;
 
