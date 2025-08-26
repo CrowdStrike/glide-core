@@ -55,9 +55,17 @@ export default [
       }
 
       &.disabled {
-        background: var(--glide-core-color-static-surface-container-secondary);
+        background-color: var(
+          --glide-core-color-static-surface-container-secondary
+        );
         border-color: var(--glide-core-color-interactive-stroke-primary);
         color: var(--glide-core-color-interactive-icon-default--disabled);
+      }
+
+      &.readonly {
+        background-color: var(--glide-core-color-static-surface-container);
+        border-color: var(--glide-core-color-interactive-stroke-primary);
+        color: var(--glide-core-color-interactive-text-default);
       }
 
       &.removed {

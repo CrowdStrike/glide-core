@@ -98,7 +98,7 @@ declare global {
 export default class Dropdown extends LitElement implements FormControl {
   static formAssociated = true;
 
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
@@ -741,6 +741,7 @@ export default class Dropdown extends LitElement implements FormControl {
                           removable
                           ?disabled=${this.disabled || this.readonly}
                           ?private-editable=${option.editable}
+                          ?private-readonly=${this.readonly}
                           @edit=${this.#onTagEdit}
                           @remove=${this.#onTagRemove.bind(this, option)}
                         >
@@ -775,7 +776,11 @@ export default class Dropdown extends LitElement implements FormControl {
               () => {
                 return html`<div
                   aria-hidden="true"
-                  class="tag-overflow-text"
+                  class=${classMap({
+                    'tag-overflow-text': true,
+                    disabled: this.disabled,
+                    readonly: this.readonly,
+                  })}
                   id="tag-overflow-text"
                 >
                   +
@@ -951,36 +956,34 @@ export default class Dropdown extends LitElement implements FormControl {
                   </glide-core-icon-button>`;
                 },
               )}
-
-              <button
-                aria-controls="options"
-                aria-describedby="description"
-                aria-expanded=${this.open && !this.disabled}
-                aria-haspopup="listbox"
-                aria-hidden=${this.filterable || this.isFilterable}
-                aria-labelledby="selected-option-labels label loading-feedback"
-                class="primary-button"
-                data-test="primary-button"
-                id="primary-button"
-                tabindex=${this.filterable || this.isFilterable || this.disabled
-                  ? '-1'
-                  : '0'}
-                type="button"
-                ?disabled=${this.disabled}
-                @focusin=${this.#onPrimaryButtonFocusin}
-                @focusout=${this.#onPrimaryButtonFocusout}
-                ${ref(this.#primaryButtonElementRef)}
-              >
-                ${when(
-                  this.isFiltering,
-                  () => {
-                    return html`<div data-test="magnifying-glass-icon">
-                      ${magnifyingGlassIcon}
-                    </div>`;
-                  },
-                  () => chevronIcon,
-                )}
-              </button>
+              ${when(!(this.disabled || this.readonly), () => {
+                return html`<button
+                  aria-controls="options"
+                  aria-describedby="description"
+                  aria-expanded=${this.open}
+                  aria-haspopup="listbox"
+                  aria-hidden=${this.filterable || this.isFilterable}
+                  aria-labelledby="selected-option-labels label loading-feedback"
+                  class="primary-button"
+                  data-test="primary-button"
+                  id="primary-button"
+                  tabindex=${this.filterable || this.isFilterable ? '-1' : '0'}
+                  type="button"
+                  @focusin=${this.#onPrimaryButtonFocusin}
+                  @focusout=${this.#onPrimaryButtonFocusout}
+                  ${ref(this.#primaryButtonElementRef)}
+                >
+                  ${when(
+                    this.isFiltering,
+                    () => {
+                      return html`<div data-test="magnifying-glass-icon">
+                        ${magnifyingGlassIcon}
+                      </div>`;
+                    },
+                    () => chevronIcon,
+                  )}
+                </button>`;
+              })}
             </div>
           </div>
 

@@ -8833,6 +8833,16 @@
             },
             {
               "kind": "field",
+              "name": "privateReadonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "private-readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "removable",
               "type": {
                 "text": "boolean"
@@ -8898,6 +8908,14 @@
               },
               "default": "false",
               "fieldName": "privateEditable"
+            },
+            {
+              "name": "private-readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateReadonly"
             },
             {
               "name": "removable",

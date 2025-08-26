@@ -87,9 +87,10 @@ export default [
         with ":read-only": https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
       */
       &.readonly {
-        background-color: transparent;
+        background-color: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
         border: 1px solid transparent;
-        padding-inline-start: 0;
       }
 
       &.disabled {

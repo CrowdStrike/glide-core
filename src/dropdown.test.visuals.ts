@@ -101,38 +101,6 @@ for (const story of stories) {
               `${test.titlePath.join('.')}.png`,
             );
           });
-
-          test('disabled', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-dropdown')
-              .evaluate<void, Dropdown>((element) => {
-                element.disabled = true;
-              });
-
-            await page.getByRole('button').focus();
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-
-          test('readonly', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-dropdown')
-              .evaluate<void, Dropdown>((element) => {
-                element.readonly = true;
-              });
-
-            await page.getByRole('button').focus();
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
         });
 
         test.describe(':hover', () => {
@@ -154,38 +122,6 @@ for (const story of stories) {
 
           test('filterable=${false}', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-            await page.getByRole('button').hover();
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-
-          test('disabled', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-dropdown')
-              .evaluate<void, Dropdown>((element) => {
-                element.disabled = true;
-              });
-
-            await page.getByRole('button').hover();
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-
-          test('readonly', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-dropdown')
-              .evaluate<void, Dropdown>((element) => {
-                element.readonly = true;
-              });
-
             await page.getByRole('button').hover();
 
             await expect(page).toHaveScreenshot(

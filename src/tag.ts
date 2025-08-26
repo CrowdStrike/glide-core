@@ -53,6 +53,10 @@ export default class Tag extends LitElement {
   @property({ attribute: 'private-editable', reflect: true, type: Boolean })
   privateEditable = false;
 
+  // Private because it's only meant to be used by Dropdown.
+  @property({ attribute: 'private-readonly', reflect: true, type: Boolean })
+  privateReadonly = false;
+
   @property({ reflect: true, type: Boolean })
   removable = false;
 
@@ -84,6 +88,7 @@ export default class Tag extends LitElement {
           component: true,
           added: true,
           disabled: this.disabled,
+          readonly: this.privateReadonly,
         })}
         data-test="component"
         data-animation-duration=${this.#animationDuration}

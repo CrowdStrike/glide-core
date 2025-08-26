@@ -116,10 +116,11 @@ export default [
       }
 
       &[readonly] {
-        background-color: transparent;
+        background-color: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
         border-color: transparent;
         outline: none;
-        padding-inline-start: 0;
         resize: none;
         transition: none;
       }
