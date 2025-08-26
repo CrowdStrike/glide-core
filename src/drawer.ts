@@ -32,7 +32,7 @@ declare global {
 @customElement('glide-core-drawer')
 @final
 export default class Drawer extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',

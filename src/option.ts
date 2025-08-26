@@ -54,7 +54,7 @@ declare global {
 @customElement('glide-core-option')
 @final
 export default class Option extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',

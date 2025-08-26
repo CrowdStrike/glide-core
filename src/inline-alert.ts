@@ -28,7 +28,7 @@ declare global {
 @customElement('glide-core-inline-alert')
 @final
 export default class InlineAlert extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
@@ -56,14 +56,14 @@ export default class InlineAlert extends LitElement {
   override render() {
     return html`
       <div
+        aria-label=${this.variant}
         class=${classMap({
           component: true,
           added: true,
           [this.variant]: true,
         })}
-        role="alert"
-        aria-labelledby="label"
         data-test="component"
+        role="alert"
         style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
@@ -77,7 +77,7 @@ export default class InlineAlert extends LitElement {
           ${icons[this.variant]}
         </div>
 
-        <div id="label" class="content">
+        <div class="content">
           <slot ${assertSlot()}>
             <!--
               The content of the alert

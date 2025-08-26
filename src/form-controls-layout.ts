@@ -30,7 +30,7 @@ declare global {
 @customElement('glide-core-form-controls-layout')
 @final
 export default class FormControlsLayout extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',

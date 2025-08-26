@@ -7,6 +7,6 @@ test('variant="informational"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=inline-alert--inline-alert');
 
   await expect(page.locator('glide-core-inline-alert')).toMatchAriaSnapshot(`
-    - alert "Content"
+    - alert "informational": Content
   `);
 });

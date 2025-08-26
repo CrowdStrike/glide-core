@@ -35,7 +35,7 @@ declare global {
 @customElement('glide-core-toggle')
 @final
 export default class Toggle extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
