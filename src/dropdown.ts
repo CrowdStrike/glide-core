@@ -956,39 +956,34 @@ export default class Dropdown extends LitElement implements FormControl {
                   </glide-core-icon-button>`;
                 },
               )}
-
-              <button
-                aria-controls="options"
-                aria-describedby="description"
-                aria-expanded=${this.open && !this.disabled}
-                aria-haspopup="listbox"
-                aria-hidden=${this.filterable || this.isFilterable}
-                aria-labelledby="selected-option-labels label loading-feedback"
-                class=${classMap({
-                  'primary-button': true,
-                  hidden: this.disabled || this.readonly,
-                })}
-                data-test="primary-button"
-                id="primary-button"
-                tabindex=${this.filterable || this.isFilterable || this.disabled
-                  ? '-1'
-                  : '0'}
-                type="button"
-                ?disabled=${this.disabled}
-                @focusin=${this.#onPrimaryButtonFocusin}
-                @focusout=${this.#onPrimaryButtonFocusout}
-                ${ref(this.#primaryButtonElementRef)}
-              >
-                ${when(
-                  this.isFiltering,
-                  () => {
-                    return html`<div data-test="magnifying-glass-icon">
-                      ${magnifyingGlassIcon}
-                    </div>`;
-                  },
-                  () => chevronIcon,
-                )}
-              </button>
+              ${when(!(this.disabled || this.readonly), () => {
+                return html`<button
+                  aria-controls="options"
+                  aria-describedby="description"
+                  aria-expanded=${this.open}
+                  aria-haspopup="listbox"
+                  aria-hidden=${this.filterable || this.isFilterable}
+                  aria-labelledby="selected-option-labels label loading-feedback"
+                  class="primary-button"
+                  data-test="primary-button"
+                  id="primary-button"
+                  tabindex=${this.filterable || this.isFilterable ? '-1' : '0'}
+                  type="button"
+                  @focusin=${this.#onPrimaryButtonFocusin}
+                  @focusout=${this.#onPrimaryButtonFocusout}
+                  ${ref(this.#primaryButtonElementRef)}
+                >
+                  ${when(
+                    this.isFiltering,
+                    () => {
+                      return html`<div data-test="magnifying-glass-icon">
+                        ${magnifyingGlassIcon}
+                      </div>`;
+                    },
+                    () => chevronIcon,
+                  )}
+                </button>`;
+              })}
             </div>
           </div>
 

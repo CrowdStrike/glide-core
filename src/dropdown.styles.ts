@@ -308,10 +308,6 @@ export default [
       &:focus {
         outline: none;
       }
-
-      &.hidden {
-        display: none;
-      }
     }
 
     .edit-button {

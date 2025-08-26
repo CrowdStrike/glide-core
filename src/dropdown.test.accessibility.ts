@@ -16,7 +16,6 @@ test('disabled=${true}', { tag: '@accessibility' }, async ({ page }) => {
 
   await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
     - text: Label
-    - button "Label" [disabled]
   `);
 });
 

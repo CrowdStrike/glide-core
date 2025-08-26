@@ -111,7 +111,7 @@ for (const story of stories) {
                 element.disabled = true;
               });
 
-            await page.getByRole('button').focus();
+            await page.locator('glide-core-dropdown').focus();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -127,7 +127,7 @@ for (const story of stories) {
                 element.readonly = true;
               });
 
-            await page.getByRole('button').focus();
+            await page.locator('glide-core-dropdown').focus();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -170,7 +170,7 @@ for (const story of stories) {
                 element.disabled = true;
               });
 
-            await page.getByRole('button').hover();
+            await page.locator('glide-core-dropdown').hover();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -186,7 +186,7 @@ for (const story of stories) {
                 element.readonly = true;
               });
 
-            await page.getByRole('button').hover();
+            await page.locator('glide-core-dropdown').hover();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
