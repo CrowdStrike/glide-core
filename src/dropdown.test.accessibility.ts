@@ -64,6 +64,30 @@ test.describe('filter("add")', () => {
       - combobox "Label"
     `);
   });
+
+  test('required', { tag: '@accessibility' }, async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.addButton = true;
+        element.filterable = true;
+        element.open = true;
+        element.required = true;
+      });
+
+    await page.getByRole('combobox').fill('add');
+    await page.getByRole('combobox').focus();
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      - text: Label
+      - combobox "Label 1 items" [expanded]
+      - status "1 items"
+      - listbox "add":
+        - option "add (Add)"
+    `);
+  });
 });
 
 test.describe('filter("noMatchingOptions")', () => {
@@ -98,6 +122,28 @@ test.describe('filter("noMatchingOptions")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label"
+    `);
+  });
+
+  test('required', { tag: '@accessibility' }, async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.filterable = true;
+        element.open = true;
+        element.required = true;
+      });
+
+    await page.getByRole('combobox').fill('noMatchingOptions');
+    await page.getByRole('combobox').focus();
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      - text: Label
+      - combobox "Label 0 items" [expanded]
+      - status "0 items"
+      - listbox "noMatchingOptions": No matching options
     `);
   });
 });
@@ -138,6 +184,30 @@ test.describe('filter("o")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label"
+    `);
+  });
+
+  test('required', { tag: '@accessibility' }, async ({ page }) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, Dropdown>((element) => {
+        element.filterable = true;
+        element.open = true;
+        element.required = true;
+      });
+
+    await page.getByRole('combobox').fill('o');
+    await page.getByRole('combobox').focus();
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+      - text: Label
+      - combobox "Label 2 items" [expanded]
+      - status "2 items"
+      - listbox:
+        - option "One"
+        - option "Two"
     `);
   });
 });
@@ -389,24 +459,19 @@ test.describe('multiple=${false}', () => {
     await page
       .locator('glide-core-dropdown')
       .evaluate<void, Dropdown>((element) => {
-        element.multiple = true;
+        element.multiple = false;
         element.open = true;
         element.selectAll = true;
       });
 
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - text: Label
-    - button "Label" [expanded]
-    - listbox:
-      - option "Select all":
-        - checkbox "Select all"
-      - option "One":
-        - checkbox "One"
-      - option "Two":
-        - checkbox "Two"
-      - option "Three":
-        - checkbox "Three"
-  `);
+      - text: Label
+      - button "Label" [expanded]
+      - listbox:
+        - option "One"
+        - option "Two"
+        - option "Three"
+    `);
   });
 
   test('slot="description"', { tag: '@accessibility' }, async ({ page }) => {
@@ -424,10 +489,10 @@ test.describe('multiple=${false}', () => {
       });
 
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - text: Label
-    - button "Label"
-    - text: Description
-  `);
+      - text: Label
+      - button "Label"
+      - text: Description
+    `);
   });
 
   test('tooltip', { tag: '@accessibility' }, async ({ page }) => {
@@ -442,11 +507,11 @@ test.describe('multiple=${false}', () => {
     await page.locator('glide-core-tooltip').getByRole('button').focus();
 
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - button "Tooltip:"
-    - tooltip "Tooltip"
-    - text: Label
-    - button "Label"
-  `);
+      - button "Tooltip:"
+      - tooltip "Tooltip"
+      - text: Label
+      - button "Label"
+    `);
   });
 
   test(
@@ -539,4 +604,22 @@ test.describe('multiple=${false}', () => {
       `);
     },
   );
+});
+
+test('required', { tag: '@accessibility' }, async ({ page }) => {
+  await page.goto('?id=dropdown--dropdown');
+
+  await page
+    .locator('glide-core-dropdown')
+    .evaluate<void, Dropdown>((element) => {
+      element.open = true;
+      element.required = true;
+    });
+
+  await page.getByRole('button').focus();
+
+  await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
+    - text: Label
+    - button "Label"
+  `);
 });

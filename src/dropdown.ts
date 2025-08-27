@@ -836,6 +836,7 @@ export default class Dropdown extends LitElement implements FormControl {
                     .isCommunicateItemCountToScreenreaders
                     ? 'item-count'
                     : ''}"
+                  aria-required=${this.required}
                   autocapitalize="off"
                   autocomplete="off"
                   class=${classMap({
@@ -964,6 +965,7 @@ export default class Dropdown extends LitElement implements FormControl {
                   aria-haspopup="listbox"
                   aria-hidden=${this.filterable || this.isFilterable}
                   aria-labelledby="selected-option-labels label loading-feedback"
+                  aria-required=${this.required}
                   class="primary-button"
                   data-test="primary-button"
                   id="primary-button"
