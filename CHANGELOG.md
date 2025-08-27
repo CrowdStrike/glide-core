@@ -1,5 +1,49 @@
 # @crowdstrike/glide-core
 
+## 0.34.0
+
+### Minor Changes
+
+- [#1082](https://github.com/CrowdStrike/glide-core/pull/1082) [`63547e6`](https://github.com/CrowdStrike/glide-core/commit/63547e6b8be1ff2b19aeddcc5873e1d85b6db9a3) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  #### Colors (Light)
+
+  ```diff
+  -  --glide-core-color-severity-text-citical: #2c0907;
+  +  --glide-core-color-severity-text-critical: #2c0907;
+  ```
+
+  #### Colors (Dark)
+
+  ```diff
+  -  --glide-core-color-severity-text-citical: #e67873;
+  +  --glide-core-color-severity-text-critical: #e67873;
+  ```
+
+  #### Duration
+
+  ```diff
+  +  --glide-core-duration-moderate-03: 325ms;
+  ```
+
+### Patch Changes
+
+- [#1104](https://github.com/CrowdStrike/glide-core/pull/1104) [`1054e3d`](https://github.com/CrowdStrike/glide-core/commit/1054e3d2117bf667869fceb114d4347ede7e7431) Thanks [@clintcs](https://github.com/clintcs)! - Checkbox's `label` is now only announced once in VoiceOver when using the arrow keys.
+
+- [#1109](https://github.com/CrowdStrike/glide-core/pull/1109) [`0efc003`](https://github.com/CrowdStrike/glide-core/commit/0efc0037c463bc6e4a0dff3f79f9e16caadaea9f) Thanks [@clintcs](https://github.com/clintcs)! - Screenreaders now announce that Dropdown is required when its `required` attribute is set.
+
+- [#1105](https://github.com/CrowdStrike/glide-core/pull/1105) [`e99f62a`](https://github.com/CrowdStrike/glide-core/commit/e99f62a81c4500cd19eadd024610836ad0bc5c4d) Thanks [@clintcs](https://github.com/clintcs)! - Inline Alert's severity is now announced by screenreaders.
+
+- [#1102](https://github.com/CrowdStrike/glide-core/pull/1102) [`377f1e0`](https://github.com/CrowdStrike/glide-core/commit/377f1e0073dbbe14299f44295957a934ad41a0cb) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Form control updates to match the latest from Figma:
+
+  - Dropdown when `disabled` or `readonly` no longer displays the chevron.
+  - Dropdown Tags have a higher contrast when `readonly`.
+  - Dropdown's "+ n more" text when `disabled` now also appears disabled.
+  - Dropdown's "+ n more" text when `readonly` has a higher contrast.
+  - Dropdown when `readonly` no longer removes padding and includes a background color.
+  - Input when `readonly` no longer removes padding and includes a background color.
+  - Textarea when `readonly` no longer removes padding and includes a background color.
+
 ## 0.33.0
 
 ### Minor Changes
