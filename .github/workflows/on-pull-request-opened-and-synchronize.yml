@@ -104,6 +104,7 @@ jobs:
       - run: pnpm exec playwright test --config ./src/playwright/playwright.config.ts --project "lint rules"
         env:
           PLAYWRIGHT_NO_WEBSERVER: true
+
   test:
     name: Test (Unmigrated)
     # https://github.com/CrowdStrike/glide-core/pull/529#discussion_r1886905184
@@ -288,7 +289,7 @@ jobs:
           sudo sed -i '/archive.ubuntu.com\/ubuntu\/\tpriority/ s/priority:2/priority:0/' /etc/apt/apt-mirrors.txt
           sudo sed -i '/azure.archive.ubuntu.com\/ubuntu\/\tpriority/ s/priority:0/priority:1/' /etc/apt/apt-mirrors.txt
           sudo sed -i '/security.ubuntu.com\/ubuntu\/\tpriority/ s/priority:3/priority:2/' /etc/apt/apt-mirrors.txt
-          sudo cat /etc/apt/apt-mirrors.txt
+          cat /etc/apt/apt-mirrors.txt
       - uses: ./.github/actions/pnpm
       - run: pnpm dlx playwright@1.54.2 install --only-shell --with-deps chromium
       - name: Download Baseline Screenshots
