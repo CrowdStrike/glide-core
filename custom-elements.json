@@ -3519,6 +3519,14 @@
               "readonly": true,
               "attribute": "version",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
             }
           ],
           "attributes": [

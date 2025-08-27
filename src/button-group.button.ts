@@ -30,7 +30,7 @@ declare global {
 @customElement('glide-core-button-group-button')
 @final
 export default class ButtonGroupButton extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',

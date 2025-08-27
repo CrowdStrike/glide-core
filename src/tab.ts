@@ -36,7 +36,7 @@ declare global {
 @customElement('glide-core-tab')
 @final
 export default class Tab extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',

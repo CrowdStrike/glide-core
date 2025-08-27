@@ -435,8 +435,8 @@ export default class Tooltip extends LitElement {
 
     const target = this.#targetSlotElementRef.value?.assignedElements().at(0);
 
-    if (container && target && !this.disabled && !this.screenreaderHidden) {
-      target.setAttribute('aria-describedby', container.id);
+    if (container && !this.disabled && !this.screenreaderHidden) {
+      target?.setAttribute('aria-describedby', container.id);
     }
   }
 

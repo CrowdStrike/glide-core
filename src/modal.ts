@@ -56,7 +56,7 @@ globalStylesheet.insertRule(`
 @customElement('glide-core-modal')
 @final
 export default class Modal extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',

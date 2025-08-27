@@ -31,6 +31,7 @@ export interface Translation extends DefaultTranslation {
   severityInformational: string;
   severityCritical: string;
   severityMedium: string;
+  severityHigh: string;
   success: string;
   error: string;
   informational: string;

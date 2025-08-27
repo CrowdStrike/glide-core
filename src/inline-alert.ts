@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './inline-alert.styles.js';
@@ -10,6 +10,7 @@ import severityMediumIcon from './icons/severity-medium.js';
 import severityCriticalIcon from './icons/severity-critical.js';
 import assertSlot from './library/assert-slot.js';
 import final from './library/final.js';
+import { LocalizeController } from './library/localize.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,11 +25,14 @@ declare global {
  * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the alert
+ *
+ * @readonly
+ * @prop {string} ariaLabel
  */
 @customElement('glide-core-inline-alert')
 @final
 export default class InlineAlert extends LitElement {
-    /* c8 ignore start */
+  /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
@@ -43,6 +47,19 @@ export default class InlineAlert extends LitElement {
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
+  @state()
+  override get ariaLabel(): string {
+    return this.#localize.term(
+      this.variant === 'informational'
+        ? 'severityInformational'
+        : this.variant === 'medium'
+          ? 'severityMedium'
+          : this.variant === 'high'
+            ? 'severityHigh'
+            : 'severityCritical',
+    );
+  }
+
   override firstUpdated() {
     this.#componentElementRef.value?.addEventListener(
       'animationend',
@@ -56,14 +73,14 @@ export default class InlineAlert extends LitElement {
   override render() {
     return html`
       <div
+        aria-label=${this.ariaLabel}
         class=${classMap({
           component: true,
           added: true,
           [this.variant]: true,
         })}
-        role="alert"
-        aria-labelledby="label"
         data-test="component"
+        role="alert"
         style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
@@ -77,7 +94,7 @@ export default class InlineAlert extends LitElement {
           ${icons[this.variant]}
         </div>
 
-        <div id="label" class="content">
+        <div class="content">
           <slot ${assertSlot()}>
             <!--
               The content of the alert
@@ -93,6 +110,8 @@ export default class InlineAlert extends LitElement {
   #animationDuration = 100;
 
   #componentElementRef = createRef<HTMLElement>();
+
+  #localize = new LocalizeController(this);
 }
 
 const icons = {
