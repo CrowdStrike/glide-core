@@ -91,7 +91,7 @@ export default defineConfig({
       //
       // TODO: Try removing this when we move from Floating UI to Anchor Positioning,
       //       which we can do as soon as Firefox supports it.
-      retries: 3,
+      retries: 5,
 
       // Outside of `./dist/playwright` because Playwright wipes that directory on start.
       snapshotPathTemplate: path.join(
