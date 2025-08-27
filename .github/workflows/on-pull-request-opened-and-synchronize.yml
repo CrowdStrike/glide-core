@@ -402,5 +402,5 @@ jobs:
         with:
           header: storybook
           message: |+
-            ## Storybook
+            ## 📖 Storybook
             https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref  }}
