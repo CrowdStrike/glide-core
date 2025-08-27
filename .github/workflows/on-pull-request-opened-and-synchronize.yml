@@ -122,7 +122,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - install-dependencies
-      - build
     outputs:
       failed: ${{ steps.get-test-job-outcome.outputs.failed }}
     strategy:
