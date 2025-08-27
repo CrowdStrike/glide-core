@@ -4,6 +4,7 @@ export const PENDING_STRINGS = [
   'severityInformational',
   'severityCritical',
   'severityMedium',
+  'severityHigh',
   'success',
   'error',
   'informational',

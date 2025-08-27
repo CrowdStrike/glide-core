@@ -19,6 +19,7 @@ const translation: Translation = {
   severityInformational: 'Severity: Informational',
   severityCritical: 'Severity: Critical',
   severityMedium: 'Severity: Medium',
+  severityHigh: 'Severity: High',
   success: 'Success:',
   error: 'Error:',
   informational: 'Informational:',
