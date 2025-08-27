@@ -46,7 +46,6 @@
   - [Why are `assets` and `baseline-screenshots` protected branches on GitHub?](#why-are-assets-and-baseline-screenshots-protected-branches-on-github)
   - [How does ARIA snapshot testing fit into overall accessibility testing?](#how-does-aria-snapshot-testing-fit-into-overall-accessibility-testing)
   - [Why is visual testing set up the way it is?](#why-is-visual-testing-set-up-the-way-it-is)
-  - [Why three separate test runners?](#why-three-separate-test-runners)
   - [Why does `main` have a merge queue?](#why-does-main-have-a-merge-queue)
   - [What should I do when a Dependabot or Release Preview pull request doesn't build?](#what-should-i-do-when-a-dependabot-or-release-preview-pull-request-doesnt-build)
   - [Why isn't `custom-elements.json` exported?](#why-isnt-custom-elementsjson-exported)
