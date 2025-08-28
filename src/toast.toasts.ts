@@ -90,7 +90,7 @@ export default class Toasts extends LitElement {
           (toast) => toast.privateId,
           (toast) => {
             return html`<div
-              aria-labelledby="prefix label description"
+              aria-describedby="description"
               class=${classMap({
                 toast: true,
                 error: toast.variant === 'error',
@@ -108,7 +108,7 @@ export default class Toasts extends LitElement {
               @mouseout=${this.#onToastMouseOut.bind(this, toast)}
               @transitionend=${this.#onToastTransitionEnd.bind(this, toast)}
             >
-              <span class="prefix" id="prefix">
+              <span class="prefix">
                 ${this.#localize.term(toast.variant)}
               </span>
 
@@ -121,9 +121,7 @@ export default class Toasts extends LitElement {
                 () => icons.warningInformational,
               )}
 
-              <div class="label" data-test="label" id="label">
-                ${toast.label}
-              </div>
+              <div class="label" data-test="label">${toast.label}</div>
 
               <glide-core-icon-button
                 class="dismiss-button"
