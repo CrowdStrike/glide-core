@@ -379,8 +379,12 @@ export default defineConfig([
       'src/stylelint/rules/*.test.ts',
       'src/accordion.test.*.ts',
       'src/button.test.*.ts',
+      'src/checkbox.test.*.ts',
+      'src/icon-button.test.*.ts',
+      'src/inline-alert.test.*.ts',
       'src/select.test.*.ts',
       'src/spinner.test.*.ts',
+      'src/tag.test.*.ts',
     ],
     rules: {
       ...playwright.configs['flat/recommended'].rules,

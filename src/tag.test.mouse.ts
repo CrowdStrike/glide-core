@@ -101,6 +101,7 @@ test(
     const button = page.getByRole('button');
 
     await expect(div).not.toDispatchEvents(
+      // eslint-disable-next-line playwright/no-force-option
       () => button.click({ force: true }),
       [{ type: 'remove' }],
     );

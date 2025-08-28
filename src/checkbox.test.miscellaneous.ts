@@ -3,7 +3,9 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { expect, test } from './playwright/test.js';
 
 test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
-  await mount(() => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`);
+  await mount(
+    () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+  );
 
   const host = page.locator('glide-core-checkbox');
 
@@ -12,12 +14,13 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
 test('can be disabled', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
-    () => html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox>`,
+    () =>
+      html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox>`,
   );
 
   const host = page.locator('glide-core-checkbox');
 
-  expect(host.waitFor).rejects.toThrow();
+  await expect(host.waitFor).rejects.toThrow();
 });
 
 test(
@@ -42,15 +45,16 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-checkbox
-        style=${styleMap({
-          display: 'block',
-          maxWidth: '6.25rem',
-        })}
-        label=${'x'.repeat(100)}
-        private-variant="minimal"
-        private-show-label-tooltip
-      ></glide-core-checkbox>`,
+      () =>
+        html`<glide-core-checkbox
+          style=${styleMap({
+            display: 'block',
+            maxWidth: '6.25rem',
+          })}
+          label=${'x'.repeat(100)}
+          private-variant="minimal"
+          private-show-label-tooltip
+        ></glide-core-checkbox>`,
     );
 
     const tooltip = page.locator('[data-test="label-tooltip"]');
@@ -69,11 +73,12 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-checkbox
-        label="Label"
-        private-variant="minimal"
-        private-show-label-tooltip
-      ></glide-core-checkbox>`,
+      () =>
+        html`<glide-core-checkbox
+          label="Label"
+          private-variant="minimal"
+          private-show-label-tooltip
+        ></glide-core-checkbox>`,
     );
 
     const tooltip = page.locator('[data-test="label-tooltip"]');
@@ -87,10 +92,11 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page, setProperty }) => {
     await mount(
-      () => html`<glide-core-checkbox
-        label="Label"
-        value="one"
-      ></glide-core-checkbox>`,
+      () =>
+        html`<glide-core-checkbox
+          label="Label"
+          value="one"
+        ></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -120,7 +126,7 @@ test(
   'throws when `label` is undefined',
   { tag: '@miscellaneous' },
   async ({ mount }) => {
-    expect(
+    await expect(
       mount(() => html`<glide-core-checkbox></glide-core-checkbox>`),
     ).rejects.toThrow();
   },
