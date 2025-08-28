@@ -17,6 +17,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './popover.styles.js';
 import assertSlot from './library/assert-slot.js';
 import final from './library/final.js';
+import PopoverContainer from './popover.container.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,7 +34,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {Element | string} - The content of the popover
+ * @slot {PopoverContainer}
  * @slot {Element} [target] - The element to which Popover will anchor. Can be any focusable element.
  *
  * @fires {Event} toggle
@@ -154,6 +155,8 @@ export default class Popover extends LitElement {
 
     if (this.open && !this.disabled) {
       this.#show();
+    } else {
+      this.#hide();
     }
   }
 
@@ -210,12 +213,12 @@ export default class Popover extends LitElement {
           <slot
             class="default-slot"
             @click=${this.#onDefaultSlotClick}
-            ${assertSlot()}
+            @private-role-change=${this.#onDefaultSlotRoleChange}
+            ${assertSlot([PopoverContainer])}
             ${ref(this.#defaultSlotElementRef)}
           >
             <!--
-              The content of the popover
-              @type {Element | string}
+              @type {PopoverContainer}
             -->
           </slot>
         </div>
@@ -254,6 +257,10 @@ export default class Popover extends LitElement {
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
+  get #containerElement() {
+    return this.#defaultSlotElementRef.value?.assignedElements().at(0);
+  }
+
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = () => {
@@ -288,8 +295,9 @@ export default class Popover extends LitElement {
   #hide() {
     this.#popoverElementRef.value?.hidePopover();
 
-    if (this.#targetElement) {
+    if (this.#targetElement && this.#containerElement) {
       this.#targetElement.ariaExpanded = 'false';
+      this.#targetElement.removeAttribute('aria-describedby');
     }
 
     /* v8 ignore start */
@@ -303,6 +311,14 @@ export default class Popover extends LitElement {
 
   #onDefaultSlotClick() {
     this.#isDefaultSlotClick = true;
+  }
+
+  #onDefaultSlotRoleChange() {
+    if (this.#targetElement && this.#containerElement?.role === 'dialog') {
+      this.#targetElement.ariaHasPopup = 'dialog';
+    } else if (this.#targetElement && this.#containerElement) {
+      this.#targetElement.ariaHasPopup = 'false';
+    }
   }
 
   #onTargetSlotChange() {
@@ -426,8 +442,13 @@ export default class Popover extends LitElement {
                 this.effectivePlacement = placement;
                 this.#popoverElementRef.value.showPopover();
 
-                if (this.#targetElement) {
+                if (this.#targetElement && this.#containerElement) {
                   this.#targetElement.ariaExpanded = 'true';
+
+                  this.#targetElement.setAttribute(
+                    'aria-describedby',
+                    this.#containerElement.id,
+                  );
                 }
               }
             })();

@@ -5950,6 +5950,105 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/popover.container.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "PopoverContainer",
+          "slots": [
+            {
+              "name": "",
+              "description": "The content of the popover",
+              "type": {
+                "text": "Element | string"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "'tooltip' | 'dialog'"
+              },
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "private-role-change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "role",
+              "type": {
+                "text": "'tooltip' | 'dialog'"
+              },
+              "fieldName": "role"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-popover-container",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "PopoverContainer",
+            "module": "src/popover.container.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-popover-container",
+          "declaration": {
+            "name": "PopoverContainer",
+            "module": "src/popover.container.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/popover.styles.ts",
       "declarations": [],
       "exports": [
@@ -5980,9 +6079,9 @@
             },
             {
               "name": "",
-              "description": "The content of the popover",
+              "description": "",
               "type": {
-                "text": "Element | string"
+                "text": "PopoverContainer"
               }
             }
           ],

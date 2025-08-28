@@ -8,6 +8,7 @@ import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import PopoverComponent from './popover.js';
 import focusOutline from './styles/focus-outline.js';
+import './popover.container.js';
 
 const meta: Meta = {
   title: 'Popover',
@@ -52,6 +53,7 @@ const meta: Meta = {
 
         <script type="ignore">
           import '@crowdstrike/glide-core/popover.js';
+          import '@crowdstrike/glide-core/popover.container.js';
         </script>
 
         ${story()}
@@ -66,6 +68,7 @@ const meta: Meta = {
     open: false,
     placement: 'bottom',
     version: '',
+    '<glide-core-popover-container>.role': 'tooltip',
   },
   argTypes: {
     'slot="default"': {
@@ -142,6 +145,22 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
+    '<glide-core-popover-container>.role': {
+      name: 'role',
+      control: { type: 'radio' },
+      options: ['tooltip', 'dialog'],
+      table: {
+        category: 'Popover Container',
+        defaultValue: {
+          summary: '"tooltip"',
+        },
+        type: {
+          summary: '"tooltip" | "dialog"',
+          detail: `// Set to "dialog" when Popover Container has interactive content.`,
+        },
+      },
+      type: { name: 'string' },
+    },
   },
   play(context) {
     context.canvasElement
@@ -168,7 +187,10 @@ const meta: Meta = {
         ?disabled=${arguments_.disabled}
         ?open=${arguments_.open}
       >
-        <div
+        <glide-core-popover-container
+          role=${arguments_['<glide-core-popover-container>.role'] === 'tooltip'
+            ? nothing
+            : arguments_['<glide-core-popover-container>.role']}
           style=${styleMap({
             alignItems: 'center',
             display: 'flex',
@@ -177,9 +199,9 @@ const meta: Meta = {
           })}
         >
           ${unsafeHTML(arguments_['slot="default"'])}
-        </div>
+        </glide-core-popover-container>
 
-        <button slot="target">
+        <button aria-label="Target" slot="target">
           <glide-core-example-icon name="info"></glide-core-example-icon>
         </button>
       </glide-core-popover>
