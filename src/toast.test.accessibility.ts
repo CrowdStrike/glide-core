@@ -12,8 +12,10 @@ test('variant="informational"', { tag: '@accessibility' }, async ({ page }) => {
 
   await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot(`
     - region "Notifications":
-      - 'alert "Informational: Label Description"':
+      - alert:
+        - text: "Informational: Label"
         - button "Dismiss"
+        - text: Description
   `);
 });
 
@@ -29,8 +31,10 @@ test('variant="success"', { tag: '@accessibility' }, async ({ page }) => {
 
   await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot(`
     - region "Notifications":
-      - 'alert "Success: Label Description"':
+      - alert:
+        - text: "Success: Label"
         - button "Dismiss"
+        - text: Description
   `);
 });
 
@@ -46,7 +50,9 @@ test('variant="error"', { tag: '@accessibility' }, async ({ page }) => {
 
   await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot(`
     - region "Notifications":
-      - 'alert "Error: Label Description"':
+      - alert:
+        - text: "Error: Label"
         - button "Dismiss"
+        - text: Description
   `);
 });
