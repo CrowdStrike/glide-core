@@ -15,7 +15,6 @@ test('can be clicked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
         bubbles: true,
         cancelable: true,
         composed: true,
-
         type: 'click',
       },
     ],
