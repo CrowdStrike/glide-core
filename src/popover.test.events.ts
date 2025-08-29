@@ -1,12 +1,13 @@
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import Popover from './popover.js';
+import './popover.container.js';
 
 it('dispatches a "toggle" event on open', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -24,8 +25,8 @@ it('dispatches a "toggle" event on open', async () => {
 it('dispatches a "toggle" event on close', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -43,8 +44,8 @@ it('dispatches a "toggle" event on close', async () => {
 it('does not dispatch a "toggle" event when already open', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -60,8 +61,8 @@ it('does not dispatch a "toggle" event when already open', async () => {
 it('does not dispatch a "toggle" event when already closed', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
