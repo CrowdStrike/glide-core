@@ -73,12 +73,12 @@ declare global {
 export default class Checkbox extends LitElement implements FormControl {
   static formAssociated = true;
 
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore end */
 
   static override styles = styles;
 

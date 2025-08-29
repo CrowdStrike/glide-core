@@ -19,18 +19,17 @@ test(
 
     const host = page.locator('glide-core-accordion');
 
-    await expect(host).toDispatchEvents(async () => {
-      await host.focus();
-      await host.press('Enter');
-    }, [
-      {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        defaultPrevented: false,
-        type: 'toggle',
-      },
-    ]);
+    await expect(host).toDispatchEvents(
+      () => host.press('Enter'),
+      [
+        {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+          type: 'toggle',
+        },
+      ],
+    );
 
     await expect(host).toHaveAttribute('open');
   },
@@ -54,18 +53,17 @@ test(
 
     const host = page.locator('glide-core-accordion');
 
-    await expect(host).toDispatchEvents(async () => {
-      await host.focus();
-      await host.press('Space');
-    }, [
-      {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        defaultPrevented: false,
-        type: 'toggle',
-      },
-    ]);
+    await expect(host).toDispatchEvents(
+      () => host.press('Space'),
+      [
+        {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+          type: 'toggle',
+        },
+      ],
+    );
 
     await expect(host).toHaveAttribute('open');
   },

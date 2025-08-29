@@ -6,25 +6,25 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label">
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label">
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');
 
-    await expect(host).toDispatchEvents(async () => {
-      await host.focus();
-      await host.press('Enter');
-    }, [
-      {
-        bubbles: true,
-        cancelable: true,
-        composed: true,
-        defaultPrevented: false,
-        type: 'click',
-      },
-    ]);
+    await expect(host).toDispatchEvents(
+      () => host.press('Enter'),
+      [
+        {
+          bubbles: true,
+          cancelable: true,
+          composed: true,
+          type: 'click',
+        },
+      ],
+    );
   },
 );
 
@@ -33,25 +33,25 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label">
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label">
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');
 
-    await expect(host).toDispatchEvents(async () => {
-      await host.focus();
-      await host.press('Space');
-    }, [
-      {
-        bubbles: true,
-        cancelable: true,
-        composed: true,
-        defaultPrevented: false,
-        type: 'click',
-      },
-    ]);
+    await expect(host).toDispatchEvents(
+      () => host.press('Space'),
+      [
+        {
+          bubbles: true,
+          cancelable: true,
+          composed: true,
+          type: 'click',
+        },
+      ],
+    );
   },
 );
 
@@ -60,9 +60,10 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label" disabled>
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label" disabled>
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');
@@ -79,9 +80,10 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label" disabled>
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label" disabled>
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');
