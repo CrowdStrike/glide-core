@@ -1,16 +1,17 @@
 import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
-test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
+test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
-    () => html`<glide-core-icon-button label="Label">
-      <div>Icon</div>
-    </glide-core-icon-button>`,
+    () =>
+      html`<glide-core-icon-button label="Label">
+        <div>Icon</div>
+      </glide-core-icon-button>`,
   );
 
   const host = page.locator('glide-core-icon-button');
 
-  await expect(host).toBeRegistered('glide-core-icon-button');
+  await expect(host).toBeDefined('glide-core-icon-button');
 });
 
 test(
@@ -18,9 +19,10 @@ test(
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label">
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label">
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');
@@ -36,9 +38,10 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label">
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label">
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');
@@ -53,9 +56,10 @@ test(
   async ({ mount }) => {
     await expect(
       mount(
-        () => html`<glide-core-icon-button>
-          <div>Icon</div>
-        </glide-core-icon-button>`,
+        () =>
+          html`<glide-core-icon-button>
+            <div>Icon</div>
+          </glide-core-icon-button>`,
       ),
     ).rejects.toThrow();
   },

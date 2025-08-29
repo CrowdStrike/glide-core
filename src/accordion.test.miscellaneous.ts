@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
-test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
+test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
@@ -9,7 +9,7 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-accordion');
 
-  await expect(host).toBeRegistered('glide-core-accordion');
+  await expect(host).toBeDefined('glide-core-accordion');
 });
 
 test(
