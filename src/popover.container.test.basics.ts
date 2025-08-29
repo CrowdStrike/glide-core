@@ -21,6 +21,26 @@ it('is accessible', async () => {
   await expect(host).to.be.accessible();
 });
 
+it('gives itself an ID if it does not already have one', async () => {
+  const host = await fixture<PopoverContainer>(
+    html`<glide-core-popover-container>
+      Popover
+    </glide-core-popover-container>`,
+  );
+
+  expect(host.id).to.not.be.empty.string;
+});
+
+it('does not give itself an ID if it already has one', async () => {
+  const host = await fixture<PopoverContainer>(
+    html`<glide-core-popover-container id="test">
+      Popover
+    </glide-core-popover-container>`,
+  );
+
+  expect(host.id).to.equal('test');
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
