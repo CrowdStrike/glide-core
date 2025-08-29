@@ -5917,6 +5917,16 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "role",
               "type": {
                 "text": "'tooltip' | 'dialog'"
@@ -5944,6 +5954,14 @@
             }
           ],
           "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
             {
               "name": "role",
               "type": {

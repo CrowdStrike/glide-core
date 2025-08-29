@@ -12,6 +12,9 @@ declare global {
 }
 
 /**
+ * @readonly
+ * @attr {string} [id]
+ *
  * @attr {'tooltip'|'dialog'} [role]
  *
  * @readonly
@@ -29,6 +32,9 @@ export default class PopoverContainer extends LitElement {
   };
   /* c8 ignore end */
 
+  @property({ reflect: true })
+  override readonly id: string = uniqueId();
+
   @property({ reflect: true, useDefault: true })
   override get role(): 'tooltip' | 'dialog' {
     return this.#role;
@@ -42,14 +48,6 @@ export default class PopoverContainer extends LitElement {
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
-
-  override connectedCallback() {
-    super.connectedCallback();
-
-    if (!this.id) {
-      this.id = uniqueId();
-    }
-  }
 
   override render() {
     return html`<slot ${assertSlot()}>

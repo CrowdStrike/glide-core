@@ -10,7 +10,7 @@ import expectWindowError from './library/expect-window-error.js';
 @customElement('glide-core-subclassed')
 class Subclassed extends Popover {}
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-popover')).to.equal(Popover);
 });
 
