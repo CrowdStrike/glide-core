@@ -7,6 +7,12 @@ import { v8CoverageAttachmentName } from './../constants.js';
 
 type Context<Type> = Type extends void ? void : Type;
 
+/**
+ * 1. Navigates to a blank Storybook page.
+ * 2. Renders the provided template onto the page.
+ * 3. Waits for custom elements in the template to be added to the registry.
+ * 4. Waits for each custom element's `updateComplete`.
+ */
 export default test.extend<{
   mount: <Type = void>(
     template: (context: Type) => TemplateResult | Promise<TemplateResult>,
@@ -106,14 +112,14 @@ export default test.extend<{
         });
 
         for (const tag of componentTags) {
-          const isAlreadyRegistered = await page.evaluate((tag) => {
+          const isAlreadyDefined = await page.evaluate((tag) => {
             return Boolean(window.customElements.get(tag));
           }, tag);
 
           // Some components import other components because they depend on them. So a
           // tag may already be registered. If it is, we move on so we don't cause an
           // error when the component is registered again via `addScriptTag()` below.
-          if (isAlreadyRegistered) {
+          if (isAlreadyDefined) {
             continue;
           }
 

@@ -1,5 +1,8 @@
 import { type Locator, expect } from '@playwright/test';
 
+/**
+ * Asserts that an element is a custom element and that it throws when extended.
+ */
 export default expect.extend({
   async toBeExtensible(locator: Locator) {
     const isExtensible = await locator.evaluate((node) => {

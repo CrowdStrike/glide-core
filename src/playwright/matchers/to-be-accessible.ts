@@ -1,24 +1,21 @@
 import { type Page, expect } from '@playwright/test';
 import { AxeBuilder } from '@axe-core/playwright';
 
+/**
+ * Asserts that an element is accessible according to Axe.
+ *
+ * @param violations - An array of Rule IDs¹.
+ *
+ * 1: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
+ */
 export default expect.extend({
-  /**
-   * @param expectedViolations - An array of Rule IDs¹.
-   *
-   * 1: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
-   */
-  async toBeAccessible(
-    page: Page,
-    selector: string,
-    expectedViolations?: string[],
-  ) {
+  async toBeAccessible(page: Page, selector: string, violations?: string[]) {
     const result = await new AxeBuilder({ page }).include(selector).analyze();
 
     const isAccessible =
-      expectedViolations &&
-      result.violations.length !== expectedViolations.length
+      violations && result.violations.length !== violations.length
         ? false
-        : !expectedViolations && result.violations.length > 0
+        : !violations && result.violations.length > 0
           ? false
           : true;
 
@@ -28,10 +25,10 @@ export default expect.extend({
           this.utils.matcherHint('toBeAccessible', isAccessible, true) +
           '\n\n' +
           `${this.utils.printDiffOrStringify(
-            expectedViolations ?? [],
+            violations ?? [],
             result.violations.filter((violation) => {
-              return expectedViolations
-                ? expectedViolations.every((id) => id !== violation.id)
+              return violations
+                ? violations.every((id) => id !== violation.id)
                 : result.violations;
             }),
             'Expected',

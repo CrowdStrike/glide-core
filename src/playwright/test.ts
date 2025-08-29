@@ -37,7 +37,7 @@ export const expect = mergeExpects(
   toDispatchEvents: (
     locator: Locator,
     action: () => Promise<unknown>,
-    expectedEvents: {
+    events: {
       bubbles?: boolean;
       cancelable?: boolean;
       composed?: boolean;

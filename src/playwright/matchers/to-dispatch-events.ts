@@ -9,6 +9,10 @@ interface SerializableEvent {
   type: string;
 }
 
+/**
+ * Asserts that an element dispatches one or more events, in order, after the
+ * provided action is executed by the matcher.
+ */
 export default expect.extend({
   async toDispatchEvents(
     locator: Locator,

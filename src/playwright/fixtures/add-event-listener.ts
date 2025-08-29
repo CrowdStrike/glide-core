@@ -1,5 +1,8 @@
 import { type Locator, test } from '@playwright/test';
 
+/**
+ * Useful for canceling an event or stopping its propagation.
+ */
 export default test.extend<{
   addEventListener: (
     locator: Locator,
