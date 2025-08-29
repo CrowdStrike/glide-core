@@ -24,20 +24,32 @@ export const expect = mergeExpects(
   toDispatchEvents,
   toHaveFormData,
 ) as Expect<{
+  /**
+   * Asserts that an element is accessible according to Axe. `violations` is an array of Rule IDs¹.
+   *
+   * 1: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
+   */
   toBeAccessible: (
     page: Page,
     selector: string,
     violations?: string[],
   ) => Promise<void>;
 
+  /**
+   * Asserts that an element is a custom element and that it throws when extended.
+   */
   toBeDefined: (locator: Locator, name: string) => Promise<void>;
 
   toBeExtensible: (locator: Locator) => Promise<void>;
 
+  /**
+   * Asserts that an element dispatches one or more events, in order, after the action
+   * is executed by the matcher.
+   */
   toDispatchEvents: (
     locator: Locator,
     action: () => Promise<unknown>,
-    expectedEvents: {
+    events: {
       bubbles?: boolean;
       cancelable?: boolean;
       composed?: boolean;

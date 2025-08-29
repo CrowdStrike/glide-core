@@ -43,6 +43,12 @@ export default defineConfig({
       .map((browser) => {
         return {
           name: 'functionality',
+          // "accessibility" tests really aren't functionality tests in the same way that
+          // other functionality tests are. Labeling them as such is somewhat of a misnomer.
+          //
+          // But, if we were to put accessibility tests into their own project, CI would get
+          // a lot more complicated because we'd have two more jobs. And we'd have to merge
+          // coverage reports from disparate jobs.
           testMatch: [
             // Migrated
             'src/*.test.accessibility.ts',

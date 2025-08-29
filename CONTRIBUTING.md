@@ -32,7 +32,8 @@
     - [Throw when slotted content is missing or the wrong type](#throw-when-slotted-content-is-missing-or-the-wrong-type)
     - [Typing @property decorators](#typing-property-decorators)
   - [Testing](#testing)
-    - [Separate your test files](#separate-your-test-files)
+    - [Use `test.step()`](#use-teststep)
+    - [Avoid `test.describe()`](#avoid-testdescribe)
     - [Writing ARIA tests](#writing-aria-tests)
     - [Writing visual tests](#writing-visual-tests)
     - [Verifying visual changes](#verifying-visual-changes)
@@ -44,6 +45,7 @@
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
   - [Why are `assets` and `baseline-screenshots` protected branches on GitHub?](#why-are-assets-and-baseline-screenshots-protected-branches-on-github)
+  - [Why isn't test coverage accurate locally?](#why-isnt-test-coverage-accurate-locally)
   - [How does ARIA snapshot testing fit into overall accessibility testing?](#how-does-aria-snapshot-testing-fit-into-overall-accessibility-testing)
   - [Why is visual testing set up the way it is?](#why-is-visual-testing-set-up-the-way-it-is)
   - [Why does `main` have a merge queue?](#why-does-main-have-a-merge-queue)
@@ -632,56 +634,53 @@ Don't forget dark mode.
 
 ### Testing
 
-#### Separate your test files
+#### Use `test.step()`
 
-Use separate files for grouping related tests rather than `describe` blocks.
-There's less mental overhead when you look at the file system and see the general idea for a group of tests rather than having to jump in a potentially massive test file and scroll through separate blocks.
+A test should generally test one thing.
+But some tests will be unavoidably large regardless.
+Or some will, by necessity, have to test more than one thing.
+If you have a test like this, use [`test.step()`](https://playwright.dev/docs/api/class-test#test-step) throughout it to make reading and debugging it easier.
+
+#### Avoid `test.describe()`
+
+Use files for grouping related tests rather than `describe()` blocks.
+There's less cognitive overhead in self-described test files than there is in navigating a potentially large file or two to figure out what they test.
 
 ```bash
 # ✅ — GOOD
 src/
-├─ checkbox.test.basics.ts
+├─ checkbox.test.miscellaneous.ts
 ```
 
 ```js
 // ❌ — BAD
-describe('Checkbox Basics', () => {});
+describe('Checkbox Miscellaneous', () => {});
 ```
 
-##### `*.test.aria.ts`
+##### `*.test.accessibility.ts`
 
-Assertions against a component's accessibility tree.
+Tests that use the `toBeAccessible()` matcher or otherwise assert accessibility.
 
-##### `*.test.basics.ts`
+##### `*.test.forms.ts`
 
-A bit of a misnomer, but we've yet to think of a better name.
-These are assertions against a component in its initial state—even if it's not its default slot.
-Think of attributes and slots provided on first render.
+Tests that assert against properties like `value` and methods like `checkValidity()` and `reportValidity()`.
+If your test doesn't include a `<form>`, it probably doesn't belong here.
 
-##### `*.test.events.ts`
+##### `*.test.keyboard.ts`
 
-Tests that exclusively assert that a certain event has been dispatched.
+Tests that assert against state or events after a keyboard interaction.
 
-Don't forget to assert the event's `composed` and `bubbles` properties and, if appropriate, the event's `target`.
-It's also good to assert, using `sinon`, that an event was only dispatchd once.
+##### `*.test.miscellaneous.ts`
 
-##### `*.test.focus.ts`
+A catch-all for tests that don't make sense elsewhere.
 
-Tests that exclusively assert that an element is focused after some interaction.
-Each test should mainly be asserting against `document.activeElement`.
+##### `*.test.mouse.ts`
 
-##### `*.test.interactions.ts`
-
-A dumping ground for most interaction assertions.
-An interaction can be a simulated user interaction such as a click.
-Or it can be a developer interaction—such as programmatically setting an attribute or changing a slot after initial render.
-
-This suite can get pretty large.
-So we break down specific types of interactions into two sub-suites: `*.test.events.ts` and `*.test.focus.ts`.
+Tests that assert against state or events after a mouse interaction.
 
 ##### `*.test.visuals.ts`
 
-Tests that assert against a baseline screenshot of a component in some state.
+Tests that make visual assertions.
 
 #### Writing ARIA tests
 
@@ -755,6 +754,14 @@ And artifacts from our latest publish are deployed to the top level of the bucke
 It's a simple setup.
 But it means we can't have branch names that conflict and thus overwrite top-level directories that contain artifacts.
 
+### Why isn't test coverage accurate locally?
+
+Coverage is calculated based on what was included in a test run.
+So, if you're using Playwright's UI to run tests and only ran a single test, then the [coverage report](http://localhost:6008) will only include what was covered by that test.
+
+If you want to see total coverage, you'll need to run the entire "functionality" project.
+Or run `pnpm test:production:playwright`.
+
 ### How does ARIA snapshot testing fit into overall accessibility testing?
 
 We use Axe to test accessibility.
@@ -784,7 +791,7 @@ When a PR is merged, we send the new and updated screenshots from your branch to
 When you open your next PR, those baseline screenshots are retrieved from R2 and compared against the ones generated by your branch.
 We then add a link to your PR to the test report that shows the differences between the baseline screenshots and those of your branch.
 
-#### Why does `main` have a [merge queue](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue#about-merge-queues)?
+### Why does `main` have a [merge queue](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue#about-merge-queues)?
 
 We use merge queues to avoid a deployment race condition when two PRs are merged around the same time.
 
@@ -803,7 +810,7 @@ This is usually only a problem on larger teams.
 But we figured we'd run into it sooner or later, and merge queues easily solve it.
 Putting `main` merges into a queue forces branches to be deployed sequentially.
 
-#### What should I do when a Dependabot or Release Preview pull request doesn't build?
+### What should I do when a Dependabot or Release Preview pull request doesn't build?
 
 These pull requests will never build because our `on-pull-request-opened-and-synchronize.yml` workflow accesses secrets, and workflows initiated by a bot or by another workflow have limited permissions.
 Additionally, workflows initiated by another workflow don't run to prevent infinite loops.
@@ -813,7 +820,7 @@ Release Preview pull requests, on the other hand, are safe to merge without loca
 
 When you're ready to merge either type of pull request, check the "Merge without waiting for requirements to be met" box (or have someone with the permission check it for you), then merge away.
 
-#### Why isn't `custom-elements.json` exported?
+### Why isn't `custom-elements.json` exported?
 
 Simply because we're not aware of a use for it outside this repository.
 You'll find plenty of blog posts saying it should be exported so that tooling can use it.

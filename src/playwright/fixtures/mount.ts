@@ -7,6 +7,29 @@ import { v8CoverageAttachmentName } from './../constants.js';
 
 type Context<Type> = Type extends void ? void : Type;
 
+/**
+ * Renders a template:
+ *
+ * 1. Navigates to a blank Storybook page.
+ * 2. Renders your template onto the page.
+ * 3. Waits for any custom elements in the template to be added to the registry.
+ * 4. Waits for each custom element's `updateComplete`.
+ *
+ * Be mindful of Playwright's architecture when using this fixture:
+ *
+ * Playwright executes tests in Node.js. But the template you pass to this
+ * fixture, and any variables or functions referenced therein, will be
+ * evaluated in the browser.
+ *
+ * So you'll get an error, for example, if you reference in your template a
+ * variable defined above your `mount()` call. The variable may appear to be in
+ * scope. But it won't be, and TypeScript won't any know better.
+ *
+ * This is what the `context` parameter is for. Whatever you pass in as context,
+ * be it a primitive or function or date, will get serialized, sent to the browser,
+ * and made available to your template when it's rendered. Though you should rarely
+ * need `context`. `toDispatchEvents()` is probably what you want instead.
+ */
 export default test.extend<{
   mount: <Type = void>(
     template: (context: Type) => TemplateResult | Promise<TemplateResult>,
@@ -106,14 +129,14 @@ export default test.extend<{
         });
 
         for (const tag of componentTags) {
-          const isAlreadyRegistered = await page.evaluate((tag) => {
+          const isAlreadyDefined = await page.evaluate((tag) => {
             return Boolean(window.customElements.get(tag));
           }, tag);
 
           // Some components import other components because they depend on them. So a
           // tag may already be registered. If it is, we move on so we don't cause an
           // error when the component is registered again via `addScriptTag()` below.
-          if (isAlreadyRegistered) {
+          if (isAlreadyDefined) {
             continue;
           }
 
