@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.34.1
+
+### Patch Changes
+
+- [#1117](https://github.com/CrowdStrike/glide-core/pull/1117) [`cd0fd8a`](https://github.com/CrowdStrike/glide-core/commit/cd0fd8a735af48642293477d9d47550848d69dba) Thanks [@clintcs](https://github.com/clintcs)! - Toast's `label` and `variant` are no longer announced twice by screenreaders.
+
 ## 0.34.0
 
 ### Minor Changes
