@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
-test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
+test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-inline-alert variant="informational">
@@ -11,7 +11,7 @@ test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-inline-alert');
 
-  await expect(host).toBeRegistered('glide-core-inline-alert');
+  await expect(host).toBeDefined('glide-core-inline-alert');
 });
 
 test(

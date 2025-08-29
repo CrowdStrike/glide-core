@@ -1,12 +1,12 @@
 import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
-test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
+test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(() => html`<glide-core-tag label="Label"></glide-core-tag>`);
 
   const host = page.locator('glide-core-tag');
 
-  await expect(host).toBeRegistered('glide-core-tag');
+  await expect(host).toBeDefined('glide-core-tag');
 });
 
 test('can be removable', { tag: '@miscellaneous' }, async ({ mount, page }) => {

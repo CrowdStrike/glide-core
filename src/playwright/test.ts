@@ -12,15 +12,15 @@ import removeAttribute from './fixtures/remove-attribute.js';
 import setAttribute from './fixtures/set-attribute.js';
 import setProperty from './fixtures/set-property.js';
 import toBeAccessible from './matchers/to-be-accessible.js';
-import toHaveFormData from './matchers/to-have-form-data.js';
+import toBeDefined from './matchers/to-be-defined.js';
 import toBeExtensible from './matchers/to-be-extensible.js';
-import toBeRegistered from './matchers/to-be-registered.js';
+import toHaveFormData from './matchers/to-have-form-data.js';
 import toDispatchEvents from './matchers/to-dispatch-events.js';
 
 export const expect = mergeExpects(
   toBeAccessible,
+  toBeDefined,
   toBeExtensible,
-  toBeRegistered,
   toDispatchEvents,
   toHaveFormData,
 ) as Expect<{
@@ -30,9 +30,9 @@ export const expect = mergeExpects(
     violations?: string[],
   ) => Promise<void>;
 
-  toBeExtensible: (locator: Locator) => Promise<void>;
+  toBeDefined: (locator: Locator, name: string) => Promise<void>;
 
-  toBeRegistered: (locator: Locator, name: string) => Promise<void>;
+  toBeExtensible: (locator: Locator) => Promise<void>;
 
   toDispatchEvents: (
     locator: Locator,

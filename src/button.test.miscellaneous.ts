@@ -1,14 +1,14 @@
 import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
-test('registers itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
+test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
     () => html`<glide-core-button label="Label"></glide-core-button>`,
   );
 
   const host = page.locator('glide-core-button');
 
-  await expect(host).toBeRegistered('glide-core-button');
+  await expect(host).toBeDefined('glide-core-button');
 });
 
 test(
