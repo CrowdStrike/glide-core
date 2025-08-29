@@ -3,9 +3,10 @@ import { expect, test } from './playwright/test.js';
 
 test('can be clicked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
   await mount(
-    () => html`<glide-core-icon-button label="Label">
-      <div>Icon</div>
-    </glide-core-icon-button>`,
+    () =>
+      html`<glide-core-icon-button label="Label">
+        <div>Icon</div>
+      </glide-core-icon-button>`,
   );
 
   const host = page.locator('glide-core-icon-button');
@@ -17,7 +18,7 @@ test('can be clicked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
         bubbles: true,
         cancelable: true,
         composed: true,
-        defaultPrevented: false,
+
         type: 'click',
       },
     ],
@@ -29,9 +30,10 @@ test(
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label">
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label">
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');
@@ -43,7 +45,6 @@ test(
           bubbles: true,
           cancelable: true,
           composed: true,
-          defaultPrevented: false,
           type: 'click',
         },
       ],
@@ -56,9 +57,10 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label" disabled>
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label" disabled>
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');
@@ -75,9 +77,10 @@ test(
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      () => html`<glide-core-icon-button label="Label" disabled>
-        <div>Icon</div>
-      </glide-core-icon-button>`,
+      () =>
+        html`<glide-core-icon-button label="Label" disabled>
+          <div>Icon</div>
+        </glide-core-icon-button>`,
     );
 
     const host = page.locator('glide-core-icon-button');

@@ -32,12 +32,13 @@ declare global {
 @customElement('glide-core-icon-button')
 @final
 export default class IconButton extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* v8 ignore end */
 
   static override styles = styles;
 

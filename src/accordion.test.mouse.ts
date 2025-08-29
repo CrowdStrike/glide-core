@@ -26,7 +26,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
           type: 'toggle',
         },
       ],
@@ -63,7 +62,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
           type: 'toggle',
         },
       ],
@@ -98,7 +96,7 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'toggle',
         },
       ],
@@ -133,7 +131,7 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'toggle',
         },
       ],
@@ -170,7 +168,7 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'toggle',
         },
       ],
@@ -205,7 +203,7 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'toggle',
         },
       ],

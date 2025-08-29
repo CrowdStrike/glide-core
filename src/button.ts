@@ -39,13 +39,13 @@ declare global {
 export default class Button extends LitElement {
   static formAssociated = true;
 
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore end */
 
   static override styles = styles;
 

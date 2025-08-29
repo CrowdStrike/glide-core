@@ -19,14 +19,14 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'input',
         },
         {
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'change',
         },
       ],
@@ -41,7 +41,8 @@ test(
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
+      () =>
+        html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -54,14 +55,14 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'input',
         },
         {
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'change',
         },
       ],

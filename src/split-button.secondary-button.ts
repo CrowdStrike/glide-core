@@ -39,6 +39,7 @@ export default class SplitButtonSecondaryButton extends LitElement {
     delegatesFocus: true,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 

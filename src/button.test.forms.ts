@@ -5,11 +5,13 @@ test(
   'has a `form` property that returns its form',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-button label="Label"></glide-core-button>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-button label="Label"></glide-core-button>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-button');
 
@@ -25,11 +27,13 @@ test(
   'submits its form when clicked via mouse',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-button label="Label" type="submit"></glide-core-button>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-button label="Label" type="submit"></glide-core-button>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-button');
     const form = page.locator('form');
@@ -53,11 +57,13 @@ test(
   'submits its form when clicked via Enter',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-button label="Label" type="submit"></glide-core-button>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-button label="Label" type="submit"></glide-core-button>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-button');
     const form = page.locator('form');
@@ -66,14 +72,14 @@ test(
       preventDefault: true,
     });
 
-    await expect(form).toDispatchEvents(async () => {
-      await host.focus();
-      await host.press('Enter');
-    }, [
-      {
-        type: 'submit',
-      },
-    ]);
+    await expect(form).toDispatchEvents(
+      () => host.press('Enter'),
+      [
+        {
+          type: 'submit',
+        },
+      ],
+    );
   },
 );
 
@@ -81,11 +87,13 @@ test(
   'submits its form when clicked via Space',
   { tag: '@forms' },
   async ({ addEventListener, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-button label="Label" type="submit"></glide-core-button>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-button label="Label" type="submit"></glide-core-button>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-button');
     const form = page.locator('form');
@@ -94,14 +102,14 @@ test(
       preventDefault: true,
     });
 
-    await expect(form).toDispatchEvents(async () => {
-      await host.focus();
-      await host.press('Space');
-    }, [
-      {
-        type: 'submit',
-      },
-    ]);
+    await expect(form).toDispatchEvents(
+      () => host.press('Space'),
+      [
+        {
+          type: 'submit',
+        },
+      ],
+    );
   },
 );
 
@@ -109,11 +117,13 @@ test(
   'submits its form when clicked programmatically',
   { tag: '@forms' },
   async ({ addEventListener, callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-button label="Label" type="submit"></glide-core-button>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-button label="Label" type="submit"></glide-core-button>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-button');
     const form = page.locator('form');
@@ -137,11 +147,13 @@ test(
   'submits its form when `requestSubmit()` is called',
   { tag: '@forms' },
   async ({ addEventListener, callMethod, mount, page }) => {
-    await mount(() => html`
-      <form>
-        <glide-core-button label="Label" type="submit"></glide-core-button>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <glide-core-button label="Label" type="submit"></glide-core-button>
+        </form>
+      `,
+    );
 
     const form = page.locator('form');
 
@@ -164,12 +176,14 @@ test(
   'resets its form when clicked via mouse',
   { tag: '@forms' },
   async ({ mount, page }) => {
-    await mount(() => html`
-      <form>
-        <input value="one" />
-        <glide-core-button label="Label" type="reset"></glide-core-button>
-      </form>
-    `);
+    await mount(
+      () => html`
+        <form>
+          <input value="one" />
+          <glide-core-button label="Label" type="reset"></glide-core-button>
+        </form>
+      `,
+    );
 
     const host = page.locator('glide-core-button');
     const input = page.locator('input');

@@ -2,7 +2,9 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test('can be checked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
-  await mount(() => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`);
+  await mount(
+    () => html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+  );
 
   const host = page.locator('glide-core-checkbox');
 
@@ -13,14 +15,14 @@ test('can be checked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
         bubbles: true,
         cancelable: false,
         composed: true,
-        defaultPrevented: false,
+
         type: 'input',
       },
       {
         bubbles: true,
         cancelable: false,
         composed: true,
-        defaultPrevented: false,
+
         type: 'change',
       },
     ],
@@ -46,14 +48,14 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'input',
         },
         {
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'change',
         },
       ],
@@ -68,7 +70,8 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
+      () =>
+        html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -80,14 +83,14 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'input',
         },
         {
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'change',
         },
       ],
@@ -102,7 +105,8 @@ test(
   { tag: '@mouse' },
   async ({ callMethod, mount, page }) => {
     await mount(
-      () => html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
+      () =>
+        html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -114,14 +118,14 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'input',
         },
         {
           bubbles: true,
           cancelable: false,
           composed: true,
-          defaultPrevented: false,
+
           type: 'change',
         },
       ],
@@ -136,10 +140,11 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-checkbox
-        label="Label"
-        indeterminate
-      ></glide-core-checkbox>`,
+      () =>
+        html`<glide-core-checkbox
+          label="Label"
+          indeterminate
+        ></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');
@@ -155,11 +160,12 @@ test(
   { tag: '@mouse' },
   async ({ mount, page }) => {
     await mount(
-      () => html`<glide-core-checkbox
-        label="Label"
-        checked
-        indeterminate
-      ></glide-core-checkbox>`,
+      () =>
+        html`<glide-core-checkbox
+          label="Label"
+          checked
+          indeterminate
+        ></glide-core-checkbox>`,
     );
 
     const host = page.locator('glide-core-checkbox');

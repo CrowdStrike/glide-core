@@ -78,6 +78,7 @@ export default class Slider extends LitElement implements FormControl {
     mode: window.navigator.webdriver ? 'open' : 'closed',
     delegatesFocus: true,
   };
+  /* c8 ignore end */
 
   static override styles = styles;
 
