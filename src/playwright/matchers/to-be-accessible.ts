@@ -2,11 +2,6 @@ import { type Page, expect } from '@playwright/test';
 import { AxeBuilder } from '@axe-core/playwright';
 
 export default expect.extend({
-  /**
-   * @param expectedViolations - An array of Rule IDs¹.
-   *
-   * 1: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
-   */
   async toBeAccessible(
     page: Page,
     selector: string,
