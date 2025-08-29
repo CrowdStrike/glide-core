@@ -96,7 +96,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'toggle',
         },
       ],
@@ -131,7 +130,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'toggle',
         },
       ],
@@ -168,7 +166,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'toggle',
         },
       ],
@@ -203,7 +200,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'toggle',
         },
       ],

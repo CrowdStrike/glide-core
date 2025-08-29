@@ -15,7 +15,6 @@ test('can be checked via mouse', { tag: '@mouse' }, async ({ mount, page }) => {
         bubbles: true,
         cancelable: false,
         composed: true,
-
         type: 'input',
       },
       {
@@ -48,7 +47,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'input',
         },
         {
@@ -83,7 +81,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'input',
         },
         {
@@ -118,7 +115,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'input',
         },
         {

@@ -19,7 +19,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'input',
         },
         {
@@ -55,7 +54,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'input',
         },
         {
