@@ -46,7 +46,9 @@ export default class PopoverContainer extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    this.id = uniqueId();
+    if (!this.id) {
+      this.id = uniqueId();
+    }
   }
 
   override render() {
