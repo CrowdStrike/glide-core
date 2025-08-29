@@ -60,7 +60,6 @@ test(
           bubbles: true,
           cancelable: false,
           composed: true,
-
           type: 'change',
         },
       ],
