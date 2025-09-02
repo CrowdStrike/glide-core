@@ -380,6 +380,7 @@ export default defineConfig([
       'src/accordion.test.*.ts',
       'src/button.test.*.ts',
       'src/checkbox.test.*.ts',
+      'src/drawer.test.*.ts',
       'src/icon-button.test.*.ts',
       'src/inline-alert.test.*.ts',
       'src/select.test.*.ts',
