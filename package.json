@@ -94,7 +94,7 @@
     "typecheck:development": "tsc --erasableSyntaxOnly --outDir ./dist -w",
     "typecheck:production": "tsc --erasableSyntaxOnly --outDir ./dist",
     "postinstall": "is-ci || pnpm dlx playwright@1.54.2 install --no-shell --with-deps chromium firefox webkit",
-    "prepare": "is-ci || husky install",
+    "prepare": "is-ci || husky",
     "release": "changeset publish"
   },
   "dependencies": {
