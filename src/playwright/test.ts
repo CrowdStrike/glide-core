@@ -12,15 +12,15 @@ import removeAttribute from './fixtures/remove-attribute.js';
 import setAttribute from './fixtures/set-attribute.js';
 import setProperty from './fixtures/set-property.js';
 import toBeAccessible from './matchers/to-be-accessible.js';
-import toBeDefined from './matchers/to-be-defined.js';
 import toBeExtensible from './matchers/to-be-extensible.js';
+import toBeInTheCustomElementRegistry from './matchers/to-be-in-the-custom-element-registry.js';
 import toHaveFormData from './matchers/to-have-form-data.js';
 import toDispatchEvents from './matchers/to-dispatch-events.js';
 
 export const expect = mergeExpects(
   toBeAccessible,
-  toBeDefined,
   toBeExtensible,
+  toBeInTheCustomElementRegistry,
   toDispatchEvents,
   toHaveFormData,
 ) as Expect<{
@@ -35,12 +35,15 @@ export const expect = mergeExpects(
     violations?: string[],
   ) => Promise<void>;
 
+  toBeExtensible: (locator: Locator) => Promise<void>;
+
   /**
    * Asserts that an element is a custom element and that it throws when extended.
    */
-  toBeDefined: (locator: Locator, name: string) => Promise<void>;
-
-  toBeExtensible: (locator: Locator) => Promise<void>;
+  toBeInTheCustomElementRegistry: (
+    locator: Locator,
+    name: string,
+  ) => Promise<void>;
 
   /**
    * Asserts that an element dispatches one or more events, in order, after the action

@@ -9,7 +9,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-accordion');
 
-  await expect(host).toBeDefined('glide-core-accordion');
+  await expect(host).toBeInTheCustomElementRegistry('glide-core-accordion');
 });
 
 test(

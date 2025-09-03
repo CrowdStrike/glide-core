@@ -13,7 +13,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-select');
 
-  await expect(host).toBeDefined('glide-core-select');
+  await expect(host).toBeInTheCustomElementRegistry('glide-core-select');
 });
 
 test(
