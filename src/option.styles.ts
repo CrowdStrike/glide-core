@@ -69,22 +69,30 @@ export default [
           grid-template-columns: 1fr auto;
         }
 
-        &.selected {
-          grid-template-columns: 1fr auto;
+        &:not(.multiple) {
+          &.selected {
+            grid-template-columns: 1fr auto;
 
-          &.icon {
-            grid-template-columns: auto 1fr auto;
+            &.icon {
+              grid-template-columns: auto 1fr auto;
+
+              &.submenu {
+                grid-template-columns: auto 1fr auto auto;
+              }
+            }
 
             &.submenu {
-              grid-template-columns: auto 1fr auto auto;
+              grid-template-columns: 1fr auto auto;
             }
-          }
-
-          &.submenu {
-            grid-template-columns: 1fr auto auto;
           }
         }
       }
+    }
+
+    .checkbox {
+      align-items: center;
+      column-gap: var(--glide-core-spacing-base-xs);
+      display: flex;
     }
 
     .label {

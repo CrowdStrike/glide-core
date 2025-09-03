@@ -20,6 +20,7 @@ declare global {
 /**
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [loading=false]
+ * @attr {boolean} [multiple]
  * @attr {string} [name='']
  * @attr {number} [offset=4]
  * @attr {boolean} [open=false]
@@ -74,7 +75,7 @@ export default class Select
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -83,6 +84,38 @@ export default class Select
 
   @property({ reflect: true, type: Boolean })
   loading = false;
+
+  /**
+   * @default
+   */
+  @property({ reflect: true, type: Boolean })
+  get multiple(): boolean {
+    return this.#isMultiple;
+  }
+
+  set multiple(isMultiple: boolean) {
+    this.#isMultiple = isMultiple;
+
+    if (this.#optionElements) {
+      for (const option of this.#optionElements) {
+        option.multiple = isMultiple;
+      }
+    }
+
+    if (this.multiple && this.#targetElement) {
+      this.#targetElement.ariaMultiSelectable = 'true';
+    } else if (this.#targetElement) {
+      this.#targetElement.ariaMultiSelectable = 'false';
+
+      const selectedOptions = this.selectedOptions;
+
+      for (const [index, option] of selectedOptions.entries()) {
+        if (index !== selectedOptions.length - 1) {
+          option.selected = false;
+        }
+      }
+    }
+  }
 
   @property({ reflect: true, useDefault: true })
   name = '';
@@ -109,7 +142,7 @@ export default class Select
   set offset(offset: number) {
     this.#offset = offset;
   }
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   /**
    * @default false
@@ -168,7 +201,7 @@ export default class Select
   }
 
   set value(value: string[]) {
-    if (value.length > 1) {
+    if (!this.multiple && value.length > 1) {
       throw this.#tooManySelectedOptionsError;
     }
 
@@ -184,7 +217,7 @@ export default class Select
 
     for (const value$ of value) {
       const option = this.#optionElements?.find(
-        (option) => option.value === value$,
+        (option) => option.value === value$ && !option.selected,
       );
 
       if (option) {
@@ -245,13 +278,9 @@ export default class Select
     // If no options are selected, then it's obvious that the consumer's intention is
     // to select options based on the initial `value`. So we proceed.
     if (hasNoSelectedOptions) {
-      if (this.value.length > 1) {
-        throw this.#tooManySelectedOptionsError;
-      }
-
       for (const value of this.value) {
         const option = this.#optionElements?.find(
-          (option) => option.value === value,
+          (option) => option.value === value && !option.selected,
         );
 
         if (option) {
@@ -382,15 +411,16 @@ export default class Select
       }
 
       if (this.#targetElement) {
-        this.#targetElement.ariaInvalid = this.validity.valid
-          ? 'false'
-          : 'true';
+        this.#targetElement.ariaInvalid = (!this.validity.valid).toString();
       }
     });
   }
 
   @state()
   private isCheckingValidity = false;
+
+  @state()
+  private selectedOptions: Option[] = [];
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -399,6 +429,8 @@ export default class Select
   #hasEmittedAnInvalidEvent = false;
 
   #internals: ElementInternals;
+
+  #isMultiple = false;
 
   #isOpen = false;
 
@@ -465,16 +497,12 @@ export default class Select
       return;
     }
 
-    if (event.target instanceof Option && !event.target.selected) {
-      if (this.#optionElements) {
-        for (const option of this.#optionElements) {
-          if (option.selected) {
-            option.selected = false;
-          }
-        }
-      }
+    if (this.multiple) {
+      event.preventDefault(); // Stop Menu from closing.
+    }
 
-      if (this.#menuElementRef.value) {
+    if (event.target instanceof Option) {
+      if (this.#menuElementRef.value && !this.multiple) {
         // Menu waits a tick or so before closing after an Option is clicked to give its
         // consumers a chance to cancel the event and prevent Menu from closing.
         //
@@ -489,8 +517,23 @@ export default class Select
         this.#menuElementRef.value.open = false;
       }
 
-      event.target.selected = true;
-      this.#value = [event.target.value];
+      if (this.multiple && event.target.selected) {
+        event.target.selected = false;
+      } else if (this.multiple) {
+        event.target.selected = true;
+      } else if (!event.target.selected) {
+        if (this.#optionElements) {
+          for (const option of this.#optionElements) {
+            if (option.selected) {
+              option.selected = false;
+            }
+          }
+        }
+
+        event.target.selected = true;
+      }
+
+      this.#value = this.selectedOptions.map(({ value }) => value);
 
       this.dispatchEvent(
         new Event('input', {
@@ -508,12 +551,23 @@ export default class Select
     }
   }
 
-  #onDefaultSlotDeselected() {
+  #onDefaultSlotDeselected(event: Event) {
     if (this.#isSelectionFromValueSetter) {
       return;
     }
 
-    this.#value = [];
+    this.selectedOptions = this.selectedOptions.filter(
+      (option) => option !== event.target,
+    );
+
+    this.#value = this.selectedOptions.map(({ value }) => value);
+
+    if (this.#targetElement) {
+      this.#targetElement.ariaDescription = this.selectedOptions
+        .map(({ label }) => label)
+        .join(',');
+    }
+
     this.#setValidity();
   }
 
@@ -524,6 +578,26 @@ export default class Select
   }
 
   #onDefaultSlotSelected(event: Event) {
+    if (this.#isSelectionFromValueSetter) {
+      return;
+    }
+
+    if (event.target instanceof Option && this.#optionElements) {
+      if (this.multiple) {
+        this.selectedOptions.push(event.target);
+      } else {
+        for (const option of this.#optionElements) {
+          if (option !== event.target) {
+            option.selected = false;
+          }
+        }
+
+        this.selectedOptions = [event.target];
+      }
+
+      this.#value = this.selectedOptions.map(({ value }) => value);
+    }
+
     if (this.#targetElement) {
       // The `label` of the selected Option(s) should actually be read before the label
       // or text content of the target. But we don't always know what the target's label
@@ -534,50 +608,40 @@ export default class Select
       // it. Yet it is labeled.
       //
       // So the best we can do is set `ariaDescription`.
-      this.#targetElement.ariaDescription = this.#optionElements
-        ? this.#optionElements
-            .filter(({ selected }) => selected)
-            .map(({ label }) => label)
-            .join(',')
-        : '';
-    }
-
-    if (this.#isSelectionFromValueSetter) {
-      return;
-    }
-
-    if (event.target instanceof Option && this.#optionElements) {
-      for (const option of this.#optionElements) {
-        if (option !== event.target) {
-          option.selected = false;
-        }
-      }
-
-      this.#value = [event.target.value];
+      this.#targetElement.ariaDescription = this.selectedOptions
+        .map(({ label }) => label)
+        .join(',');
     }
 
     this.#setValidity();
   }
 
   #onDefaultSlotSlotChange() {
-    const selectedOptions =
-      this.#optionElements &&
-      this.#optionElements.filter(({ selected }) => selected);
+    if (this.#optionElements) {
+      for (const option of this.#optionElements) {
+        option.multiple = this.multiple;
+        option.role = 'option';
 
-    if (selectedOptions && selectedOptions.length > 1) {
+        if (option.disabled) {
+          option.selected = false;
+        }
+      }
+    }
+
+    this.selectedOptions = this.#optionElements
+      ? this.#optionElements.filter(({ selected }) => selected)
+      : [];
+
+    if (!this.multiple && this.selectedOptions.length > 1) {
       throw this.#tooManySelectedOptionsError;
     }
 
-    const selectedOption = selectedOptions?.at(0);
+    this.#value = this.selectedOptions.map(({ value }) => value);
 
-    if (selectedOption) {
-      this.#value = [selectedOption.value];
-    }
-
-    if (this.#optionElements) {
-      for (const option of this.#optionElements) {
-        option.role = 'option';
-      }
+    if (this.#targetElement) {
+      this.#targetElement.ariaDescription = this.selectedOptions
+        .map(({ label }) => label)
+        .join(',');
     }
 
     this.#setValidity();
@@ -598,6 +662,10 @@ export default class Select
         !this.#hasEmittedAnInvalidEvent || this.validity.valid
           ? 'false'
           : 'true';
+
+      this.#targetElement.ariaMultiSelectable = this.multiple
+        ? 'true'
+        : 'false';
     }
   }
 

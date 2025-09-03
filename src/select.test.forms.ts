@@ -473,6 +473,43 @@ test(
 );
 
 test(
+  'sets `aria-invalid` on its target when invalid and its target changes',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-select required>
+            <button slot="target">Target</button>
+
+            <glide-core-options>
+              <glide-core-option label="One"></glide-core-option>
+              <glide-core-option label="Two"></glide-core-option>
+            </glide-core-options>
+          </glide-core-select>
+        </form>
+      `,
+    );
+
+    let target = page.getByRole('button');
+
+    await target.press('Enter');
+
+    await target.evaluate((element) => {
+      const target = document.createElement('button');
+
+      target.textContent = 'Target';
+      target.slot = 'target';
+
+      element.replaceWith(target);
+    });
+
+    target = page.getByRole('button');
+    await expect(target).toHaveJSProperty('ariaInvalid', 'true');
+  },
+);
+
+test(
   'is invalid when required and its selected option is disabled programmatically',
   { tag: '@forms' },
   async ({ callMethod, mount, page, setProperty }) => {
@@ -580,7 +617,7 @@ test(
 test(
   'supports `setValidity()`',
   { tag: '@forms' },
-  async ({ callMethod, mount, page }) => {
+  async ({ callMethod, mount, page, setProperty }) => {
     await mount(
       () => html`
         <form>
@@ -588,7 +625,7 @@ test(
             <button slot="target">Target</button>
 
             <glide-core-options>
-              <glide-core-option label="One" selected></glide-core-option>
+              <glide-core-option label="One"></glide-core-option>
               <glide-core-option label="Two"></glide-core-option>
             </glide-core-options>
           </glide-core-select>
@@ -598,8 +635,10 @@ test(
 
     const host = page.locator('glide-core-select');
     const target = page.getByRole('button');
+    const options = page.getByRole('option');
 
     await callMethod(host, 'setValidity', { customError: true }, 'message');
+    await setProperty(options.nth(0), 'selected', true);
 
     await expect(host).toDispatchEvents(async () => {
       await callMethod(host, 'checkValidity');
