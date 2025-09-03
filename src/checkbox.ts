@@ -78,7 +78,7 @@ export default class Checkbox extends LitElement implements FormControl {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -112,7 +112,9 @@ export default class Checkbox extends LitElement implements FormControl {
 
   set checked(isChecked: boolean) {
     const hasChanged = isChecked !== this.#isChecked;
+
     this.#isChecked = isChecked;
+    this.#setValidity();
 
     if (hasChanged) {
       this.dispatchEvent(
@@ -184,8 +186,18 @@ export default class Checkbox extends LitElement implements FormControl {
   @property({ attribute: 'private-variant' })
   privateVariant?: 'minimal';
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  required = false;
+  get required(): boolean {
+    return this.#isRequired;
+  }
+
+  set required(isRequired: boolean) {
+    this.#isRequired = isRequired;
+    this.#setValidity();
+  }
 
   @property({ reflect: true })
   summary?: string;
@@ -266,46 +278,9 @@ export default class Checkbox extends LitElement implements FormControl {
     this.form?.removeEventListener('formdata', this.#onFormdata);
     this.#intersectionObserver?.disconnect();
   }
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   get validity(): ValidityState {
-    // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
-    // the form has been submitted don't apply because Checkbox Group handles those
-    // states for the group as a whole.
-    if (this.privateVariant === 'minimal') {
-      return this.#internals.validity;
-    }
-
-    if (this.required && !this.checked) {
-      // A validation message is required but unused because we disable native validation
-      // feedback. And an empty string isn't allowed. Thus a single space.
-      this.#internals.setValidity(
-        { customError: Boolean(this.validityMessage), valueMissing: true },
-        ' ',
-        this.#inputElementRef.value,
-      );
-
-      return this.#internals.validity;
-    }
-
-    if (
-      this.required &&
-      this.#internals.validity.valueMissing &&
-      this.checked
-    ) {
-      this.#internals.setValidity({});
-      return this.#internals.validity;
-    }
-
-    if (
-      !this.required &&
-      this.#internals.validity.valueMissing &&
-      !this.checked
-    ) {
-      this.#internals.setValidity({});
-      return this.#internals.validity;
-    }
-
     return this.#internals.validity;
   }
 
@@ -526,6 +501,7 @@ export default class Checkbox extends LitElement implements FormControl {
   }
 
   setValidity(flags?: ValidityStateFlags, message?: string): void {
+    this.#hasCustomValidity = true;
     this.validityMessage = message;
     this.#internals.setValidity(flags, ' ', this.#inputElementRef.value);
   }
@@ -594,6 +570,8 @@ export default class Checkbox extends LitElement implements FormControl {
   @state()
   private validityMessage?: string;
 
+  #hasCustomValidity = false;
+
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
@@ -603,6 +581,8 @@ export default class Checkbox extends LitElement implements FormControl {
   #isChecked = false;
 
   #isDisabled = false;
+
+  #isRequired = false;
 
   #label?: string;
 
@@ -619,10 +599,9 @@ export default class Checkbox extends LitElement implements FormControl {
   };
 
   get #isShowValidationFeedback() {
-    // If minimal, `disabled`, `required`, and whether the form has been submitted
-    // don't apply because the parent component handles those states itself.
+    // When minimal, Checkbox Group handles validation feedback for the group.
     if (this.privateVariant === 'minimal') {
-      return !this.validity.valid && this.privateIsReportValidityOrSubmit;
+      return false;
     }
 
     return (
@@ -685,6 +664,25 @@ export default class Checkbox extends LitElement implements FormControl {
     if (event.key === 'Enter') {
       this.form?.requestSubmit();
     }
+  }
+
+  #setValidity() {
+    if (this.#hasCustomValidity) {
+      return;
+    }
+
+    // When minimal, Checkbox Group handles validation for the group.
+    if (this.required && !this.checked && this.privateVariant !== 'minimal') {
+      this.#internals.setValidity(
+        { customError: Boolean(this.validityMessage), valueMissing: true },
+        ' ',
+        this.#inputElementRef.value,
+      );
+
+      return;
+    }
+
+    this.#internals.setValidity({});
   }
 
   #updateLabelOverflow() {

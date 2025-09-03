@@ -29,7 +29,7 @@ export default class Spinner extends LitElement {
     delegatesFocus: true,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 

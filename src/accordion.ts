@@ -38,7 +38,7 @@ export default class Accordion extends LitElement {
     delegatesFocus: true,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -270,7 +270,7 @@ export default class Accordion extends LitElement {
     const assignedNodes = this.#prefixIconSlotElementRef.value?.assignedNodes();
     this.hasPrefixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   /* v8 ignore start */
   #onSuffixIconsSlotChange() {
@@ -279,7 +279,7 @@ export default class Accordion extends LitElement {
 
     this.hasSuffixIcons = Boolean(assignedNodes && assignedNodes.length > 0);
   }
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   #onSummaryClick(event: MouseEvent) {
     // Canceling it prevents `details` from immediately showing and hiding
