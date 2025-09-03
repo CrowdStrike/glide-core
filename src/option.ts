@@ -13,8 +13,12 @@ import final from './library/final.js';
 import uniqueId from './library/unique-id.js';
 import Menu from './menu.js';
 import './options.js';
+import './checkbox.js';
 import Tooltip from './tooltip.js';
 import required from './library/required.js';
+
+// TODO: handle case where `multiple` and `href` are both set
+// TODO: stop propagation (and test) of input and change events from checkbox
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,6 +35,7 @@ declare global {
  * @readonly
  * @attr {string} [id]
  *
+ * @attr {boolean} [multiple=false]
  * @attr {'menuitem'|'option'} [role='menuitem']
  * @attr {boolean} [selected=false]
  *
@@ -46,6 +51,7 @@ declare global {
  * @slot {Element} [icon]
  * @slot {Menu} [submenu]
  *
+ * @fires {Event} click
  * @fires {Event} deselected
  * @fires {Event} disabled
  * @fires {Event} enabled
@@ -131,6 +137,9 @@ export default class Option extends LitElement {
   // `aria-activedescendant`.
   @property({ reflect: true })
   override readonly id: string = uniqueId();
+
+  @property({ reflect: true, type: Boolean })
+  multiple = false;
 
   @property({ type: Boolean, useDefault: true })
   get privateActive() {
@@ -266,6 +275,7 @@ export default class Option extends LitElement {
               'content-slot': true,
               fallback: !this.hasContentSlot,
               icon: this.hasIconSlot,
+              multiple: this.multiple,
               selected: this.selected && this.role === 'option',
               submenu: this.hasSubMenuSlot,
             })}
@@ -297,15 +307,36 @@ export default class Option extends LitElement {
               <!-- @type {Element} -->
             </slot>
 
-            <div
-              class=${classMap({
-                label: true,
-                bold: Boolean(this.description),
-              })}
-              ${ref(this.#labelElementRef)}
-            >
-              ${this.label}
-            </div>
+            ${when(
+              this.multiple,
+              () => {
+                return html`
+                  <div class="checkbox">
+                    <glide-core-checkbox
+                      label=${ifDefined(this.label)}
+                      hide-label
+                      .checked=${this.selected}
+                      ?disabled=${this.disabled}
+                      @click=${this.#onCheckboxClick}
+                    ></glide-core-checkbox>
+
+                    <span aria-hidden="true"> ${this.label} </span>
+                  </div>
+                `;
+              },
+              () => {
+                return html`<div
+                  class=${classMap({
+                    label: true,
+                    bold: Boolean(this.description),
+                  })}
+                  ${ref(this.#labelElementRef)}
+                >
+                  ${this.label}
+                </div>`;
+              },
+            )}
+
 
             <slot
               class=${classMap({
@@ -324,7 +355,10 @@ export default class Option extends LitElement {
             </slot>
 
             ${when(
-              this.selected && !this.disabled && this.role === 'option',
+              !this.multiple &&
+                this.selected &&
+                !this.disabled &&
+                this.role === 'option',
               () => {
                 return html`<div
                   class="checked-icon-container"
@@ -428,6 +462,16 @@ export default class Option extends LitElement {
         }),
       ].flatMap((element) => [element, ...element.querySelectorAll('*')]);
     }
+  }
+
+  #onCheckboxClick(event: Event) {
+    event.stopPropagation();
+
+    // TODO: say why. so consumers of option who cancel the event to prevent
+    // Menu from closing don't stop the checkbox from being clicked.
+    this.dispatchEvent(
+      new Event('click', { bubbles: true, cancelable: true, composed: true }),
+    );
   }
 
   #onContentSlotChange(event: Event) {

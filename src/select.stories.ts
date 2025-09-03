@@ -31,6 +31,7 @@ const meta: Meta = {
     'checkValidity()': '',
     disabled: false,
     loading: false,
+    multiple: false,
     name: '',
     offset: 4,
     open: false,
@@ -118,6 +119,14 @@ const meta: Meta = {
 // Add this attribute when asynchronously updating Options' default slot. Remove it after the slot
 // has been updated.
 `,
+        },
+      },
+    },
+    multiple: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: {
+          summary: 'boolean',
         },
       },
     },
@@ -440,11 +449,12 @@ const meta: Meta = {
       placement=${arguments_.placement === 'bottom-start'
         ? nothing
         : arguments_.placement}
-      .value=${arguments_.value}
       ?disabled=${arguments_.disabled}
       ?loading=${arguments_.loading}
+      ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}
       ?required=${arguments_.required}
+      .value=${arguments_.value}
     >
       <glide-core-icon-button label="Toggle" slot="target">
         <glide-core-example-icon name="chevron-down"></glide-core-example-icon>
@@ -537,6 +547,7 @@ export const WithGroups: StoryObj = {
         : arguments_.placement}
       ?disabled=${arguments_.disabled}
       ?loading=${arguments_.loading}
+      ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}
       ?required=${arguments_.required}
       .value=${arguments_.value}
@@ -657,6 +668,7 @@ export const WithIcons: StoryObj = {
         : arguments_.placement}
       ?disabled=${arguments_.disabled}
       ?loading=${arguments_.loading}
+      ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}
       ?required=${arguments_.required}
       .value=${arguments_.value}
