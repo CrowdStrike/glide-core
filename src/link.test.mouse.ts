@@ -4,17 +4,15 @@ import { expect, test } from './playwright/test.js';
 test(
   'dispatches a "click" event on click',
   { tag: '@mouse' },
-  async ({ mount, page }) => {
+  async ({ addEventListener, mount, page }) => {
     await mount(
       () => html`<glide-core-link label="Label" href="/"></glide-core-link>`,
     );
 
     const host = page.locator('glide-core-link');
 
-    await page.evaluate(() => {
-      document.addEventListener('click', (event) => {
-        event.preventDefault();
-      });
+    await addEventListener(host, 'click', {
+      preventDefault: true,
     });
 
     await expect(host).toDispatchEvents(
@@ -55,17 +53,15 @@ test(
 test(
   'dispatches a "click" event on `click()`',
   { tag: '@mouse' },
-  async ({ callMethod, mount, page }) => {
+  async ({ addEventListener, callMethod, mount, page }) => {
     await mount(
       () => html`<glide-core-link label="Label" href="/"></glide-core-link>`,
     );
 
     const host = page.locator('glide-core-link');
 
-    await page.evaluate(() => {
-      document.addEventListener('click', (event) => {
-        event.preventDefault();
-      });
+    await addEventListener(host, 'click', {
+      preventDefault: true,
     });
 
     await expect(host).toDispatchEvents(
