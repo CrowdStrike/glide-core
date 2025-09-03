@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 # `typecheck` so our ESLint rules are compiled to `./dist` before the linter runs.
 NODE_ENV=production pnpm typecheck
 pnpm lint-staged

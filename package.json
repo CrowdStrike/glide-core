@@ -94,7 +94,7 @@
     "typecheck:development": "tsc --erasableSyntaxOnly --outDir ./dist -w",
     "typecheck:production": "tsc --erasableSyntaxOnly --outDir ./dist",
     "postinstall": "is-ci || pnpm dlx playwright@1.54.2 install --no-shell --with-deps chromium firefox webkit",
-    "prepare": "is-ci || husky install",
+    "prepare": "is-ci || husky",
     "release": "changeset publish"
   },
   "dependencies": {
@@ -160,7 +160,7 @@
     "globals": "^15.13.0",
     "globby": "^14.0.2",
     "http-server": "^14.1.1",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "is-ci": "^4.1.0",
     "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
