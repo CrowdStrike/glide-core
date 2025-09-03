@@ -5323,6 +5323,16 @@
             },
             {
               "kind": "field",
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "multiple",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "privateActive",
               "attribute": "privateActive"
             },
@@ -5392,6 +5402,12 @@
           ],
           "events": [
             {
+              "name": "click",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
               "name": "disabled",
               "type": {
                 "text": "Event"
@@ -5456,6 +5472,14 @@
               },
               "readonly": true,
               "fieldName": "id"
+            },
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "multiple"
             },
             {
               "name": "privateActive",
@@ -6770,6 +6794,15 @@
             },
             {
               "kind": "field",
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "multiple",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -6939,6 +6972,13 @@
               },
               "default": "false",
               "fieldName": "loading"
+            },
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "multiple"
             },
             {
               "name": "name",

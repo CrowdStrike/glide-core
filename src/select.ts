@@ -20,6 +20,7 @@ declare global {
 /**
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [loading=false]
+ * @attr {boolean} [multiple]
  * @attr {string} [name='']
  * @attr {number} [offset=4]
  * @attr {boolean} [open=false]
@@ -83,6 +84,24 @@ export default class Select
 
   @property({ reflect: true, type: Boolean })
   loading = false;
+
+  /**
+   * @default
+   */
+  @property({ reflect: true, type: Boolean })
+  get multiple(): boolean {
+    return this.#isMultiple;
+  }
+
+  set multiple(isMultiple: boolean) {
+    this.#isMultiple = isMultiple;
+
+    if (this.#optionElements) {
+      for (const option of this.#optionElements) {
+        option.multiple = isMultiple;
+      }
+    }
+  }
 
   @property({ reflect: true, useDefault: true })
   name = '';
@@ -168,7 +187,7 @@ export default class Select
   }
 
   set value(value: string[]) {
-    if (value.length > 1) {
+    if (!this.multiple && value.length > 1) {
       throw this.#tooManySelectedOptionsError;
     }
 
@@ -245,7 +264,7 @@ export default class Select
     // If no options are selected, then it's obvious that the consumer's intention is
     // to select options based on the initial `value`. So we proceed.
     if (hasNoSelectedOptions) {
-      if (this.value.length > 1) {
+      if (!this.multiple && this.value.length > 1) {
         throw this.#tooManySelectedOptionsError;
       }
 
@@ -392,6 +411,9 @@ export default class Select
   @state()
   private isCheckingValidity = false;
 
+  @state()
+  private selectedOptions: Option[] = [];
+
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #hasCustomValidity = false;
@@ -399,6 +421,8 @@ export default class Select
   #hasEmittedAnInvalidEvent = false;
 
   #internals: ElementInternals;
+
+  #isMultiple = false;
 
   #isOpen = false;
 
@@ -465,8 +489,12 @@ export default class Select
       return;
     }
 
-    if (event.target instanceof Option && !event.target.selected) {
-      if (this.#optionElements) {
+    if (this.multiple) {
+      event.preventDefault();
+    }
+
+    if (event.target instanceof Option) {
+      if (!this.multiple && !event.target.selected && this.#optionElements) {
         for (const option of this.#optionElements) {
           if (option.selected) {
             option.selected = false;
@@ -474,7 +502,7 @@ export default class Select
         }
       }
 
-      if (this.#menuElementRef.value) {
+      if (this.#menuElementRef.value && !this.multiple) {
         // Menu waits a tick or so before closing after an Option is clicked to give its
         // consumers a chance to cancel the event and prevent Menu from closing.
         //
@@ -489,8 +517,22 @@ export default class Select
         this.#menuElementRef.value.open = false;
       }
 
-      event.target.selected = true;
-      this.#value = [event.target.value];
+      if (this.multiple && event.target.selected) {
+        event.target.selected = false;
+
+        this.selectedOptions = this.selectedOptions.filter(
+          (option) => option !== event.target,
+        );
+
+        this.#value = this.selectedOptions.map(({ value }) => value);
+      } else if (this.multiple) {
+        this.selectedOptions.push(event.target);
+        event.target.selected = true;
+        this.#value = [...this.#value, event.target.value];
+      } else {
+        event.target.selected = true;
+        this.#value = [event.target.value];
+      }
 
       this.dispatchEvent(
         new Event('input', {
@@ -546,7 +588,12 @@ export default class Select
       return;
     }
 
-    if (event.target instanceof Option && this.#optionElements) {
+    // TODO: what about multiple case?
+    if (
+      !this.multiple &&
+      event.target instanceof Option &&
+      this.#optionElements
+    ) {
       for (const option of this.#optionElements) {
         if (option !== event.target) {
           option.selected = false;
@@ -564,7 +611,7 @@ export default class Select
       this.#optionElements &&
       this.#optionElements.filter(({ selected }) => selected);
 
-    if (selectedOptions && selectedOptions.length > 1) {
+    if (!this.multiple && selectedOptions && selectedOptions.length > 1) {
       throw this.#tooManySelectedOptionsError;
     }
 
@@ -576,6 +623,7 @@ export default class Select
 
     if (this.#optionElements) {
       for (const option of this.#optionElements) {
+        option.multiple = this.multiple;
         option.role = 'option';
       }
     }

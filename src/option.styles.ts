@@ -87,6 +87,12 @@ export default [
       }
     }
 
+    .checkbox {
+      align-items: center;
+      column-gap: var(--glide-core-spacing-base-xs);
+      display: flex;
+    }
+
     .label {
       overflow-x: hidden;
       text-overflow: ellipsis;

@@ -591,7 +591,7 @@ export default class Menu extends LitElement {
       event.target instanceof Option || event.target instanceof Options;
 
     if (!isTargetFocused && !this.#hasVoiceOverMovedFocusToOptionsOrAnOption) {
-      this.open = false;
+      // this.open = false;
     }
   }
 
