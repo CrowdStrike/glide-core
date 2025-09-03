@@ -381,6 +381,7 @@ export default defineConfig([
       'src/button.test.*.ts',
       'src/checkbox.test.*.ts',
       'src/drawer.test.*.ts',
+      'src/form-controls-layout.test.*.ts',
       'src/icon-button.test.*.ts',
       'src/inline-alert.test.*.ts',
       'src/link.test.*.ts',
