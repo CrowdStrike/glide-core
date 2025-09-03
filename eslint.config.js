@@ -382,6 +382,7 @@ export default defineConfig([
       'src/checkbox.test.*.ts',
       'src/icon-button.test.*.ts',
       'src/inline-alert.test.*.ts',
+      'src/link.test.*.ts',
       'src/select.test.*.ts',
       'src/spinner.test.*.ts',
       'src/tag.test.*.ts',
