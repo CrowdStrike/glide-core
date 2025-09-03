@@ -209,7 +209,7 @@ export default test.extend<{
 
     // As you'd expect, only Chromium supports coverage collection via V8. If, for some
     // reason, we want to collect coverage for other browsers, we can instrument our
-    // code using Instabul. But coverage collection only in Chromium should suffice.
+    // code using Istanbul. But coverage collection only in Chromium should suffice.
     if (browserName !== 'chromium' || process.env.PLAYWRIGHT_SKIP_COVERAGE) {
       return use(page);
     }
