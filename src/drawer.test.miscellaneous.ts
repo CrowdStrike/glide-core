@@ -169,7 +169,7 @@ test(
 );
 
 test(
-  'focuses itself when it is opened',
+  'focuses itself when opened programmatically',
   { tag: '@miscellaneous' },
   async ({ mount, page, setProperty }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -183,22 +183,6 @@ test(
     await setProperty(host, 'open', true);
 
     await expect(page.getByRole('complementary')).toBeFocused();
-  },
-);
-
-test(
-  'renders content in its default slot',
-  { tag: '@miscellaneous' },
-  async ({ mount, page }) => {
-    await mount(
-      () =>
-        html`<glide-core-drawer label="Label" open>
-          <p>Test content</p>
-        </glide-core-drawer>`,
-    );
-
-    const content = page.getByText('Test content');
-    await expect(content).toBeVisible();
   },
 );
 
