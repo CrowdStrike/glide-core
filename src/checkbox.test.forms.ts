@@ -30,6 +30,7 @@ test(
             label="Label"
             checked
             indeterminate
+            required
           ></glide-core-checkbox>
         </form>
       `,
@@ -37,6 +38,7 @@ test(
 
     const host = page.locator('glide-core-checkbox');
     const form = page.locator('form');
+    const checkbox = page.getByRole('checkbox');
 
     await setProperty(host, 'checked', false);
     await setProperty(host, 'indeterminate', false);
@@ -44,6 +46,9 @@ test(
 
     await expect(host).toHaveJSProperty('checked', true);
     await expect(host).toHaveJSProperty('indeterminate', true);
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(checkbox).toHaveJSProperty('ariaInvalid', 'false');
   },
 );
 
@@ -206,6 +211,66 @@ test(
     const form = page.locator('form');
 
     await expect(form).toHaveFormData('name', null);
+  },
+);
+
+test(
+  'has no validation feedback when minimal',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            private-variant="minimal"
+            required
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-checkbox');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+
+    await callMethod(host, 'setCustomValidity', 'message');
+    await callMethod(host, 'reportValidity');
+
+    await expect(host).not.toHaveAttribute('aria-invalid');
+    await expect(validityMessage).toBeHidden();
+  },
+);
+
+test(
+  'is valid when checked and required',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-checkbox
+            label="Label"
+            checked
+            required
+          ></glide-core-checkbox>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-checkbox');
+    const checkbox = page.getByRole('checkbox');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(checkbox).toHaveJSProperty('ariaInvalid', 'false');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
   },
 );
 
@@ -520,7 +585,7 @@ test(
 test(
   'supports `setValidity()`',
   { tag: '@forms' },
-  async ({ callMethod, mount, page }) => {
+  async ({ callMethod, mount, page, setProperty }) => {
     await mount(
       () => html`
         <form>
@@ -537,6 +602,7 @@ test(
     const validityMessage = page.locator('[data-test="validity-message"]');
 
     await callMethod(host, 'setValidity', { customError: true }, 'message');
+    await setProperty(host, 'checked', false);
     await callMethod(host, 'reportValidity');
 
     await expect(host).toHaveJSProperty('validity.valid', false);

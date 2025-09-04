@@ -29,7 +29,7 @@ test(
     await mount(
       () => html`
         <form>
-          <glide-core-select open>
+          <glide-core-select open required>
             <button slot="target">Target</button>
 
             <glide-core-options>
@@ -47,16 +47,20 @@ test(
     );
 
     const host = page.locator('glide-core-select');
+    const target = page.getByRole('button');
     const form = page.locator('form');
     const options = page.getByRole('option');
 
     await setProperty(options.nth(0), 'selected', false);
-    await setProperty(options.nth(1), 'selected', true);
+    await setProperty(options.nth(1), 'selected', false);
     await callMethod(form, 'reset');
 
     await expect(options.nth(0)).toHaveJSProperty('selected', true);
     await expect(options.nth(1)).toHaveJSProperty('selected', false);
     await expect(host).toHaveJSProperty('value', ['one']);
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(target).toHaveJSProperty('ariaInvalid', 'false');
   },
 );
 

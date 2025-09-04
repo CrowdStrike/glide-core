@@ -45,7 +45,7 @@ export default class Button extends LitElement {
     delegatesFocus: true,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -206,12 +206,12 @@ export default class Button extends LitElement {
     const assignedNodes = this.#prefixIconSlotElementRef.value?.assignedNodes();
     this.hasPrefixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   /* v8 ignore start */
   #onSuffixIconSlotChange() {
     const assignedNodes = this.#suffixIconSlotElementRef.value?.assignedNodes();
     this.hasSuffixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
-  /* v8 ignore end */
+  /* v8 ignore stop */
 }
