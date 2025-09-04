@@ -13,7 +13,9 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-form-controls-layout');
 
-  await expect(host).toBeDefined('glide-core-form-controls-layout');
+  await expect(host).toBeInTheCustomElementRegistry(
+    'glide-core-form-controls-layout',
+  );
 });
 
 test(

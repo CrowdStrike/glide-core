@@ -8,7 +8,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-spinner');
 
-  await expect(host).toBeDefined('glide-core-spinner');
+  await expect(host).toBeInTheCustomElementRegistry('glide-core-spinner');
 });
 
 test(

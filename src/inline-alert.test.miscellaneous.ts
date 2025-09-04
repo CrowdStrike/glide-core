@@ -11,7 +11,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-inline-alert');
 
-  await expect(host).toBeDefined('glide-core-inline-alert');
+  await expect(host).toBeInTheCustomElementRegistry('glide-core-inline-alert');
 });
 
 test(

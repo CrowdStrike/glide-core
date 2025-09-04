@@ -9,7 +9,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-checkbox');
 
-  await expect(host).toBeDefined('glide-core-checkbox');
+  await expect(host).toBeInTheCustomElementRegistry('glide-core-checkbox');
 });
 
 test('can be disabled', { tag: '@miscellaneous' }, async ({ mount, page }) => {

@@ -395,6 +395,7 @@ export default defineConfig([
       'playwright/no-get-by-title': 'error',
       'playwright/no-hooks': 'error',
       'playwright/no-slowed-test': 'error',
+      'playwright/no-useless-await': 'error',
       'playwright/prefer-comparison-matcher': 'error',
       'playwright/prefer-equality-matcher': 'error',
       'playwright/prefer-hooks-in-order': 'error',
