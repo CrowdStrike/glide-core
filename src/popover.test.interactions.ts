@@ -4,12 +4,13 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { click } from './library/mouse.js';
 import Popover from './popover.js';
 import requestIdleCallback from './library/request-idle-callback.js';
+import './popover.container.js';
 
 it('opens when opened programmatically', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -21,14 +22,19 @@ it('opens when opened programmatically', async () => {
     '[data-test="popover"]',
   );
 
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
   expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('opens when open and enabled programmatically', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover open disabled>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -40,14 +46,19 @@ it('opens when open and enabled programmatically', async () => {
     '[data-test="popover"]',
   );
 
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
   expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('closes when open and disabled programmatically', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -61,14 +72,18 @@ it('closes when open and disabled programmatically', async () => {
     '[data-test="popover"]',
   );
 
+  const target = host.querySelector('button');
+
   expect(popover?.checkVisibility()).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(target?.getAttribute('aria-describedby')).to.be.null;
 });
 
 it('does not open when opened programmatically and disabled', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover disabled>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -80,14 +95,18 @@ it('does not open when opened programmatically and disabled', async () => {
     '[data-test="popover"]',
   );
 
+  const target = host.querySelector('button');
+
   expect(popover?.checkVisibility()).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(target?.getAttribute('aria-describedby')).to.be.null;
 });
 
 it('closes on Escape', async () => {
   const host = await fixture(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -96,16 +115,22 @@ it('closes on Escape', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'Escape' });
 
-  expect(
-    host.shadowRoot?.querySelector('[data-test="popover"]')?.checkVisibility(),
-  ).to.be.false;
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="popover"]',
+  );
+
+  const target = host.querySelector('button');
+
+  expect(popover?.checkVisibility()).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(target?.getAttribute('aria-describedby')).to.be.null;
 });
 
 it('opens on click', async () => {
   const host = await fixture(
     html`<glide-core-popover>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -117,14 +142,19 @@ it('opens on click', async () => {
     '[data-test="popover"]',
   );
 
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
   expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('opens on Enter', async () => {
   const host = await fixture(
     html`<glide-core-popover>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -137,14 +167,19 @@ it('opens on Enter', async () => {
     '[data-test="popover"]',
   );
 
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
   expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('opens on Space', async () => {
   const host = await fixture(
     html`<glide-core-popover>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -157,14 +192,19 @@ it('opens on Space', async () => {
     '[data-test="popover"]',
   );
 
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
   expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('remains open when its popover is clicked', async () => {
   const host = await fixture(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -181,14 +221,19 @@ it('remains open when its popover is clicked', async () => {
   defaultSlot?.dispatchEvent(new PointerEvent('mouseup', { bubbles: true }));
   defaultSlot?.dispatchEvent(new PointerEvent('click', { bubbles: true }));
 
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
   expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('remains open when its arrow is clicked', async () => {
   const host = await fixture(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -204,14 +249,20 @@ it('remains open when its arrow is clicked', async () => {
   arrow?.dispatchEvent(new PointerEvent('mouseup', { bubbles: true }));
   arrow?.dispatchEvent(new PointerEvent('click', { bubbles: true }));
 
-  expect(arrow?.checkVisibility()).to.be.true;
+  const popover = host.shadowRoot?.querySelector('[data-test="popover"]');
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
+  expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('remains closed on click when disabled', async () => {
   const host = await fixture(
     html`<glide-core-popover disabled>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -221,14 +272,18 @@ it('remains closed on click when disabled', async () => {
     '[data-test="popover"]',
   );
 
+  const target = host.querySelector('button');
+
   expect(popover?.checkVisibility()).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(target?.getAttribute('aria-describedby')).to.be.null;
 });
 
 it('remains open when its target is clicked and the event is canceled', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -245,15 +300,19 @@ it('remains open when its target is clicked and the event is canceled', async ()
     '[data-test="popover"]',
   );
 
+  const container = host.querySelector('glide-core-popover-container');
+
   expect(host.open).to.be.true;
   expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('remains closed when its target is clicked and the event is canceled', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -272,33 +331,38 @@ it('remains closed when its target is clicked and the event is canceled', async 
 
   expect(host.open).to.be.false;
   expect(popover?.checkVisibility()).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(target?.getAttribute('aria-describedby')).to.be.null;
 });
 
 it('closes when something outside of it is clicked', async () => {
   const host = await fixture(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
   await requestIdleCallback(); // Wait for Floating UI
-
   await click(document.body);
 
   const popover = host.shadowRoot?.querySelector('[data-test="popover"]');
-  assert(popover);
+  const target = host.querySelector('button');
 
-  expect(popover.checkVisibility()).to.not.be.ok;
+  expect(popover?.checkVisibility()).to.not.be.ok;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(target?.getAttribute('aria-describedby')).to.be.null;
 });
 
 it('does not close when a slotted `<label>` is clicked', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover open>
-      <label for="input">Label</label>
-      <input id="input" />
-
       <button slot="target">Target</button>
+
+      <glide-core-popover-container>
+        <label for="input">Label</label>
+        <input id="input" />
+      </glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -307,14 +371,40 @@ it('does not close when a slotted `<label>` is clicked', async () => {
   const label = host.querySelector('label');
   await click(label);
 
+  const popover = host.shadowRoot?.querySelector('[data-test="popover"]');
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
   expect(host.open).to.be.true;
+  expect(popover?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(target?.getAttribute('aria-describedby')).to.equal(container?.id);
+});
+
+it('sets `aria-haspopup` on its target when role of its container changes', async () => {
+  const host = await fixture<Popover>(
+    html`<glide-core-popover open>
+      <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
+    </glide-core-popover>`,
+  );
+
+  await requestIdleCallback(); // Wait for Floating UI
+
+  const target = host.querySelector('button');
+  const container = host.querySelector('glide-core-popover-container');
+
+  assert(container);
+  container.role = 'dialog';
+
+  expect(target?.ariaHasPopup).to.equal('dialog');
 });
 
 it('has `this.#cleanUpFloatingUi?.()` coverage', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -330,8 +420,8 @@ it('has `this.#cleanUpFloatingUi?.()` coverage', async () => {
 it('has `set offset(offset: number)` coverage', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover open>
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -351,8 +441,8 @@ it('has `middlewareData.arrow.y` coverage', async () => {
       })}
       open
     >
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
@@ -362,8 +452,8 @@ it('has `middlewareData.arrow.y` coverage', async () => {
 it('has `#show()` coverage', async () => {
   const host = await fixture<Popover>(
     html`<glide-core-popover placement="right">
-      Popover
       <button slot="target">Target</button>
+      <glide-core-popover-container>Popover</glide-core-popover-container>
     </glide-core-popover>`,
   );
 
