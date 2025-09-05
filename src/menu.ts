@@ -798,7 +798,9 @@ export default class Menu extends LitElement {
   // On both slots because VoiceOver can focus Options, causing them to emit
   // "keydown" events.
   #onTargetAndDefaultSlotKeyDown(event: KeyboardEvent) {
-    const isOwnTarget = event.target === this.#targetElement;
+    const isOwnTarget =
+      event.target instanceof Element &&
+      this.#targetElement?.contains(event.target);
 
     const isChildOfOptions =
       event.target instanceof Element &&
