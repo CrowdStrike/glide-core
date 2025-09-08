@@ -54,7 +54,11 @@ export default class TabGroup extends LitElement {
       @keydown=${this.#onComponentKeydown}
       ${ref(this.#componentElementRef)}
     >
-      <div class="tab-container" data-test="tab-container">
+      <div
+        class="tab-container"
+        data-test="tab-container"
+        ${onResize(this.#onTabListResize.bind(this))}
+      >
         ${when(
           this.isShowOverflowButtons,
           () => html`
@@ -82,7 +86,6 @@ export default class TabGroup extends LitElement {
           tabindex="-1"
           @focusout=${this.#onTabListFocusout}
           @scroll=${this.#setOverflowButtonsState}
-          ${onResize(this.#onTabListResize.bind(this))}
           ${ref(this.#tabListElementRef)}
         >
           <slot
@@ -100,6 +103,7 @@ export default class TabGroup extends LitElement {
               animated: this.hasUpdated,
             })}
             data-test="selected-tab-indicator"
+            @transitionend=${this.#onSelectedTabIndicatorTransitionEnd}
             ${ref(this.#selectedTabIndicatorElementRef)}
           ></div>
         </div>
@@ -308,6 +312,10 @@ export default class TabGroup extends LitElement {
         top: 0,
       });
     }
+  }
+
+  #onSelectedTabIndicatorTransitionEnd() {
+    this.#setOverflowButtonsState();
   }
 
   #onTabListFocusout() {
