@@ -100,6 +100,7 @@ export default class TabGroup extends LitElement {
               animated: this.hasUpdated,
             })}
             data-test="selected-tab-indicator"
+            @transitionstart=${this.#onSelectedTabIndicatorTransition}
             ${ref(this.#selectedTabIndicatorElementRef)}
           ></div>
         </div>
@@ -308,6 +309,10 @@ export default class TabGroup extends LitElement {
         top: 0,
       });
     }
+  }
+
+  #onSelectedTabIndicatorTransition() {
+    this.#setOverflowButtonsState();
   }
 
   #onTabListFocusout() {
