@@ -226,7 +226,7 @@ export default [
         would mean single or double-character tags would have whitespace between them.
         It's equally unfortunate that Dropdown has to know anything about Tag's width.
       */
-      grid-auto-columns: minmax(3.5rem, auto);
+      grid-auto-columns: minmax(5rem, auto);
       grid-auto-flow: column;
       list-style-type: none;
       margin-block: 0;

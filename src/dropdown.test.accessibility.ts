@@ -165,6 +165,7 @@ test.describe('filter("o")', () => {
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
       - text: Label
       - combobox "Label 3 items" [expanded]
+      - status "3 items"
       - listbox "o":
         - option "One"
         - option "Two"
@@ -205,7 +206,7 @@ test.describe('filter("o")', () => {
       - text: Label
       - combobox "Label 2 items" [expanded]
       - status "2 items"
-      - listbox:
+      - listbox "o":
         - option "One"
         - option "Two"
     `);

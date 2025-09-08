@@ -79,7 +79,9 @@ export default [
     }
 
     .label {
+      min-inline-size: 4.5ch;
       overflow: hidden;
+      text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
