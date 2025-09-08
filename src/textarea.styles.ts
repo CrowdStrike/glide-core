@@ -90,16 +90,13 @@ export default [
       &:focus-visible:not([readonly]) {
         &:not(.error) {
           border-color: var(--glide-core-color-interactive-stroke-focus);
-          box-shadow:
-            0 0 0 1px var(--glide-core-color-interactive-stroke-focus),
-            1px 1px 4px -1px var(--glide-core-color-interactive-stroke-focus);
+          box-shadow: inset 0 0 0 1px
+            var(--glide-core-color-interactive-stroke-focus);
         }
 
         &.error {
-          box-shadow:
-            0 0 0 1px var(--glide-core-color-advisory-stroke-error-primary),
-            1px 1px 4px -1px
-              var(--glide-core-color-advisory-stroke-error-primary);
+          box-shadow: inset 0 0 0 1px
+            var(--glide-core-color-advisory-stroke-error-primary);
         }
       }
 
