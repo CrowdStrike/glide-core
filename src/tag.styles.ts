@@ -27,6 +27,10 @@ export default [
       }
     }
 
+    :host {
+      --max-inline-size: max-content;
+    }
+
     .component {
       align-items: center;
       background-color: var(
@@ -44,7 +48,7 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       justify-content: center;
       line-height: 1;
-      max-inline-size: max-content;
+      max-inline-size: var(--max-inline-size);
       opacity: 1;
       padding-inline: var(--glide-core-spacing-base-sm);
 
@@ -80,6 +84,7 @@ export default [
 
     .label {
       overflow: hidden;
+      text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
     }

@@ -8791,6 +8791,12 @@
           "kind": "class",
           "description": "",
           "name": "Tag",
+          "cssProperties": [
+            {
+              "name": "--max-inline-size",
+              "default": "max-content"
+            }
+          ],
           "slots": [
             {
               "name": "icon",

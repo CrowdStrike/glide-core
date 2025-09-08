@@ -739,6 +739,7 @@ export default class Dropdown extends LitElement implements FormControl {
                           data-id=${option.id}
                           label=${ifDefined(option.label)}
                           removable
+                          style="--max-inline-size: none"
                           ?disabled=${this.disabled || this.readonly}
                           ?private-editable=${option.editable}
                           ?private-readonly=${this.readonly}

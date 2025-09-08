@@ -216,17 +216,11 @@ export default [
       gap: var(--glide-core-spacing-base-xs);
 
       /*
-        Tags will shrink down to zero and never overflow if they don't have a minimum
-        width. If they don't overflow, they'll remain visible and additionally won't be
-        included in the overflow count text. Thus a minimum width.
-
-        "3.5rem" is the size of a tag with only a single character. Ideally, its
-        minimum would be wider so a few characters are always visible. But a single-
-        character tag is possible and even likely. Setting a higher minimum width
-        would mean single or double-character tags would have whitespace between them.
-        It's equally unfortunate that Dropdown has to know anything about Tag's width.
+        Tags will overflow their columns if they don't have a minimum width. "5rem" is
+        roughly the size of a Tag with a few characters in it. That Dropdown has to know
+        anything about Tag's internal width is unfortunate.
       */
-      grid-auto-columns: minmax(3.5rem, auto);
+      grid-auto-columns: minmax(5rem, auto);
       grid-auto-flow: column;
       list-style-type: none;
       margin-block: 0;
