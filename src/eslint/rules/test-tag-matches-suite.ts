@@ -32,7 +32,17 @@ export const testTagMatchesSuite = createRule({
 
           const base = path.parse(context.filename).base;
           const isTest = base.includes('__placeholder__');
-          const suite = isTest ? 'eslint' : base.split('.').at(-2);
+
+          let suite = '';
+
+          if (isTest) {
+            suite = 'eslint';
+          } else {
+            const pathParts = base.split('.');
+            const index = pathParts.indexOf('test');
+
+            suite = pathParts.at(index + 1) ?? '';
+          }
 
           if (details?.type === AST_NODE_TYPES.ObjectExpression) {
             const tag = details.properties.find((property) => {
