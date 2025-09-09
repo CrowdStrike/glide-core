@@ -12,7 +12,7 @@ export default [
   `,
   css`
     .component {
-      --private-min-inline-size: 6.25rem;
+      --private-min-inline-size: 9.375rem;
 
       font-family: var(--glide-core-typography-family-primary);
     }
