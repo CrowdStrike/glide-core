@@ -27,31 +27,50 @@ export default expect.extend({
       // Before you scoff, as I did, at adding a property to the window, consider how
       // useful this matcher is for testers. And consider whether this window nonsense
       // will be flaky or unreliable in any way.
-      const windowWithEvents = window as typeof window & {
-        events: SerializableEvent[];
-      };
+      const windowWithEventsAndRemoveEventListeners =
+        window as typeof window & {
+          events: SerializableEvent[];
+          removeEventListeners: () => void;
+        };
 
-      windowWithEvents.events = [];
+      const removeEventListeners: (() => void)[] = [];
+
+      windowWithEventsAndRemoveEventListeners.events = [];
+
+      // Playwright tests are isolated. But a test can call this matcher multiple times.
+      // So we remove every event listener before we return. If we don't, the previous
+      // listener will continue adding events to `window.events.`
+      windowWithEventsAndRemoveEventListeners.removeEventListeners = () => {
+        for (const listener of removeEventListeners) {
+          listener();
+        }
+      };
 
       // A Set to deduplicate events. So only one listener is added per event type.
       const eventTypes = new Set<string>(
         expectedEvents.map(({ type }) => type),
       );
 
-      for (const type of eventTypes) {
-        element.addEventListener(type, (event: Event) => {
-          const windowWithEvents = window as typeof window & {
-            events: SerializableEvent[];
-          };
+      const handler = (event: Event) => {
+        const windowWithEvents = window as typeof window & {
+          events: SerializableEvent[];
+        };
 
-          windowWithEvents.events.push({
-            bubbles: event.bubbles,
-            cancelable: event.cancelable,
-            composed: event.composed,
-            defaultPrevented: event.defaultPrevented,
-            timeStamp: event.timeStamp,
-            type: event.type,
-          });
+        windowWithEvents.events.push({
+          bubbles: event.bubbles,
+          cancelable: event.cancelable,
+          composed: event.composed,
+          defaultPrevented: event.defaultPrevented,
+          timeStamp: event.timeStamp,
+          type: event.type,
+        });
+      };
+
+      for (const type of eventTypes) {
+        element.addEventListener(type, handler);
+
+        removeEventListeners.push(() => {
+          element.removeEventListener(type, handler);
         });
       }
     }, expectedEvents);
@@ -74,11 +93,15 @@ export default expect.extend({
 
     const receivedEvents = await locator
       .evaluate(() => {
-        const windowWithEvents = window as typeof window & {
-          events: SerializableEvent[];
-        };
+        const windowWithEventsAndRemoveEventListeners =
+          window as typeof window & {
+            events: SerializableEvent[];
+            removeEventListeners: () => void;
+          };
 
-        return windowWithEvents.events;
+        windowWithEventsAndRemoveEventListeners.removeEventListeners();
+
+        return windowWithEventsAndRemoveEventListeners.events;
       })
       .then((receivedEvents) => {
         return (
