@@ -126,9 +126,11 @@ export default [
       }
 
       &:hover {
-        &::slotted(*) {
-          color: var(--glide-core-color-interactive-text-link--hover);
-          opacity: 1;
+        &:not(.disabled) {
+          &::slotted(*) {
+            color: var(--glide-core-color-interactive-text-link--hover);
+            opacity: 1;
+          }
         }
       }
 
