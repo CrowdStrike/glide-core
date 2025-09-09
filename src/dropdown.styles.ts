@@ -220,7 +220,7 @@ export default [
         roughly the size of a Tag with a few characters in it. That Dropdown has to know
         anything about Tag's internal width is unfortunate.
       */
-      grid-auto-columns: minmax(5rem, auto);
+      grid-auto-columns: minmax(5.5rem, auto);
       grid-auto-flow: column;
       list-style-type: none;
       margin-block: 0;
