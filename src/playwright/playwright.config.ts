@@ -52,7 +52,6 @@ export default defineConfig({
           testMatch: [
             // Migrated
             'src/*.test.accessibility.ts',
-            'src/*.*.test.accessibility.ts',
             'src/accordion.test.*.ts',
             'src/button.test.*.ts',
             'src/checkbox.test.*.ts',
