@@ -216,9 +216,9 @@ export default [
       gap: var(--glide-core-spacing-base-xs);
 
       /*
-        Tags will overflow their columns if they don't have a minimum width. "5rem" is
-        roughly the size of a Tag with a few characters in it. That Dropdown has to know
-        anything about Tag's internal width is unfortunate.
+        Tags will overflow their columns if they don't have a minimum width. "5.5rem"
+        is roughly the size of a Tag with a few characters in it. That Dropdown has
+        to know anything about Tag's internal width is unfortunate.
       */
       grid-auto-columns: minmax(5.5rem, auto);
       grid-auto-flow: column;
