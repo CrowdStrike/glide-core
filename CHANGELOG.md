@@ -1,5 +1,38 @@
 # @crowdstrike/glide-core
 
+## 0.34.1
+
+### Patch Changes
+
+- [#1117](https://github.com/CrowdStrike/glide-core/pull/1117) [`cd0fd8a`](https://github.com/CrowdStrike/glide-core/commit/cd0fd8a735af48642293477d9d47550848d69dba) Thanks [@clintcs](https://github.com/clintcs)! - Toast's `label` and `variant` are no longer announced twice by screenreaders.
+
+- [#1144](https://github.com/CrowdStrike/glide-core/pull/1144) [`d15a70e`](https://github.com/CrowdStrike/glide-core/commit/d15a70e37fde492d270d85e6c5c4410d163b3893) Thanks [@clintcs](https://github.com/clintcs)! - The minimum width of filterable Dropdown's input field has been moderately decreased.
+
+- [#1142](https://github.com/CrowdStrike/glide-core/pull/1142) [`63b9cf6`](https://github.com/CrowdStrike/glide-core/commit/63b9cf65bc4dc5c2b9e3911686bb7a3c5f98d1c6) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Dropdown, Input, and Textarea focus states were updated so their shadows aren't clipped when in a container without padding.
+
+- [#1143](https://github.com/CrowdStrike/glide-core/pull/1143) [`dbbbf09`](https://github.com/CrowdStrike/glide-core/commit/dbbbf092b12fb27184ed80271ecad88b1dace128) Thanks [@clintcs](https://github.com/clintcs)! - - Multiselect Dropdown's tags now have a slightly longer minimum width.
+
+  - Tag now has a `--max-inline-size` CSS custom property.
+
+- [#1141](https://github.com/CrowdStrike/glide-core/pull/1141) [`b4d8800`](https://github.com/CrowdStrike/glide-core/commit/b4d88002b15959008c97d9834ac98aba16839c43) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Fixed an issue where the overflow buttons would appear when transitioning from a Tab with many characters to one with few.
+
+- [#1139](https://github.com/CrowdStrike/glide-core/pull/1139) [`6fe1c44`](https://github.com/CrowdStrike/glide-core/commit/6fe1c44f4d65fafe1410d713c0cace4829e63f19) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Menu options are now keyboard navigable when the target is wrapped in a Tooltip.
+
+  ```html
+  <glide-core-menu>
+    <glide-core-tooltip label="Label" slot="target">
+      <glide-core-icon-button label="Toggle" slot="target">
+        <glide-core-example-icon name="three-dots"></glide-core-example-icon>
+      </glide-core-icon-button>
+    </glide-core-tooltip>
+
+    <glide-core-options>
+      <glide-core-option label="One"></glide-core-option>
+      <glide-core-option label="Two"></glide-core-option>
+    </glide-core-options>
+  </glide-core-menu>
+  ```
+
 ## 0.34.0
 
 ### Minor Changes
