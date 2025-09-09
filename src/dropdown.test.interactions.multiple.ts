@@ -988,8 +988,8 @@ it('updates its tags and overflow count when options are selected', async () => 
     '[data-test="tag-overflow-count"]',
   );
 
-  expect(tagContainers?.length).to.equal(2);
-  expect(tagOverflowCount?.textContent?.trim()).to.equal('2');
+  expect(tagContainers?.length).to.equal(1);
+  expect(tagOverflowCount?.textContent?.trim()).to.equal('3');
 });
 
 it('updates its tags and overflow count when options are selected programmatically', async () => {

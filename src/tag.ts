@@ -27,6 +27,8 @@ declare global {
  *
  * @slot {Element} [icon]
  *
+ * @cssprop [--max-inline-size=max-content]
+ *
  * @fires {Event} edit
  * @fires {Event} remove
  */
