@@ -330,7 +330,7 @@ export default [
       font-family: var(--glide-core-typography-family-primary);
       font-size: inherit;
       inline-size: 100%;
-      min-inline-size: 3.75rem;
+      min-inline-size: 3.125rem;
       padding-block-end: 0;
       padding-inline: 0;
 
