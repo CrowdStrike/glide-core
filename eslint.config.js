@@ -385,6 +385,7 @@ export default defineConfig([
       'src/icon-button.test.*.ts',
       'src/inline-alert.test.*.ts',
       'src/link.test.*.ts',
+      'src/option.test.*.ts',
       'src/select.test.*.ts',
       'src/spinner.test.*.ts',
       'src/tag.test.*.ts',
@@ -432,6 +433,7 @@ export default defineConfig([
       '@crowdstrike/glide-core/no-to-have-class': 'error',
       '@crowdstrike/glide-core/no-tags-in-test-names': 'error',
       '@crowdstrike/glide-core/use-extended-playwright': 'error',
+      'lit-a11y/click-events-have-key-events': 'off',
     },
   },
   {

@@ -57,6 +57,8 @@ export const expect = mergeExpects(
       cancelable?: boolean;
       composed?: boolean;
       defaultPrevented?: boolean;
+      /** The ID attribute of the target. */
+      target?: string;
       type: string;
     }[],
   ) => Promise<void>;

@@ -57,12 +57,12 @@ declare global {
 @customElement('glide-core-option')
 @final
 export default class Option extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore stop */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -481,11 +481,13 @@ export default class Option extends LitElement {
     this.#updateContentSlotOverflow();
   }
 
+  /* v8 ignore start - Better covered by visual tests */
   #onIconSlotChange(event: Event) {
     if (event.target instanceof HTMLSlotElement) {
       this.hasIconSlot = event.target.assignedElements().length > 0;
     }
   }
+  /* v8 ignore stop */
 
   #onSubmenuSlotChange(event: Event) {
     if (event.target instanceof HTMLSlotElement) {
@@ -501,11 +503,14 @@ export default class Option extends LitElement {
     // own sub-Menu shouldn't change visually. As long as the Option's own
     // sub-Menu is open, the sub-Menu's target should appear open. Similar for
     // when a nested sub-Menu is closed.
+
+    /* v8 ignore start - Better covered by visual tests */
     if (isOwnSubmenu && event.target instanceof Menu && event.target.open) {
       this.isSubmenuOpen = true;
     } else if (isOwnSubmenu) {
       this.isSubmenuOpen = false;
     }
+    /* v8 ignore stop */
   }
 
   #onTooltipClick(event: Event) {

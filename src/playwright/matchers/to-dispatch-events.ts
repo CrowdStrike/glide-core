@@ -5,6 +5,7 @@ interface SerializableEvent {
   cancelable: boolean;
   composed: boolean;
   defaultPrevented: boolean;
+  target: string;
   timeStamp: number;
   type: string;
 }
@@ -61,6 +62,7 @@ export default expect.extend({
           cancelable: event.cancelable,
           composed: event.composed,
           defaultPrevented: event.defaultPrevented,
+          target: event.target instanceof Element ? event.target.id : '',
           timeStamp: event.timeStamp,
           type: event.type,
         });
@@ -143,6 +145,7 @@ export default expect.extend({
                   cancelable: receivedEvent.cancelable,
                   composed: receivedEvent.composed,
                   defaultPrevented: receivedEvent.defaultPrevented,
+                  target: receivedEvent.target,
                   type: receivedEvent.type,
                 };
               }
@@ -164,6 +167,9 @@ export default expect.extend({
                     }
                     case 'defaultPrevented': {
                       return expectedEvent.defaultPrevented !== undefined;
+                    }
+                    case 'target': {
+                      return expectedEvent.target !== undefined;
                     }
                     case 'type': {
                       return true;
@@ -188,12 +194,14 @@ export default expect.extend({
             receivedEvent.cancelable !== expectedEvent.cancelable &&
             receivedEvent.composed !== expectedEvent.composed &&
             receivedEvent.defaultPrevented !== expectedEvent.defaultPrevented &&
+            receivedEvent.target !== expectedEvent.target &&
             receivedEvent.type !== expectedEvent.type
         : receivedEvent &&
             receivedEvent.bubbles === expectedEvent.bubbles &&
             receivedEvent.cancelable === expectedEvent.cancelable &&
             receivedEvent.composed === expectedEvent.composed &&
             receivedEvent.defaultPrevented === expectedEvent.defaultPrevented &&
+            receivedEvent.target === expectedEvent.target &&
             receivedEvent.type === expectedEvent.type;
     });
 
