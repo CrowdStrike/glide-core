@@ -384,6 +384,7 @@ export default defineConfig([
       'src/form-controls-layout.test.*.ts',
       'src/icon-button.test.*.ts',
       'src/inline-alert.test.*.ts',
+      'src/input.test.*.ts',
       'src/link.test.*.ts',
       'src/select.test.*.ts',
       'src/spinner.test.*.ts',

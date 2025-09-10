@@ -86,12 +86,13 @@ declare global {
 export default class Input extends LitElement implements FormControl {
   static formAssociated = true;
 
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
     delegatesFocus: true,
   };
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -268,10 +269,12 @@ export default class Input extends LitElement implements FormControl {
     return isValid;
   }
 
+  /* v8 ignore start */
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
+  /* v8 ignore stop */
 
   formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
