@@ -47,33 +47,67 @@ for (const story of stories) {
           );
         });
 
-        test('open=${true}', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test.describe('multiple=${false}', () => {
+          test('open=${true}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-select')
-            .evaluate<void, Select>((element) => {
-              element.open = true;
-            });
+            await page
+              .locator('glide-core-select')
+              .evaluate<void, Select>((element) => {
+                element.open = true;
+              });
 
-          await page
-            .locator('glide-core-option glide-core-menu')
-            .evaluate<void, Menu>((element) => {
-              element.open = true;
-            });
+            await page
+              .locator('glide-core-option glide-core-menu')
+              .evaluate<void, Menu>((element) => {
+                element.open = true;
+              });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('open=${false}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-select').waitFor();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
-        test('open=${false}', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.locator('glide-core-select').waitFor();
+        test.describe('multiple=${true}', () => {
+          test('open=${true}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await page
+              .locator('glide-core-select')
+              .evaluate<void, Select>((element) => {
+                element.multiple = true;
+                element.open = true;
+              });
+
+            await page
+              .locator('glide-core-option glide-core-menu')
+              .evaluate<void, Menu>((element) => {
+                element.open = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('open=${false}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-select').waitFor();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
         test('placement="right-end"', async ({ page }, test) => {
@@ -122,67 +156,137 @@ for (const story of stories) {
           );
         });
 
-        test('<glide-core-option>.description', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test.describe('multiple=${false}', () => {
+          test('<glide-core-option>.description', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-select')
-            .evaluate<void, Select>((element) => {
-              element.open = true;
-            });
+            await page
+              .locator('glide-core-select')
+              .evaluate<void, Select>((element) => {
+                element.open = true;
+              });
 
-          await page
-            .locator('glide-core-option')
-            .first()
-            .evaluate<void, Option>((element) => {
-              element.description = 'Description';
-            });
+            await page
+              .locator('glide-core-option')
+              .first()
+              .evaluate<void, Option>((element) => {
+                element.description = 'Description';
+              });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('<glide-core-option>.disabled', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-select')
+              .evaluate<void, Select>((element) => {
+                element.open = true;
+              });
+
+            await page
+              .locator('glide-core-option')
+              .first()
+              .evaluate<void, Option>((element) => {
+                element.disabled = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('<glide-core-option>.selected', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-select')
+              .evaluate<void, Select>((element) => {
+                element.open = true;
+              });
+
+            await page
+              .locator('glide-core-option')
+              .first()
+              .evaluate<void, Option>((element) => {
+                element.selected = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
-        test('<glide-core-option>.disabled', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test.describe('multiple=${true}', () => {
+          test('<glide-core-option>.description', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-select')
-            .evaluate<void, Select>((element) => {
-              element.open = true;
-            });
+            await page
+              .locator('glide-core-select')
+              .evaluate<void, Select>((element) => {
+                element.multiple = true;
+                element.open = true;
+              });
 
-          await page
-            .locator('glide-core-option')
-            .first()
-            .evaluate<void, Option>((element) => {
-              element.disabled = true;
-            });
+            await page
+              .locator('glide-core-option')
+              .first()
+              .evaluate<void, Option>((element) => {
+                element.description = 'Description';
+              });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
 
-        test('<glide-core-option>.selected', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          test('<glide-core-option>.disabled', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-select')
-            .evaluate<void, Select>((element) => {
-              element.open = true;
-            });
+            await page
+              .locator('glide-core-select')
+              .evaluate<void, Select>((element) => {
+                element.multiple = true;
+                element.open = true;
+              });
 
-          await page
-            .locator('glide-core-option')
-            .first()
-            .evaluate<void, Option>((element) => {
-              element.selected = true;
-            });
+            await page
+              .locator('glide-core-option')
+              .first()
+              .evaluate<void, Option>((element) => {
+                element.disabled = true;
+              });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('<glide-core-option>.selected', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-select')
+              .evaluate<void, Select>((element) => {
+                element.multiple = true;
+                element.open = true;
+              });
+
+            await page
+              .locator('glide-core-option')
+              .first()
+              .evaluate<void, Option>((element) => {
+                element.selected = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
       });
     }

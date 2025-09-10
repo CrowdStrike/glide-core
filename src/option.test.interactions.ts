@@ -1,6 +1,7 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import Option from './option.js';
 import type Tooltip from './tooltip.js';
+import { click } from './library/mouse.js';
 
 it('sets `ariaDisabled` when enabled programmatically', async () => {
   const host = await fixture<Option>(
@@ -179,4 +180,41 @@ it('disables its tooltip when its description is changed programmatically and no
 
   await aTimeout(0); // Wait for the timeout in the setter
   expect(tooltip?.disabled).to.be.true;
+});
+
+it('checks its checkbox on click', async () => {
+  const host = await fixture<Option>(
+    html`<glide-core-option
+      label="Label"
+      role="option"
+      multiple
+    ></glide-core-option>`,
+  );
+
+  const checkbox = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="checkbox"]',
+  );
+
+  await click(checkbox);
+
+  expect(checkbox?.checked).to.be.true;
+});
+
+it('unchecks its checkbox on click', async () => {
+  const host = await fixture<Option>(
+    html`<glide-core-option
+      label="Label"
+      role="option"
+      multiple
+      selected
+    ></glide-core-option>`,
+  );
+
+  const checkbox = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="checkbox"]',
+  );
+
+  await click(checkbox);
+
+  expect(checkbox?.checked).to.be.false;
 });
