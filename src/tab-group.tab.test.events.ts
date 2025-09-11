@@ -1,9 +1,12 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import TabsTab from './tabs.tab.js';
+import TabGroupTab from './tab-group.tab.js';
 
 it('dispatches a "private-selected" event when selected', async () => {
-  const host = await fixture<TabsTab>(
-    html`<glide-core-tabs-tab label="Label" panel="1"></glide-core-tabs-tab>`,
+  const host = await fixture<TabGroupTab>(
+    html`<glide-core-tab-group-tab
+      label="Label"
+      panel="1"
+    ></glide-core-tab-group-tab>`,
   );
 
   setTimeout(() => {
@@ -17,8 +20,11 @@ it('dispatches a "private-selected" event when selected', async () => {
 });
 
 it('dispatches a "private-label-change" event when the `label` is changed', async () => {
-  const host = await fixture<TabsTab>(
-    html`<glide-core-tabs-tab label="Label" panel="1"></glide-core-tabs-tab>`,
+  const host = await fixture<TabGroupTab>(
+    html`<glide-core-tab-group-tab
+      label="Label"
+      panel="1"
+    ></glide-core-tab-group-tab>`,
   );
 
   setTimeout(() => {
@@ -32,8 +38,9 @@ it('dispatches a "private-label-change" event when the `label` is changed', asyn
 });
 
 it('dispatches a "private-icon-slotchange" event when the icon slot is changed', async () => {
-  const host = await fixture<TabsTab>(
-    html`<glide-core-tabs-tab label="Label" panel="1"> </glide-core-tabs-tab>`,
+  const host = await fixture<TabGroupTab>(
+    html`<glide-core-tab-group-tab label="Label" panel="1">
+    </glide-core-tab-group-tab>`,
   );
 
   setTimeout(() => {

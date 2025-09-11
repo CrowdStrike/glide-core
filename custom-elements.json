@@ -8367,26 +8367,26 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/tabs.panel.styles.ts",
+      "path": "src/tab-group.panel.styles.ts",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/tabs.panel.styles.ts"
+            "module": "src/tab-group.panel.styles.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tabs.panel.ts",
+      "path": "src/tab-group.panel.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "TabsPanel",
+          "name": "TabGroupPanel",
           "cssProperties": [
             {
               "name": "--padding-inline-end",
@@ -8507,7 +8507,7 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "glide-core-tabs-panel",
+          "tagName": "glide-core-tab-group-panel",
           "customElement": true
         }
       ],
@@ -8516,56 +8516,56 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "TabsPanel",
-            "module": "src/tabs.panel.ts"
+            "name": "TabGroupPanel",
+            "module": "src/tab-group.panel.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "glide-core-tabs-panel",
+          "name": "glide-core-tab-group-panel",
           "declaration": {
-            "name": "TabsPanel",
-            "module": "src/tabs.panel.ts"
+            "name": "TabGroupPanel",
+            "module": "src/tab-group.panel.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tabs.styles.ts",
+      "path": "src/tab-group.styles.ts",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/tabs.styles.ts"
+            "module": "src/tab-group.styles.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tabs.tab.styles.ts",
+      "path": "src/tab-group.tab.styles.ts",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/tabs.tab.styles.ts"
+            "module": "src/tab-group.tab.styles.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tabs.tab.ts",
+      "path": "src/tab-group.tab.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "TabsTab",
+          "name": "TabGroupTab",
           "slots": [
             {
               "name": "icon",
@@ -8746,7 +8746,7 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "glide-core-tabs-tab",
+          "tagName": "glide-core-tab-group-tab",
           "customElement": true
         }
       ],
@@ -8755,28 +8755,28 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "TabsTab",
-            "module": "src/tabs.tab.ts"
+            "name": "TabGroupTab",
+            "module": "src/tab-group.tab.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "glide-core-tabs-tab",
+          "name": "glide-core-tab-group-tab",
           "declaration": {
-            "name": "TabsTab",
-            "module": "src/tabs.tab.ts"
+            "name": "TabGroupTab",
+            "module": "src/tab-group.tab.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tabs.ts",
+      "path": "src/tab-group.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "Tabs",
+          "name": "TabGroup",
           "cssProperties": [
             {
               "name": "--tabs-padding-block-end",
@@ -8846,7 +8846,7 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "glide-core-tabs",
+          "tagName": "glide-core-tab-group",
           "customElement": true
         }
       ],
@@ -8855,16 +8855,16 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "Tabs",
-            "module": "src/tabs.ts"
+            "name": "TabGroup",
+            "module": "src/tab-group.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "glide-core-tabs",
+          "name": "glide-core-tab-group",
           "declaration": {
-            "name": "Tabs",
-            "module": "src/tabs.ts"
+            "name": "TabGroup",
+            "module": "src/tab-group.ts"
           }
         }
       ]
