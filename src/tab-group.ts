@@ -6,17 +6,17 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import TabsTab from './tabs.tab.js';
-import TabsPanel from './tabs.panel.js';
+import TabGroupTab from './tab-group.tab.js';
+import TabGroupPanel from './tab-group.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
-import styles from './tabs.styles.js';
+import styles from './tab-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tabs': Tabs;
+    'glide-core-tab-group': TabGroup;
   }
 }
 
@@ -32,9 +32,9 @@ declare global {
  * @cssprop [--tabs-padding-inline-end=0rem]
  * @cssprop [--tabs-padding-inline-start=0rem]
  */
-@customElement('glide-core-tabs')
+@customElement('glide-core-tab-group')
 @final
-export default class Tabs extends LitElement {
+export default class TabGroup extends LitElement {
   /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -91,7 +91,7 @@ export default class Tabs extends LitElement {
             @private-label-change=${this.#onTabLabelChange}
             @private-icon-slotchange=${this.#onTabIconSlotChange}
             @slotchange=${this.#onNavSlotChange}
-            ${assertSlot([TabsTab], true)}
+            ${assertSlot([TabGroupTab], true)}
           >
             <!-- @type {Tab} -->
           </slot>
@@ -130,7 +130,7 @@ export default class Tabs extends LitElement {
 
       <slot
         @slotchange=${this.#onDefaultSlotChange}
-        ${assertSlot([TabsPanel], true)}
+        ${assertSlot([TabGroupPanel], true)}
       >
         <!-- @type {TabPanel} -->
       </slot>
@@ -170,20 +170,26 @@ export default class Tabs extends LitElement {
 
   get #panelElements() {
     return [
-      ...this.querySelectorAll<TabsPanel>(':scope > glide-core-tabs-panel'),
+      ...this.querySelectorAll<TabGroupPanel>(
+        ':scope > glide-core-tab-group-panel',
+      ),
     ];
   }
 
   get #tabElements() {
-    return [...this.querySelectorAll<TabsTab>(':scope > glide-core-tabs-tab')];
+    return [
+      ...this.querySelectorAll<TabGroupTab>(
+        ':scope > glide-core-tab-group-tab',
+      ),
+    ];
   }
 
   #onComponentClick(event: Event) {
     const target = event.target as HTMLElement;
-    const clickedTab = target.closest('glide-core-tabs-tab');
+    const clickedTab = target.closest('glide-core-tab-group-tab');
 
     if (
-      clickedTab instanceof TabsTab &&
+      clickedTab instanceof TabGroupTab &&
       !clickedTab.disabled &&
       // Tab Panels can themselves include a Tab Group. We want to ensure
       // we're dealing with one of this instance's Tabs and not a Tab in
@@ -197,11 +203,11 @@ export default class Tabs extends LitElement {
   #onComponentKeydown(event: KeyboardEvent) {
     const tab =
       event.target instanceof HTMLElement &&
-      event.target.closest('glide-core-tabs-tab');
+      event.target.closest('glide-core-tab-group-tab');
 
     if (
       ['Enter', ' '].includes(event.key) &&
-      tab instanceof TabsTab &&
+      tab instanceof TabGroupTab &&
       !tab.disabled
     ) {
       tab.selected = true;
@@ -222,7 +228,7 @@ export default class Tabs extends LitElement {
         tab.matches(':focus'),
       );
 
-      if (focusedElement instanceof TabsTab) {
+      if (focusedElement instanceof TabGroupTab) {
         let index = this.#tabElements.indexOf(focusedElement);
 
         switch (event.key) {
@@ -373,7 +379,7 @@ export default class Tabs extends LitElement {
   }
 
   #onTabSelected(event: Event) {
-    if (event.target instanceof TabsTab && event.target.selected) {
+    if (event.target instanceof TabGroupTab && event.target.selected) {
       event.target.privateSelect();
       event.target.tabIndex = 0;
 

@@ -1,6 +1,6 @@
 import './icons/storybook.js';
-import './tabs.js';
-import './tabs.panel.js';
+import './tab-group.js';
+import './tab-group.panel.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -8,17 +8,17 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import TabComponent from './tabs.tab.js';
+import TabGroupTab from './tab-group.tab.js';
 
 const meta: Meta = {
-  title: 'Tabs',
+  title: 'Tab Group',
   decorators: [
     withActions,
     (story) => html`
       <script type="ignore">
-        import '@crowdstrike/glide-core/tabs.js';
-        import '@crowdstrike/glide-core/tabs.panel.js';
-        import '@crowdstrike/glide-core/tabs.tab.js';
+        import '@crowdstrike/glide-core/tab-group.js';
+        import '@crowdstrike/glide-core/tab-group.panel.js';
+        import '@crowdstrike/glide-core/tab-group.tab.js';
       </script>
 
       ${story()}
@@ -42,38 +42,40 @@ const meta: Meta = {
     '--tabs-padding-block-start': '',
     '--tabs-padding-inline-end': '',
     '--tabs-padding-inline-start': '',
-    '<glide-core-tabs-tab>.panel': '',
-    '<glide-core-tabs-tab>.label': 'One',
-    '<glide-core-tabs-tab>.addEventListener(event, handler)': '',
-    '<glide-core-tabs-tab>.disabled': false,
-    '<glide-core-tabs-tab>.1.selected': true,
-    '<glide-core-tabs-tab>[slot="icon"]': '',
-    '<glide-core-tabs-tab>.2.selected': false,
-    '<glide-core-tabs-tab>.3.selected': false,
-    '<glide-core-tabs-tab>.4.selected': false,
-    '<glide-core-tabs-tab>.5.selected': false,
-    '<glide-core-tabs-tab>.6.selected': false,
-    '<glide-core-tabs-tab>.7.selected': false,
-    '<glide-core-tabs-tab>.8.selected': false,
-    '<glide-core-tabs-tab>.9.selected': false,
-    '<glide-core-tabs-tab>.10.selected': false,
-    '<glide-core-tabs-tab>.version': false,
-    '<glide-core-tabs-panel>.name': '',
-    '<glide-core-tabs-panel>[slot="default"]': 'One',
-    '<glide-core-tabs-panel>.version': '',
-    '<glide-core-tabs-panel>[--padding-inline-end]': '',
-    '<glide-core-tabs-panel>[--padding-inline-start]': '',
+    '<glide-core-tab-group-tab>.panel': '',
+    '<glide-core-tab-group-tab>.label': 'One',
+    '<glide-core-tab-group-tab>.addEventListener(event, handler)': '',
+    '<glide-core-tab-group-tab>.disabled': false,
+    '<glide-core-tab-group-tab>.1.selected': true,
+    '<glide-core-tab-group-tab>[slot="icon"]': '',
+    '<glide-core-tab-group-tab>.2.selected': false,
+    '<glide-core-tab-group-tab>.3.selected': false,
+    '<glide-core-tab-group-tab>.4.selected': false,
+    '<glide-core-tab-group-tab>.5.selected': false,
+    '<glide-core-tab-group-tab>.6.selected': false,
+    '<glide-core-tab-group-tab>.7.selected': false,
+    '<glide-core-tab-group-tab>.8.selected': false,
+    '<glide-core-tab-group-tab>.9.selected': false,
+    '<glide-core-tab-group-tab>.10.selected': false,
+    '<glide-core-tab-group-tab>.version': false,
+    '<glide-core-tab-group-panel>.name': '',
+    '<glide-core-tab-group-panel>[slot="default"]': 'One',
+    '<glide-core-tab-group-panel>.version': '',
+    '<glide-core-tab-group-panel>[--padding-inline-end]': '',
+    '<glide-core-tab-group-panel>[--padding-inline-start]': '',
   },
   play(context) {
     context.canvasElement
-      .querySelector('glide-core-tabs')
+      .querySelector('glide-core-tab-group')
       ?.addEventListener('selected', (event: Event) => {
-        if (event.target instanceof TabComponent) {
+        if (event.target instanceof TabGroupTab) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
-              '<glide-core-tabs-tab>.1.selected': event.target.panel === '1',
-              '<glide-core-tabs-tab>.2.selected': event.target.panel === '2',
+              '<glide-core-tab-group-tab>.1.selected':
+                event.target.panel === '1',
+              '<glide-core-tab-group-tab>.2.selected':
+                event.target.panel === '2',
             },
           });
         }
@@ -82,7 +84,7 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/prefer-nullish-coalescing */
     return html`
-      <glide-core-tabs
+      <glide-core-tab-group
         style=${styleMap({
           '--tabs-padding-block-start':
             arguments_['--tabs-padding-block-start'] || null,
@@ -94,39 +96,44 @@ const meta: Meta = {
             arguments_['--tabs-padding-inline-end'] || null,
         })}
       >
-        <glide-core-tabs-tab
-          label=${arguments_['<glide-core-tabs-tab>.label'] || nothing}
+        <glide-core-tab-group-tab
+          label=${arguments_['<glide-core-tab-group-tab>.label'] || nothing}
           panel="1"
           slot="nav"
-          ?selected=${arguments_['<glide-core-tabs-tab>.1.selected']}
-        ></glide-core-tabs-tab>
-        <glide-core-tabs-tab
+          ?selected=${arguments_['<glide-core-tab-group-tab>.1.selected']}
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
           label="Two"
           panel="2"
           slot="nav"
-          ?disabled=${arguments_['<glide-core-tabs-tab>.disabled']}
-          ?selected=${arguments_['<glide-core-tabs-tab>.2.selected']}
-        ></glide-core-tabs-tab>
+          ?disabled=${arguments_['<glide-core-tab-group-tab>.disabled']}
+          ?selected=${arguments_['<glide-core-tab-group-tab>.2.selected']}
+        ></glide-core-tab-group-tab>
 
-        <glide-core-tabs-panel
+        <glide-core-tab-group-panel
           name="1"
-          style=${arguments_['<glide-core-tabs-panel>[--padding-inline-end]'] ||
-          arguments_['<glide-core-tabs-panel>[--padding-inline-start]']
+          style=${arguments_[
+            '<glide-core-tab-group-panel>[--padding-inline-end]'
+          ] ||
+          arguments_['<glide-core-tab-group-panel>[--padding-inline-start]']
             ? styleMap({
                 '--padding-inline-end':
-                  arguments_['<glide-core-tabs-panel>[--padding-inline-end]'] ||
-                  null,
+                  arguments_[
+                    '<glide-core-tab-group-panel>[--padding-inline-end]'
+                  ] || null,
                 '--padding-inline-start':
                   arguments_[
-                    '<glide-core-tabs-panel>[--padding-inline-start]'
+                    '<glide-core-tab-group-panel>[--padding-inline-start]'
                   ] || null,
               })
             : nothing}
         >
-          ${unsafeHTML(arguments_['<glide-core-tabs-panel>[slot="default"]'])}
-        </glide-core-tabs-panel>
-        <glide-core-tabs-panel name="2"> Two </glide-core-tabs-panel>
-      </glide-core-tabs>
+          ${unsafeHTML(
+            arguments_['<glide-core-tab-group-panel>[slot="default"]'],
+          )}
+        </glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="2"> Two </glide-core-tab-group-panel>
+      </glide-core-tab-group>
     `;
   },
   argTypes: {
@@ -181,7 +188,7 @@ const meta: Meta = {
         },
       },
     },
-    '<glide-core-tabs-tab>.label': {
+    '<glide-core-tab-group-tab>.label': {
       name: 'label',
       table: {
         category: 'Tab',
@@ -189,7 +196,7 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    '<glide-core-tabs-tab>.panel': {
+    '<glide-core-tab-group-tab>.panel': {
       name: 'panel',
       control: false,
       table: {
@@ -198,7 +205,7 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-tabs-tab>.addEventListener(event, handler)': {
+    '<glide-core-tab-group-tab>.addEventListener(event, handler)': {
       control: false,
       name: 'addEventListener(event, handler)',
       table: {
@@ -209,7 +216,7 @@ const meta: Meta = {
         },
       },
     },
-    '<glide-core-tabs-tab>.disabled': {
+    '<glide-core-tab-group-tab>.disabled': {
       name: 'disabled',
       table: {
         category: 'Tab',
@@ -217,7 +224,7 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    '<glide-core-tabs-tab>.1.selected': {
+    '<glide-core-tab-group-tab>.1.selected': {
       name: 'selected',
       table: {
         category: 'Tab',
@@ -225,7 +232,7 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    '<glide-core-tabs-tab>[slot="icon"]': {
+    '<glide-core-tab-group-tab>[slot="icon"]': {
       name: 'slot="icon"',
       control: false,
       table: {
@@ -233,52 +240,52 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
-    '<glide-core-tabs-tab>.2.selected': {
+    '<glide-core-tab-group-tab>.2.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.3.selected': {
+    '<glide-core-tab-group-tab>.3.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.4.selected': {
+    '<glide-core-tab-group-tab>.4.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.5.selected': {
+    '<glide-core-tab-group-tab>.5.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.6.selected': {
+    '<glide-core-tab-group-tab>.6.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.7.selected': {
+    '<glide-core-tab-group-tab>.7.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.8.selected': {
+    '<glide-core-tab-group-tab>.8.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.9.selected': {
+    '<glide-core-tab-group-tab>.9.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.10.selected': {
+    '<glide-core-tab-group-tab>.10.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tabs-tab>.version': {
+    '<glide-core-tab-group-tab>.version': {
       name: 'version',
       control: false,
       table: {
@@ -289,7 +296,7 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '<glide-core-tabs-panel>.name': {
+    '<glide-core-tab-group-panel>.name': {
       name: 'name',
       control: false,
       table: {
@@ -298,7 +305,7 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-tabs-panel>[slot="default"]': {
+    '<glide-core-tab-group-panel>[slot="default"]': {
       name: 'slot="default"',
       control: 'text',
       table: {
@@ -307,7 +314,7 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-tabs-panel>.version': {
+    '<glide-core-tab-group-panel>.version': {
       name: 'version',
       control: false,
       table: {
@@ -318,7 +325,7 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '<glide-core-tabs-panel>[--padding-inline-end]': {
+    '<glide-core-tab-group-panel>[--padding-inline-end]': {
       name: '--padding-inline-end',
       table: {
         category: 'Tab Panel',
@@ -327,7 +334,7 @@ const meta: Meta = {
         },
       },
     },
-    '<glide-core-tabs-panel>[--padding-inline-start]': {
+    '<glide-core-tab-group-panel>[--padding-inline-start]': {
       name: '--padding-inline-start',
       table: {
         category: 'Tab Panel',
@@ -341,7 +348,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const Tabs: StoryObj = {
+export const TabGroup: StoryObj = {
   tags: ['!autodocs'],
 };
 
@@ -349,92 +356,112 @@ export const WithOverflow: StoryObj = {
   render(arguments_) {
     return html`
       <div style="width: 25rem;">
-        <glide-core-tabs>
-          <glide-core-tabs-tab
-            label=${arguments_['<glide-core-tabs-tab>.label'] || nothing}
+        <glide-core-tab-group>
+          <glide-core-tab-group-tab
+            label=${arguments_['<glide-core-tab-group-tab>.label'] || nothing}
             panel="1"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.1.selected']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.1.selected']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Two"
             panel="2"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.2.selected']}
-            ?disabled=${arguments_['<glide-core-tabs-tab>.disabled']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.2.selected']}
+            ?disabled=${arguments_['<glide-core-tab-group-tab>.disabled']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Three"
             panel="3"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.3.selected']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.3.selected']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Four"
             panel="4"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.4.selected']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.4.selected']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Five"
             panel="5"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.5.selected']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.5.selected']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Six"
             panel="6"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.6.selected']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.6.selected']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Seven"
             panel="7"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.7.selected']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.7.selected']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Eight"
             panel="8"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.8.selected']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.8.selected']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Nine"
             panel="9"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.9.selected']}
-          ></glide-core-tabs-tab>
-          <glide-core-tabs-tab
+            ?selected=${arguments_['<glide-core-tab-group-tab>.9.selected']}
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
             label="Ten"
             panel="10"
             slot="nav"
-            ?selected=${arguments_['<glide-core-tabs-tab>.10.selected']}
-          ></glide-core-tabs-tab>
+            ?selected=${arguments_['<glide-core-tab-group-tab>.10.selected']}
+          ></glide-core-tab-group-tab>
 
-          <glide-core-tabs-panel
+          <glide-core-tab-group-panel
             name="1"
             style=${styleMap({
               '--padding-inline-end':
-                arguments_['<glide-core-tabs-panel>[--padding-inline-end]'] ||
-                null,
+                arguments_[
+                  '<glide-core-tab-group-panel>[--padding-inline-end]'
+                ] || null,
               '--padding-inline-start':
-                arguments_['<glide-core-tabs-panel>[--padding-inline-start]'] ||
-                null,
+                arguments_[
+                  '<glide-core-tab-group-panel>[--padding-inline-start]'
+                ] || null,
             })}
           >
             One
-          </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="2"> Two </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="3"> Three </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="4"> Four </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="5"> Five </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="6"> Six </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="7"> Seven </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="8"> Eight </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="9"> Nine </glide-core-tabs-panel>
-          <glide-core-tabs-panel name="10"> Ten </glide-core-tabs-panel>
-        </glide-core-tabs>
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="2">
+            Two
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="3">
+            Three
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="4">
+            Four
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="5">
+            Five
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="6">
+            Six
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="7">
+            Seven
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="8">
+            Eight
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="9">
+            Nine
+          </glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="10">
+            Ten
+          </glide-core-tab-group-panel>
+        </glide-core-tab-group>
       </div>
     `;
   },
@@ -443,7 +470,7 @@ export const WithOverflow: StoryObj = {
 export const WithIcons: StoryObj = {
   render(arguments_) {
     return html`
-      <glide-core-tabs
+      <glide-core-tab-group
         style=${styleMap({
           '--tabs-padding-block-start':
             arguments_['--tabs-padding-block-start'] || null,
@@ -455,49 +482,54 @@ export const WithIcons: StoryObj = {
             arguments_['--tabs-padding-inline-end'] || null,
         })}
       >
-        <glide-core-tabs-tab
-          label=${arguments_['<glide-core-tabs-tab>.label'] || nothing}
+        <glide-core-tab-group-tab
+          label=${arguments_['<glide-core-tab-group-tab>.label'] || nothing}
           slot="nav"
           panel="1"
-          ?selected=${arguments_['<glide-core-tabs-tab>.1.selected']}
+          ?selected=${arguments_['<glide-core-tab-group-tab>.1.selected']}
         >
           <glide-core-example-icon
             slot="icon"
             name="calendar"
           ></glide-core-example-icon>
-        </glide-core-tabs-tab>
-        <glide-core-tabs-tab
+        </glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
           label="Two"
           panel="2"
           slot="nav"
-          ?disabled=${arguments_['<glide-core-tabs-tab>.disabled']}
-          ?selected=${arguments_['<glide-core-tabs-tab>.2.selected']}
+          ?disabled=${arguments_['<glide-core-tab-group-tab>.disabled']}
+          ?selected=${arguments_['<glide-core-tab-group-tab>.2.selected']}
         >
           <glide-core-example-icon
             slot="icon"
             name="checkmark"
           ></glide-core-example-icon>
-        </glide-core-tabs-tab>
+        </glide-core-tab-group-tab>
 
-        <glide-core-tabs-panel
+        <glide-core-tab-group-panel
           name="1"
-          style=${arguments_['<glide-core-tabs-panel>[--padding-inline-end]'] ||
-          arguments_['<glide-core-tabs-panel>[--padding-inline-start]']
+          style=${arguments_[
+            '<glide-core-tab-group-panel>[--padding-inline-end]'
+          ] ||
+          arguments_['<glide-core-tab-group-panel>[--padding-inline-start]']
             ? styleMap({
                 '--padding-inline-end':
-                  arguments_['<glide-core-tabs-panel>[--padding-inline-end]'] ||
-                  null,
+                  arguments_[
+                    '<glide-core-tab-group-panel>[--padding-inline-end]'
+                  ] || null,
                 '--padding-inline-start':
                   arguments_[
-                    '<glide-core-tabs-panel>[--padding-inline-start]'
+                    '<glide-core-tab-group-panel>[--padding-inline-start]'
                   ] || null,
               })
             : nothing}
         >
-          ${unsafeHTML(arguments_['<glide-core-tabs-panel>[slot="default"]'])}
-        </glide-core-tabs-panel>
-        <glide-core-tabs-panel name="2"> Two </glide-core-tabs-panel>
-      </glide-core-tabs>
+          ${unsafeHTML(
+            arguments_['<glide-core-tab-group-panel>[slot="default"]'],
+          )}
+        </glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="2"> Two </glide-core-tab-group-panel>
+      </glide-core-tab-group>
     `;
   },
 };
