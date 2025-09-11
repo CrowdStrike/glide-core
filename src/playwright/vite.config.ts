@@ -25,7 +25,7 @@ export default {
     // 1. `mount()` will programmatically import Option.
     // 2. The browser fill fetch and execute Menu, whose import specifier for Option
     //    will include the cache busting query parameter.
-    // 3. Upon the executing Menu, the browser will re-execute Option.
+    // 3. Upon executing Menu, the browser will re-execute Option.
     // 4. Option will attempt to add itself to the custom elements registry again but
     //    will already be in it, causing the browser to throw.
     hmr: false,
