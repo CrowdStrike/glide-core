@@ -7,10 +7,11 @@ test(
   { tag: '@accessibility' },
   async ({ mount, page, setAttribute }) => {
     await mount(
-      () => html`<glide-core-button
-        label="Label"
-        aria-description="Description"
-      ></glide-core-button>`,
+      () =>
+        html`<glide-core-button
+          label="Label"
+          aria-description="Description"
+        ></glide-core-button>`,
     );
 
     await expect(page).toBeAccessible('glide-core-button');
@@ -42,6 +43,19 @@ test('disabled=${false}', { tag: '@accessibility' }, async ({ page }) => {
 
   await expect(page.locator('glide-core-button')).toMatchAriaSnapshot(`
     - button "Label"
+  `);
+});
+
+test('loading', { tag: '@accessibility' }, async ({ page }) => {
+  await page.goto('?id=button--button');
+
+  await page.locator('glide-core-button').evaluate<void, Button>((element) => {
+    element.loading = true;
+  });
+
+  await expect(page.locator('glide-core-button')).toMatchAriaSnapshot(`
+    - button "Label" [disabled]:
+      - progressbar "Loading"
   `);
 });
 

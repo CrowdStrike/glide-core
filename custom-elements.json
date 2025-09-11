@@ -643,6 +643,16 @@
             },
             {
               "kind": "field",
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "loading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "ariaDescription",
               "type": {
                 "text": "string | null"
@@ -751,6 +761,14 @@
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "loading"
             },
             {
               "name": "aria-description",
