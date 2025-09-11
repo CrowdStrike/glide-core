@@ -55,7 +55,7 @@ export default [
         border-color: transparent;
         color: var(--glide-core-private-color-button-text-primary);
 
-        &.disabled {
+        &:not(.loading).disabled {
           background-color: var(
             --glide-core-color-interactive-surface-container--disabled
           );
@@ -63,7 +63,7 @@ export default [
           color: var(--glide-core-color-interactive-text-link--disabled);
         }
 
-        &:not(.disabled):active {
+        &:not(.disabled, .loading):active {
           background-color: var(
             --glide-core-private-color-button-surface-active
           );
@@ -71,7 +71,7 @@ export default [
           color: var(--glide-core-private-color-button-text-primary);
         }
 
-        &:not(:active):hover:not(.disabled) {
+        &:not(:active):hover:not(.disabled, .loading) {
           background-color: var(
             --glide-core-color-interactive-surface-container--hover
           );
@@ -86,7 +86,7 @@ export default [
         border-color: var(--glide-core-private-color-button-stroke-default);
         color: var(--glide-core-color-interactive-text-link);
 
-        &.disabled {
+        &:not(.loading).disabled {
           background-color: var(
             --glide-core-color-interactive-surface-container--disabled
           );
@@ -94,7 +94,7 @@ export default [
           color: var(--glide-core-color-interactive-text-link--disabled);
         }
 
-        &:not(.disabled):active {
+        &:not(.disabled, .loading):active {
           background-color: var(
             --glide-core-private-color-button-surface-active
           );
@@ -102,7 +102,7 @@ export default [
           color: var(--glide-core-private-color-button-text-primary);
         }
 
-        &:not(:active):hover:not(.disabled) {
+        &:not(:active):hover:not(.disabled, .loading) {
           background-color: var(
             --glide-core-color-interactive-surface-container--hover
           );
@@ -117,18 +117,18 @@ export default [
         border-color: transparent;
         color: var(--glide-core-color-interactive-text-link);
 
-        &.disabled {
+        &:not(.loading).disabled {
           color: var(--glide-core-color-interactive-text-link--disabled);
         }
 
-        &:not(.disabled):active {
+        &:not(.disabled, .loading):active {
           background-color: var(
             --glide-core-private-color-button-surface-active
           );
           color: var(--glide-core-private-color-button-text-primary);
         }
 
-        &:not(:active):hover:not(.disabled) {
+        &:not(:active):hover:not(.disabled, .loading) {
           background-color: var(
             --glide-core-color-interactive-surface-container--hover
           );
@@ -147,7 +147,7 @@ export default [
         padding: 0;
         text-align: start;
 
-        &.disabled {
+        &:not(.loading).disabled {
           color: var(--glide-core-color-interactive-text-link--disabled);
         }
 
@@ -155,6 +155,13 @@ export default [
           color: var(--glide-core-color-interactive-text-link--hover);
           text-decoration: underline;
         }
+      }
+
+      &.loading {
+        background-color: transparent;
+        border-color: transparent;
+        color: var(--glide-core-color-interactive-text-link--disabled);
+        cursor: not-allowed;
       }
 
       &.large:not(.link) {

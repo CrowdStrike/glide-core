@@ -1,12 +1,15 @@
+import './spinner.js';
 import './tooltip.js';
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './button.styles.js';
 import final from './library/final.js';
 import required from './library/required.js';
+import { LocalizeController } from './library/localize.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,6 +21,7 @@ declare global {
  * @attr {string} label
  * @attr {string|null} [aria-description=null]
  * @attr {boolean} [disabled=false]
+ * @attr {boolean} [loading=false]
  * @attr {string} [name='']
  * @attr {'large'|'small'} [size='large']
  * @attr {string} [tooltip]
@@ -52,6 +56,9 @@ export default class Button extends LitElement {
   @property({ reflect: true })
   @required
   label?: string;
+
+  @property({ reflect: true, type: Boolean })
+  loading = false;
 
   // A getter and setter because Lit Analzyer doesn't recognize "aria-description"
   // as a valid attribute on the `<button>` and doesn't provide a way to selectively
@@ -117,7 +124,7 @@ export default class Button extends LitElement {
       ?disabled=${!this.disabled || !this.tooltip}
     >
       <button
-        aria-disabled=${this.disabled ? 'true' : 'false'}
+        aria-disabled=${this.disabled || this.loading ? 'true' : 'false'}
         class=${classMap({
           component: true,
           primary: this.variant === 'primary',
@@ -127,6 +134,7 @@ export default class Button extends LitElement {
           large: this.size === 'large',
           small: this.size === 'small',
           disabled: this.disabled,
+          loading: this.loading,
           'prefix-icon': this.hasPrefixIcon,
           'suffix-icon': this.hasSuffixIcon,
         })}
@@ -134,6 +142,15 @@ export default class Button extends LitElement {
         @click=${this.#onClick}
         ${ref(this.#buttonElementRef)}
       >
+        ${when(
+          this.loading,
+          () =>
+            html`<glide-core-spinner
+              label=${this.#localize.term('loading')}
+              size="small"
+            ></glide-core-spinner>`,
+        )}
+
         <slot
           name="prefix-icon"
           ?hidden=${this.variant === 'link'}
@@ -180,12 +197,14 @@ export default class Button extends LitElement {
 
   #internals: ElementInternals;
 
+  #localize = new LocalizeController(this);
+
   #prefixIconSlotElementRef = createRef<HTMLSlotElement>();
 
   #suffixIconSlotElementRef = createRef<HTMLSlotElement>();
 
   #onClick(event: PointerEvent) {
-    if (this.disabled) {
+    if (this.disabled || this.loading) {
       event.stopPropagation();
       return;
     }

@@ -54,6 +54,7 @@ const meta: Meta = {
           ? nothing
           : arguments_.variant}
         ?disabled=${arguments_.disabled || nothing}
+        ?loading=${arguments_.loading || nothing}
       >
         ${unsafeHTML(arguments_['slot="default"'])}
       </glide-core-button>
@@ -63,6 +64,7 @@ const meta: Meta = {
     label: 'Label',
     'addEventListener(event, handler)': '',
     disabled: false,
+    loading: false,
     name: '',
     size: 'large',
     'slot="prefix-icon"': '',
@@ -91,6 +93,13 @@ const meta: Meta = {
       },
     },
     disabled: {
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    loading: {
       table: {
         defaultValue: {
           summary: 'false',
@@ -204,6 +213,7 @@ export const WithIcons: StoryObj = {
           ? nothing
           : arguments_.variant}
         ?disabled=${arguments_.disabled || nothing}
+        ?loading=${arguments_.loading || nothing}
       >
         ${arguments_['slot="default"']}
 

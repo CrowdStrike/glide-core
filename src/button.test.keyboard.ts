@@ -84,3 +84,37 @@ test(
     );
   },
 );
+
+test(
+  'cannot be clicked via Enter when loading',
+  { tag: '@keyboard' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`<glide-core-button label="Label" loading></glide-core-button>`,
+    );
+
+    const host = page.locator('glide-core-button');
+
+    await expect(host).not.toDispatchEvents(
+      () => host.press('Enter'),
+      [{ type: 'click' }],
+    );
+  },
+);
+
+test(
+  'cannot be clicked via Space when loading',
+  { tag: '@keyboard' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`<glide-core-button label="Label" loading></glide-core-button>`,
+    );
+
+    const host = page.locator('glide-core-button');
+
+    await expect(host).not.toDispatchEvents(
+      () => host.press('Space'),
+      [{ type: 'click' }],
+    );
+  },
+);

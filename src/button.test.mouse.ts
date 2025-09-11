@@ -80,3 +80,20 @@ test(
     );
   },
 );
+
+test(
+  'cannot be clicked via `click()` when loading',
+  { tag: '@mouse' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`<glide-core-button label="Label" loading></glide-core-button>`,
+    );
+
+    const host = page.locator('glide-core-button');
+
+    await expect(host).not.toDispatchEvents(
+      () => callMethod(host, 'click'),
+      [{ type: 'click' }],
+    );
+  },
+);
