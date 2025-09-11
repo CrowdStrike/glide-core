@@ -177,11 +177,21 @@ export default defineConfig({
   },
   webServer: process.env.PLAYWRIGHT_NO_WEBSERVER
     ? undefined
-    : {
-        name: 'Storybook',
-        command: 'pnpm start:development:storybook',
-        reuseExistingServer: true,
-        url: 'http://localhost:6006',
-      },
+    : [
+        // For visual tests.
+        {
+          name: 'Storybook',
+          command: 'pnpm start:development:storybook',
+          reuseExistingServer: true,
+          url: 'http://localhost:6006',
+        },
+        // For functionality tests.
+        {
+          name: 'Vite',
+          command: 'pnpm test:development:playwright:vite',
+          reuseExistingServer: true,
+          url: 'http://localhost:6009/src/playwright/index.html',
+        },
+      ],
   workers: process.env.CI ? os.cpus().length : os.cpus().length / 2,
 });
