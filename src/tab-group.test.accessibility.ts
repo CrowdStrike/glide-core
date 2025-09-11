@@ -1,40 +1,40 @@
 import { expect, test } from './playwright/test.js';
-import type Tab from './tab.js';
+import type TabGroupTab from './tab-group.tab.js';
 
 test(
-  '<glide-core-tab>.disabled',
+  '<glide-core-tab-group-tab>.disabled',
   { tag: '@accessibility' },
   async ({ page }) => {
-    await page.goto('?id=tab-group--tabs');
+    await page.goto('?id=tab-group--tab-group');
 
     await page
-      .locator('glide-core-tab')
+      .locator('glide-core-tab-group-tab')
       .first()
-      .evaluate<void, Tab>((element) => {
+      .evaluate<void, TabGroupTab>((element) => {
         element.disabled = true;
       });
 
     await expect(page.locator('glide-core-tab-group')).toMatchAriaSnapshot(`
       - tablist:
-        - tab "Tab" [disabled] [selected]
-        - tab "With Icon"
-      - tabpanel "Tab": Panel
+        - tab "One" [disabled] [selected]
+        - tab "Two"
+      - tabpanel "One"
     `);
   },
 );
 
 test(
-  '<glide-core-tab>.selected',
+  '<glide-core-tab-group-tab>.selected',
   { tag: '@accessibility' },
   async ({ page }) => {
-    await page.goto('?id=tab-group--tabs');
+    await page.goto('?id=tab-group--tab-group');
     await page.locator('glide-core-tab-group').waitFor();
 
     await expect(page.locator('glide-core-tab-group')).toMatchAriaSnapshot(`
       - tablist:
-        - tab "Tab" [selected]
-        - tab "With Icon"
-      - tabpanel "Tab": Panel
+        - tab "One" [selected]
+        - tab "Two"
+      - tabpanel "One"
     `);
   },
 );
