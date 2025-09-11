@@ -27,7 +27,7 @@ export default {
     //    will include the cache busting query parameter.
     // 3. Upon executing Menu, the browser will re-execute Option.
     // 4. Option will attempt to add itself to the custom elements registry again but
-    //    will already be in it, causing the browser to throw.
+    //    will already be in it, causing the browser to throw and the test to fail.
     hmr: false,
   },
 };
