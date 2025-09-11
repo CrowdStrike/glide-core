@@ -54,7 +54,7 @@ export default test.extend<{
           route.abort();
         });
 
-        await page.goto('/playwright.html');
+        await page.goto('http://localhost:6009/src/playwright/index.html');
 
         // Now we leave Node.js Land and enter Browser Land:
         //
@@ -155,7 +155,7 @@ export default test.extend<{
             });
 
             if (exportedComponent) {
-              scriptPath = exportedComponent.declaration.module;
+              scriptPath = '/' + exportedComponent.declaration.module;
               break;
             }
           }

@@ -85,6 +85,7 @@
     "test:development:playwright:coverage": "http-server ./dist/playwright/coverage-report --port 6008 --silent",
     "test:development:playwright:ui": "playwright test --config ./src/playwright/playwright.config.ts --ui-port 6007 --update-snapshots --update-source-method=overwrite",
     "test:development:playwright:update": "PLAYWRIGHT_SKIP_COVERAGE=true playwright test --config ./src/playwright/playwright.config.ts --quiet --grep @accessibility --update-snapshots --update-source-method=overwrite --workers 100%",
+    "test:development:playwright:vite": "vite --config ./src/playwright/vite.config.ts --port 6009",
     "test:development:web-test-runner": "web-test-runner --watch",
     "test:production": "pnpm start:production:esbuild && npm-run-all --aggregate-output --print-label --parallel test:production:*",
     "test:production:playwright": "playwright test --config ./src/playwright/playwright.config.ts --grep 'is accessible|@eslint|@events|@forms|@keyboard|@miscellaneous|@mouse|@stylelint'",
