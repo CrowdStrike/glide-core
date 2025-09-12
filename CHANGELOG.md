@@ -1,5 +1,15 @@
 # @crowdstrike/glide-core
 
+## 0.34.2
+
+### Patch Changes
+
+- [#1151](https://github.com/CrowdStrike/glide-core/pull/1151) [`4bd6537`](https://github.com/CrowdStrike/glide-core/commit/4bd653730096b14120afdaa408589d6425414bbb) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Button now supports a `loading` attribute that will render a Spinner and effectively disable the Button.
+
+- [#1136](https://github.com/CrowdStrike/glide-core/pull/1136) [`7f2b520`](https://github.com/CrowdStrike/glide-core/commit/7f2b52078cb3d971cda0cb746ec19ed6f9886f7f) Thanks [@clintcs](https://github.com/clintcs)! - Select now supports multiselection via a new `multiple` attribute.
+
+- [#1147](https://github.com/CrowdStrike/glide-core/pull/1147) [`6fa736b`](https://github.com/CrowdStrike/glide-core/commit/6fa736b319b73c41e5beec2f8ed359e2537c59e5) Thanks [@clintcs](https://github.com/clintcs)! - Disabled Option sub-Menu targets are now hidden.
+
 ## 0.34.1
 
 ### Patch Changes
