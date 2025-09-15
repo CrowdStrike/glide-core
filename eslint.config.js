@@ -386,6 +386,7 @@ export default defineConfig([
       'src/inline-alert.test.*.ts',
       'src/input.test.*.ts',
       'src/link.test.*.ts',
+      'src/modal.test.*.ts',
       'src/option.test.*.ts',
       'src/options.test.*.ts',
       'src/options.group.test.*.ts',
