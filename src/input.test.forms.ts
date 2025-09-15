@@ -37,7 +37,7 @@ test(
 
     const host = page.locator('glide-core-input');
     const form = page.locator('form');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await setProperty(host, 'value', 'changed');
     await callMethod(form, 'reset');
@@ -63,7 +63,7 @@ test(
 
     const host = page.locator('glide-core-input');
     const form = page.locator('form');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await setProperty(host, 'value', 'changed');
     await callMethod(form, 'reset');
@@ -98,7 +98,7 @@ test(
 );
 
 test(
-  'has no `formData` value when there is no value',
+  'has no `formData` value when it has no value',
   { tag: '@forms' },
   async ({ mount, page }) => {
     await mount(
@@ -194,14 +194,14 @@ test(
     );
 
     const form = page.locator('form');
-    const input = page.getByRole('textbox');
+    const textbox = page.getByRole('textbox');
 
     await addEventListener(form, 'submit', {
       preventDefault: true,
     });
 
     await expect(form).toDispatchEvents(
-      () => input.press('Enter'),
+      () => textbox.press('Enter'),
       [{ type: 'submit' }],
     );
   },
@@ -216,7 +216,7 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await expect(host).not.toDispatchEvents(async () => {
       await callMethod(host, 'checkValidity');
@@ -241,10 +241,10 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.getByRole('textbox');
-    const inputElement = host.locator('[data-test="input"]');
+    const textbox = host.getByRole('textbox');
+    const input = host.locator('input');
 
-    await input.fill('value');
+    await textbox.fill('value');
 
     await expect(host).not.toDispatchEvents(async () => {
       await callMethod(host, 'checkValidity');
@@ -253,7 +253,7 @@ test(
 
     await expect(host).toHaveJSProperty('validity.valid', true);
     await expect(host).toHaveJSProperty('validity.valueMissing', false);
-    await expect(inputElement).toHaveAttribute('aria-invalid', 'false');
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
 
     expect(await callMethod(host, 'checkValidity')).toBe(true);
     expect(await callMethod(host, 'reportValidity')).toBe(true);
@@ -261,7 +261,7 @@ test(
 );
 
 test(
-  'is invalid if there is no value and it is required',
+  'is invalid when it has no value and is required',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
     await mount(
@@ -269,7 +269,7 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await expect(host).toDispatchEvents(
       () => callMethod(host, 'reportValidity'),
@@ -301,7 +301,7 @@ test(
 
     const host = page.locator('glide-core-input');
     const clearButton = host.locator('[data-test="clear-button"]');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await clearButton.click();
 
@@ -320,7 +320,7 @@ test(
 );
 
 test(
-  'is valid if there is no value and it is required and disabled',
+  'is valid when it has no value and is required and disabled',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
     await mount(
@@ -333,7 +333,7 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await expect(host).not.toDispatchEvents(async () => {
       await callMethod(host, 'checkValidity');
@@ -380,7 +380,7 @@ test(
 );
 
 test(
-  'focuses itself after submit when required and there is no value',
+  'focuses itself after submit when required and it has no value',
   { tag: '@forms' },
   async ({ callMethod, mount, page }) => {
     await mount(
@@ -414,21 +414,18 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.getByRole('textbox');
+    const textbox = host.getByRole('textbox');
     const validityMessage = page.locator('[data-test="validity-message"]');
 
-    await input.focus();
-    await input.blur();
+    await textbox.focus();
+    await textbox.blur();
     await callMethod(host, 'setCustomValidity', 'message');
 
     await expect(validityMessage).toHaveText('message', {
       useInnerText: true,
     });
 
-    await expect(host.locator('[data-test="input"]')).toHaveAttribute(
-      'aria-invalid',
-      'true',
-    );
+    await expect(host.locator('input')).toHaveAttribute('aria-invalid', 'true');
   },
 );
 
@@ -551,7 +548,7 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await expect(host).not.toDispatchEvents(async () => {
       await callMethod(host, 'checkValidity');
@@ -581,7 +578,7 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await expect(host).toDispatchEvents(
       () => callMethod(host, 'reportValidity'),
@@ -611,7 +608,7 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await expect(host).toDispatchEvents(
       () => callMethod(host, 'checkValidity'),
@@ -646,7 +643,7 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await expect(host).toDispatchEvents(
       () => callMethod(host, 'checkValidity'),
@@ -686,7 +683,7 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.locator('[data-test="input"]');
+    const input = host.locator('input');
 
     await expect(host).toDispatchEvents(
       () => callMethod(host, 'reportValidity'),

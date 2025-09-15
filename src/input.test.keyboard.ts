@@ -10,11 +10,11 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.getByRole('textbox');
+    const textbox = host.getByRole('textbox');
 
     await expect(host).toDispatchEvents(async () => {
-      await input.fill('input');
-      await input.blur();
+      await textbox.fill('input');
+      await textbox.blur();
     }, [
       {
         bubbles: true,
@@ -34,10 +34,10 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const input = host.getByRole('textbox');
+    const textbox = host.getByRole('textbox');
 
     await expect(host).toDispatchEvents(
-      () => input.press('KeyA'),
+      () => textbox.fill('a'),
       [
         {
           bubbles: true,

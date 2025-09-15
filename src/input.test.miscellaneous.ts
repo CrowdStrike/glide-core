@@ -51,9 +51,9 @@ test(
     );
 
     const host = page.locator('glide-core-input');
-    const characterCount = host.locator('[data-test="character-count-text"]');
+    const count = host.locator('[data-test="character-count-text"]');
 
-    await expect(characterCount).toHaveText('0/5');
+    await expect(count).toHaveText('0/5');
   },
 );
 
@@ -68,11 +68,11 @@ test(
 
     const host = page.locator('glide-core-input');
 
-    const characterCountContainer = host.locator(
+    const countContainer = host.locator(
       '[data-test="character-count-container"]',
     );
 
-    await expect(characterCountContainer).toBeHidden();
+    await expect(countContainer).toBeHidden();
   },
 );
 
@@ -82,7 +82,7 @@ test('can be readonly', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   );
 
   const host = page.locator('glide-core-input');
-  const input = host.locator('[data-test="input"]');
+  const input = host.locator('input');
 
   await expect(host).toBeAttached();
   await expect(host).toHaveJSProperty('readonly', true);

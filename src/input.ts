@@ -333,7 +333,6 @@ export default class Input extends LitElement implements FormControl {
             autocapitalize=${this.autocapitalize}
             autocomplete=${this.autocomplete}
             class="input"
-            data-test="input"
             id="input"
             placeholder=${ifDefined(this.placeholder)}
             spellcheck=${this.spellcheck}
