@@ -3332,6 +3332,16 @@
             },
             {
               "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'large' | 'small'"
+              },
+              "default": "'small'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "variant",
               "type": {
                 "text": "'primary' | 'secondary' | 'tertiary'"
@@ -3404,6 +3414,14 @@
               },
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'large' | 'small'"
+              },
+              "default": "'small'",
+              "fieldName": "size"
             },
             {
               "name": "variant",

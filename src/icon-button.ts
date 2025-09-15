@@ -22,6 +22,7 @@ declare global {
  * @attr {'true'|'false'|null} [aria-expanded=null]
  * @attr {'true'|'false'|'menu'|'listbox'|'tree'|'grid'|'dialog'|null} [aria-haspopup=null]
  * @attr {boolean} [disabled=false]
+ * @attr {'large'|'small'} [size='small']
  * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
  *
  * @readonly
@@ -88,6 +89,9 @@ export default class IconButton extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   @property({ reflect: true, useDefault: true })
+  size: 'large' | 'small' = 'small';
+
+  @property({ reflect: true, useDefault: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   @property({ reflect: true })
@@ -115,6 +119,8 @@ export default class IconButton extends LitElement {
           primary: this.variant === 'primary',
           secondary: this.variant === 'secondary',
           tertiary: this.variant === 'tertiary',
+          large: this.size === 'large',
+          small: this.size === 'small',
         })}
         data-test="button"
         type="button"
