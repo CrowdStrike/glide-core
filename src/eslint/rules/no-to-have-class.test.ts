@@ -21,7 +21,7 @@ const eslint = new ESLint({
 });
 
 test(
-  'valid when `expeft().toHaveClass()` is not used',
+  'valid when `expect().toHaveClass()` is not used',
   { tag: '@eslint' },
   async () => {
     const [result] = await eslint.lintText(`
