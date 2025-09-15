@@ -137,7 +137,7 @@ export default [
       min-inline-size: 0;
     }
 
-    .required-symbol {
+    .asterisk {
       color: var(--glide-core-color-advisory-stroke-error-primary);
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-default);

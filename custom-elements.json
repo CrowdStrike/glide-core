@@ -4239,7 +4239,7 @@
               "name": "",
               "description": "",
               "type": {
-                "text": "HTMLLabelElement"
+                "text": "Element"
               }
             },
             {
