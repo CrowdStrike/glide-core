@@ -1,5 +1,17 @@
+import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 import type Modal from './modal.js';
+
+test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
+  await mount(
+    () =>
+      html`<glide-core-modal label="Label" description="Description"
+        >Content</glide-core-modal
+      >`,
+  );
+
+  await expect(page).toBeAccessible('glide-core-modal');
+});
 
 test('open', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=modal--modal');
