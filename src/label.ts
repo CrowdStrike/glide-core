@@ -28,7 +28,7 @@ declare global {
  * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [tooltip]
  *
- * @slot {HTMLLabelElement}
+ * @slot {Element}
  * @slot {Element} [control] - The element with which the label is associated
  * @slot {Element | string} [description] - Additional information or context
  * @slot {Element | string} [summary] - Additional information or context
@@ -36,12 +36,12 @@ declare global {
 @customElement('glide-core-private-label')
 @final
 export default class Label extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -121,6 +121,7 @@ export default class Label extends LitElement {
                 vertical: this.orientation === 'vertical',
                 visible: this.tooltip ? true : false,
               })}
+              data-test="optional-tooltip"
               label=${ifDefined(this.tooltip)}
               placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
             >
@@ -154,17 +155,13 @@ export default class Label extends LitElement {
             ${ref(this.#labelElementRef)}
           >
             <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
-              <!-- @type {HTMLLabelElement} -->
+              <!-- @type {Element} -->
             </slot>
           </div>
         </glide-core-tooltip>
 
         ${this.required
-          ? html`<span
-              aria-hidden="true"
-              class="required-symbol"
-              data-test="required-symbol"
-            >
+          ? html`<span aria-hidden="true" class="asterisk" data-test="asterisk">
               *
             </span>`
           : ''}

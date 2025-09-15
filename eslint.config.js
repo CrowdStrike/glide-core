@@ -385,6 +385,7 @@ export default defineConfig([
       'src/icon-button.test.*.ts',
       'src/inline-alert.test.*.ts',
       'src/input.test.*.ts',
+      'src/label.test.*.ts',
       'src/link.test.*.ts',
       'src/option.test.*.ts',
       'src/options.test.*.ts',
