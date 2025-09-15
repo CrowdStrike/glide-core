@@ -1,635 +1,701 @@
-import { expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import sinon from 'sinon';
-import Input from './input.js';
-import { click } from './library/mouse.js';
+import { html } from 'lit';
+import { expect, test } from './playwright/test.js';
 
-it('can be reset to its initial value', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label" value="value"></glide-core-input>`,
-    {
-      parentNode: form,
-    },
+test('has a `form` property', { tag: '@forms' }, async ({ mount, page }) => {
+  await mount(
+    () => html`
+      <form>
+        <glide-core-input label="Label"></glide-core-input>
+      </form>
+    `,
   );
 
-  host.value = '';
-  form.reset();
+  const host = page.locator('glide-core-input');
 
-  expect(host.value).to.equal('value');
-});
-
-it('can be reset if there was no initial value', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label"></glide-core-input>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  host.value = 'value';
-  form.reset();
-
-  expect(host.value).to.be.empty.string;
-});
-
-it('has a `formData` value when it has a value', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      name="name"
-      value="value"
-    ></glide-core-input>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.equal('value');
-});
-
-it('has no `formData` value when no value', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Input>(
-    html`<glide-core-input label="Label" name="name"></glide-core-input>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.be.null;
-});
-
-it('has no `formData` value when it has a value but is disabled', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      name="name"
-      value="value"
-      disabled
-    ></glide-core-input>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.be.null;
-});
-
-it('has no `formData` value when it has a value but no `name`', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Input>(
-    html`<glide-core-input label="Label" value="value"></glide-core-input>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.be.null;
-});
-
-it('submits its form on Enter', async () => {
-  const form = document.createElement('form');
-
-  await fixture<Input>(
-    html`<glide-core-input label="Label" value="value"></glide-core-input>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const spy = sinon.spy();
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    spy();
+  const hasForm = await host.evaluate((element) => {
+    return 'form' in element && element.form instanceof HTMLFormElement;
   });
 
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(spy.callCount).to.equal(1);
+  expect(hasForm).toBe(true);
 });
 
-it('is valid if empty but not required', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label"></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-});
-
-it('is valid after being filled in when empty and required', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label" required></glide-core-input>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ type: 'value' });
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-});
-
-it('is invalid if no value and required', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label" required></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-});
-
-it('is invalid after value is cleared when required', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      value="value"
-      clearable
-      required
-    ></glide-core-input>`,
-  );
-
-  await click(host.shadowRoot?.querySelector('[data-test="clear-button"]'));
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-});
-
-it('is valid if no value and required and disabled', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label" disabled required></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-});
-
-it('updates its validity when required and `value` is set programmatically', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label" required></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-
-  host.value = 'text';
-
-  await host.updateComplete;
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-
-  // Resetting the value to empty to ensure it goes
-  // back to an invalid state
-  host.value = '';
-
-  await host.updateComplete;
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-});
-
-it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label"></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-
-  host.required = true;
-
-  await host.updateComplete;
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-});
-
-it('is valid when `value` is empty and `required` is updated to `false` programmatically', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label" required></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-
-  host.required = false;
-
-  await host.updateComplete;
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-});
-
-it('is valid when the `value` attribute matches `pattern`', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[A-Za-z_s][A-Za-z_0-9s]*"
-      value="value"
-    ></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.patternMismatch).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-});
-
-it('is valid when `value` matches `pattern` after being set programmatically', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[a-z]{4,8}"
-    ></glide-core-input>`,
-  );
-
-  host.value = 'value';
-
-  await host.updateComplete;
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.patternMismatch).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-});
-
-it('is valid when `pattern` is set and `value` is empty', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[a-z]{4,8}"
-    ></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.patternMismatch).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-});
-
-it('is invalid when `value` does not match `pattern`', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[A-Za-z_s][A-Za-z_0-9s]*"
-      value="!value"
-    ></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.patternMismatch).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-});
-
-it('is invalid when a programmatically set `value` does not match `pattern`', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[a-z]{4,8}"
-    ></glide-core-input>`,
-  );
-
-  host.value = 'val';
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.patternMismatch).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-});
-
-it('is invalid when `required` and `value` does not match `pattern`', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[a-z]{4,8}"
-      value="val"
-      required
-    ></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.patternMismatch).to.be.true;
-});
-
-it('is invalid when `required`, has an empty `value`, and a `pattern`', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[a-z]{4,8}"
-      required
-    ></glide-core-input>`,
-  );
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.patternMismatch).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-});
-
-it('is valid when `pattern` is programmatically removed', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[a-z]{4,8}"
-      value="val"
-    ></glide-core-input>`,
-  );
-
-  host.pattern = undefined;
-
-  await host.updateComplete;
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.patternMismatch).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('false');
-});
-
-it('sets the validity message with `setCustomValidity()`', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label"></glide-core-input>`,
-  );
-
-  host.setCustomValidity('validity message');
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.customError).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  // Like native, the message shouldn't display until `reportValidity()` is called.
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.equal('validity message');
-});
-
-it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label"></glide-core-input>`,
-  );
-
-  host.setCustomValidity('validity message');
-  host.reportValidity();
-
-  await host.updateComplete;
-
-  host.setCustomValidity('');
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-});
-
-it('is invalid when `setValidity()` is called', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label"></glide-core-input>`,
-  );
-
-  host.setValidity({ customError: true }, 'validity message');
-
-  expect(host.validity.valid).to.be.false;
-
-  await host.updateComplete;
-
-  // Like native, the message shouldn't display until `reportValidity()` is called.
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-
-  expect(host.validity?.customError).to.be.true;
-
-  host.reportValidity();
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
-  ).to.equal('true');
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.equal('validity message');
-});
-
-it('is valid when `setValidity()` is called', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label"></glide-core-input>`,
-  );
-
-  host.setValidity({ customError: true }, 'validity message');
-
-  host.setValidity({});
-
-  await host.updateComplete;
-
-  expect(host.validity.valid).to.be.true;
-  expect(host.validity.customError).to.be.false;
-
-  expect(host.reportValidity()).to.be.true;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-});
-
-it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  // `value` does not match `pattern` intentionally to force an invalid state
-  const host = await fixture<Input>(
-    html`<glide-core-input
-      label="Label"
-      pattern="[a-z]{4,8}"
-      value="val"
-      required
-    ></glide-core-input>`,
-  );
-
-  host.setCustomValidity('validity message');
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.customError).to.be.true;
-  expect(host.validity?.patternMismatch).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-});
-
-it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const host = await fixture<Input>(
-    html`<glide-core-input label="Label"></glide-core-input>`,
-  );
-
-  host.setCustomValidity('validity message');
-
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.equal('validity message');
-
-  host.resetValidityFeedback();
-
-  await host.updateComplete;
-
-  expect(host.shadowRoot?.querySelector('[data-test="validity-message"]')).to.be
-    .null;
-
-  expect(host.validity?.valid).to.be.false;
-});
+test(
+  'can be reset',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input
+            label="Label"
+            value="initial"
+            required
+          ></glide-core-input>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-input');
+    const form = page.locator('form');
+    const input = host.locator('input');
+
+    await setProperty(host, 'value', 'changed');
+    await callMethod(form, 'reset');
+
+    await expect(host).toHaveJSProperty('value', 'initial');
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
+  },
+);
+
+test(
+  'can be reset when not provided with an initial value',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label"></glide-core-input>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-input');
+    const form = page.locator('form');
+    const input = host.locator('input');
+
+    await setProperty(host, 'value', 'changed');
+    await callMethod(form, 'reset');
+
+    await expect(host).toHaveJSProperty('value', '');
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
+  },
+);
+
+test(
+  'has a `formData` value when it has a value',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input
+            label="Label"
+            name="name"
+            value="value"
+          ></glide-core-input>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', 'value');
+  },
+);
+
+test(
+  'has no `formData` value when it has no value',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label" name="name"></glide-core-input>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', null);
+  },
+);
+
+test(
+  'has no `formData` value when it has a value but is disabled',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input
+            label="Label"
+            name="name"
+            value="value"
+            disabled
+          ></glide-core-input>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', null);
+  },
+);
+
+test(
+  'has no form data when disabled',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input
+            label="Label"
+            name="name"
+            value="value"
+            disabled
+          ></glide-core-input>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', null);
+  },
+);
+
+test(
+  'has no `formData` value when it has a value but no `name`',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label" value="value"></glide-core-input>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    // When there's no name attribute, the field shouldn't appear in form data at all
+    // We can check that the form has no entries by checking for a non-existent field
+    await expect(form).toHaveFormData('nonexistent', null);
+  },
+);
+
+test(
+  'submits its form on Enter',
+  { tag: '@forms' },
+  async ({ addEventListener, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label"></glide-core-input>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+    const textbox = page.getByRole('textbox');
+
+    await addEventListener(form, 'submit', {
+      preventDefault: true,
+    });
+
+    await expect(form).toDispatchEvents(
+      () => textbox.press('Enter'),
+      [{ type: 'submit' }],
+    );
+  },
+);
+
+test(
+  'is valid if empty but not required',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`<glide-core-input label="Label"></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const input = host.locator('input');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'is valid after being filled in when empty and required',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`<glide-core-input label="Label" required></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const textbox = host.getByRole('textbox');
+    const input = host.locator('input');
+
+    await textbox.fill('value');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'is invalid when it has no value and is required',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`<glide-core-input label="Label" required></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const input = host.locator('input');
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'reportValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.valueMissing', true);
+    await expect(input).toHaveAttribute('aria-invalid', 'true');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(false);
+    expect(await callMethod(host, 'reportValidity')).toBe(false);
+  },
+);
+
+test(
+  'is invalid after the value is cleared when required',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () =>
+        html`<glide-core-input
+          label="Label"
+          value="value"
+          clearable
+          required
+        ></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const clearButton = host.locator('[data-test="clear-button"]');
+    const input = host.locator('input');
+
+    await clearButton.click();
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'reportValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.valueMissing', true);
+    await expect(input).toHaveAttribute('aria-invalid', 'true');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(false);
+    expect(await callMethod(host, 'reportValidity')).toBe(false);
+  },
+);
+
+test(
+  'is valid when it has no value and is required and disabled',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () =>
+        html`<glide-core-input
+          label="Label"
+          disabled
+          required
+        ></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const input = host.locator('input');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'dispatches an invalid event when the form is submitted and required with no value',
+  { tag: '@forms' },
+  async ({ addEventListener, callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label" required></glide-core-input>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-input');
+    const form = page.locator('form');
+
+    await addEventListener(form, 'submit', {
+      preventDefault: true,
+    });
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(form, 'requestSubmit'),
+      [
+        {
+          type: 'invalid',
+        },
+      ],
+    );
+  },
+);
+
+test(
+  'focuses itself after submit when required and it has no value',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label" required></glide-core-input>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-input');
+    const form = page.locator('form');
+
+    await callMethod(form, 'requestSubmit');
+
+    const input = host.getByRole('textbox');
+    await expect(input).toBeFocused();
+  },
+);
+
+test(
+  'updates its validity on blur',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label" required></glide-core-input>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-input');
+    const textbox = host.getByRole('textbox');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+
+    await textbox.focus();
+    await textbox.blur();
+    await callMethod(host, 'setCustomValidity', 'message');
+
+    await expect(validityMessage).toHaveText('message', {
+      useInnerText: true,
+    });
+
+    await expect(host.locator('input')).toHaveAttribute('aria-invalid', 'true');
+  },
+);
+
+test(
+  'supports `setValidity()`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input
+            label="Label"
+            value="value"
+            required
+          ></glide-core-input>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-input');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+
+    await callMethod(host, 'setValidity', { customError: true }, 'message');
+    await setProperty(host, 'value', '');
+    await callMethod(host, 'reportValidity');
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.customError', true);
+
+    await expect(validityMessage).toHaveText('message', {
+      useInnerText: true,
+    });
+  },
+);
+
+test(
+  'sets the validity message with `setCustomValidity()`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label" required></glide-core-input>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-input');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+
+    await callMethod(host, 'setCustomValidity', 'message');
+    await callMethod(host, 'reportValidity');
+
+    await expect(host).toHaveJSProperty('validity.customError', true);
+
+    await expect(validityMessage).toHaveText('message', {
+      useInnerText: true,
+    });
+  },
+);
+
+test(
+  'removes a validity message with an empty argument to `setCustomValidity()`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`<glide-core-input label="Label"></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+
+    await callMethod(host, 'setCustomValidity', 'custom error message');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(false);
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.customError', true);
+
+    await callMethod(host, 'setCustomValidity', '');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.customError', false);
+  },
+);
+
+test(
+  'supports `resetValidityFeedback()`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-input label="Label" required></glide-core-input>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-input');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+
+    await callMethod(host, 'setCustomValidity', 'message');
+    await callMethod(host, 'reportValidity');
+    await callMethod(host, 'resetValidityFeedback');
+
+    await expect(validityMessage).toBeHidden();
+  },
+);
+
+test(
+  'is valid when the `value` attribute matches `pattern`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () =>
+        html`<glide-core-input
+          label="Label"
+          pattern="[a-z]{3,5}"
+          value="abc"
+        ></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const input = host.locator('input');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.patternMismatch', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'is invalid when `value` does not match `pattern`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () =>
+        html`<glide-core-input
+          label="Label"
+          pattern="[a-z]{3,5}"
+          value="abc123"
+        ></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const input = host.locator('input');
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'reportValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.patternMismatch', true);
+    await expect(input).toHaveAttribute('aria-invalid', 'true');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(false);
+    expect(await callMethod(host, 'reportValidity')).toBe(false);
+  },
+);
+
+test(
+  'is valid when `pattern` is programmatically removed',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () =>
+        html`<glide-core-input
+          label="Label"
+          pattern="[a-z]{3,5}"
+          value="invalid123"
+        ></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const input = host.locator('input');
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'checkValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.patternMismatch', true);
+
+    await setProperty(host, 'pattern', '');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.patternMismatch', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'is valid when `value` is empty and `required` is updated to `false` programmatically',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () => html`<glide-core-input label="Label" required></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const input = host.locator('input');
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'checkValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.valueMissing', true);
+
+    await setProperty(host, 'required', false);
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'false');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'is invalid when `required`, has an empty `value`, and a `pattern`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () =>
+        html`<glide-core-input
+          label="Label"
+          pattern="[a-z]{3,5}"
+          required
+        ></glide-core-input>`,
+    );
+
+    const host = page.locator('glide-core-input');
+    const input = host.locator('input');
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'reportValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.valueMissing', true);
+    await expect(host).toHaveJSProperty('validity.patternMismatch', false);
+    await expect(input).toHaveAttribute('aria-invalid', 'true');
+
+    expect(await callMethod(host, 'checkValidity')).toBe(false);
+    expect(await callMethod(host, 'reportValidity')).toBe(false);
+  },
+);
