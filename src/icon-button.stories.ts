@@ -27,6 +27,7 @@ const meta: Meta = {
     return html`
       <glide-core-icon-button
         label=${arguments_.label || nothing}
+        size=${arguments_.size === 'small' ? nothing : arguments_.size}
         variant=${arguments_.variant === 'primary'
           ? nothing
           : arguments_.variant}
@@ -42,6 +43,7 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     disabled: false,
     variant: 'primary',
+    size: 'small',
     version: '',
   },
   argTypes: {
@@ -73,6 +75,19 @@ const meta: Meta = {
           summary: 'false',
         },
         type: { summary: 'boolean' },
+      },
+    },
+    size: {
+      control: { type: 'radio' },
+      options: ['large', 'small'],
+      table: {
+        defaultValue: {
+          summary: '"small"',
+        },
+        type: {
+          summary: '"large" | "small"',
+          detail: '// Unsupported with `variant="tertiary"`',
+        },
       },
     },
     variant: {

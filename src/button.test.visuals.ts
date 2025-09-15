@@ -60,13 +60,30 @@ for (const story of stories) {
             });
 
             test.describe(':active', () => {
-              test('disabled', async ({ page }, test) => {
+              test('disabled=${true}', async ({ page }, test) => {
                 await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
                 await page
                   .locator('glide-core-button')
                   .evaluate((element: Button, variant) => {
                     element.disabled = true;
+                    element.variant = variant;
+                  }, variant);
+
+                await page.locator('glide-core-button').hover();
+                await page.mouse.down();
+
+                await expect(page).toHaveScreenshot(
+                  `${test.titlePath.join('.')}.png`,
+                );
+              });
+
+              test('disabled=${false}', async ({ page }, test) => {
+                await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+                await page
+                  .locator('glide-core-button')
+                  .evaluate((element: Button, variant) => {
                     element.variant = variant;
                   }, variant);
 
