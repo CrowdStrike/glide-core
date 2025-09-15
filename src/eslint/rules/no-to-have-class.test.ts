@@ -20,28 +20,70 @@ const eslint = new ESLint({
   ],
 });
 
-test('valid when `toHaveClass()` is not used', { tag: '@eslint' }, async () => {
-  const [result] = await eslint.lintText(`
-    test('test', async ({ page }) => {
-      const host = page.locator('glide-core-button');
-      await expect(host).toBeVisible();
-    });
-  `);
+test(
+  'valid when `expeft().toHaveClass()` is not used',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+      test('test', async ({ page }) => {
+        const host = page.locator('glide-core-button');
+        await expect(host).toBeVisible();
+      });
+    `);
 
-  expect(result?.errorCount).toBe(0);
-});
+    expect(result?.errorCount).toBe(0);
+  },
+);
 
-test('invalid when `toHaveClass()` is used', { tag: '@eslint' }, async () => {
-  const [result] = await eslint.lintText(`
-    test('test', async ({ page }) => {
-      const host = page.locator('glide-core-button');
-      await expect(host).toHaveClass('button');
-    });
-  `);
+test(
+  'invalid when `expect().toHaveClass()` is used',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+      test('test', async ({ page }) => {
+        const host = page.locator('glide-core-button');
+        await expect(host).toHaveClass('button');
+      });
+    `);
 
-  expect(result?.errorCount).toBe(1);
+    expect(result?.errorCount).toBe(1);
 
-  expect(result?.messages.at(0)?.message).toBe(
-    noToHaveClass.meta.messages.noToHaveClass,
-  );
-});
+    expect(result?.messages.at(0)?.message).toBe(
+      noToHaveClass.meta.messages.noToHaveClass,
+    );
+  },
+);
+
+test(
+  'valid when `expect().not.toHaveClass()` is not used',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+      test('test', async ({ page }) => {
+        const host = page.locator('glide-core-button');
+        await expect(host).toBeVisible();
+      });
+    `);
+
+    expect(result?.errorCount).toBe(0);
+  },
+);
+
+test(
+  'invalid when `expect().not.toHaveClass()` is used',
+  { tag: '@eslint' },
+  async () => {
+    const [result] = await eslint.lintText(`
+      test('test', async ({ page }) => {
+        const host = page.locator('glide-core-button');
+        await expect(host).not.toHaveClass('button');
+      });
+    `);
+
+    expect(result?.errorCount).toBe(1);
+
+    expect(result?.messages.at(0)?.message).toBe(
+      noToHaveClass.meta.messages.noToHaveClass,
+    );
+  },
+);

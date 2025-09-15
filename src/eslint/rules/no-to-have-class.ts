@@ -8,7 +8,8 @@ export const noToHaveClass = createRule({
   name: 'no-to-have-class',
   meta: {
     docs: {
-      description: 'Ensures `expect().toHaveClass()` is not used.',
+      description:
+        'Ensures `expect().toHaveClass()` and `expect().not.toHaveClass()` are not used.',
     },
     type: 'suggestion',
     messages: {
@@ -27,6 +28,21 @@ export const noToHaveClass = createRule({
           node.object.callee.name === 'expect' &&
           node.property.type === AST_NODE_TYPES.Identifier &&
           node.property.name === 'toHaveClass'
+        ) {
+          context.report({
+            node,
+            messageId: 'noToHaveClass',
+          });
+        }
+
+        if (
+          node.property.type === AST_NODE_TYPES.Identifier &&
+          node.property.name === 'toHaveClass' &&
+          node.object.type === AST_NODE_TYPES.MemberExpression &&
+          node.object.object.type === AST_NODE_TYPES.CallExpression &&
+          node.object.object.callee.type === AST_NODE_TYPES.Identifier &&
+          node.object.property.type === AST_NODE_TYPES.Identifier &&
+          node.object.property.name === 'not'
         ) {
           context.report({
             node,
