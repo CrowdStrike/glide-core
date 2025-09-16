@@ -388,6 +388,7 @@ export default defineConfig([
       'src/label.test.*.ts',
       'src/link.test.*.ts',
       'src/modal.test.*.ts',
+      'src/modal.icon-button.test.*.ts',
       'src/option.test.*.ts',
       'src/options.test.*.ts',
       'src/options.group.test.*.ts',
