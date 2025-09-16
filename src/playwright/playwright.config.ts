@@ -71,6 +71,8 @@ export default defineConfig({
             'src/select.test.*.ts',
             'src/spinner.test.*.ts',
             'src/tag.test.*.ts',
+            'src/tooltip.test.*.ts',
+            'src/tooltip.container.test.*.ts',
           ],
           testIgnore: ['src/*.test.visuals.ts'],
 
@@ -161,6 +163,8 @@ export default defineConfig({
           'src/select.ts',
           'src/spinner.ts',
           'src/tag.ts',
+          'src/tooltip.ts',
+          'src/tooltip.container.ts',
         ],
 
         outputDir: 'coverage-report',

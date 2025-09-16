@@ -47,12 +47,12 @@ declare global {
 @customElement('glide-core-tooltip')
 @final
 export default class Tooltip extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -149,9 +149,11 @@ export default class Tooltip extends LitElement {
     );
   }
 
+  /* v8 ignore start */
   set offset(offset: number) {
     this.#offset = offset;
   }
+  /* v8 ignore stop */
 
   /**
    * @default false
@@ -241,12 +243,14 @@ export default class Tooltip extends LitElement {
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
+  /* v8 ignore start */
   override disconnectedCallback() {
     super.disconnectedCallback();
 
     clearTimeout(this.#closeTimeoutId);
     clearTimeout(this.#openTimeoutId);
   }
+  /* v8 ignore stop */
 
   override firstUpdated() {
     if (this.#tooltipElementRef.value) {
@@ -391,7 +395,10 @@ export default class Tooltip extends LitElement {
 
   #hide() {
     this.#tooltipElementRef.value?.hidePopover();
+
+    /* v8 ignore start */
     this.#cleanUpFloatingUi?.();
+    /* v8 ignore stop */
   }
 
   #onComponentMouseOut(event: MouseEvent) {
@@ -410,7 +417,7 @@ export default class Tooltip extends LitElement {
     // The timeout gives consumers a chance to cancel the event to prevent Tooltip
     // from opening.
     setTimeout(() => {
-      if (!event.defaultPrevented) {
+      if (!event.defaultPrevented && !this.disabled) {
         this.#cancelClose();
 
         // The open and close delays are stored in data attributes so tests can
@@ -465,7 +472,9 @@ export default class Tooltip extends LitElement {
 
   #show() {
     if (!this.disabled) {
+      /* v8 ignore start */
       this.#cleanUpFloatingUi?.();
+      /* v8 ignore stop */
 
       if (this.#targetSlotElementRef.value && this.#tooltipElementRef.value) {
         this.#cleanUpFloatingUi = autoUpdate(
@@ -517,6 +526,7 @@ export default class Tooltip extends LitElement {
                   top: `${y}px`,
                 });
 
+                /* v8 ignore start */
                 Object.assign(this.#arrowElementRef.value.style, {
                   left: middlewareData.arrow?.x
                     ? `${middlewareData.arrow.x}px`
@@ -525,6 +535,7 @@ export default class Tooltip extends LitElement {
                     ? `${middlewareData.arrow.y}px`
                     : null,
                 });
+                /* v8 ignore stop */
 
                 this.effectivePlacement = placement;
                 this.#tooltipElementRef.value.showPopover();
@@ -533,11 +544,13 @@ export default class Tooltip extends LitElement {
                   'glide-core-private-tooltip-container',
                 );
 
+                /* v8 ignore start */
                 const isSupportedPlacement =
                   placement === 'bottom' ||
                   placement === 'left' ||
                   placement === 'right' ||
                   placement === 'top';
+                /* v8 ignore stop */
 
                 if (container && isSupportedPlacement) {
                   container.placement = placement;

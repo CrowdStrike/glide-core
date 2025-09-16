@@ -44,6 +44,8 @@ export default {
       'src/spinner.ts',
       'src/select.ts',
       'src/tag.ts',
+      'src/tooltip.ts',
+      'src/tooltip.container.ts',
     ],
     reportDir: 'dist/web-test-runner-coverage',
     threshold: {
@@ -84,6 +86,8 @@ export default {
     '!src/select.test.*.ts',
     '!src/spinner.test.*.ts',
     '!src/tag.test.*.ts',
+    '!src/tooltip.test.*.ts',
+    '!src/tooltip.container.test.*.ts',
   ],
   nodeResolve: {
     browser: true,
