@@ -8,7 +8,17 @@ test('closes on Escape', { tag: '@keyboard' }, async ({ mount, page }) => {
 
   const host = page.locator('glide-core-modal');
 
-  await page.keyboard.press('Escape');
+  await expect(host).toDispatchEvents(
+    () => page.keyboard.press('Escape'),
+    [
+      {
+        type: 'toggle',
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+      },
+    ],
+  );
 
   await expect(host).not.toHaveAttribute('open');
 });

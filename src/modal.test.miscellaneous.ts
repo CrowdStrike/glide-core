@@ -39,7 +39,14 @@ test(
 
     await expect(host).toDispatchEvents(
       () => setProperty(host, 'open', true),
-      [{ type: 'toggle', bubbles: true, composed: true }],
+      [
+        {
+          type: 'toggle',
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        },
+      ],
     );
 
     await expect(dialog).toBeVisible();
@@ -60,7 +67,14 @@ test(
 
     await expect(host).toDispatchEvents(
       () => setProperty(host, 'open', false),
-      [{ type: 'toggle', bubbles: true, composed: true }],
+      [
+        {
+          type: 'toggle',
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        },
+      ],
     );
 
     await expect(dialog).toBeHidden();
@@ -81,7 +95,14 @@ test(
 
     await expect(host).not.toDispatchEvents(
       () => setProperty(host, 'open', true),
-      [{ type: 'toggle', bubbles: true, composed: true }],
+      [
+        {
+          type: 'toggle',
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        },
+      ],
     );
 
     await expect(dialog).toBeVisible();
@@ -101,7 +122,14 @@ test(
 
     await expect(host).not.toDispatchEvents(
       () => setProperty(host, 'open', false),
-      [{ type: 'toggle', bubbles: true, composed: true }],
+      [
+        {
+          type: 'toggle',
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        },
+      ],
     );
 
     await expect(dialog).toBeHidden();
