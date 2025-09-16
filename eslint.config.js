@@ -392,6 +392,7 @@ export default defineConfig([
       'src/option.test.*.ts',
       'src/options.test.*.ts',
       'src/options.group.test.*.ts',
+      'src/popover.test.*.ts',
       'src/select.test.*.ts',
       'src/spinner.test.*.ts',
       'src/tag.test.*.ts',

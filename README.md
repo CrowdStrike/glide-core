@@ -17,7 +17,7 @@ A Web Component design system
 
 </div>
 
-## Usage
+## Usge
 
 ### 1. Install the dependencies
 

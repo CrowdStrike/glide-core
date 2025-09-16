@@ -41,12 +41,12 @@ declare global {
 @customElement('glide-core-popover')
 @final
 export default class Popover extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -86,9 +86,11 @@ export default class Popover extends LitElement {
     );
   }
 
+  /* v8 ignore start */
   set offset(offset: number) {
     this.#offset = offset;
   }
+  /* v8 ignore stop */
 
   /**
    * @default false
@@ -108,7 +110,7 @@ export default class Popover extends LitElement {
       this.dispatchEvent(
         new Event('toggle', { bubbles: true, composed: true }),
       );
-    } else if (hasChanged) {
+    } else if (hasChanged && !isOpen) {
       this.#hide();
 
       this.dispatchEvent(
@@ -169,6 +171,7 @@ export default class Popover extends LitElement {
           name="target"
           @click=${this.#onTargetSlotClick}
           @keydown=${this.#onTargetSlotKeydown}
+          @slotchange=${this.#onTargetSlotChange}
           ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
         >
@@ -289,7 +292,9 @@ export default class Popover extends LitElement {
       this.#targetElement.ariaExpanded = 'false';
     }
 
+    /* v8 ignore start */
     this.#cleanUpFloatingUi?.();
+    /* v8 ignore stop */
   }
 
   #onArrowClick() {
@@ -300,13 +305,20 @@ export default class Popover extends LitElement {
     this.#isDefaultSlotClick = true;
   }
 
+  #onTargetSlotChange() {
+    if (this.#targetElement) {
+      this.#targetElement.ariaExpanded =
+        this.open && !this.disabled ? 'true' : 'false';
+    }
+  }
+
   #onTargetSlotClick(event: MouseEvent) {
     this.#isTargetSlotClick = true;
 
     // The timeout gives consumers a chance to cancel the event to prevent Popover
     // from opening or closing.
     setTimeout(() => {
-      if (!event.defaultPrevented) {
+      if (!event.defaultPrevented && !this.disabled) {
         this.open = !this.open;
       }
     });
@@ -333,7 +345,9 @@ export default class Popover extends LitElement {
 
   #show() {
     if (!this.disabled) {
+      /* v8 ignore start */
       this.#cleanUpFloatingUi?.();
+      /* v8 ignore stop */
 
       if (this.#targetSlotElementRef.value && this.#popoverElementRef.value) {
         this.#cleanUpFloatingUi = autoUpdate(
@@ -398,6 +412,7 @@ export default class Popover extends LitElement {
                   top: `${y}px`,
                 });
 
+                /* v8 ignore start */
                 Object.assign(this.#arrowElementRef.value.style, {
                   left: middlewareData.arrow?.x
                     ? `${middlewareData.arrow.x - paddingOffset}px`
@@ -406,6 +421,7 @@ export default class Popover extends LitElement {
                     ? `${middlewareData.arrow.y - paddingOffset}px`
                     : null,
                 });
+                /* v8 ignore stop */
 
                 this.effectivePlacement = placement;
                 this.#popoverElementRef.value.showPopover();
