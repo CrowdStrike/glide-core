@@ -66,6 +66,24 @@ test(
 );
 
 test(
+  'can be closed initially',
+  { tag: '@miscellaneous' },
+  async ({ mount, page }) => {
+    await mount(
+      () =>
+        html`<glide-core-popover>
+          <div data-test="content">Content</div>
+          <button slot="target">Target</button>
+        </glide-core-popover>`,
+    );
+
+    const content = page.getByTestId('content');
+
+    await expect(content).toBeHidden();
+  },
+);
+
+test(
   'can be closed programmatically',
   { tag: '@miscellaneous' },
   async ({ mount, page, setProperty }) => {

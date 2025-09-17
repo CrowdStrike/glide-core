@@ -43,12 +43,12 @@ declare global {
 @customElement('glide-core-private-tooltip-container')
 @final
 export default class TooltipContainer extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 

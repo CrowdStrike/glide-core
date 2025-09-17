@@ -17,7 +17,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 });
 
 test(
-  'is opened when when open initially',
+  'can be open initially',
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
@@ -41,31 +41,7 @@ test(
 );
 
 test(
-  'is closed when closed initially',
-  { tag: '@miscellaneous' },
-  async ({ mount, page }) => {
-    await mount(
-      () => html`
-        <glide-core-select>
-          <button slot="target">Target</button>
-
-          <glide-core-options>
-            <glide-core-option label="Label"></glide-core-option>
-          </glide-core-options>
-        </glide-core-select>
-      `,
-    );
-
-    const host = page.locator('glide-core-select');
-    const listbox = page.getByRole('listbox');
-
-    await expect(host).not.toHaveAttribute('open');
-    await expect(listbox).toBeHidden();
-  },
-);
-
-test(
-  'is opened when opened programmatically',
+  'can be opened programmatically',
   { tag: '@miscellaneous' },
   async ({ mount, page, setProperty }) => {
     await mount(
@@ -91,7 +67,31 @@ test(
 );
 
 test(
-  'is closed when closed programmatically',
+  'can be closed initially',
+  { tag: '@miscellaneous' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <glide-core-select>
+          <button slot="target">Target</button>
+
+          <glide-core-options>
+            <glide-core-option label="Label"></glide-core-option>
+          </glide-core-options>
+        </glide-core-select>
+      `,
+    );
+
+    const host = page.locator('glide-core-select');
+    const listbox = page.getByRole('listbox');
+
+    await expect(host).not.toHaveAttribute('open');
+    await expect(listbox).toBeHidden();
+  },
+);
+
+test(
+  'can be closed programmatically',
   { tag: '@miscellaneous' },
   async ({ mount, page, setProperty }) => {
     await mount(

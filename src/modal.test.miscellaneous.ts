@@ -54,6 +54,20 @@ test(
 );
 
 test(
+  'can be closed initially',
+  { tag: '@miscellaneous' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`<glide-core-modal label="Label">Content</glide-core-modal>`,
+    );
+
+    const dialog = page.getByRole('dialog');
+
+    await expect(dialog).toBeHidden();
+  },
+);
+
+test(
   'can be closed programmatically',
   { tag: '@miscellaneous' },
   async ({ mount, page, setProperty }) => {
