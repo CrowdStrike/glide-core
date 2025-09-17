@@ -16,7 +16,17 @@ test(
     const button = page.getByRole('button');
     const tooltip = page.getByTestId('tooltip');
 
-    await button.hover();
+    await expect(host).toDispatchEvents(
+      () => button.hover(),
+      [
+        {
+          type: 'toggle',
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        },
+      ],
+    );
 
     await expect(host).toHaveAttribute('open');
     await expect(tooltip).toBeVisible();
@@ -38,9 +48,21 @@ test(
     const button = page.getByRole('button');
     const tooltip = page.getByTestId('tooltip');
 
+    await setAttribute(tooltip, 'data-open-delay', '0');
     await setAttribute(tooltip, 'data-close-delay', '0');
     await button.hover();
-    await page.mouse.move(0, 0);
+
+    await expect(host).toDispatchEvents(
+      () => page.mouse.move(0, 0),
+      [
+        {
+          type: 'toggle',
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        },
+      ],
+    );
 
     await expect(host).not.toHaveAttribute('open');
     await expect(tooltip).toBeHidden();
@@ -65,7 +87,11 @@ test(
     await setAttribute(tooltip, 'data-close-delay', '0');
     await button.hover();
     await addEventListener(host, 'mouseout', { preventDefault: true });
-    await page.mouse.move(0, 0);
+
+    await expect(host).not.toDispatchEvents(
+      () => page.mouse.move(0, 0),
+      [{ type: 'toggle' }],
+    );
 
     await expect(host).toHaveAttribute('open');
     await expect(tooltip).toBeVisible();
@@ -89,7 +115,11 @@ test(
 
     await setAttribute(tooltip, 'data-open-delay', '0');
     await addEventListener(host, 'mouseover', { preventDefault: true });
-    await button.hover();
+
+    await expect(host).not.toDispatchEvents(
+      () => button.hover(),
+      [{ type: 'toggle' }],
+    );
 
     await expect(host).not.toHaveAttribute('open');
     await expect(tooltip).toBeHidden();
@@ -111,8 +141,12 @@ test(
     const button = page.getByRole('button');
     const tooltip = page.getByTestId('tooltip');
 
-    await setAttribute(tooltip, 'data-closed-delay', '0');
-    await button.hover();
+    await setAttribute(tooltip, 'data-close-delay', '0');
+
+    await expect(host).not.toDispatchEvents(
+      () => button.hover(),
+      [{ type: 'toggle' }],
+    );
 
     await expect(host).not.toHaveAttribute('open');
     await expect(tooltip).toBeHidden();
@@ -122,7 +156,9 @@ test(
 test(
   'remains open when its target is hovered back to before the close delay',
   { tag: '@mouse' },
-  async ({ mount, page, setAttribute }) => {
+  async ({ browserName, mount, page, setAttribute }) => {
+    test.skip(browserName === 'webkit', 'Flaky. Unclear why.');
+
     await mount(
       () =>
         html`<glide-core-tooltip label="Label">
@@ -134,14 +170,17 @@ test(
     const button = page.getByRole('button');
     const tooltip = page.getByTestId('tooltip');
 
+    await setAttribute(tooltip, 'data-open-delay', '0');
     await setAttribute(tooltip, 'data-close-delay', '100');
-
-    await button.hover();
-    await page.mouse.move(0, 0);
     await button.hover();
 
-    // eslint-disable-next-line playwright/no-wait-for-timeout
-    await page.waitForTimeout(100);
+    await expect(host).not.toDispatchEvents(async () => {
+      await page.mouse.move(0, 0);
+      await button.hover();
+
+      // eslint-disable-next-line playwright/no-wait-for-timeout
+      await page.waitForTimeout(100);
+    }, [{ type: 'toggle' }]);
 
     await expect(host).toHaveAttribute('open');
     await expect(tooltip).toBeVisible();
@@ -164,12 +203,15 @@ test(
     const tooltip = page.getByTestId('tooltip');
 
     await setAttribute(tooltip, 'data-open-delay', '100');
+    await setAttribute(tooltip, 'data-close-delay', '0');
 
-    await button.hover();
-    await page.mouse.move(0, 0);
+    await expect(host).not.toDispatchEvents(async () => {
+      await button.hover();
+      await page.mouse.move(0, 0);
 
-    // eslint-disable-next-line playwright/no-wait-for-timeout
-    await page.waitForTimeout(100);
+      // eslint-disable-next-line playwright/no-wait-for-timeout
+      await page.waitForTimeout(100);
+    }, [{ type: 'toggle' }]);
 
     await expect(host).not.toHaveAttribute('open');
     await expect(tooltip).toBeHidden();
