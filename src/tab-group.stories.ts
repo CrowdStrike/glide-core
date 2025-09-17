@@ -352,6 +352,73 @@ export const TabGroup: StoryObj = {
   tags: ['!autodocs'],
 };
 
+export const WithIcons: StoryObj = {
+  render(arguments_) {
+    return html`
+      <glide-core-tab-group
+        style=${styleMap({
+          '--tabs-padding-block-start':
+            arguments_['--tabs-padding-block-start'] || null,
+          '--tabs-padding-block-end':
+            arguments_['--tabs-padding-block-end'] || null,
+          '--tabs-padding-inline-start':
+            arguments_['--tabs-padding-inline-start'] || null,
+          '--tabs-padding-inline-end':
+            arguments_['--tabs-padding-inline-end'] || null,
+        })}
+      >
+        <glide-core-tab-group-tab
+          label=${arguments_['<glide-core-tab-group-tab>.label'] || nothing}
+          slot="nav"
+          panel="1"
+          ?selected=${arguments_['<glide-core-tab-group-tab>.1.selected']}
+        >
+          <glide-core-example-icon
+            slot="icon"
+            name="calendar"
+          ></glide-core-example-icon>
+        </glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+          ?disabled=${arguments_['<glide-core-tab-group-tab>.disabled']}
+          ?selected=${arguments_['<glide-core-tab-group-tab>.2.selected']}
+        >
+          <glide-core-example-icon
+            slot="icon"
+            name="checkmark"
+          ></glide-core-example-icon>
+        </glide-core-tab-group-tab>
+
+        <glide-core-tab-group-panel
+          name="1"
+          style=${arguments_[
+            '<glide-core-tab-group-panel>[--padding-inline-end]'
+          ] ||
+          arguments_['<glide-core-tab-group-panel>[--padding-inline-start]']
+            ? styleMap({
+                '--padding-inline-end':
+                  arguments_[
+                    '<glide-core-tab-group-panel>[--padding-inline-end]'
+                  ] || null,
+                '--padding-inline-start':
+                  arguments_[
+                    '<glide-core-tab-group-panel>[--padding-inline-start]'
+                  ] || null,
+              })
+            : nothing}
+        >
+          ${unsafeHTML(
+            arguments_['<glide-core-tab-group-panel>[slot="default"]'],
+          )}
+        </glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="2"> Two </glide-core-tab-group-panel>
+      </glide-core-tab-group>
+    `;
+  },
+};
+
 export const WithOverflow: StoryObj = {
   render(arguments_) {
     return html`
@@ -463,73 +530,6 @@ export const WithOverflow: StoryObj = {
           </glide-core-tab-group-panel>
         </glide-core-tab-group>
       </div>
-    `;
-  },
-};
-
-export const WithIcons: StoryObj = {
-  render(arguments_) {
-    return html`
-      <glide-core-tab-group
-        style=${styleMap({
-          '--tabs-padding-block-start':
-            arguments_['--tabs-padding-block-start'] || null,
-          '--tabs-padding-block-end':
-            arguments_['--tabs-padding-block-end'] || null,
-          '--tabs-padding-inline-start':
-            arguments_['--tabs-padding-inline-start'] || null,
-          '--tabs-padding-inline-end':
-            arguments_['--tabs-padding-inline-end'] || null,
-        })}
-      >
-        <glide-core-tab-group-tab
-          label=${arguments_['<glide-core-tab-group-tab>.label'] || nothing}
-          slot="nav"
-          panel="1"
-          ?selected=${arguments_['<glide-core-tab-group-tab>.1.selected']}
-        >
-          <glide-core-example-icon
-            slot="icon"
-            name="calendar"
-          ></glide-core-example-icon>
-        </glide-core-tab-group-tab>
-        <glide-core-tab-group-tab
-          label="Two"
-          panel="2"
-          slot="nav"
-          ?disabled=${arguments_['<glide-core-tab-group-tab>.disabled']}
-          ?selected=${arguments_['<glide-core-tab-group-tab>.2.selected']}
-        >
-          <glide-core-example-icon
-            slot="icon"
-            name="checkmark"
-          ></glide-core-example-icon>
-        </glide-core-tab-group-tab>
-
-        <glide-core-tab-group-panel
-          name="1"
-          style=${arguments_[
-            '<glide-core-tab-group-panel>[--padding-inline-end]'
-          ] ||
-          arguments_['<glide-core-tab-group-panel>[--padding-inline-start]']
-            ? styleMap({
-                '--padding-inline-end':
-                  arguments_[
-                    '<glide-core-tab-group-panel>[--padding-inline-end]'
-                  ] || null,
-                '--padding-inline-start':
-                  arguments_[
-                    '<glide-core-tab-group-panel>[--padding-inline-start]'
-                  ] || null,
-              })
-            : nothing}
-        >
-          ${unsafeHTML(
-            arguments_['<glide-core-tab-group-panel>[slot="default"]'],
-          )}
-        </glide-core-tab-group-panel>
-        <glide-core-tab-group-panel name="2"> Two </glide-core-tab-group-panel>
-      </glide-core-tab-group>
     `;
   },
 };

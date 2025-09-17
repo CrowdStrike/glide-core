@@ -395,7 +395,7 @@ export default class TabGroup extends LitElement {
     }
 
     // Wait for the Tab layout to update, so the selected tab indicator width will be
-    // accurate. the selected indicator
+    // accurate.
     requestAnimationFrame(() => {
       this.#updateSelectedTabIndicator();
     });

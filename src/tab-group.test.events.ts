@@ -24,9 +24,7 @@ it('dispatches a "selected" event on click', async () => {
     </glide-core-tab-group>
   `);
 
-  const tab = host.querySelector<HTMLElement>(
-    'glide-core-tab-group-tab:nth-of-type(2)',
-  );
+  const tab = host.querySelector('glide-core-tab-group-tab:nth-of-type(2)');
 
   click(tab);
 
