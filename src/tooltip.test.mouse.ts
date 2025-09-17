@@ -48,7 +48,7 @@ test(
 );
 
 test(
-  'remains open when its target hovered away from and the event is canceled',
+  'remains open when its target is hovered away from and the event is canceled',
   { tag: '@mouse' },
   async ({ addEventListener, mount, page, setAttribute }) => {
     await mount(
