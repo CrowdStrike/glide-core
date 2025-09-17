@@ -335,9 +335,9 @@ export default class TabGroup extends LitElement {
   }
 
   #onTabIconSlotChange() {
-    // Wait a tick for the icon slot to update, so the selected tab measurements
-    // will be accurate.
-    setTimeout(() => {
+    // Wait for the Tab layout to update, so the selected tab indicator width will be
+    // accurate.
+    requestAnimationFrame(() => {
       this.#updateSelectedTabIndicator();
     });
 
@@ -347,9 +347,9 @@ export default class TabGroup extends LitElement {
   }
 
   #onTabLabelChange() {
-    // Wait a tick for the label to update, so the selected tab measurements
-    // will be accurate.
-    setTimeout(() => {
+    // Wait for the Tab layout to update, so the selected tab indicator width will be
+    // accurate.
+    requestAnimationFrame(() => {
       this.#updateSelectedTabIndicator();
     });
 
@@ -394,7 +394,11 @@ export default class TabGroup extends LitElement {
       this.#firstTab.tabIndex = 0;
     }
 
-    this.#updateSelectedTabIndicator();
+    // Wait for the Tab layout to update, so the selected tab indicator width will be
+    // accurate. the selected indicator
+    requestAnimationFrame(() => {
+      this.#updateSelectedTabIndicator();
+    });
 
     for (const panel of this.#panelElements) {
       panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
