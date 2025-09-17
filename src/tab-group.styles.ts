@@ -34,7 +34,9 @@ export default [
 
     .tab-group {
       display: flex;
+      flex: 1;
       gap: var(--glide-core-spacing-base-xl);
+      min-inline-size: 0;
       overflow: auto hidden;
       position: relative;
       scrollbar-width: none;
