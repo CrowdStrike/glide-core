@@ -1305,8 +1305,13 @@ export default class Menu extends LitElement {
 
       if (this.#isSubMenu && this.#parentOption) {
         this.#parentOption.ariaHasPopup = 'true';
-      } else if (!this.#isSubMenu && this.#targetElement) {
-        this.#targetElement.ariaHasPopup = 'true';
+      } else if (
+        !this.#isSubMenu &&
+        this.#targetElement &&
+        this.#optionsElement
+      ) {
+        this.#targetElement.ariaHasPopup =
+          this.#optionsElement.role === 'listbox' ? 'listbox' : 'true';
       }
 
       if (this.#isFilterable && !this.#isSubMenu) {

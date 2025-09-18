@@ -91,6 +91,39 @@ it('is accessible when its target is a DIV', async () => {
   expect(target?.role).to.equal('button');
 });
 
+it('is accessible when Options is a menu', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-menu>
+      <div slot="target">Target</div>
+
+      <glide-core-options>
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  const target = host.querySelector('div');
+
+  expect(target?.ariaHasPopup).to.equal('true');
+});
+
+it('is accessible when Options is a listbox', async () => {
+  const host = await fixture<Menu>(
+    /* eslint-disable lit-a11y/accessible-name */
+    html`<glide-core-menu>
+      <div slot="target">Target</div>
+
+      <glide-core-options role="listbox">
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-menu>`,
+  );
+
+  const target = host.querySelector('div');
+
+  expect(target?.ariaHasPopup).to.equal('listbox');
+});
+
 it('is accessible when its target is an SVG', async () => {
   const host = await fixture<Menu>(
     html`<glide-core-menu>
