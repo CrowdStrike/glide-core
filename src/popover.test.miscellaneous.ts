@@ -5,8 +5,8 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-popover>
-        Popover
         <button slot="target">Target</button>
+        <glide-core-popover-container> Content </glide-core-popover-container>
       </glide-core-popover>`,
   );
 
@@ -22,14 +22,14 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
 
@@ -40,13 +40,13 @@ test(
     await mount(
       () =>
         html`<glide-core-popover>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).toDispatchEvents(
       () => setProperty(host, 'open', true),
@@ -61,7 +61,7 @@ test(
     );
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
 
@@ -72,14 +72,14 @@ test(
     await mount(
       () =>
         html`<glide-core-popover>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -90,13 +90,13 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).toDispatchEvents(
       () => setProperty(host, 'open', false),
@@ -111,7 +111,7 @@ test(
     );
 
     await expect(host).not.toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -122,13 +122,13 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).not.toDispatchEvents(
       () => setProperty(host, 'open', true),
@@ -143,7 +143,7 @@ test(
     );
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
 
@@ -154,13 +154,13 @@ test(
     await mount(
       () =>
         html`<glide-core-popover>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).not.toDispatchEvents(
       () => setProperty(host, 'open', false),
@@ -175,7 +175,7 @@ test(
     );
 
     await expect(host).not.toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -186,16 +186,16 @@ test(
     await mount(
       () =>
         html`<glide-core-popover disabled open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -206,13 +206,13 @@ test(
     await mount(
       () =>
         html`<glide-core-popover disabled>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).not.toDispatchEvents(
       () => setProperty(host, 'open', true),
@@ -227,7 +227,7 @@ test(
     );
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -238,18 +238,18 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open disabled>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await setProperty(host, 'disabled', false);
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
 
@@ -260,18 +260,18 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await setProperty(host, 'disabled', true);
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -282,8 +282,8 @@ test(
     await mount(
       () =>
         html`<glide-core-popover>
-          Content
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
@@ -313,7 +313,14 @@ test(
   { tag: '@miscellaneous' },
   async ({ mount }) => {
     await expect(
-      mount(() => html`<glide-core-popover> Popover </glide-core-popover>`),
+      mount(
+        () =>
+          html`<glide-core-popover>
+            <glide-core-popover-container>
+              Content
+            </glide-core-popover-container>
+          </glide-core-popover>`,
+      ),
     ).rejects.toThrow();
   },
 );

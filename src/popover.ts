@@ -325,6 +325,12 @@ export default class Popover extends LitElement {
     if (this.#targetElement) {
       this.#targetElement.ariaExpanded =
         this.open && !this.disabled ? 'true' : 'false';
+
+      if (this.#containerElement?.role === 'dialog') {
+        this.#targetElement.ariaHasPopup = 'dialog';
+      } else if (this.#containerElement) {
+        this.#targetElement.ariaHasPopup = 'false';
+      }
     }
   }
 

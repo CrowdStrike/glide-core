@@ -7,11 +7,8 @@ test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-popover>
-        <glide-core-popover-container>
-          Content
-        <glide-core-popover-container>
-
         <button slot="target">Target</button>
+        <glide-core-popover-container> Content </glide-core-popover-container>
       </glide-core-popover>`,
   );
 
@@ -25,11 +22,8 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <glide-core-popover-container>
-            Content
-          <glide-core-popover-container>
-
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
@@ -46,11 +40,8 @@ test(
     await mount(
       () =>
         html`<glide-core-popover>
-          <glide-core-popover-container>
-            Content
-          <glide-core-popover-container>
-
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
@@ -70,11 +61,8 @@ test(
     await mount(
       () =>
         html`<glide-core-popover>
-          <glide-core-popover-container>
-            Content
-          <glide-core-popover-container>
-
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
@@ -91,11 +79,8 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <glide-core-popover-container>
-            Content
-          <glide-core-popover-container>
-
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
@@ -115,11 +100,8 @@ test(
     await mount(
       () =>
         html`<glide-core-popover disabled open>
-          <glide-core-popover-container>
-            Content
-          <glide-core-popover-container>
-         
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
@@ -139,11 +121,8 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-         <glide-core-popover-container>
-            Content
-          <glide-core-popover-container>
-          
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
@@ -153,6 +132,97 @@ test(
     await setProperty(host, 'disabled', true);
 
     await expect(button).toHaveAttribute('aria-expanded', 'false');
+  },
+);
+
+test(
+  'sets `aria-haspopup="dialog"` on its target when the role of its container is set initially',
+  { tag: '@accessibility' },
+  async ({ mount, page }) => {
+    await mount(
+      () =>
+        /* eslint-disable lit-a11y/accessible-name */
+        html`<glide-core-popover>
+          <button slot="target">Target</button>
+
+          <glide-core-popover-container role="dialog">
+            Content
+          </glide-core-popover-container>
+        </glide-core-popover>`,
+    );
+
+    const button = page.getByRole('button');
+
+    await expect(button).toHaveAttribute('aria-haspopup', 'dialog');
+  },
+);
+
+test(
+  'sets `aria-haspopup="tooltip"` on its target when the role of its container is set initially',
+  { tag: '@accessibility' },
+  async ({ mount, page }) => {
+    await mount(
+      () =>
+        /* eslint-disable lit-a11y/accessible-name */
+        html`<glide-core-popover>
+          <button slot="target">Target</button>
+
+          <glide-core-popover-container role="tooltip">
+            Content
+          </glide-core-popover-container>
+        </glide-core-popover>`,
+    );
+
+    const button = page.getByRole('button');
+
+    await expect(button).toHaveAttribute('aria-haspopup', 'false');
+  },
+);
+
+test(
+  'sets `aria-haspopup="dialog"` on its target when the role of its container is set programmatically',
+  { tag: '@accessibility' },
+  async ({ mount, page, setProperty }) => {
+    await mount(
+      () =>
+        html`<glide-core-popover>
+          <button slot="target">Target</button>
+          <glide-core-popover-container role="tooltip">
+            Content
+          </glide-core-popover-container>
+        </glide-core-popover>`,
+    );
+
+    const button = page.getByRole('button');
+    const container = page.locator('glide-core-popover-container');
+
+    await setProperty(container, 'role', 'dialog');
+
+    await expect(button).toHaveAttribute('aria-haspopup', 'dialog');
+  },
+);
+
+test(
+  'sets `aria-haspopup="false"` on its target when the role of its container is set programmatically',
+  { tag: '@accessibility' },
+  async ({ mount, page, setProperty }) => {
+    await mount(
+      () =>
+        html`<glide-core-popover>
+          <button slot="target">Target</button>
+
+          <glide-core-popover-container role="dialog">
+            Content
+          </glide-core-popover-container>
+        </glide-core-popover>`,
+    );
+
+    const button = page.getByRole('button');
+    const container = page.locator('glide-core-popover-container');
+
+    await setProperty(container, 'role', 'tooltip');
+
+    await expect(button).toHaveAttribute('aria-haspopup', 'false');
   },
 );
 

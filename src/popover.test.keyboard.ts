@@ -5,14 +5,14 @@ test('opens on Enter', { tag: '@keyboard' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-popover>
-        <div data-test="content">Content</div>
         <button slot="target">Target</button>
+        <glide-core-popover-container> Content </glide-core-popover-container>
       </glide-core-popover>`,
   );
 
   const host = page.locator('glide-core-popover');
   const button = page.getByRole('button');
-  const content = page.getByTestId('content');
+  const container = page.locator('glide-core-popover-container');
 
   await expect(host).toDispatchEvents(
     () => button.press('Enter'),
@@ -27,21 +27,21 @@ test('opens on Enter', { tag: '@keyboard' }, async ({ mount, page }) => {
   );
 
   await expect(host).toHaveAttribute('open');
-  await expect(content).toBeVisible();
+  await expect(container).toBeVisible();
 });
 
 test('closes on Enter', { tag: '@keyboard' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-popover open>
-        <div data-test="content">Content</div>
         <button slot="target">Target</button>
+        <glide-core-popover-container> Content </glide-core-popover-container>
       </glide-core-popover>`,
   );
 
   const host = page.locator('glide-core-popover');
   const button = page.getByRole('button');
-  const content = page.getByTestId('content');
+  const container = page.locator('glide-core-popover-container');
 
   await expect(host).toDispatchEvents(
     () => button.press('Enter'),
@@ -56,21 +56,21 @@ test('closes on Enter', { tag: '@keyboard' }, async ({ mount, page }) => {
   );
 
   await expect(host).not.toHaveAttribute('open');
-  await expect(content).toBeHidden();
+  await expect(container).toBeHidden();
 });
 
 test('opens on Space', { tag: '@keyboard' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-popover>
-        <div data-test="content">Content</div>
         <button slot="target">Target</button>
+        <glide-core-popover-container> Content </glide-core-popover-container>
       </glide-core-popover>`,
   );
 
   const host = page.locator('glide-core-popover');
   const button = page.getByRole('button');
-  const content = page.getByTestId('content');
+  const container = page.locator('glide-core-popover-container');
 
   await expect(host).toDispatchEvents(
     () => button.press('Space'),
@@ -85,21 +85,21 @@ test('opens on Space', { tag: '@keyboard' }, async ({ mount, page }) => {
   );
 
   await expect(host).toHaveAttribute('open');
-  await expect(content).toBeVisible();
+  await expect(container).toBeVisible();
 });
 
 test('closes on Space', { tag: '@keyboard' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-popover open>
-        <div data-test="content">Content</div>
         <button slot="target">Target</button>
+        <glide-core-popover-container> Content </glide-core-popover-container>
       </glide-core-popover>`,
   );
 
   const host = page.locator('glide-core-popover');
   const button = page.getByRole('button');
-  const content = page.getByTestId('content');
+  const container = page.locator('glide-core-popover-container');
 
   await expect(host).toDispatchEvents(
     () => button.press('Space'),
@@ -114,21 +114,21 @@ test('closes on Space', { tag: '@keyboard' }, async ({ mount, page }) => {
   );
 
   await expect(host).not.toHaveAttribute('open');
-  await expect(content).toBeHidden();
+  await expect(container).toBeHidden();
 });
 
 test('closes on Escape', { tag: '@keyboard' }, async ({ mount, page }) => {
   await mount(
     () =>
       html`<glide-core-popover open>
-        <div data-test="content">Content</div>
         <button slot="target">Target</button>
+        <glide-core-popover-container> Content </glide-core-popover-container>
       </glide-core-popover>`,
   );
 
   const host = page.locator('glide-core-popover');
   const button = page.getByRole('button');
-  const content = page.getByTestId('content');
+  const container = page.locator('glide-core-popover-container');
 
   await expect(host).toDispatchEvents(
     () => button.press('Escape'),
@@ -143,5 +143,5 @@ test('closes on Escape', { tag: '@keyboard' }, async ({ mount, page }) => {
   );
 
   await expect(host).not.toHaveAttribute('open');
-  await expect(content).toBeHidden();
+  await expect(container).toBeHidden();
 });
