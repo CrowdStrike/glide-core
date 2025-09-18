@@ -13,6 +13,7 @@ defaults:
 jobs:
   remove-sticky-comments:
     name: Remove Storybook And Report Comments
+    if: false
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -40,6 +41,7 @@ jobs:
 
   remove-cloudflare-artifacts:
     name: Remove Cloudflare Artifacts
+    if: false
     # Ubuntu instead of MacOS because the performance difference is
     # negligible and Ubuntu includes the AWS CLI.
     runs-on: ubuntu-latest

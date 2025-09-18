@@ -54,3 +54,50 @@ test(
     await expect(listbox).toBeHidden();
   },
 );
+
+test(
+  'supports slotted Option(s)',
+  { tag: '@keyboard' },
+  async ({ mount, page }) => {
+    await mount(() => {
+      return html`
+        <select-with-slotted-options>
+          <glide-core-option label="One"></glide-core-option>
+          <glide-core-option label="Two"></glide-core-option>
+        </select-with-slotted-options>
+      `;
+    });
+
+    await page.addScriptTag({ type: 'module', url: '/src/select.ts' });
+    await page.addScriptTag({ type: 'module', url: '/src/options.ts' });
+
+    await page.evaluate(() => {
+      customElements.define(
+        'select-with-slotted-options',
+        class extends HTMLElement {
+          constructor() {
+            super();
+
+            const shadowRoot = this.attachShadow({ mode: 'open' });
+
+            shadowRoot.innerHTML = `
+              <glide-core-select open>
+                <button slot="target">Target</button>
+
+                <glide-core-options>
+                  <slot></slot>
+                </glide-core-options>
+              </glide-core-select>
+            `;
+          }
+        },
+      );
+    });
+
+    const options = page.getByRole('option', { includeHidden: true });
+
+    await options.nth(0).click();
+
+    await expect(options.nth(0)).toHaveJSProperty('selected', true);
+  },
+);
