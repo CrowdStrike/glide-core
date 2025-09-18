@@ -281,18 +281,7 @@ export default class TabGroup extends LitElement {
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
     this.#updateSelectedTabIndicator();
-
-    for (const tab of this.#tabElements) {
-      if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
-        throw new Error(`Tab with panel="${tab.panel}" has no matching Panel.`);
-      }
-    }
-
-    for (const panel of this.#panelElements) {
-      if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
-        throw new Error(`Panel with name="${panel.name}" has no matching Tab.`);
-      }
-    }
+    this.#validateTabPanelPairs();
   }
 
   #onNavSlotChange() {
@@ -317,6 +306,7 @@ export default class TabGroup extends LitElement {
 
     this.#setAriaAttributes();
     this.#setOverflowButtonsState();
+    this.#validateTabPanelPairs();
   }
 
   #onOverflowButtonClick(button: 'start' | 'end') {
@@ -482,6 +472,20 @@ export default class TabGroup extends LitElement {
         '--private-selected-tab-indicator-width',
         `${selectedTabWidth - selectedTabInlinePadding}px`,
       );
+    }
+  }
+
+  #validateTabPanelPairs() {
+    for (const tab of this.#tabElements) {
+      if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
+        throw new Error(`Tab with panel="${tab.panel}" has no matching Panel.`);
+      }
+    }
+
+    for (const panel of this.#panelElements) {
+      if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
+        throw new Error(`Panel with name="${panel.name}" has no matching Tab.`);
+      }
     }
   }
 }

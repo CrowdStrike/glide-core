@@ -330,3 +330,44 @@ it('throws when a Panel does not have a corresponding Tab', async () => {
     `);
   });
 });
+
+it('throws when programmatically adding a Tab without a corresponding Panel', async () => {
+  const host = await fixture<TabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+    </glide-core-tab-group>
+  `);
+
+  await expectWindowError(() => {
+    const tab = document.createElement('glide-core-tab-group-tab');
+    tab.slot = 'nav';
+    tab.panel = '2';
+    tab.label = 'Two';
+    host.append(tab);
+  });
+});
+
+it('throws when programmatically adding a Panel without a corresponding Tab', async () => {
+  const host = await fixture<TabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+    </glide-core-tab-group>
+  `);
+
+  await expectWindowError(() => {
+    const panel = document.createElement('glide-core-tab-group-panel');
+    panel.name = '2';
+    panel.textContent = 'Two';
+    host.append(panel);
+  });
+});
