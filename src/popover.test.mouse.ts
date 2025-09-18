@@ -119,9 +119,6 @@ test(
       [
         {
           type: 'toggle',
-          bubbles: true,
-          cancelable: false,
-          composed: true,
         },
       ],
     );
@@ -152,9 +149,6 @@ test(
       [
         {
           type: 'toggle',
-          bubbles: true,
-          cancelable: false,
-          composed: true,
         },
       ],
     );
@@ -220,9 +214,6 @@ test(
       [
         {
           type: 'toggle',
-          bubbles: true,
-          cancelable: false,
-          composed: true,
         },
       ],
     );
@@ -292,9 +283,6 @@ test(
       [
         {
           type: 'toggle',
-          bubbles: true,
-          cancelable: false,
-          composed: true,
         },
       ],
     );

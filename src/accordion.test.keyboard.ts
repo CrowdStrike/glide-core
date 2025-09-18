@@ -4,12 +4,7 @@ import { expect, test } from './playwright/test.js';
 test(
   'can be opened via Enter',
   { tag: '@keyboard' },
-  async ({ browserName, mount, page }) => {
-    test.skip(
-      browserName === 'webkit',
-      '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
-    );
-
+  async ({ mount, page }) => {
     await mount(
       () =>
         html`<glide-core-accordion label="Label">

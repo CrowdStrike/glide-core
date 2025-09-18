@@ -1,5 +1,17 @@
+import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 import type Toggle from './toggle.js';
+
+test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
+  await mount(
+    () =>
+      html`<glide-core-toggle label="Label" summary="Summary" tooltip="Tooltip">
+        <div slot="description">Description</div>
+      </glide-core-toggle>`,
+  );
+
+  await expect(page).toBeAccessible('glide-core-toggle');
+});
 
 test('checked=${true}', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toggle--toggle');
