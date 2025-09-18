@@ -15,7 +15,7 @@ export default [
     }
 
     .component {
-      --private-transition-duration: 250ms;
+      --private-transition-duration: var(--glide-core-duration-moderate-02);
 
       /* https://github.com/CrowdStrike/glide-core/pull/476#issue-2659854067 */
       display: contents;
@@ -34,7 +34,9 @@ export default [
 
     .tab-group {
       display: flex;
+      flex: 1;
       gap: var(--glide-core-spacing-base-xl);
+      min-inline-size: 0;
       overflow: auto hidden;
       position: relative;
       scrollbar-width: none;
@@ -48,6 +50,8 @@ export default [
     .selected-tab-indicator {
       background: var(--glide-core-color-interactive-stroke-active);
       block-size: 0.125rem;
+      border-start-end-radius: var(--glide-core-rounding-base-radius-xxs);
+      border-start-start-radius: var(--glide-core-rounding-base-radius-xxs);
       content: '';
       inline-size: var(--private-selected-tab-indicator-width);
       inset-block-end: 0;
@@ -59,8 +63,10 @@ export default [
       &.animated {
         @media (prefers-reduced-motion: no-preference) {
           transition:
-            inline-size var(--private-transition-duration),
-            translate var(--private-transition-duration);
+            inline-size var(--private-transition-duration)
+              var(--glide-core-animation-swoop),
+            translate var(--private-transition-duration)
+              var(--glide-core-animation-swoop);
         }
       }
     }
@@ -83,6 +89,7 @@ export default [
 
       &.disabled {
         color: var(--glide-core-color-interactive-icon-default--disabled);
+        cursor: not-allowed;
       }
 
       &.start {

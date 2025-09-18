@@ -2,18 +2,19 @@ import { html, LitElement, type PropertyValues } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import styles from './tab.styles.js';
+import styles from './tab-group.tab.styles.js';
 import final from './library/final.js';
 import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tab': Tab;
+    'glide-core-tab-group-tab': TabGroupTab;
   }
 }
 
 /**
+ * @attr {string} label
  * @attr {string} panel
  * @attr {boolean} [disabled=false]
  *
@@ -28,22 +29,40 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {Element | string} - A label
  * @slot {Element} [icon]
  *
  * @fires {Event} selected
  */
-@customElement('glide-core-tab')
+@customElement('glide-core-tab-group-tab')
 @final
-export default class Tab extends LitElement {
+export default class TabGroupTab extends LitElement {
   /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* c8 ignore stop */
 
   static override styles = styles;
+
+  /**
+   * @default undefined
+   */
+  @property({ reflect: true })
+  @required
+  get label(): string | undefined {
+    return this.#label;
+  }
+
+  set label(label) {
+    this.#label = label;
+
+    this.dispatchEvent(
+      new Event('private-label-change', {
+        bubbles: true,
+      }),
+    );
+  }
 
   @property({ reflect: true })
   @required
@@ -56,12 +75,12 @@ export default class Tab extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   get selected(): boolean {
-    return this.#isSelected;
+    return this.#selected;
   }
 
   set selected(isSelected: boolean) {
-    const hasChanged = isSelected !== this.#isSelected;
-    this.#isSelected = isSelected;
+    const hasChanged = isSelected !== this.#selected;
+    this.#selected = isSelected;
 
     if (hasChanged) {
       this.dispatchEvent(
@@ -99,18 +118,13 @@ export default class Tab extends LitElement {
       data-test="component"
     >
       <div class="container">
-        <slot name="icon">
+        <slot name="icon" @slotchange=${this.#onIconSlotChange}>
           <!--
             @type {Element}
           -->
         </slot>
 
-        <slot>
-          <!--
-            A label
-            @type {Element | string}
-          -->
-        </slot>
+        <span>${this.label}</span>
       </div>
     </div>`;
   }
@@ -130,5 +144,15 @@ export default class Tab extends LitElement {
     }
   }
 
-  #isSelected = false;
+  #label?: string;
+
+  #selected = false;
+
+  #onIconSlotChange() {
+    this.dispatchEvent(
+      new Event('private-icon-slotchange', {
+        bubbles: true,
+      }),
+    );
+  }
 }
