@@ -1,22 +1,6 @@
 import type { Translation } from '../library/localize.js';
 
-export const PENDING_STRINGS = [
-  'severityInformational',
-  'severityCritical',
-  'severityMedium',
-  'severityHigh',
-  'success',
-  'error',
-  'informational',
-  'loading',
-  'noAvailableOptions',
-  'noMatchingOptions',
-  'maximum',
-  'setMaximum',
-  'minimum',
-  'setMinimum',
-  'add',
-] as const;
+export const PENDING_STRINGS = [] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
 
@@ -30,9 +14,20 @@ const translation: Omit<Translation, PendingTranslation> = {
   dismiss: '閉じる',
   selectAll: 'すべて選択',
   notifications: '通知',
-  nextTab: 'Onglet suivant',
-  previousTab: 'Onglet précédent',
+  nextTab: '次のタブ',
+  previousTab: '前のタブ',
+  noAvailableOptions: '使用可能なオプションがありません',
+  noMatchingOptions: '一致するオプションがありません',
   tooltip: 'ツールチップ：',
+  severityInformational: '重大度：情報',
+  severityCritical: '重大度：Critical（重大）',
+  severityMedium: '重大度：中',
+  severityHigh: '重大度：高',
+  success: '成功：',
+  error: 'エラー：',
+  informational: '情報：',
+  loading: '読み込み中',
+  add: '追加',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `文字数 ${current}/${maximum}`,
@@ -43,6 +38,10 @@ const translation: Omit<Translation, PendingTranslation> = {
   editTag: (label: string) => `タグの編集：${label}`,
   removeTag: (label: string) => `タグの削除：${label}`,
   itemCount: (count: string) => `${count}件`,
+  maximum: (label: string) => `${label}の最大値`,
+  setMaximum: (label: string) => `${label}の最大値を設定`,
+  minimum: (label: string) => `${label}の最小値`,
+  setMinimum: (label: string) => `${label}の最小値を設定`,
 };
 
 export default translation;

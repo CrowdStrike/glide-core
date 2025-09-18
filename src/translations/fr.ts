@@ -1,22 +1,6 @@
 import type { Translation } from '../library/localize.js';
 
-export const PENDING_STRINGS = [
-  'severityInformational',
-  'severityCritical',
-  'severityMedium',
-  'severityHigh',
-  'success',
-  'error',
-  'informational',
-  'loading',
-  'noAvailableOptions',
-  'noMatchingOptions',
-  'maximum',
-  'setMaximum',
-  'minimum',
-  'setMinimum',
-  'add',
-] as const;
+export const PENDING_STRINGS = [] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
 
@@ -32,7 +16,18 @@ const translation: Omit<Translation, PendingTranslation> = {
   notifications: 'Notifications',
   nextTab: 'Onglet suivant',
   previousTab: 'Onglet précédent',
+  noAvailableOptions: 'Aucune option disponible',
+  noMatchingOptions: 'Aucune option correspondante',
   tooltip: 'Info-bulle :',
+  severityInformational: 'Sévérité : Information',
+  severityCritical: 'Sévérité : Critique',
+  severityMedium: 'Sévérité : Moyenne',
+  severityHigh: 'Sévérité : Élevée',
+  success: 'Réussite :',
+  error: 'Erreur :',
+  informational: 'Information :',
+  loading: 'Chargement',
+  add: 'Ajouter',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Nombre de caractères ${current} sur ${maximum}`,
@@ -43,6 +38,10 @@ const translation: Omit<Translation, PendingTranslation> = {
   editTag: (label: string) => `Modifier la balise : ${label}`,
   removeTag: (label: string) => `Enlever la balise : ${label}`,
   itemCount: (count: string) => `${count} éléments`,
+  maximum: (label: string) => `Valeur maximale pour ${label}`,
+  setMaximum: (label: string) => `Définir une valeur maximale pour ${label}`,
+  minimum: (label: string) => `Valeur minimale pour ${label}`,
+  setMinimum: (label: string) => `Définir une valeur minimale pour ${label}`,
 };
 
 export default translation;

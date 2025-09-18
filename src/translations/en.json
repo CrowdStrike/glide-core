@@ -23,5 +23,9 @@
   "editOption": "Edit option: {label}",
   "editTag": "Edit tag: {label}",
   "removeTag": "Remove tag: {label}",
-  "itemCount": "{count} items"
+  "itemCount": "{count} items",
+  "maximum": "Maximum {label}",
+  "setMaximum": "Set maximum {label}",
+  "minimum": "Minimum {label}",
+  "setMinimum": "Set minimum {label}"
 }
