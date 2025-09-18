@@ -8,14 +8,14 @@ test(
     await mount(
       () =>
         html`<glide-core-popover>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
     const button = page.getByRole('button');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).toDispatchEvents(
       () => button.click(),
@@ -30,7 +30,7 @@ test(
     );
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
 
@@ -41,14 +41,14 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
     const button = page.getByRole('button');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).toDispatchEvents(
       () => button.click(),
@@ -63,7 +63,7 @@ test(
     );
 
     await expect(host).not.toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -74,13 +74,13 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).toDispatchEvents(
       () => page.mouse.click(0, 0),
@@ -95,7 +95,7 @@ test(
     );
 
     await expect(host).not.toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -106,16 +106,16 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).not.toDispatchEvents(
-      () => content.click(),
+      () => container.click(),
       [
         {
           type: 'toggle',
@@ -124,7 +124,7 @@ test(
     );
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
 
@@ -135,14 +135,14 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
     const arrow = page.getByTestId('arrow');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).not.toDispatchEvents(
       () => arrow.click(),
@@ -154,7 +154,7 @@ test(
     );
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
 
@@ -165,14 +165,14 @@ test(
     await mount(
       () =>
         html`<glide-core-popover disabled>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
     const button = page.getByRole('button');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).not.toDispatchEvents(
       () => button.click(),
@@ -187,7 +187,7 @@ test(
     );
 
     await expect(host).not.toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -198,14 +198,14 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
     const button = page.getByRole('button');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await addEventListener(button, 'click', { preventDefault: true });
 
@@ -219,7 +219,7 @@ test(
     );
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
 
@@ -230,14 +230,14 @@ test(
     await mount(
       () =>
         html`<glide-core-popover>
-          <div data-test="content">Content</div>
           <button slot="target">Target</button>
+          <glide-core-popover-container> Content </glide-core-popover-container>
         </glide-core-popover>`,
     );
 
     const host = page.locator('glide-core-popover');
     const button = page.getByRole('button');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await addEventListener(button, 'click', { preventDefault: true });
 
@@ -254,7 +254,7 @@ test(
     );
 
     await expect(host).not.toHaveAttribute('open');
-    await expect(content).toBeHidden();
+    await expect(container).toBeHidden();
   },
 );
 
@@ -265,10 +265,10 @@ test(
     await mount(
       () =>
         html`<glide-core-popover open>
-          <div data-test="content">
+          <glide-core-popover-container>
             <label for="input">Label</label>
             <input id="input" />
-          </div>
+          </glide-core-popover-container>
 
           <button slot="target">Target</button>
         </glide-core-popover>`,
@@ -276,7 +276,7 @@ test(
 
     const host = page.locator('glide-core-popover');
     const label = page.locator('label');
-    const content = page.getByTestId('content');
+    const container = page.locator('glide-core-popover-container');
 
     await expect(host).not.toDispatchEvents(
       () => label.click(),
@@ -288,6 +288,6 @@ test(
     );
 
     await expect(host).toHaveAttribute('open');
-    await expect(content).toBeVisible();
+    await expect(container).toBeVisible();
   },
 );
