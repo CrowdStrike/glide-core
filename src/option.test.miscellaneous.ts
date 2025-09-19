@@ -603,7 +603,7 @@ test(
   async ({ mount, page, setProperty }) => {
     await mount(
       () =>
-        html`<glide-core-option label="Label" value="one"></glide-core-option>`,
+        html`<glide-core-option label="One" value="one"></glide-core-option>`,
     );
 
     const host = page.locator('glide-core-option');
