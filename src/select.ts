@@ -352,8 +352,8 @@ export default class Select
         @deselected=${this.#onDefaultSlotDeselected}
         @disabled=${this.#onDefaultSlotDisabled}
         @selected=${this.#onDefaultSlotSelected}
-        @value-change=${this.#onDefaultSlotValueChange}
         @slotchange=${this.#onDefaultSlotSlotChange}
+        @value-change=${this.#onDefaultSlotValueChange}
         ${ref(this.#defaultSlotElementRef)}
       >
         <!--
