@@ -598,6 +598,24 @@ test(
 );
 
 test(
+  'dispatches a "value-change" event when its value is changed programmatically',
+  { tag: '@miscellaneous' },
+  async ({ mount, page, setProperty }) => {
+    await mount(
+      () =>
+        html`<glide-core-option label="One" value="one"></glide-core-option>`,
+    );
+
+    const host = page.locator('glide-core-option');
+
+    await expect(host).toDispatchEvents(
+      () => setProperty(host, 'value', 'two'),
+      [{ type: 'value-change', bubbles: true }],
+    );
+  },
+);
+
+test(
   'cannot be extended',
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {

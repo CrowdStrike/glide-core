@@ -53,6 +53,7 @@ declare global {
  * @fires {Event} disabled
  * @fires {Event} enabled
  * @fires {Event} selected
+ * @fires {Event} value-change
  */
 @customElement('glide-core-option')
 @final
@@ -195,8 +196,18 @@ export default class Option extends LitElement {
   @property({ attribute: 'tabindex', reflect: true, type: Number })
   override readonly tabIndex = -1;
 
+  /**
+   * @default ''
+   */
   @property({ reflect: true, useDefault: true })
-  value = '';
+  get value(): string {
+    return this.#value;
+  }
+
+  set value(value: string) {
+    this.#value = value;
+    this.dispatchEvent(new Event('value-change', { bubbles: true }));
+  }
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
@@ -437,6 +448,8 @@ export default class Option extends LitElement {
   #labelElementRef = createRef<HTMLElement>();
 
   #tooltipElementRef = createRef<HTMLElement>();
+
+  #value = '';
 
   get #contentSlotElements() {
     // These are the elements that are checked for overflow in
