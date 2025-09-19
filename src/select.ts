@@ -453,31 +453,27 @@ export default class Select
   #value: string[] = [];
 
   get #optionElements() {
+    // If we're dealing with a slot, then the consumer of Select has placed a slot
+    // inside Options, in which case we need to get its assigned elements.
     if (this.#optionsElement) {
       return [...this.#optionsElement.children]
-        .filter((element) => {
-          return element instanceof Option || element instanceof OptionsGroup;
-        })
         .flatMap((element) => {
-          return element instanceof OptionsGroup
-            ? [
-                ...element.querySelectorAll<Option>(
-                  ':scope > glide-core-option',
-                ),
-              ]
-            : element;
+          return element instanceof HTMLSlotElement
+            ? element.assignedElements({ flatten: true })
+            : element instanceof OptionsGroup
+              ? [...element.children]
+              : element;
+        })
+        ?.filter((element): element is Option => {
+          return element instanceof Option;
         });
     }
   }
 
   get #optionsElement() {
-    const firstAssignedElement = this.#defaultSlotElementRef.value
+    return this.#defaultSlotElementRef.value
       ?.assignedElements({ flatten: true })
-      .at(0);
-
-    return firstAssignedElement instanceof Options
-      ? firstAssignedElement
-      : null;
+      ?.find((element): element is Options => element instanceof Options);
   }
 
   // An arrow function field instead of a method so `this` is closed over and
