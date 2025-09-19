@@ -334,3 +334,40 @@ test(
     await expect(options.nth(1)).toHaveJSProperty('multiple', true);
   },
 );
+
+test(
+  'updates its value when the value of a selected option is changed programmatically',
+  { tag: '@miscellaneous' },
+  async ({ mount, page, setProperty }) => {
+    await mount(
+      () => html`
+        <glide-core-select multiple open>
+          <button slot="target">Target</button>
+
+          <glide-core-options>
+            <glide-core-option
+              label="One"
+              value="one"
+              selected
+            ></glide-core-option>
+
+            <glide-core-option
+              label="Two"
+              value="two"
+              selected
+            ></glide-core-option>
+
+            <glide-core-option label="Three" value="three"></glide-core-option>
+          </glide-core-options>
+        </glide-core-select>
+      `,
+    );
+
+    const host = page.locator('glide-core-select');
+    const options = page.getByRole('option');
+
+    await setProperty(options.nth(0), 'value', 'four');
+
+    await expect(host).toHaveJSProperty('value', ['four', 'two']);
+  },
+);
