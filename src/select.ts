@@ -352,6 +352,7 @@ export default class Select
         @deselected=${this.#onDefaultSlotDeselected}
         @disabled=${this.#onDefaultSlotDisabled}
         @selected=${this.#onDefaultSlotSelected}
+        @value-change=${this.#onDefaultSlotValueChange}
         @slotchange=${this.#onDefaultSlotSlotChange}
         ${ref(this.#defaultSlotElementRef)}
       >
@@ -641,6 +642,10 @@ export default class Select
     }
 
     this.#setValidity();
+  }
+
+  #onDefaultSlotValueChange() {
+    this.#value = this.selectedOptions.map(({ value }) => value);
   }
 
   #onMenuToggle(event: Event) {
