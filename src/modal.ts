@@ -56,12 +56,12 @@ globalStylesheet.insertRule(`
 @customElement('glide-core-modal')
 @final
 export default class Modal extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -453,6 +453,7 @@ export default class Modal extends LitElement {
     );
   }
 
+  /* v8 ignore start - Better covered by visual tests */
   #onScrollAndResize() {
     if (this.open && this.#bodyElementRef.value) {
       if (
@@ -472,6 +473,7 @@ export default class Modal extends LitElement {
       }
     }
   }
+  /* v8 ignore stop */
 
   #onSecondarySlotChange() {
     this.hasSecondarySlotContent = Boolean(

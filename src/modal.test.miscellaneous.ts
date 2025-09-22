@@ -175,6 +175,26 @@ test(
 );
 
 test(
+  'removes its global stylesheet when disconnected',
+  { tag: '@miscellaneous' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`<glide-core-modal label="Label"> Content </glide-core-modal>`,
+    );
+
+    const host = page.locator('glide-core-modal');
+
+    await host.evaluate((element) => element.remove());
+
+    const stylesheets = await page.evaluate(() => {
+      return document.adoptedStyleSheets.length;
+    });
+
+    expect(stylesheets).toBe(0);
+  },
+);
+
+test(
   'cannot be extended',
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {

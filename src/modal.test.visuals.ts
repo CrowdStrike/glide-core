@@ -78,6 +78,29 @@ for (const story of stories) {
           );
         });
 
+        test('scroll', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-modal')
+            .evaluate<void, Modal>((element) => {
+              const div = document.createElement('div');
+
+              div.style.height = '100vh';
+
+              element.append(div);
+              element.open = true;
+            });
+
+          await page.getByRole('region').evaluate((element) => {
+            element.scroll(0, 1);
+          });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('severity="informational"', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
