@@ -15,12 +15,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 test(
   'can be opened programatically',
   { tag: '@miscellaneous' },
-  async ({ browserName, setProperty, mount, page }) => {
-    test.skip(
-      browserName === 'webkit',
-      '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
-    );
-
+  async ({ setProperty, mount, page }) => {
     await mount(
       () =>
         html`<glide-core-accordion label="Label">
@@ -49,12 +44,7 @@ test(
 test(
   'can be closed programatically',
   { tag: '@miscellaneous' },
-  async ({ browserName, setProperty, mount, page }) => {
-    test.skip(
-      browserName === 'webkit',
-      '"finish" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
-    );
-
+  async ({ setProperty, mount, page }) => {
     await mount(
       () =>
         html`<glide-core-accordion label="Label" open>
