@@ -379,6 +379,8 @@ export default defineConfig([
       'src/stylelint/rules/*.test.ts',
       'src/accordion.test.*.ts',
       'src/button.test.*.ts',
+      'src/button-group.test.*.ts',
+      'src/button-group.button.test.*.ts',
       'src/checkbox.test.*.ts',
       'src/drawer.test.*.ts',
       'src/form-controls-layout.test.*.ts',

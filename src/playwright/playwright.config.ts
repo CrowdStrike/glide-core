@@ -54,6 +54,8 @@ export default defineConfig({
             'src/*.test.accessibility.ts',
             'src/accordion.test.*.ts',
             'src/button.test.*.ts',
+            'src/button-group.test.*.ts',
+            'src/button-group.button.test.*.ts',
             'src/checkbox.test.*.ts',
             'src/drawer.test.*.ts',
             'src/form-controls-layout.test.*.ts',
@@ -148,6 +150,8 @@ export default defineConfig({
           // Migrated
           'src/accordion.ts',
           'src/button.ts',
+          'src/button-group.ts',
+          'src/button-group.button.ts',
           'src/checkbox.ts',
           'src/drawer.ts',
           'src/form-controls-layout.ts',
