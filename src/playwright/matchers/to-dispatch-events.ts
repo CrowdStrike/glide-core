@@ -13,7 +13,7 @@ interface SerializableEvent {
 export default expect.extend({
   async toDispatchEvents(
     locator: Locator,
-    action: () => Promise<void>,
+    action: () => Promise<unknown>,
     expectedEvents: Omit<SerializableEvent, 'timeStamp'>[],
   ) {
     if (expectedEvents.length === 0) {

@@ -399,6 +399,8 @@ export default defineConfig([
       'src/select.test.*.ts',
       'src/spinner.test.*.ts',
       'src/tag.test.*.ts',
+      'src/toast.test.*.ts',
+      'src/toast.toasts.test.*.ts',
       'src/toggle.test.*.ts',
       'src/tooltip.test.*.ts',
       'src/tooltip.container.test.*.ts',

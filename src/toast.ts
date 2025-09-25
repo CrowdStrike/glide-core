@@ -32,12 +32,12 @@ declare global {
 @customElement('glide-core-toast')
 @final
 export default class Toast extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   @property({ reflect: true })
   @required

@@ -73,17 +73,9 @@ export default [
       &.show {
         @media (prefers-reduced-motion: no-preference) {
           transition:
-            opacity
-              var(
-                --private-test-transition-duration,
-                var(--glide-core-duration-slow-02)
-              )
+            opacity var(--glide-core-duration-slow-02)
               var(--glide-core-animation-swoop-in),
-            transform
-              var(
-                --private-test-transition-duration,
-                var(--glide-core-duration-slow-02)
-              )
+            transform var(--glide-core-duration-slow-02)
               var(--glide-core-animation-swoop-in);
         }
 
@@ -94,17 +86,9 @@ export default [
       &.dismissing {
         @media (prefers-reduced-motion: no-preference) {
           transition:
-            opacity
-              var(
-                --private-test-transition-duration,
-                var(--glide-core-duration-slow-01)
-              )
+            opacity var(--glide-core-duration-slow-01)
               var(--glide-core-animation-swoop-out),
-            transform
-              var(
-                --private-test-transition-duration,
-                var(--glide-core-duration-slow-01)
-              )
+            transform var(--glide-core-duration-slow-01)
               var(--glide-core-animation-swoop-out);
         }
 
@@ -114,17 +98,9 @@ export default [
         &.dismissing-via-button {
           @media (prefers-reduced-motion: no-preference) {
             transition:
-              opacity
-                var(
-                  --private-test-transition-duration,
-                  var(--glide-core-duration-moderate-03)
-                )
+              opacity var(--glide-core-duration-moderate-03)
                 var(--glide-core-animation-swoop-out),
-              transform
-                var(
-                  --private-test-transition-duration,
-                  var(--glide-core-duration-moderate-03)
-                )
+              transform var(--glide-core-duration-moderate-03)
                 var(--glide-core-animation-swoop-out);
           }
         }
