@@ -27,6 +27,8 @@ export default {
       // Migrated
       'src/accordion.ts',
       'src/button.ts',
+      'src/button-group.ts',
+      'src/button-group.button.ts',
       'src/checkbox.ts',
       'src/drawer.ts',
       'src/form-controls-layout.ts',
@@ -71,6 +73,8 @@ export default {
     '!src/**/*.test.accessibility.ts',
     '!src/accordion.test.*.ts',
     '!src/button.test.*.ts',
+    '!src/button-group.test.*.ts',
+    '!src/button-group.group.test.*.ts',
     '!src/checkbox.test.*.ts',
     '!src/drawer.test.*.ts',
     '!src/form-controls-layout.test.*.ts',

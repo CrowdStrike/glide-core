@@ -30,18 +30,29 @@ declare global {
 @customElement('glide-core-button-group-button')
 @final
 export default class ButtonGroupButton extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
   @property({ reflect: true })
   @required
   label?: string;
+
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  // Private because it's only meant to be used by Button Group.
+  @property()
+  privateOrientation: 'horizontal' | 'vertical' = 'horizontal';
+
+  // Private because it's only meant to be used by Button Group.
+  @property()
+  privateVariant?: 'icon-only';
 
   /**
    * @default false
@@ -56,21 +67,10 @@ export default class ButtonGroupButton extends LitElement {
     this.dispatchEvent(new Event('private-selected', { bubbles: true }));
   }
 
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  // `value` is used by consumers to identify selections based on something other
-  // than the label.
+  // `value` is used by consumers to identify a selected based on something
+  // other than its label.
   @property({ reflect: true, useDefault: true })
   value = '';
-
-  // Private because it's only meant to be used by Button Group.
-  @property()
-  privateOrientation: 'horizontal' | 'vertical' = 'horizontal';
-
-  // Private because it's only meant to be used by Button Group.
-  @property()
-  privateVariant?: 'icon-only';
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;

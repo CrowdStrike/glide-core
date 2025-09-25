@@ -28,12 +28,12 @@ declare global {
 @customElement('glide-core-button-group')
 @final
 export default class ButtonGroup extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -241,7 +241,7 @@ export default class ButtonGroup extends LitElement {
   }
 
   #onDefaultSlotSelected(event: Event) {
-    // Guards against the button not being selected so an event for every
+    // Guards against the button not being selected so that an event for every
     // deselected button isn't dispatched.
     if (event.target instanceof ButtonGroupButton && event.target.selected) {
       for (const button of this.#buttonElements) {
