@@ -7,23 +7,33 @@ import {
   html,
   waitUntil,
 } from '@open-wc/testing';
-import './tab.js';
+import './tab-group.tab.js';
 import { click } from './library/mouse.js';
-import TabGroup from './tab.group.js';
-import './tab.panel.js';
+import TabGroup from './tab-group.js';
+import './tab-group.panel.js';
 import requestIdleCallback from './library/request-idle-callback.js';
 
 it('sets the selected tab using the `selected` attribute', async () => {
   const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
-      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
-      <glide-core-tab panel="2" slot="nav" selected>Two</glide-core-tab>
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tab-group-tab>
+
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
+  const tabs = host.querySelectorAll('glide-core-tab-group-tab');
 
   expect(tabs[0]?.selected).to.be.false;
   expect(tabs[1]?.selected).to.be.true;
@@ -32,15 +42,25 @@ it('sets the selected tab using the `selected` attribute', async () => {
 it('selects a tab that is selected programmatically', async () => {
   const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
-      <glide-core-tab panel="1" slot="nav" selected>One</glide-core-tab>
-      <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+        selected
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
-  const panels = host.querySelectorAll('glide-core-tab-panel');
+  const tabs = host.querySelectorAll('glide-core-tab-group-tab');
+  const panels = host.querySelectorAll('glide-core-tab-group-panel');
 
   assert(tabs[1]);
   tabs[1].selected = true;
@@ -57,16 +77,25 @@ it('selects a tab that is selected programmatically', async () => {
 it('selects its first tab when its selected tab is deselected programmatically', async () => {
   const host = await fixture(html`
     <glide-core-tab-group>
-      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
-  const panels = host.querySelectorAll('glide-core-tab-panel');
+  const tabs = host.querySelectorAll('glide-core-tab-group-tab');
+  const panels = host.querySelectorAll('glide-core-tab-group-panel');
 
   assert(tabs[1]);
 
@@ -85,18 +114,31 @@ it('selects its first tab when its selected tab is deselected programmatically',
 it('changes tabs on click', async () => {
   const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
-      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
-      <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
-      <glide-core-tab panel="3" slot="nav" disabled>Three</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+        disabled
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="3">Three</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
-  const panels = host.querySelectorAll('glide-core-tab-panel');
+  const tabs = host.querySelectorAll('glide-core-tab-group-tab');
+  const panels = host.querySelectorAll('glide-core-tab-group-panel');
 
   expect(tabs[0]?.selected).to.be.true;
   expect(tabs[1]?.selected).to.be.false;
@@ -130,17 +172,30 @@ it('changes tabs on click', async () => {
 it('changes tabs on keyboard interaction', async () => {
   const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
-      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
-      <glide-core-tab panel="2" slot="nav" disabled>Two</glide-core-tab>
-      <glide-core-tab panel="3" slot="nav">Three</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        disabled
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="3">Three</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
+  const tabs = host.querySelectorAll('glide-core-tab-group-tab');
 
   tabs[0]?.focus();
 
@@ -212,13 +267,25 @@ it('has overflow buttons when overflowing', async () => {
   const host = await fixture(
     html`
       <glide-core-tab-group>
-        <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-        <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
-        <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+        <glide-core-tab-group-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Three"
+          panel="3"
+          slot="nav"
+        ></glide-core-tab-group-tab>
 
-        <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-        <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-        <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+        <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="3">Three</glide-core-tab-group-panel>
       </glide-core-tab-group>
     `,
     { parentNode },
@@ -235,13 +302,25 @@ it('has overflow buttons when overflowing', async () => {
 it('does not have overflow buttons when not overflowing', async () => {
   const host = await fixture(html`
     <glide-core-tab-group>
-      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
-      <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="3">Three</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
@@ -264,13 +343,25 @@ it('hides its overflow buttons when overall tab content is reduced', async () =>
 
   const host = await fixture(html`
     <glide-core-tab-group>
-      <glide-core-tab slot="nav" panel="1">${'x'.repeat(500)}</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
-      <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+      <glide-core-tab-group-tab
+        label=${'x'.repeat(500)}
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Three"
+        panel="3"
+        slot="nav"
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="3">Three</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
@@ -281,10 +372,10 @@ it('hides its overflow buttons when overall tab content is reduced', async () =>
     );
   });
 
-  const firstTab = host.querySelector('glide-core-tab');
+  const firstTab = host.querySelector('glide-core-tab-group-tab');
 
   assert(firstTab);
-  firstTab.innerHTML = 'One';
+  firstTab.label = 'One';
 
   await waitUntil(() => {
     return (
@@ -305,13 +396,25 @@ it('disables its overflow buttons on scroll', async () => {
   const host = await fixture(
     html`
       <glide-core-tab-group>
-        <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-        <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
-        <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+        <glide-core-tab-group-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Three"
+          panel="3"
+          slot="nav"
+        ></glide-core-tab-group-tab>
 
-        <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-        <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-        <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+        <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="3">Three</glide-core-tab-group-panel>
       </glide-core-tab-group>
     `,
     { parentNode },
@@ -358,13 +461,25 @@ it('scrolls when its overflow buttons are clicked', async () => {
   const host = await fixture(
     html`
       <glide-core-tab-group>
-        <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-        <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
-        <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+        <glide-core-tab-group-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Three"
+          panel="3"
+          slot="nav"
+        ></glide-core-tab-group-tab>
 
-        <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-        <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-        <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+        <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="3">Three</glide-core-tab-group-panel>
       </glide-core-tab-group>
     `,
     { parentNode },
@@ -406,13 +521,25 @@ it('has no overflow buttons when resized to not overflow', async () => {
   const host = await fixture(
     html`
       <glide-core-tab-group>
-        <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-        <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
-        <glide-core-tab slot="nav" panel="3">Three</glide-core-tab>
+        <glide-core-tab-group-tab
+          label="One"
+          panel="1"
+          slot="nav"
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Two"
+          panel="2"
+          slot="nav"
+        ></glide-core-tab-group-tab>
+        <glide-core-tab-group-tab
+          label="Three"
+          panel="3"
+          slot="nav"
+        ></glide-core-tab-group-tab>
 
-        <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-        <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
-        <glide-core-tab-panel name="3">Three</glide-core-tab-panel>
+        <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+        <glide-core-tab-group-panel name="3">Three</glide-core-tab-group-panel>
       </glide-core-tab-group>
     `,
     { parentNode },
@@ -441,15 +568,23 @@ it('has no overflow buttons when resized to not overflow', async () => {
 it('sets the selected tab as tabbable on tab blur', async () => {
   const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
-      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
-      <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
+  const tabs = host.querySelectorAll('glide-core-tab-group-tab');
 
   expect(tabs[0]?.selected).to.be.true;
   expect(tabs[0]?.tabIndex).to.equal(0);
@@ -475,25 +610,41 @@ it('sets the selected tab as tabbable on tab blur', async () => {
 it('can be nested', async () => {
   const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
-      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
-      <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
 
-      <glide-core-tab-panel name="2">
+      <glide-core-tab-group-panel name="2">
         <glide-core-tab-group>
-          <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
-          <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
+          <glide-core-tab-group-tab
+            label="One"
+            panel="1"
+            slot="nav"
+          ></glide-core-tab-group-tab>
+          <glide-core-tab-group-tab
+            label="Two"
+            panel="2"
+            slot="nav"
+          ></glide-core-tab-group-tab>
 
-          <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-          <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+          <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+          <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
         </glide-core-tab-group>
-      </glide-core-tab-panel>
+      </glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
-  const panels = host.querySelectorAll('glide-core-tab-panel');
+  const tabs = host.querySelectorAll('glide-core-tab-group-tab');
+  const panels = host.querySelectorAll('glide-core-tab-group-panel');
 
   tabs[1]?.click();
   await host.updateComplete;
@@ -529,17 +680,23 @@ it('updates the width of its selected tab indicator when the label of a tab chan
 
   const host = await fixture(html`
     <glide-core-tab-group>
-      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const firstTab = host
-    .querySelector('glide-core-tab')
-    ?.shadowRoot?.querySelector('[data-test="component"]');
+  const firstTab = host.querySelector('glide-core-tab-group-tab');
 
   const selectedTabIndicator = host.shadowRoot?.querySelector(
     '[data-test="selected-tab-indicator"]',
@@ -549,10 +706,62 @@ it('updates the width of its selected tab indicator when the label of a tab chan
   assert(selectedTabIndicator);
 
   await requestIdleCallback(); // Wait for the Resize Observer
-  firstTab.innerHTML = 'One (But Longer)';
+
+  firstTab.label = 'One (But Longer)';
 
   await requestIdleCallback(); // Wait for the Resize Observer
-  expect(selectedTabIndicator?.clientWidth).to.equal(firstTab.clientWidth);
+
+  expect(selectedTabIndicator?.clientWidth).to.equal(
+    firstTab?.shadowRoot?.querySelector('[data-test="component"]')?.clientWidth,
+  );
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
+});
+
+it('updates the width of its selected tab indicator when the icon slot of a tab changes', async () => {
+  // The selected tab indicator transitions its width and position. The transitions
+  // are disabled to simplify and speed up the test.
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const host = await fixture(html`
+    <glide-core-tab-group>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
+    </glide-core-tab-group>
+  `);
+
+  const firstTab = host.querySelector('glide-core-tab-group-tab');
+
+  const selectedTabIndicator = host.shadowRoot?.querySelector(
+    '[data-test="selected-tab-indicator"]',
+  );
+
+  assert(firstTab);
+  assert(selectedTabIndicator);
+
+  await requestIdleCallback(); // Wait for the Resize Observer
+
+  const div = document.createElement('div');
+  div.setAttribute('slot', 'icon');
+  div.textContent = 'two';
+  firstTab.append(div);
+
+  await requestIdleCallback(); // Wait for the Resize Observer
+
+  expect(selectedTabIndicator?.clientWidth).to.equal(
+    firstTab?.shadowRoot?.querySelector('[data-test="component"]')?.clientWidth,
+  );
 
   await emulateMedia({ reducedMotion: 'no-preference' });
 });
@@ -560,20 +769,28 @@ it('updates the width of its selected tab indicator when the label of a tab chan
 it('sets aria attributes on tabs and panels when new ones are added', async () => {
   const host = await fixture(html`
     <glide-core-tab-group>
-      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Two</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tab = document.createElement('glide-core-tab');
+  const tab = document.createElement('glide-core-tab-group-tab');
   tab.slot = 'nav';
   tab.panel = '3';
-  tab.textContent = 'Three';
+  tab.label = 'Three';
 
-  const panel = document.createElement('glide-core-tab-panel');
+  const panel = document.createElement('glide-core-tab-group-panel');
   panel.name = '3';
   panel.textContent = 'Three';
 
@@ -590,21 +807,30 @@ it('sets aria attributes on tabs and panels when new ones are added', async () =
 it('deselects all but its last selected tab when multiple are selected', async () => {
   const host = await fixture(html`
     <glide-core-tab-group>
-      <glide-core-tab slot="nav" panel="1">One</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2" selected>Two</glide-core-tab>
+      <glide-core-tab-group-tab
+        label="One"
+        panel="1"
+        slot="nav"
+      ></glide-core-tab-group-tab>
+      <glide-core-tab-group-tab
+        label="Two"
+        panel="2"
+        slot="nav"
+        selected
+      ></glide-core-tab-group-tab>
 
-      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+      <glide-core-tab-group-panel name="1">One</glide-core-tab-group-panel>
+      <glide-core-tab-group-panel name="2">Two</glide-core-tab-group-panel>
     </glide-core-tab-group>
   `);
 
-  const tab = document.createElement('glide-core-tab');
+  const tab = document.createElement('glide-core-tab-group-tab');
   tab.selected = true;
   tab.slot = 'nav';
   tab.panel = '3';
-  tab.textContent = 'Three';
+  tab.label = 'Three';
 
-  const panel = document.createElement('glide-core-tab-panel');
+  const panel = document.createElement('glide-core-tab-group-panel');
   panel.name = '3';
   panel.textContent = 'Three';
 
@@ -614,8 +840,8 @@ it('deselects all but its last selected tab when multiple are selected', async (
   // Wait for `#onNavSlotChange()` and `#onDefaultSlotChange()`.
   await aTimeout(0);
 
-  const tabs = host.querySelectorAll('glide-core-tab');
-  const panels = host.querySelectorAll('glide-core-tab-panel');
+  const tabs = host.querySelectorAll('glide-core-tab-group-tab');
+  const panels = host.querySelectorAll('glide-core-tab-group-panel');
 
   expect(tabs[0]?.selected).to.be.false;
   expect(tabs[0]?.tabIndex).to.equal(-1);

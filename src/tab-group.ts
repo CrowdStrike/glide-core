@@ -6,11 +6,11 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import Tab from './tab.js';
-import TabPanel from './tab.panel.js';
+import TabGroupTab from './tab-group.tab.js';
+import TabGroupPanel from './tab-group.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
-import styles from './tab.group.styles.js';
+import styles from './tab-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import final from './library/final.js';
 
@@ -40,7 +40,7 @@ export default class TabGroup extends LitElement {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* c8 ignore stop */
 
   static override styles = styles;
 
@@ -88,8 +88,10 @@ export default class TabGroup extends LitElement {
           <slot
             name="nav"
             @private-selected=${this.#onTabSelected}
+            @private-label-change=${this.#onTabLabelChange}
+            @private-icon-slotchange=${this.#onTabIconSlotChange}
             @slotchange=${this.#onNavSlotChange}
-            ${assertSlot([Tab])}
+            ${assertSlot([TabGroupTab], true)}
           >
             <!-- @type {Tab} -->
           </slot>
@@ -100,7 +102,6 @@ export default class TabGroup extends LitElement {
               animated: this.hasUpdated,
             })}
             data-test="selected-tab-indicator"
-            @transitionstart=${this.#onSelectedTabIndicatorTransition}
             ${ref(this.#selectedTabIndicatorElementRef)}
           ></div>
         </div>
@@ -127,7 +128,10 @@ export default class TabGroup extends LitElement {
         )}
       </div>
 
-      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabPanel])}>
+      <slot
+        @slotchange=${this.#onDefaultSlotChange}
+        ${assertSlot([TabGroupPanel], true)}
+      >
         <!-- @type {TabPanel} -->
       </slot>
     </div>`;
@@ -166,20 +170,26 @@ export default class TabGroup extends LitElement {
 
   get #panelElements() {
     return [
-      ...this.querySelectorAll<TabPanel>(':scope > glide-core-tab-panel'),
+      ...this.querySelectorAll<TabGroupPanel>(
+        ':scope > glide-core-tab-group-panel',
+      ),
     ];
   }
 
   get #tabElements() {
-    return [...this.querySelectorAll<Tab>(':scope > glide-core-tab')];
+    return [
+      ...this.querySelectorAll<TabGroupTab>(
+        ':scope > glide-core-tab-group-tab',
+      ),
+    ];
   }
 
   #onComponentClick(event: Event) {
     const target = event.target as HTMLElement;
-    const clickedTab = target.closest('glide-core-tab');
+    const clickedTab = target.closest('glide-core-tab-group-tab');
 
     if (
-      clickedTab instanceof Tab &&
+      clickedTab instanceof TabGroupTab &&
       !clickedTab.disabled &&
       // Tab Panels can themselves include a Tab Group. We want to ensure
       // we're dealing with one of this instance's Tabs and not a Tab in
@@ -193,11 +203,11 @@ export default class TabGroup extends LitElement {
   #onComponentKeydown(event: KeyboardEvent) {
     const tab =
       event.target instanceof HTMLElement &&
-      event.target.closest('glide-core-tab');
+      event.target.closest('glide-core-tab-group-tab');
 
     if (
       ['Enter', ' '].includes(event.key) &&
-      tab instanceof Tab &&
+      tab instanceof TabGroupTab &&
       !tab.disabled
     ) {
       tab.selected = true;
@@ -218,7 +228,7 @@ export default class TabGroup extends LitElement {
         tab.matches(':focus'),
       );
 
-      if (focusedElement instanceof Tab) {
+      if (focusedElement instanceof TabGroupTab) {
         let index = this.#tabElements.indexOf(focusedElement);
 
         switch (event.key) {
@@ -270,6 +280,8 @@ export default class TabGroup extends LitElement {
 
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
+    this.#updateSelectedTabIndicator();
+    this.#validateTabPanelPairs();
   }
 
   #onNavSlotChange() {
@@ -288,12 +300,13 @@ export default class TabGroup extends LitElement {
     }
 
     for (const panel of this.#panelElements) {
-      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
 
     this.#setAriaAttributes();
     this.#setOverflowButtonsState();
+    this.#validateTabPanelPairs();
   }
 
   #onOverflowButtonClick(button: 'start' | 'end') {
@@ -311,8 +324,28 @@ export default class TabGroup extends LitElement {
     }
   }
 
-  #onSelectedTabIndicatorTransition() {
-    this.#setOverflowButtonsState();
+  #onTabIconSlotChange() {
+    // Wait for the Tab layout to update, so the selected tab indicator width will be
+    // accurate.
+    requestAnimationFrame(() => {
+      this.#updateSelectedTabIndicator();
+    });
+
+    this.#resizeTimeout = setTimeout(() => {
+      this.#setOverflowButtonsState();
+    });
+  }
+
+  #onTabLabelChange() {
+    // Wait for the Tab layout to update, so the selected tab indicator width will be
+    // accurate.
+    requestAnimationFrame(() => {
+      this.#updateSelectedTabIndicator();
+    });
+
+    this.#resizeTimeout = setTimeout(() => {
+      this.#setOverflowButtonsState();
+    });
   }
 
   #onTabListFocusout() {
@@ -328,22 +361,6 @@ export default class TabGroup extends LitElement {
       clearTimeout(this.#resizeTimeout);
     }
 
-    // TODO
-    //
-    // This only needs to be called here so the indicator is updated when the content
-    // of Tab's slots changes.
-    //
-    // Tab's default slot will soon be replaced by a `label` attribute. When that
-    // happens, this call can be removed, and `#updateSelectedTabIndicator()` can be
-    // instead called when Tab dispatches "private-label-change" and
-    // "private-icon-slotchange" events.
-    //
-    // Those changes will certainly require slightly more code. But they'll make it
-    // much clearer why `#updateSelectedTabIndicator()` is being called. Additionally,
-    // Tab Group will no longer be doing unncessary work every time the viewport is
-    // resized.
-    this.#updateSelectedTabIndicator();
-
     // Toggling the overflow buttons will itself cause a resize. So we
     // wait a tick to avoid a loop.
     this.#resizeTimeout = setTimeout(() => {
@@ -352,7 +369,7 @@ export default class TabGroup extends LitElement {
   }
 
   #onTabSelected(event: Event) {
-    if (event.target instanceof Tab && event.target.selected) {
+    if (event.target instanceof TabGroupTab && event.target.selected) {
       event.target.privateSelect();
       event.target.tabIndex = 0;
 
@@ -367,10 +384,14 @@ export default class TabGroup extends LitElement {
       this.#firstTab.tabIndex = 0;
     }
 
-    this.#updateSelectedTabIndicator();
+    // Wait for the Tab layout to update, so the selected tab indicator width will be
+    // accurate.
+    requestAnimationFrame(() => {
+      this.#updateSelectedTabIndicator();
+    });
 
     for (const panel of this.#panelElements) {
-      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
   }
@@ -451,6 +472,20 @@ export default class TabGroup extends LitElement {
         '--private-selected-tab-indicator-width',
         `${selectedTabWidth - selectedTabInlinePadding}px`,
       );
+    }
+  }
+
+  #validateTabPanelPairs() {
+    for (const tab of this.#tabElements) {
+      if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
+        throw new Error(`Tab with panel="${tab.panel}" has no matching Panel.`);
+      }
+    }
+
+    for (const panel of this.#panelElements) {
+      if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
+        throw new Error(`Panel with name="${panel.name}" has no matching Tab.`);
+      }
     }
   }
 }
