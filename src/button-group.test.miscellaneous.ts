@@ -107,7 +107,7 @@ test(
 );
 
 test(
-  'selects initially the first enabled button',
+  'initially selects the first enabled button',
   { tag: '@miscellaneous' },
   async ({ mount, page }) => {
     await mount(
