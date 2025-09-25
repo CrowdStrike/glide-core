@@ -31,13 +31,13 @@ export default [
 
       display: none;
       flex-direction: column;
-      gap: var(--glide-core-spacing-base-md);
+      gap: var(--glide-core-spacing-base-xs);
       padding: var(--private-toasts-padding);
     }
 
     .toast {
       align-items: center;
-      border-radius: var(--glide-core-rounding-base-radius-md);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-effect-floating);
       box-sizing: border-box;
       color: var(--glide-core-color-static-text-default);
@@ -48,6 +48,7 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       grid-template-columns: auto minmax(0, 1fr);
       inline-size: 24.25rem;
+      opacity: 0;
       padding: var(--glide-core-spacing-base-sm);
       transform: translateX(calc(100% + var(--private-toasts-padding)));
 
@@ -71,25 +72,60 @@ export default [
 
       &.show {
         @media (prefers-reduced-motion: no-preference) {
-          transition: transform var(--private-test-transition-duration, 700ms)
-            ease-out;
+          transition:
+            opacity
+              var(
+                --private-test-transition-duration,
+                var(--glide-core-duration-slow-02)
+              )
+              var(--glide-core-animation-swoop-in),
+            transform
+              var(
+                --private-test-transition-duration,
+                var(--glide-core-duration-slow-02)
+              )
+              var(--glide-core-animation-swoop-in);
         }
 
+        opacity: 1;
         transform: translateX(0);
       }
 
       &.dismissing {
         @media (prefers-reduced-motion: no-preference) {
-          transition: transform var(--private-test-transition-duration, 700ms)
-            ease-in;
+          transition:
+            opacity
+              var(
+                --private-test-transition-duration,
+                var(--glide-core-duration-slow-01)
+              )
+              var(--glide-core-animation-swoop-out),
+            transform
+              var(
+                --private-test-transition-duration,
+                var(--glide-core-duration-slow-01)
+              )
+              var(--glide-core-animation-swoop-out);
         }
 
+        opacity: 0;
         transform: translateX(calc(100% + var(--private-toasts-padding)));
 
         &.dismissing-via-button {
           @media (prefers-reduced-motion: no-preference) {
-            transition: transform var(--private-test-transition-duration, 500ms)
-              ease-in;
+            transition:
+              opacity
+                var(
+                  --private-test-transition-duration,
+                  var(--glide-core-duration-moderate-03)
+                )
+                var(--glide-core-animation-swoop-out),
+              transform
+                var(
+                  --private-test-transition-duration,
+                  var(--glide-core-duration-moderate-03)
+                )
+                var(--glide-core-animation-swoop-out);
           }
         }
       }
