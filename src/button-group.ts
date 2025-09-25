@@ -194,77 +194,49 @@ export default class ButtonGroup extends LitElement {
   }
 
   #onDefaultSlotKeydown(event: KeyboardEvent) {
-    const selectedButtonElement = this.querySelector(
-      'glide-core-button-group-button[selected]',
+    const enabledButtons = this.#buttonElements.filter(
+      ({ disabled }) => !disabled,
     );
 
-    switch (event.key) {
-      case 'ArrowUp':
-      case 'ArrowLeft': {
-        // Prevent page scroll.
-        event.preventDefault();
+    const selectedButtonIndex = enabledButtons.findIndex(
+      ({ selected }) => selected,
+    );
 
-        let previousButton =
-          selectedButtonElement?.previousElementSibling ??
-          this.#buttonElements.at(-1);
+    if (['ArrowUp', 'ArrowLeft'].includes(event.key)) {
+      const previousButton =
+        enabledButtons[
+          (selectedButtonIndex - 1 + enabledButtons.length) %
+            enabledButtons.length
+        ];
 
-        while (previousButton instanceof ButtonGroupButton) {
-          if (previousButton.disabled) {
-            previousButton =
-              previousButton.previousElementSibling ??
-              this.#buttonElements.at(-1);
-          } else {
-            break;
-          }
+      event.preventDefault(); // Prevent scroll
+      previousButton?.privateSelect();
+
+      return;
+    }
+
+    if (['ArrowDown', 'ArrowRight'].includes(event.key)) {
+      const nextButton =
+        enabledButtons[(selectedButtonIndex + 1) % enabledButtons.length];
+
+      event.preventDefault(); // Prevent scroll
+      nextButton?.privateSelect();
+
+      return;
+    }
+
+    if (event.key === ' ') {
+      event.preventDefault(); // Prevent page scroll
+
+      if (event.target instanceof HTMLElement) {
+        const button = event.target.closest('glide-core-button-group-button');
+
+        if (button && !button.disabled && !button.selected) {
+          button.privateSelect();
         }
-
-        if (previousButton instanceof ButtonGroupButton) {
-          previousButton.privateSelect();
-        }
-
-        break;
       }
-      case 'ArrowDown':
-      case 'ArrowRight': {
-        // Prevent page scroll.
-        event.preventDefault();
 
-        let nextButton =
-          selectedButtonElement?.nextElementSibling ??
-          this.#buttonElements.at(0);
-
-        while (nextButton instanceof ButtonGroupButton) {
-          if (nextButton.disabled) {
-            nextButton =
-              nextButton.nextElementSibling ?? this.#buttonElements.at(0);
-          } else {
-            break;
-          }
-        }
-
-        if (nextButton instanceof ButtonGroupButton) {
-          nextButton.privateSelect();
-        }
-
-        break;
-      }
-      // This is specifically so the VoiceOver user can select and deselect buttons.
-      // Normally only the selected button is tabbable. But VoiceOver can focus
-      // programmatically anything with a `tabindex`.
-      case ' ': {
-        // Prevent page scroll.
-        event.preventDefault();
-
-        if (event.target instanceof HTMLElement) {
-          const button = event.target.closest('glide-core-button-group-button');
-
-          if (button && !button.disabled && !button.selected) {
-            button.privateSelect();
-          }
-        }
-
-        break;
-      }
+      return;
     }
   }
 
