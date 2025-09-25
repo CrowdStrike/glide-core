@@ -5775,7 +5775,7 @@
               "name": "",
               "description": "",
               "type": {
-                "text": "Option | Text"
+                "text": "Element | undefined"
               }
             }
           ],
