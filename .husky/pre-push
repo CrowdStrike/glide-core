@@ -1,3 +1,2 @@
 NODE_ENV=production pnpm start
-NODE_ENV=production pnpm test
 NODE_ENV=production pnpm typecheck

@@ -2,10 +2,22 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 import type Button from './button.js';
 
+test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
+  await mount(
+    () =>
+      html`<glide-core-button
+        label="Label"
+        aria-description="Description"
+      ></glide-core-button>`,
+  );
+
+  await expect(page).toBeAccessible('glide-core-button');
+});
+
 test(
-  'is accessible',
+  'sets `aria-description` on its button when set initially',
   { tag: '@accessibility' },
-  async ({ mount, page, setAttribute }) => {
+  async ({ mount, page }) => {
     await mount(
       () =>
         html`<glide-core-button
@@ -14,9 +26,25 @@ test(
         ></glide-core-button>`,
     );
 
-    await expect(page).toBeAccessible('glide-core-button');
+    const host = page.locator('glide-core-button');
+
+    await expect(host.getByRole('button')).toHaveAttribute(
+      'aria-description',
+      'Description',
+    );
+  },
+);
+
+test(
+  'sets `aria-description` on its button when set programmatically',
+  { tag: '@accessibility' },
+  async ({ mount, page, setAttribute }) => {
+    await mount(
+      () => html`<glide-core-button label="Label"></glide-core-button>`,
+    );
 
     const host = page.locator('glide-core-button');
+
     await setAttribute(host, 'aria-description', 'Description');
 
     await expect(host.getByRole('button')).toHaveAttribute(
