@@ -54,18 +54,3 @@ test(
     await expect(host).not.toBeExtensible();
   },
 );
-
-test(
-  'throws its default slot is the wrong type',
-  { tag: '@miscellaneous' },
-  async ({ mount }) => {
-    await expect(
-      mount(
-        () =>
-          html`<glide-core-options>
-            <option>Label</option>
-          </glide-core-options>`,
-      ),
-    ).rejects.toThrow();
-  },
-);

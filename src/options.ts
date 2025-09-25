@@ -7,9 +7,6 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './options.styles.js';
 import final from './library/final.js';
 import uniqueId from './library/unique-id.js';
-import assertSlot from './library/assert-slot.js';
-import Option from './option.js';
-import OptionsGroup from './options.group.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -46,7 +43,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {Option | Text}
+ * @slot {Element | undefined}
  *
  * @fires {Event} slotchange
  */
@@ -103,9 +100,8 @@ export default class Options extends LitElement {
       <slot
         ?hidden=${this.privateLoading}
         @slotchange=${this.#onDefaultSlotChange}
-        ${assertSlot([OptionsGroup, Option, Text], true)}
       >
-        <!-- @type {Option | Text} -->
+        <!-- @type {Element | undefined} -->
       </slot>
 
       ${when(this.privateLoading, () => {
