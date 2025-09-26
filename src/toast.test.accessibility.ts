@@ -1,5 +1,21 @@
+import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 import type Button from './button.js';
+
+test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+
+  await mount(
+    () =>
+      html`<glide-core-toast label="Label" duration="Infinity">
+        Description
+
+        <glide-core-link label="Label"></glide-core-link>
+      </glide-core-toast>`,
+  );
+
+  await expect(page).toBeAccessible('glide-core-private-toasts');
+});
 
 test('variant="informational"', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=toast--toast');
