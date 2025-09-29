@@ -382,6 +382,7 @@ export default defineConfig([
       'src/button-group.test.*.ts',
       'src/button-group.button.test.*.ts',
       'src/checkbox.test.*.ts',
+      'src/checkbox-group.test.*.ts',
       'src/drawer.test.*.ts',
       'src/form-controls-layout.test.*.ts',
       'src/icon-button.test.*.ts',
