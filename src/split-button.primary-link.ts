@@ -26,13 +26,13 @@ declare global {
 @customElement('glide-core-split-button-primary-link')
 @final
 export default class SplitButtonPrimaryLink extends LitElement {
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 

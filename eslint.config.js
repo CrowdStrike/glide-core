@@ -397,6 +397,7 @@ export default defineConfig([
       'src/options.group.test.*.ts',
       'src/popover.test.*.ts',
       'src/popover.container.test.*.ts',
+      'src/radio-group.radio.test.*.ts',
       'src/select.test.*.ts',
       'src/split-button.secondary-button.test.*.ts',
       'src/spinner.test.*.ts',
