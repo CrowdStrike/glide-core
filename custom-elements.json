@@ -1551,15 +1551,6 @@
             },
             {
               "kind": "field",
-              "name": "privateIsReportValidityOrSubmit",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "privateIsReportValidityOrSubmit"
-            },
-            {
-              "kind": "field",
               "name": "version",
               "type": {
                 "text": "string"
@@ -1723,7 +1714,7 @@
             {
               "name": "private-value-change",
               "type": {
-                "text": "CustomEvent"
+                "text": "Event"
               }
             }
           ],
@@ -1860,14 +1851,6 @@
               },
               "default": "''",
               "fieldName": "value"
-            },
-            {
-              "name": "privateIsReportValidityOrSubmit",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateIsReportValidityOrSubmit"
             },
             {
               "name": "version",

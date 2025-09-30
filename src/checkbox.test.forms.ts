@@ -281,7 +281,7 @@ test(
     await mount(
       () => html`
         <form>
-          <glide-core-checkbox label="Label" checked></glide-core-checkbox>
+          <glide-core-checkbox label="Label"></glide-core-checkbox>
         </form>
       `,
     );

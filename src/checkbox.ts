@@ -123,6 +123,7 @@ export default class Checkbox extends LitElement implements FormControl {
     }
   }
 
+  // Private because it's only meant to be used by Dropdown Option.
   @property({ attribute: 'private-internally-inert', type: Boolean })
   privateInternallyInert = false;
 
@@ -214,27 +215,16 @@ export default class Checkbox extends LitElement implements FormControl {
   }
 
   set value(value: string) {
-    const old = this.#value;
     this.#value = value;
 
     // `this.value` can be set programmatically. Checkbox Group needs to know when
     // that happens so it can update its own `this.value`.
     this.dispatchEvent(
-      new CustomEvent('private-value-change', {
+      new Event('private-value-change', {
         bubbles: true,
-        detail: {
-          // Without knowing what the old value was, Checkbox Group would be unable to
-          // find the value in its `this.value` array and remove it.
-          old,
-          new: value,
-        },
       }),
     );
   }
-
-  // Used by Checkbox Group.
-  @property({ type: Boolean })
-  privateIsReportValidityOrSubmit = false;
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
@@ -464,7 +454,8 @@ export default class Checkbox extends LitElement implements FormControl {
   }
 
   reportValidity(): boolean {
-    this.privateIsReportValidityOrSubmit = true;
+    this.hasReportedValidityOrSubmitted = true;
+
     const isValid = this.#internals.reportValidity();
 
     // Ensures getters referencing `this.validity.valid` re-run.
@@ -474,7 +465,7 @@ export default class Checkbox extends LitElement implements FormControl {
   }
 
   resetValidityFeedback(): void {
-    this.privateIsReportValidityOrSubmit = false;
+    this.hasReportedValidityOrSubmitted = false;
   }
 
   setCustomValidity(message: string): void {
@@ -487,8 +478,6 @@ export default class Checkbox extends LitElement implements FormControl {
         this.#inputElementRef.value,
       );
     } else {
-      // A validation message is required but unused because we disable native validation
-      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         {
           customError: true,
@@ -533,7 +522,7 @@ export default class Checkbox extends LitElement implements FormControl {
         return;
       }
 
-      this.privateIsReportValidityOrSubmit = true;
+      this.hasReportedValidityOrSubmitted = true;
 
       const isFirstInvalidFormElement =
         this.form?.querySelector(':invalid') === this;
@@ -557,6 +546,9 @@ export default class Checkbox extends LitElement implements FormControl {
       }
     });
   }
+
+  @state()
+  private hasReportedValidityOrSubmitted = false;
 
   @state()
   private isBlurring = false;
@@ -607,7 +599,7 @@ export default class Checkbox extends LitElement implements FormControl {
     return (
       !this.disabled &&
       !this.validity.valid &&
-      this.privateIsReportValidityOrSubmit
+      this.hasReportedValidityOrSubmitted
     );
   }
 

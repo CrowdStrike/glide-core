@@ -68,12 +68,12 @@ declare global {
 export default class CheckboxGroup extends LitElement implements FormControl {
   static formAssociated = true;
 
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -120,24 +120,7 @@ export default class CheckboxGroup extends LitElement implements FormControl {
 
   set required(isRequired: boolean) {
     this.#isRequired = isRequired;
-
-    // Changes to `required` change the validity state. If no checkboxes are
-    // checked and Checkbox Group is `required`, then Checkbox Group is invalid.
-    //
-    // However, if `required` is programmatically removed, then Checkbox Group
-    // is suddenly valid. So we update the validity of every checkbox to match
-    // Checkbox Group. This ensures that any visual feedback shown by Checkbox
-    // based on validity is correct.
-    for (const checkbox of this.#checkboxElements) {
-      if (isRequired) {
-        checkbox.setValidity(this.#internals.validity, ' ');
-      } else {
-        checkbox.setValidity({});
-      }
-
-      // Checkbox's `this.#internals.validity` isn't reactive.
-      checkbox.requestUpdate();
-    }
+    this.#setValidity();
   }
 
   @property({ reflect: true })
@@ -203,10 +186,12 @@ export default class CheckboxGroup extends LitElement implements FormControl {
     return isValid;
   }
 
+  /* v8 ignore start */
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
+  /* v8 ignore stop */
 
   override firstUpdated() {
     if (this.disabled) {
@@ -219,33 +204,34 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       ({ checked }) => !checked,
     );
 
-    for (const checkbox of this.#checkboxElements) {
-      checkbox.addEventListener('blur', this.#onCheckboxBlur.bind(this));
+    // When `value` is set on initial render, its setter is called before
+    // `connectedCallback()` and thus before the default slot has any assigned
+    // elements. So we set it again here after the initial render is complete
+    // so `this.#checkboxElements` isn't empty.
+    //
+    // Additionally, `#onDefaultSlotChange()` is called after `firstUpdated()`
+    // and sets `value` based on which checkboxes are checked. And the initial `value`
+    // may conflict with the one derived from which checkboxes are checked.
+    //
+    // So we have a decision to make. On first render, do we defer to the initial
+    // `value` and check and uncheck checkboxes below? Or do we defer to
+    // `#onDefaultSlotChange()` and let that method change `value` from its initial
+    // value based on which checkboxes are checked?
+    //
+    // It's largely a toss-up. But the latter seems like the logical choice given
+    // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
+    // defer to the lifecycle. `#onDefaultSlotChange()` is called second. So it gets to
+    // override what `value` was initially.
+    //
+    // If no checkboxes are checked, then it's obvious that the consumer's intention is
+    // to check checkboxes based on the initial `value` and that the initial `value` is
+    // the intended one. So we proceed.
+    if (hasNoCheckedCheckboxes) {
+      // Cached because `#onCheckboxDisabledChange()` overwrites it.
+      const value = this.value;
 
-      // When `value` is set on initial render, its setter is called before
-      // `connectedCallback()` and thus before the default slot has any assigned
-      // elements. So we set it again here after the initial render is complete
-      // so `this.#checkboxElements` isn't empty.
-      //
-      // Additionally, `#onDefaultSlotChange()` is called after `firstUpdated()`
-      // and sets `value` based on which checkboxes are checked. And the initial `value`
-      // may conflict with the one derived from which checkboxes are checked.
-      //
-      // So we have a decision to make. On first render, do we defer to the initial
-      // `value` and check and uncheck checkboxes below? Or do we defer to
-      // `#onDefaultSlotChange()` and let that method change `value` from its initial
-      // value based on which checkboxes are checked?
-      //
-      // It's largely a toss-up. But the latter seems like the logical choice given
-      // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
-      // defer to the lifecycle. `#onDefaultSlotChange()` is called second. So it gets to
-      // override what `value` was initially.
-      //
-      // If no checkboxes are checked, then it's obvious that the consumer's intention is
-      // to check checkboxes based on the initial `value` and that the initial `value` is
-      // the intended one. So we proceed.
-      if (hasNoCheckedCheckboxes) {
-        checkbox.checked = this.value.includes(checkbox.value);
+      for (const checkbox of this.#checkboxElements) {
+        checkbox.checked = value.includes(checkbox.value);
 
         if (checkbox.checked && !this.disabled) {
           checkbox.disabled = false;
@@ -259,33 +245,6 @@ export default class CheckboxGroup extends LitElement implements FormControl {
   }
 
   get validity(): ValidityState {
-    const isChecked = this.#checkboxElements.some(({ checked }) => checked);
-
-    if (this.required && !isChecked) {
-      // A validation message is required but unused because we disable native
-      // validation feedback. And an empty string isn't allowed. Thus a single space.
-      this.#internals.setValidity(
-        { customError: Boolean(this.validityMessage), valueMissing: true },
-        ' ',
-        this.#componentElementRef.value,
-      );
-    }
-
-    if (this.required && this.#internals.validity.valueMissing && isChecked) {
-      this.#internals.setValidity({});
-    }
-
-    if (!this.required && this.#internals.validity.valueMissing && !isChecked) {
-      this.#internals.setValidity({});
-    }
-
-    for (const checkbox of this.#checkboxElements) {
-      checkbox.setValidity(this.#internals.validity, ' ');
-
-      // Checkbox's `this.#internals.validity` isn't reactive.
-      checkbox.requestUpdate();
-    }
-
     return this.#internals.validity;
   }
 
@@ -334,6 +293,8 @@ export default class CheckboxGroup extends LitElement implements FormControl {
         >
           <slot
             class="default-slot"
+            @focusin=${this.#onCheckBoxFocusIn}
+            @focusout=${this.#onCheckBoxFocusOut}
             @private-checked-change=${this.#onCheckboxCheckedChange}
             @private-disabled-change=${this.#onCheckboxDisabledChange}
             @private-value-change=${this.#onCheckboxValueChange}
@@ -367,9 +328,9 @@ export default class CheckboxGroup extends LitElement implements FormControl {
           ${when(
             this.#isShowValidationFeedback && this.validityMessage,
             () =>
-              html`<span class="validity-message" data-test="validity-message"
-                >${unsafeHTML(this.validityMessage)}</span
-              >`,
+              html`<span class="validity-message" data-test="validity-message">
+                ${unsafeHTML(this.validityMessage)}
+              </span>`,
           )}
         </div>
       </glide-core-private-label>
@@ -377,7 +338,7 @@ export default class CheckboxGroup extends LitElement implements FormControl {
   }
 
   reportValidity(): boolean {
-    this.isReportValidityOrSubmit = true;
+    this.hasReportedValidityOrSubmitted = true;
 
     const isValid = this.#internals.reportValidity();
 
@@ -388,7 +349,7 @@ export default class CheckboxGroup extends LitElement implements FormControl {
   }
 
   resetValidityFeedback(): void {
-    this.isReportValidityOrSubmit = false;
+    this.hasReportedValidityOrSubmitted = false;
   }
 
   setCustomValidity(message: string): void {
@@ -401,8 +362,6 @@ export default class CheckboxGroup extends LitElement implements FormControl {
         this.#componentElementRef.value,
       );
     } else {
-      // A validation message is required but unused because we disable native validation
-      // feedback. And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         {
           customError: true,
@@ -415,10 +374,8 @@ export default class CheckboxGroup extends LitElement implements FormControl {
   }
 
   setValidity(flags?: ValidityStateFlags, message?: string): void {
+    this.#hasCustomValidity = true;
     this.validityMessage = message;
-
-    // A validation message is required but unused because we disable native validation
-    // feedback. And an empty string isn't allowed. Thus a single space.
     this.#internals.setValidity(flags, ' ', this.#componentElementRef.value);
   }
 
@@ -441,12 +398,12 @@ export default class CheckboxGroup extends LitElement implements FormControl {
         return;
       }
 
-      this.isReportValidityOrSubmit = true;
+      this.hasReportedValidityOrSubmitted = true;
 
       const isFirstInvalidFormElement =
         this.form?.querySelector(':invalid') === this;
 
-      if (isFirstInvalidFormElement) {
+      if (isFirstInvalidFormElement && !this.#focusedCheckbox) {
         // - `delegatesFocus` is preferred because it's declarative. But it's limited to
         //    focusing the first focusable element. That doesn't work for us because the first
         //    focusable element is the Tooltip when it's present.
@@ -467,20 +424,26 @@ export default class CheckboxGroup extends LitElement implements FormControl {
   }
 
   @state()
+  private hasReportedValidityOrSubmitted = false;
+
+  @state()
   private isBlurring = false;
 
   @state()
   private isCheckingValidity = false;
 
   @state()
-  private isReportValidityOrSubmit = false;
-
-  @state()
   private validityMessage?: string;
+
+  #checkedAndEnabledCheckboxes = new Set<Checkbox>();
 
   #componentElementRef = createRef<HTMLElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #focusedCheckbox: Checkbox | null = null;
+
+  #hasCustomValidity = false;
 
   #internals: ElementInternals;
 
@@ -510,40 +473,28 @@ export default class CheckboxGroup extends LitElement implements FormControl {
 
   get #isShowValidationFeedback() {
     return (
-      !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit
+      !this.disabled &&
+      !this.validity.valid &&
+      this.hasReportedValidityOrSubmitted
     );
   }
 
-  #onBlur() {
-    for (const checkbox of this.#checkboxElements) {
-      checkbox.privateIsReportValidityOrSubmit = true;
-    }
-  }
-
-  #onCheckboxBlur(event: FocusEvent) {
-    const newlyFocusedElement = event.relatedTarget;
-
-    if (
-      !newlyFocusedElement ||
-      !(newlyFocusedElement instanceof Checkbox) ||
-      !this.#checkboxElements.includes(newlyFocusedElement)
-    ) {
-      this.#onBlur();
-    }
-  }
-
   #onCheckboxCheckedChange(event: Event) {
-    if (
-      event.target instanceof Checkbox &&
-      event.target.checked &&
-      event.target.value
-    ) {
-      this.#value = [...this.value, event.target.value];
+    if (event.target instanceof Checkbox && event.target.checked) {
+      this.#checkedAndEnabledCheckboxes.add(event.target);
     } else if (event.target instanceof Checkbox && !event.target.checked) {
-      this.#value = this.value.filter((value) => {
-        return event.target instanceof Checkbox && value !== event.target.value;
-      });
+      this.#checkedAndEnabledCheckboxes.delete(event.target);
     }
+
+    this.#value = Array.from(
+      this.#checkedAndEnabledCheckboxes,
+      ({ value }) => value,
+    );
+
+    this.#setValidity();
+
+    // Ensures `#isShowValidationFeedback` is re-run.
+    this.requestUpdate();
   }
 
   #onCheckboxDisabledChange(event: Event) {
@@ -552,37 +503,44 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       event.target.disabled &&
       event.target.checked
     ) {
-      // `this.#value` may include multiple of the same value because multiple checkboxes
-      // may have the same value. So we only remove the last.
-      //
-      // Ideally, Checkbox Group wouldn't always remove the last value but would know the
-      // exact index to remove. But Checkbox Group, the way it's built, doesn't know
-      // which value in `this.#value` corresponds to which checkbox. It probably should
-      // if cases like this continue to pile up. For now, though, consumers' needs seem
-      // to be met.
-      const index = this.#value.lastIndexOf(event.target.value);
-      this.#value.splice(index, index + 1);
-    } else if (
-      event.target instanceof Checkbox &&
-      event.target.checked &&
-      event.target.value
-    ) {
-      this.#value.push(event.target.value);
+      this.#checkedAndEnabledCheckboxes.delete(event.target);
+    } else if (event.target instanceof Checkbox && event.target.checked) {
+      this.#checkedAndEnabledCheckboxes.add(event.target);
+    }
+
+    this.#value = Array.from(
+      this.#checkedAndEnabledCheckboxes,
+      ({ value }) => value,
+    );
+
+    this.#setValidity();
+  }
+
+  #onCheckBoxFocusIn(event: FocusEvent) {
+    if (event.target instanceof Checkbox) {
+      this.#focusedCheckbox = event.target;
     }
   }
 
-  #onCheckboxValueChange(event: CustomEvent<{ new: string; old: string }>) {
-    if (
-      event.target instanceof Checkbox &&
-      event.target.checked &&
-      event.detail.new
-    ) {
-      this.value = this.#value.map((value) => {
-        return value === event.detail.old ? event.detail.new : value;
-      });
-    } else if (event.target instanceof Checkbox && event.target.checked) {
-      this.value = this.#value.filter((value) => value !== event.detail.old);
+  #onCheckBoxFocusOut(event: FocusEvent) {
+    this.#focusedCheckbox = null;
+
+    const lastEnabledCheckbox = this.#checkboxElements.findLast(
+      ({ disabled }) => !disabled,
+    );
+
+    if (event.target === lastEnabledCheckbox) {
+      this.isBlurring = true;
+      this.reportValidity();
+      this.isBlurring = false;
     }
+  }
+
+  #onCheckboxValueChange() {
+    this.#value = Array.from(
+      this.#checkedAndEnabledCheckboxes,
+      ({ value }) => value,
+    );
   }
 
   #onDefaultSlotChange() {
@@ -590,10 +548,37 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       checkbox.privateVariant = 'minimal';
     }
 
-    this.#value = this.#checkboxElements
-      .filter(
-        ({ checked, disabled, value }) => checked && !disabled && value !== '',
-      )
-      .map(({ value }) => value);
+    for (const checkbox of this.#checkboxElements) {
+      if (checkbox.disabled) {
+        this.#checkedAndEnabledCheckboxes.delete(checkbox);
+      } else if (checkbox.checked) {
+        this.#checkedAndEnabledCheckboxes.add(checkbox);
+      }
+    }
+
+    this.#value = Array.from(
+      this.#checkedAndEnabledCheckboxes,
+      ({ value }) => value,
+    );
+
+    this.#setValidity();
+  }
+
+  #setValidity() {
+    if (this.#hasCustomValidity) {
+      return;
+    }
+
+    if (this.required && this.#value.length === 0) {
+      this.#internals.setValidity(
+        { customError: Boolean(this.validityMessage), valueMissing: true },
+        ' ',
+        this.#checkboxElements.at(0),
+      );
+
+      return;
+    }
+
+    this.#internals.setValidity({});
   }
 }
