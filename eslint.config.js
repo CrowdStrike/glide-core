@@ -400,6 +400,7 @@ export default defineConfig([
       'src/select.test.*.ts',
       'src/spinner.test.*.ts',
       'src/split-button.primary-button.test.*.ts',
+      'src/split-button.primary-link.test.*.ts',
       'src/tag.test.*.ts',
       'src/toast.test.*.ts',
       'src/toast.toasts.test.*.ts',
