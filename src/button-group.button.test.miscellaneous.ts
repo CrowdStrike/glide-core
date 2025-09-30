@@ -76,7 +76,7 @@ test(
 );
 
 test(
-  'focuses itself when `focus()` is called',
+  'can be focused programmatically',
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(
