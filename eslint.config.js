@@ -398,6 +398,7 @@ export default defineConfig([
       'src/popover.test.*.ts',
       'src/popover.container.test.*.ts',
       'src/select.test.*.ts',
+      'src/split-button.secondary-button.test.*.ts',
       'src/spinner.test.*.ts',
       'src/tag.test.*.ts',
       'src/toast.test.*.ts',
