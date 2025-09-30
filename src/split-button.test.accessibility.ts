@@ -1,7 +1,28 @@
+import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 import type SplitButtonPrimaryButton from './split-button.primary-button.js';
 import type SplitButtonPrimaryLink from './split-button.primary-link.js';
 import type SplitButtonSecondaryButton from './split-button.secondary-button.js';
+
+test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
+  await mount(
+    () =>
+      html`<glide-core-split-button>
+        <glide-core-split-button-primary-button
+          label="Label"
+        ></glide-core-split-button-primary-button>
+
+        <glide-core-split-button-secondary-button
+          label="Label"
+          slot="secondary-button"
+        >
+          <glide-core-option label="Label"></glide-core-option>
+        </glide-core-split-button-secondary-button>
+      </glide-core-split-button>`,
+  );
+
+  await expect(page).toBeAccessible('glide-core-split-button');
+});
 
 test(
   '<glide-core-split-button-primary-button>[disabled=${true}]',
