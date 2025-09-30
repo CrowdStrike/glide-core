@@ -101,8 +101,8 @@ export default {
     '!src/popover.container.test.*.ts',
     '!src/radio-group.radio.test.*.ts',
     '!src/select.test.*.ts',
-    '!src/spinner.test.*.ts'
-    '!src/split-button.test.*.ts',,
+    '!src/spinner.test.*.ts',
+    '!src/split-button.test.*.ts',
     '!src/split-button.secondary-button.test.*.ts',
     '!src/split-button.primary-button.test.*.ts',
     '!src/split-button.primary-link.test.*.ts',
