@@ -47,6 +47,7 @@ export default {
       'src/popover.container.ts',
       'src/select.ts',
       'src/spinner.ts',
+      'src/split-button.ts',
       'src/split-button.secondary-button.ts',
       'src/split-button.primary-button.ts',
       'src/split-button.primary-link.ts',
@@ -98,7 +99,8 @@ export default {
     '!src/popover.test.*.ts',
     '!src/popover.container.test.*.ts',
     '!src/select.test.*.ts',
-    '!src/spinner.test.*.ts',
+    '!src/spinner.test.*.ts'
+    '!src/split-button.test.*.ts',,
     '!src/split-button.secondary-button.test.*.ts',
     '!src/split-button.primary-button.test.*.ts',
     '!src/split-button.primary-link.test.*.ts',
