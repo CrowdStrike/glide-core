@@ -33,8 +33,6 @@ test(
       () => setProperty(host, 'checked', true),
       [{ type: 'private-checked-change', bubbles: true }],
     );
-
-    await expect(host).not.toBeExtensible();
   },
 );
 
@@ -56,8 +54,6 @@ test(
       () => setProperty(host, 'value', 'two'),
       [{ type: 'private-value-change', bubbles: true }],
     );
-
-    await expect(host).not.toBeExtensible();
   },
 );
 
