@@ -17,7 +17,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 });
 
 test(
-  'can be focusd programmatically',
+  'can be focused programmatically',
   { tag: '@miscellaneous' },
   async ({ callMethod, mount, page }) => {
     await mount(
