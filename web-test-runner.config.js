@@ -45,6 +45,7 @@ export default {
       'src/options.group.ts',
       'src/popover.ts',
       'src/popover.container.ts',
+      'src/radio-group.radio.ts',
       'src/select.ts',
       'src/spinner.ts',
       'src/split-button.ts',
@@ -98,6 +99,7 @@ export default {
     '!src/options.group.test.*.ts',
     '!src/popover.test.*.ts',
     '!src/popover.container.test.*.ts',
+    '!src/radio-group.radio.test.*.ts',
     '!src/select.test.*.ts',
     '!src/spinner.test.*.ts'
     '!src/split-button.test.*.ts',,
