@@ -20,10 +20,11 @@ test(
     );
 
     const host = page.locator('glide-core-button');
+    const button = page.getByRole('button');
 
     await callMethod(host, 'focus');
 
-    await expect(host).toBeFocused();
+    await expect(button).toBeFocused();
   },
 );
 
