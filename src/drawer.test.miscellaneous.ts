@@ -14,12 +14,7 @@ test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
 test(
   'can be opened',
   { tag: '@miscellaneous' },
-  async ({ browserName, mount, page, setProperty }) => {
-    test.skip(
-      browserName === 'webkit',
-      '"toggle" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
-    );
-
+  async ({ mount, page, setProperty }) => {
     await mount(
       () => html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
     );
@@ -45,12 +40,7 @@ test(
 test(
   'can be closed',
   { tag: '@miscellaneous' },
-  async ({ browserName, mount, page, setProperty }) => {
-    test.skip(
-      browserName === 'webkit',
-      '"toggle" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
-    );
-
+  async ({ mount, page, setProperty }) => {
     await mount(
       () =>
         html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
@@ -77,12 +67,7 @@ test(
 test(
   'does not dispatch a "toggle" event when already open and opened programmatically',
   { tag: '@miscellaneous' },
-  async ({ browserName, mount, page, setProperty }) => {
-    test.skip(
-      browserName === 'webkit',
-      '"toggle" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
-    );
-
+  async ({ mount, page, setProperty }) => {
     await mount(
       () =>
         html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
@@ -106,12 +91,7 @@ test(
 test(
   'does not dispatch a "toggle" event when already closed and closed programmatically',
   { tag: '@miscellaneous' },
-  async ({ browserName, mount, page, setProperty }) => {
-    test.skip(
-      browserName === 'webkit',
-      '"toggle" is dispatched inconsistently in CI. Or perhaps on Ubuntu. Try removing this when Webkit 26 is stable (TODO).',
-    );
-
+  async ({ mount, page, setProperty }) => {
     await mount(
       () => html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
     );
