@@ -17,6 +17,7 @@ import { click, hover } from './library/mouse.js';
 import Menu from './menu.js';
 import './option.js';
 import Tooltip from './tooltip.js';
+import './select.js';
 
 @customElement('glide-core-options-in-nested-slot')
 class OptionsInNestedSlot extends LitElement {
@@ -2706,6 +2707,32 @@ it('closes child sub-Menus when the target of a super-Menu is disabled', async (
   expect(defaultSlots[0]?.checkVisibility()).to.be.true;
   expect(defaultSlots[1]?.checkVisibility()).to.not.be.ok;
   expect(defaultSlots[2]?.checkVisibility()).to.not.be.ok;
+});
+
+it('closes when its target is a slot and another element in the slot is clicked', async () => {
+  const host = await fixture<Menu>(
+    html`<glide-core-select>
+      <div slot="target">
+        <button>Target</button>
+        <span>Target</span>
+      </div>
+
+      <glide-core-options>
+        <glide-core-option label="Label"></glide-core-option>
+      </glide-core-options>
+    </glide-core-select>`,
+  );
+
+  const button = host.querySelector('button');
+  const span = host.querySelector('span');
+
+  await click(button);
+  await requestIdleCallback(); // Wait for Floating UI
+
+  await click(span);
+  await requestIdleCallback(); // Wait for Floating UI
+
+  expect(host.open).to.be.false;
 });
 
 it('is opened when open and `disabled` is set on its target programmatically', async () => {
