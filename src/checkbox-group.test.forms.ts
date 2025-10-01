@@ -215,7 +215,7 @@ test(
 );
 
 test(
-  'has no form data when it is without a name and a checkbox is checked',
+  'has no form data it has no name and a checkbox is checked',
   { tag: '@forms' },
   async ({ mount, page }) => {
     await mount(
@@ -441,9 +441,10 @@ test(
 
     await setProperty(checkboxes.nth(0), 'disabled', true);
 
-    await expect(host).toDispatchEvents(async () => {
-      await callMethod(host, 'reportValidity');
-    }, [{ type: 'invalid' }]);
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'reportValidity'),
+      [{ type: 'invalid' }],
+    );
 
     await expect(host).toHaveJSProperty('validity.valid', false);
     await expect(host).toHaveJSProperty('validity.valueMissing', true);

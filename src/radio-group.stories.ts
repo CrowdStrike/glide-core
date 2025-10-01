@@ -31,7 +31,7 @@ const meta: Meta = {
       },
     },
   },
-  play: (context) => {
+  play(context) {
     const radioGroup = context.canvasElement.querySelector(
       'glide-core-radio-group',
     );

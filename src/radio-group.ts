@@ -68,12 +68,12 @@ declare global {
 export default class RadioGroup extends LitElement implements FormControl {
   static formAssociated = true;
 
-  /* c8 ignore start */
+  /* v8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* v8 ignore stop */
 
   static override styles = styles;
 
@@ -92,32 +92,26 @@ export default class RadioGroup extends LitElement implements FormControl {
   set disabled(isDisabled: boolean) {
     this.#isDisabled = isDisabled;
 
-    const lastCheckedRadio = this.#radioElements.findLast(
-      (radio) => radio.checked,
-    );
+    const checkedRadio = this.#radioElements.findLast(({ checked }) => checked);
 
     for (const radio of this.#radioElements) {
       this.#isEnablingOrDisablingTheGroup = true;
       radio.disabled = isDisabled;
       this.#isEnablingOrDisablingTheGroup = false;
 
-      const firstEnabledRadio = this.#radioElements.find(
-        (radio) => !radio.disabled,
-      );
-
       if (isDisabled) {
         radio.tabIndex = -1;
-      } else if (radio === lastCheckedRadio) {
+      } else if (radio === checkedRadio) {
         radio.tabIndex = 0;
-      } else if (!lastCheckedRadio && radio === firstEnabledRadio) {
+      } else if (!checkedRadio && radio === this.#firstEnabledRadio) {
         radio.tabIndex = 0;
       }
     }
 
     if (isDisabled) {
       this.#value = '';
-    } else if (lastCheckedRadio) {
-      this.#value = lastCheckedRadio.value;
+    } else if (checkedRadio) {
+      this.#value = checkedRadio.value;
     }
   }
 
@@ -155,6 +149,8 @@ export default class RadioGroup extends LitElement implements FormControl {
     for (const radio of this.#radioElements) {
       radio.privateRequired = isRequired;
     }
+
+    this.#setValidity();
   }
 
   // Intentionally not reflected to match native.
@@ -174,10 +170,7 @@ export default class RadioGroup extends LitElement implements FormControl {
     }
 
     for (const radio of this.#radioElements) {
-      // If both `value` and the radio's `value` are empty strings, the
-      // desired outcome from the perspective of the consumer is almost
-      // certainly not to check the radio.
-      const isChecked = Boolean(value !== '' && radio.value === value);
+      const isChecked = radio.value === value;
 
       radio.checked = isChecked ? true : false;
       radio.tabIndex = isChecked ? 0 : -1;
@@ -211,10 +204,12 @@ export default class RadioGroup extends LitElement implements FormControl {
     return isValid;
   }
 
+  /* v8 ignore start */
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
+  /* v8 ignore stop */
 
   override firstUpdated() {
     for (const radio of this.#radioElements) {
@@ -226,19 +221,14 @@ export default class RadioGroup extends LitElement implements FormControl {
       }
     }
 
-    // There's nothing to stop developers from adding a `checked` attribute to more
-    // than one radio. How native handles it with `<select>` is to choose the last
-    // selected option. This mimics that behavior, which seems reasonable.
-    const lastCheckedRadio = this.#radioElements.findLast(
+    const checkedRadio = this.#radioElements.find(
       ({ checked, disabled }) => checked && !disabled,
     );
 
-    if (lastCheckedRadio) {
-      this.#value = lastCheckedRadio.value;
+    if (checkedRadio) {
+      this.#value = checkedRadio.value;
 
-      if (!this.disabled) {
-        lastCheckedRadio.tabIndex = 0;
-      }
+      checkedRadio.tabIndex = 0;
 
       // When there's not a default `value` set on the group and a radio is checked
       // set, we need to manually set `value` on the group. That way when `form.reset()`
@@ -250,7 +240,7 @@ export default class RadioGroup extends LitElement implements FormControl {
       // programmatically, we leave them checked and simply don't show them as checked to
       // the user. That way what the user sees matches what gets submitted with the form.
       this.#isSettingValueAttributeInitially = true;
-      this.setAttribute('value', lastCheckedRadio.value);
+      this.setAttribute('value', checkedRadio.value);
       this.#isSettingValueAttributeInitially = false;
 
       return;
@@ -278,40 +268,30 @@ export default class RadioGroup extends LitElement implements FormControl {
     // If no radios are checked, then it's obvious that the consumer's intention is
     // to check radios based on the initial `value` and that the initial `value` is
     // the intended one. So we proceed.
-    if (!lastCheckedRadio && this.value !== '') {
-      const lastRadioWithMatchingValue = this.#radioElements.findLast(
-        ({ value }) => value === this.value,
-      );
+    const radioWithMatchingValue = this.#radioElements.findLast(
+      ({ value }) => value === this.value,
+    );
 
-      if (!this.disabled && lastRadioWithMatchingValue?.disabled) {
-        lastRadioWithMatchingValue.disabled = false;
+    if (radioWithMatchingValue) {
+      if (!this.disabled && radioWithMatchingValue.disabled) {
+        radioWithMatchingValue.disabled = false;
       }
 
-      if (lastRadioWithMatchingValue) {
-        lastRadioWithMatchingValue.checked = true;
-        lastRadioWithMatchingValue.tabIndex = 0;
-      }
+      radioWithMatchingValue.checked = true;
+      radioWithMatchingValue.tabIndex = 0;
 
       return;
     }
 
-    const firstEnabledRadio = this.#radioElements.find(
-      ({ disabled }) => !disabled,
-    );
+    if (this.#firstEnabledRadio) {
+      this.#firstEnabledRadio.tabIndex = 0;
 
-    if (firstEnabledRadio) {
-      firstEnabledRadio.tabIndex = 0;
       return;
     }
   }
 
   override focus(options?: FocusOptions) {
-    const radio =
-      this.#radioElements.find(
-        ({ checked, disabled }) => checked && !disabled,
-      ) ?? this.#radioElements.find(({ tabIndex }) => tabIndex === 0);
-
-    radio?.focus(options);
+    this.#radioElements.find(({ tabIndex }) => tabIndex === 0)?.focus(options);
   }
 
   get form(): HTMLFormElement | null {
@@ -319,41 +299,6 @@ export default class RadioGroup extends LitElement implements FormControl {
   }
 
   get validity(): ValidityState {
-    const isChecked = this.#radioElements.some(({ checked }) => checked);
-
-    if (this.required && !isChecked && !this.disabled) {
-      // A validation message is required but unused because we disable native validation
-      // feedback. And an empty string isn't allowed. Thus a single space.
-      this.#internals.setValidity(
-        { customError: Boolean(this.validityMessage), valueMissing: true },
-        ' ',
-        this.#componentElementRef.value,
-      );
-
-      return this.#internals.validity;
-    }
-
-    if (this.required && this.#internals.validity.valueMissing && isChecked) {
-      this.#internals.setValidity({});
-      return this.#internals.validity;
-    }
-
-    if (this.required && this.disabled && !isChecked) {
-      this.#internals.setValidity(
-        { valueMissing: true },
-        ' ',
-        this.#componentElementRef.value,
-      );
-
-      return this.#internals.validity;
-    }
-
-    if (!this.required && this.#internals.validity.valueMissing && !isChecked) {
-      this.#internals.setValidity({});
-
-      return this.#internals.validity;
-    }
-
     return this.#internals.validity;
   }
 
@@ -362,7 +307,9 @@ export default class RadioGroup extends LitElement implements FormControl {
   }
 
   formResetCallback(): void {
-    this.value = this.getAttribute('value') ?? '';
+    for (const radio of this.#radioElements) {
+      radio.checked = radio.hasAttribute('checked');
+    }
   }
 
   override render() {
@@ -383,7 +330,7 @@ export default class RadioGroup extends LitElement implements FormControl {
           ?hide=${this.hideLabel}
           ?required=${this.required}
         >
-          <label id="label" data-test="label"> ${this.label} </label>
+          <label id="label"> ${this.label} </label>
 
           <div
             class=${classMap({
@@ -395,11 +342,11 @@ export default class RadioGroup extends LitElement implements FormControl {
             aria-labelledby="label description"
           >
             <slot
-              @focusout=${this.#onRadioGroupFocusout}
-              @private-checked-change=${this.#onRadiosCheckedChange}
-              @private-disabled-change=${this.#onRadiosDisabledChange}
-              @private-value-change=${this.#onRadiosValueChange}
-              @slotchange=${this.#onDefaultSlotChange}
+              @focusout=${this.#onDefaultSlotFocusOut}
+              @private-checked-change=${this.#onDefaultSlotCheckedChange}
+              @private-disabled-change=${this.#onDefaultSlotDisabledChange}
+              @private-value-change=${this.#onDefaultSlotValueChange}
+              @slotchange=${this.#onDefaultSlotSlotChange}
               ${assertSlot([RadioGroupRadio])}
               ${ref(this.#defaultSlotElementRef)}
             >
@@ -437,7 +384,7 @@ export default class RadioGroup extends LitElement implements FormControl {
   }
 
   reportValidity(): boolean {
-    this.isReportValidityOrSubmit = true;
+    this.hasReportedValidityOrSubmitted = true;
 
     const isValid = this.#internals.reportValidity();
 
@@ -448,7 +395,7 @@ export default class RadioGroup extends LitElement implements FormControl {
   }
 
   resetValidityFeedback(): void {
-    this.isReportValidityOrSubmit = false;
+    this.hasReportedValidityOrSubmitted = false;
   }
 
   setCustomValidity(message: string): void {
@@ -473,8 +420,10 @@ export default class RadioGroup extends LitElement implements FormControl {
   }
 
   setValidity(flags?: ValidityStateFlags, message?: string): void {
+    this.#hasCustomValidity = true;
     this.validityMessage = message;
-    this.#internals.setValidity(flags, ' ', this.#componentElementRef.value);
+
+    this.#internals.setValidity(flags, ' ', this.#firstEnabledRadio);
   }
 
   constructor() {
@@ -482,30 +431,30 @@ export default class RadioGroup extends LitElement implements FormControl {
     this.#internals = this.attachInternals();
 
     this.addEventListener('invalid', (event) => {
-      event.preventDefault();
+      event.preventDefault(); // Canceled so a native validation message isn't shown.
 
-      if (!this.isCheckingValidity) {
-        // Canceled so a native validation message isn't shown.
-        event?.preventDefault();
+      // We only want to focus the input if the "invalid" event resulted from either:
+      //
+      // 1. A form submission.
+      // 2. A call of `reportValidity()` that did not result from the input's "blur"
+      //    event.
+      if (this.isCheckingValidity || this.isBlurring) {
+        return;
+      }
 
-        // We only want to focus the radios if the invalid event resulted from either:
-        // 1. Form submission
-        // 2. a call to reportValidity that did NOT result from the input blur event
-        if (this.isCheckingValidity || this.isBlurring) {
-          return;
-        }
+      this.hasReportedValidityOrSubmitted = true;
 
-        this.isReportValidityOrSubmit = true;
+      const isFirstInvalidFormElement =
+        this.form?.querySelector(':invalid') === this;
 
-        const isFirstInvalidFormElement =
-          this.form?.querySelector(':invalid') === this;
-
-        if (isFirstInvalidFormElement) {
-          this.focus();
-        }
+      if (isFirstInvalidFormElement) {
+        this.#firstEnabledRadio?.focus();
       }
     });
   }
+
+  @state()
+  private hasReportedValidityOrSubmitted = false;
 
   @state()
   private isBlurring = false;
@@ -514,14 +463,13 @@ export default class RadioGroup extends LitElement implements FormControl {
   private isCheckingValidity = false;
 
   @state()
-  private isReportValidityOrSubmit = false;
-
-  @state()
   private validityMessage?: string;
 
   #componentElementRef = createRef<HTMLElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #hasCustomValidity = false;
 
   #internals: ElementInternals;
 
@@ -538,14 +486,20 @@ export default class RadioGroup extends LitElement implements FormControl {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of the form.
   #onFormdata = ({ formData }: FormDataEvent) => {
-    if (this.name && this.value.length > 0 && !this.disabled) {
+    const checkedAndEnabledRadios = this.#checkedRadios.filter(
+      ({ disabled }) => !disabled,
+    );
+
+    if (this.name && checkedAndEnabledRadios.length > 0 && !this.disabled) {
       formData.append(this.name, this.value);
     }
   };
 
   get #isShowValidationFeedback() {
     const isInvalid =
-      !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit;
+      !this.disabled &&
+      !this.validity.valid &&
+      this.hasReportedValidityOrSubmitted;
 
     for (const radioItem of this.#radioElements) {
       radioItem.privateInvalid = isInvalid;
@@ -554,202 +508,155 @@ export default class RadioGroup extends LitElement implements FormControl {
     return isInvalid;
   }
 
-  #checkRadio(radio: RadioGroupRadio) {
-    this.#radioElements
-      .find(({ tabIndex }) => tabIndex === 0)
-      ?.setAttribute('tabindex', '-1');
+  get #checkedRadios() {
+    return this.#radioElements.filter(({ checked }) => checked);
+  }
 
-    this.#value = radio.value;
-
-    radio.checked = true;
-    radio.tabIndex = 0;
-    radio.focus();
+  get #firstEnabledRadio() {
+    return this.#radioElements.find(({ disabled }) => !disabled);
   }
 
   #onComponentClick(event: MouseEvent) {
-    if (this.disabled) {
+    const isRadio = event.target instanceof RadioGroupRadio;
+
+    /* v8 ignore start */
+    if (!isRadio) {
+      return;
+    }
+    /* v8 ignore stop */
+
+    if (event.target.disabled) {
       return;
     }
 
-    // If the user clicks on a disabled radio, then attempts to use the keyboard, the
-    // focus would normally be stuck on the disabled element. Since the general pattern
-    // is for focus to follow selection, it does so here, going to the last checked
-    // radio.
-    if (event.target instanceof RadioGroupRadio && event.target.disabled) {
-      const selectedRadio = this.#radioElements.find(({ checked }) => checked);
-      selectedRadio?.focus();
-      return;
-    }
-
-    if (event.target instanceof RadioGroupRadio && !event.target.disabled) {
-      const radiosToUncheck = this.#radioElements.filter(
-        (radio) => radio !== event.target,
-      );
-
-      for (const radio of radiosToUncheck) {
-        radio.checked = false;
-        radio.tabIndex = -1;
-      }
-
-      this.#checkRadio(event.target);
-    }
+    event.target.privateCheck();
+    event.target.tabIndex = 0;
+    event.target.focus();
   }
 
   #onComponentKeydown(event: KeyboardEvent) {
-    if (
-      this.disabled ||
-      (event.target instanceof RadioGroupRadio && event.target?.disabled)
-    ) {
+    const isRadio = event.target instanceof RadioGroupRadio;
+
+    /* v8 ignore start */
+    if (!isRadio) {
+      return;
+    }
+    /* v8 ignore stop */
+
+    if (event.target?.disabled) {
       return;
     }
 
-    if (event.target instanceof RadioGroupRadio) {
-      switch (event.key) {
-        case 'Enter': {
-          this.form?.requestSubmit();
-          break;
-        }
-        case 'ArrowUp':
-        case 'ArrowLeft': {
-          event.preventDefault();
+    if (event.key === 'Enter') {
+      this.form?.requestSubmit();
 
-          const previousEnabledRadio = this.#radioElements
-            .slice(0, this.#radioElements.indexOf(event.target))
-            .findLast((radio) => !radio.disabled);
-
-          const lastEnabledRadio = this.#radioElements.findLast(
-            (radio) => !radio.disabled,
-          );
-
-          if (previousEnabledRadio && previousEnabledRadio !== event.target) {
-            this.#uncheckRadio(event.target);
-            this.#checkRadio(previousEnabledRadio);
-          } else if (lastEnabledRadio && lastEnabledRadio !== event.target) {
-            this.#uncheckRadio(event.target);
-            this.#checkRadio(lastEnabledRadio);
-          }
-
-          break;
-        }
-        case 'ArrowDown':
-        case 'ArrowRight': {
-          event.preventDefault();
-
-          const nextEnabledRadio = this.#radioElements.find((radio, index) => {
-            return (
-              !radio.disabled &&
-              event.target instanceof RadioGroupRadio &&
-              index > this.#radioElements.indexOf(event.target)
-            );
-          });
-
-          const firstEnabledRadio = this.#radioElements.find(
-            (radio) => !radio.disabled,
-          );
-
-          if (nextEnabledRadio && nextEnabledRadio !== event.target) {
-            this.#uncheckRadio(event.target);
-            this.#checkRadio(nextEnabledRadio);
-          } else if (firstEnabledRadio && firstEnabledRadio !== event.target) {
-            this.#uncheckRadio(event.target);
-            this.#checkRadio(firstEnabledRadio);
-          }
-
-          break;
-        }
-        case ' ': {
-          event.preventDefault();
-
-          if (!event.target.disabled && !event.target.checked) {
-            this.#checkRadio(event.target);
-
-            for (const radio of this.#radioElements) {
-              if (radio !== event.target) {
-                this.#uncheckRadio(radio);
-              }
-            }
-          }
-
-          break;
-        }
-      }
+      return;
     }
-  }
 
-  #onDefaultSlotChange() {
-    const lastCheckedRadio = this.#radioElements.findLast(
-      ({ checked, disabled }) => {
-        return checked && !disabled;
-      },
-    );
+    if (['ArrowUp', 'ArrowLeft'].includes(event.key)) {
+      event.preventDefault(); // Prevent page scroll
 
-    if (lastCheckedRadio) {
-      this.#value = lastCheckedRadio.value;
-    }
-  }
+      const previousEnabledRadio = this.#radioElements
+        .slice(0, this.#radioElements.indexOf(event.target))
+        .findLast((radio) => !radio.disabled);
 
-  #onRadioGroupFocusout(event: FocusEvent) {
-    // If `event.relatedTarget` is `null`, the user has clicked an element outside
-    // Radio Group that cannot receive focus. Otherwise, the user has either clicked
-    // an element outside Radio Group that can receive focus or else has tabbed away
-    // from Radio Group.
-    const isFocusLost =
-      event.relatedTarget === null ||
-      (event.relatedTarget instanceof Node &&
-        !this.contains(event.relatedTarget));
-
-    if (isFocusLost) {
-      this.isBlurring = true;
-      this.reportValidity();
-      this.isBlurring = false;
-    }
-  }
-
-  get #radioElements() {
-    return this.#defaultSlotElementRef.value
-      ? this.#defaultSlotElementRef.value
-          .assignedElements()
-          .filter(
-            (element): element is RadioGroupRadio =>
-              element instanceof RadioGroupRadio,
-          )
-      : [];
-  }
-
-  #onRadiosCheckedChange(event: CustomEvent<{ new: boolean; old: boolean }>) {
-    if (
-      event.target instanceof RadioGroupRadio &&
-      event.target.checked &&
-      !event.detail.old &&
-      event.detail.new
-    ) {
-      const checkedRadio = this.#radioElements.find(
-        ({ tabIndex }) => tabIndex === 0,
+      const lastEnabledRadio = this.#radioElements.findLast(
+        (radio) => !radio.disabled,
       );
 
-      if (checkedRadio && checkedRadio !== event.target) {
-        this.#uncheckRadio(checkedRadio);
+      if (previousEnabledRadio && previousEnabledRadio !== event.target) {
+        previousEnabledRadio.privateCheck();
+        previousEnabledRadio.tabIndex = 0;
+        previousEnabledRadio.focus();
+
+        this.#value = previousEnabledRadio.value;
+      } else if (lastEnabledRadio && lastEnabledRadio !== event.target) {
+        lastEnabledRadio.privateCheck();
+        lastEnabledRadio.tabIndex = 0;
+        lastEnabledRadio.focus();
       }
 
-      this.#value = event.target.value;
-      event.target.tabIndex = event.target.disabled ? -1 : 0;
+      return;
+    }
+
+    if (['ArrowDown', 'ArrowRight'].includes(event.key)) {
+      event.preventDefault(); // Prevent page scroll
+
+      const nextEnabledRadio = this.#radioElements.find((radio, index) => {
+        return (
+          !radio.disabled &&
+          event.target instanceof RadioGroupRadio &&
+          index > this.#radioElements.indexOf(event.target)
+        );
+      });
+
+      if (nextEnabledRadio && nextEnabledRadio !== event.target) {
+        nextEnabledRadio.privateCheck();
+        nextEnabledRadio.tabIndex = 0;
+        nextEnabledRadio.focus();
+      } else if (
+        this.#firstEnabledRadio &&
+        this.#firstEnabledRadio !== event.target
+      ) {
+        this.#firstEnabledRadio.privateCheck();
+        this.#firstEnabledRadio.tabIndex = 0;
+        this.#firstEnabledRadio.focus();
+      }
+
+      return;
+    }
+
+    if (event.key === ' ') {
+      event.preventDefault(); // Prevent page scroll
+
+      if (!event.target.disabled && !event.target.checked) {
+        event.target.privateCheck();
+        event.target.tabIndex = 0;
+        event.target.focus();
+      }
+
+      return;
     }
   }
 
-  #onRadiosDisabledChange(event: Event) {
+  #onDefaultSlotCheckedChange(event: Event) {
+    if (event.target instanceof RadioGroupRadio && event.target.checked) {
+      for (const radio of this.#radioElements) {
+        if (radio !== event.target) {
+          radio.tabIndex = -1;
+          radio.checked = false;
+        }
+      }
+
+      event.target.tabIndex = 0;
+      this.#value = event.target.value;
+    } else if (event.target instanceof RadioGroupRadio) {
+      event.target.tabIndex = -1;
+      this.#value = '';
+    }
+
+    this.#setValidity();
+
+    // Ensures `#isShowValidationFeedback` is re-run.
+    this.requestUpdate();
+  }
+
+  #onDefaultSlotDisabledChange(event: Event) {
     if (this.#isEnablingOrDisablingTheGroup) {
+      this.#setValidity();
+
       return;
     }
 
     if (event.target instanceof RadioGroupRadio && event.target.disabled) {
-      const lastCheckedAndEnabledRadio = this.#radioElements.findLast(
+      const checkedRadio = this.#radioElements.findLast(
         (radio) => radio.checked && !radio.disabled,
       );
 
-      if (event.target.checked && !lastCheckedAndEnabledRadio) {
+      if (event.target.checked) {
         this.#value = '';
-      } else if (lastCheckedAndEnabledRadio) {
-        this.#value = lastCheckedAndEnabledRadio.value;
+      } else if (checkedRadio) {
+        this.#value = checkedRadio.value;
       }
 
       const nextEnabledRadio = this.#radioElements.find((radio, index) => {
@@ -763,21 +670,17 @@ export default class RadioGroup extends LitElement implements FormControl {
       if (nextEnabledRadio && event.target.tabIndex === 0) {
         nextEnabledRadio.tabIndex = 0;
         event.target.tabIndex = -1;
-        return;
-      }
-
-      const firstEnabledRadio = this.#radioElements.find(
-        (radio) => !radio.disabled,
-      );
-
-      if (firstEnabledRadio && event.target.tabIndex === 0) {
-        firstEnabledRadio.tabIndex = 0;
+      } else if (this.#firstEnabledRadio && event.target.tabIndex === 0) {
+        this.#firstEnabledRadio.tabIndex = 0;
         event.target.tabIndex = -1;
-        return;
       }
+
+      this.#setValidity();
+
+      return;
     }
 
-    if (event.target instanceof RadioGroupRadio && !this.disabled) {
+    if (event.target instanceof RadioGroupRadio) {
       const hasTabbableRadio = this.#radioElements.some(
         ({ tabIndex }) => tabIndex === 0,
       );
@@ -786,41 +689,74 @@ export default class RadioGroup extends LitElement implements FormControl {
         event.target.tabIndex = 0;
       }
 
-      const lastCheckedAndEnabledRadio = this.#radioElements.findLast(
-        (radio) => radio.checked && !radio.disabled,
-      );
-
-      if (event.target === lastCheckedAndEnabledRadio) {
+      if (event.target.checked) {
         this.#value = event.target.value;
       }
+
+      this.#setValidity();
 
       return;
     }
   }
 
-  #onRadiosValueChange(event: CustomEvent<{ new: string; old: string }>) {
-    const lastCheckedAndEnabledRadio = this.#radioElements.findLast(
-      (radio) => radio.checked && !this.disabled,
+  #onDefaultSlotFocusOut() {
+    this.isBlurring = true;
+    this.reportValidity();
+    this.isBlurring = false;
+  }
+
+  #onDefaultSlotSlotChange() {
+    if (this.#checkedRadios.length > 1) {
+      throw new Error('Only one Radio Group Radio may be `checked` at a time.');
+    }
+
+    const checkedRadio = this.#checkedRadios.find(
+      ({ checked, disabled }) => checked && !disabled,
     );
 
-    if (
-      event.target instanceof RadioGroupRadio &&
-      event.target.checked &&
-      event.detail.new &&
-      event.target === lastCheckedAndEnabledRadio
-    ) {
+    if (checkedRadio) {
+      this.#value = checkedRadio.value;
+    }
+
+    this.#setValidity();
+  }
+
+  get #radioElements() {
+    return this.#defaultSlotElementRef.value
+      ? this.#defaultSlotElementRef.value
+          .assignedElements({ flatten: true })
+          .filter(
+            (element): element is RadioGroupRadio =>
+              element instanceof RadioGroupRadio,
+          )
+      : [];
+  }
+
+  #onDefaultSlotValueChange(event: Event) {
+    if (event.target instanceof RadioGroupRadio && event.target.checked) {
       this.#value = event.target.value;
-    } else if (
-      event.target instanceof RadioGroupRadio &&
-      event.target.checked &&
-      event.target === lastCheckedAndEnabledRadio
-    ) {
-      this.#value = '';
     }
   }
 
-  #uncheckRadio(radio: RadioGroupRadio) {
-    radio.checked = false;
-    radio.tabIndex = -1;
+  #setValidity() {
+    if (this.#hasCustomValidity) {
+      return;
+    }
+
+    const hasCheckedRadio = this.#radioElements.some(
+      ({ checked, disabled }) => checked && !disabled,
+    );
+
+    if (this.required && !hasCheckedRadio) {
+      this.#internals.setValidity(
+        { customError: Boolean(this.validityMessage), valueMissing: true },
+        ' ',
+        this.#firstEnabledRadio,
+      );
+
+      return;
+    }
+
+    this.#internals.setValidity({});
   }
 }

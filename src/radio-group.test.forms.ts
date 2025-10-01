@@ -1,626 +1,689 @@
-import { assert, expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import sinon from 'sinon';
-import { click } from './library/mouse.js';
-import RadioGroup from './radio-group.js';
-import RadioGroupRadio from './radio-group.radio.js';
+import { html } from 'lit';
+import { expect, test } from './playwright/test.js';
 
-it('can be reset when `value` is programmatically changed', async () => {
-  const form = document.createElement('form');
+test('has a `form` property', { tag: '@forms' }, async ({ mount, page }) => {
+  await mount(
+    () => html`
+      <form>
+        <glide-core-radio-group label="Label">
+          <glide-core-radio-group-radio
+            label="One"
+          ></glide-core-radio-group-radio>
 
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" value="one">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
+          <glide-core-radio-group-radio
+            label="Two"
+          ></glide-core-radio-group-radio>
+        </glide-core-radio-group>
+      </form>
+    `,
   );
 
-  host.value = 'two';
-  await host.updateComplete;
+  const host = page.locator('glide-core-radio-group');
 
-  form.reset();
-  await host.updateComplete;
-
-  expect(host.value).to.equal('one');
-});
-
-it('has `formData` when it has a `value`', async () => {
-  const form = document.createElement('form');
-
-  await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" value="two">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.equal('two');
-});
-
-it('has `formData` when a radio is checked', async () => {
-  const form = document.createElement('form');
-
-  await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-        checked
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.equal('two');
-});
-
-it('has no `formData` when it is disabled', async () => {
-  const form = document.createElement('form');
-
-  await fixture(
-    html`<glide-core-radio-group label="Label" name="name" disabled>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-        checked
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.be.null;
-});
-
-it('has no `formData` when its checked radio is disabled', async () => {
-  const form = document.createElement('form');
-
-  await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio
-        label="Label"
-        value="value"
-        checked
-        disabled
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.be.null;
-});
-
-it('has no `formData` when without a `name`', async () => {
-  const form = document.createElement('form');
-
-  await fixture(
-    html`<glide-core-radio-group label="Label">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-        checked
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.be.null;
-});
-
-it('has no `formData` value when its checked radio has no value', async () => {
-  const form = document.createElement('form');
-
-  await fixture(
-    html`<glide-core-radio-group label="Label">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-        checked
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formData = new FormData(form);
-  expect(formData.get('name')).to.be.null;
-});
-
-it('submits its form on Enter', async () => {
-  const form = document.createElement('form');
-
-  await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const spy = sinon.spy();
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    spy();
+  const hasForm = await host.evaluate((element) => {
+    return 'form' in element && element.form instanceof HTMLFormElement;
   });
 
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(spy.callCount).to.equal(1);
+  expect(hasForm).toBe(true);
 });
 
-it('resets `value` to an empty string when no radios were initially checked', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    {
-      parentNode: form,
-    },
-  );
-
-  const radios = host.querySelectorAll<RadioGroupRadio>(
-    'glide-core-radio-group-radio',
-  );
-
-  await click(radios[0]);
-  form.reset();
-  await host.updateComplete;
-
-  expect(host.value).to.be.empty.string;
-});
-
-it('is valid if not required and radios are unchecked', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  expect(host.validity.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  await host.updateComplete;
-
-  const radios = host.querySelectorAll('glide-core-radio-group-radio');
-  expect(radios[0]?.ariaInvalid).to.equal('false');
-  expect(radios[1]?.ariaInvalid).to.equal('false');
-});
-
-it('is valid if required and a radio is checked', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" required>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-        checked
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  expect(host.validity.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-
-  await host.updateComplete;
-
-  const radios = host.querySelectorAll('glide-core-radio-group-radio');
-  expect(radios[0]?.ariaInvalid).to.equal('false');
-  expect(radios[1]?.ariaInvalid).to.equal('false');
-});
-
-it('is invalid if required and no radio is checked', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" required>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  expect(host.validity.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-});
-
-it('is invalid after being unchecked when required', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" required>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-        checked
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  const radio = host.querySelector('glide-core-radio-group-radio');
-  assert(radio);
-
-  radio.checked = false;
-
-  expect(host.validity.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-});
-
-it('is both invalid and valid if required and disabled and no radio is checked', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" disabled required>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  expect(host.validity.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-});
-
-it('is valid when `required` is set to `false` programmatically', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" required>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    { parentNode: form },
-  );
-
-  host.required = false;
-  await host.updateComplete;
-
-  const radios = host.querySelectorAll('glide-core-radio-group-radio');
-
-  expect(radios[0]?.ariaInvalid).to.equal('false');
-  expect(radios[1]?.ariaInvalid).to.equal('false');
-
-  expect(host.validity.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-});
-
-it('is invalid when `required` is set to `true` programmatically and no radio is checked', async () => {
-  const form = document.createElement('form');
-
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    { parentNode: form },
-  );
-
-  host.required = true;
-  await host.updateComplete;
-
-  expect(host.validity.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-});
-
-it('is valid when required after `value` is set', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" required>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.valueMissing).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-  expect(host.reportValidity()).to.be.false;
-
-  host.value = 'one';
-  await host.updateComplete;
-
-  expect(host.validity?.valid).to.be.true;
-  expect(host.validity?.valueMissing).to.be.false;
-  expect(host.checkValidity()).to.be.true;
-  expect(host.reportValidity()).to.be.true;
-});
-
-it('sets its validity message with `setCustomValidity()`', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  host.setCustomValidity('message');
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.customError).to.be.true;
-  expect(host.checkValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-
-  expect(host.reportValidity()).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot
-      ?.querySelector('[data-test="validity-message"]')
-      ?.textContent?.trim(),
-  ).to.equal('message');
-});
-
-it('removes its validity message when `setCustomValidity()` is called with no argument', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  host.setCustomValidity('message');
-  host.reportValidity();
-  await host.updateComplete;
-
-  host.setCustomValidity('');
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-});
-
-it('is invalid when `setValidity()` is called with a custom error', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  host.setValidity({ customError: true }, 'message');
-
-  expect(host.validity.valid).to.be.false;
-
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-
-  expect(host.validity?.customError).to.be.true;
-
-  host.reportValidity();
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot
-      ?.querySelector('[data-test="validity-message"]')
-      ?.textContent?.trim(),
-  ).to.equal('message');
-});
-
-it('is valid when `setValidity()` is called', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  host.setValidity({ customError: true }, 'message');
-  host.setValidity({});
-  await host.updateComplete;
-
-  expect(host.validity.valid).to.be.true;
-  expect(host.validity.customError).to.be.false;
-
-  expect(host.reportValidity()).to.be.true;
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-});
-
-it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name" required>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  host.setCustomValidity('message');
-
-  expect(host.validity?.valid).to.be.false;
-  expect(host.validity?.customError).to.be.true;
-  expect(host.validity?.valueMissing).to.be.true;
-});
-
-it('reports validity when blurred', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" required>
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-
-      <glide-core-radio-group-radio
-        label="Two"
-        value="two"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'Tab' });
-
-  expect(document.activeElement).to.equal(document.body);
-
-  expect(host.validity.valid).to.be.false;
-});
-
-it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const host = await fixture<RadioGroup>(
-    html`<glide-core-radio-group label="Label" name="name">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-  );
-
-  host.setCustomValidity('message');
-
-  expect(host.reportValidity()).to.be.false;
-  await host.updateComplete;
-
-  expect(
-    host.shadowRoot
-      ?.querySelector('[data-test="validity-message"]')
-      ?.textContent?.trim(),
-  ).to.equal('message');
-
-  host.resetValidityFeedback();
-  await host.updateComplete;
-
-  expect(host.shadowRoot?.querySelector('[data-test="validity-message"]')).to.be
-    .null;
-
-  expect(host.validity?.valid).to.be.false;
-});
+test(
+  'can be reset',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+              checked
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const form = page.locator('form');
+    const radios = page.getByRole('radio');
+
+    await setProperty(radios.nth(0), 'checked', false);
+    await callMethod(form, 'reset');
+
+    await expect(radios.nth(0)).toHaveJSProperty('checked', true);
+    await expect(host).toHaveJSProperty('validity.valid', true);
+  },
+);
+
+test(
+  'has form data when a radio is checked',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" name="name">
+            <glide-core-radio-group-radio
+              label="One"
+              value="one"
+              checked
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+              value="two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', 'one');
+  },
+);
+
+test(
+  'has no form data when no radio is checked',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" name="name">
+            <glide-core-radio-group-radio
+              label="One"
+              value="one"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+              value="two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', null);
+  },
+);
+
+test(
+  'has no form data when its checked radio is disabled',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" name="name">
+            <glide-core-radio-group-radio
+              label="One"
+              value="one"
+              checked
+              disabled
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+              value="two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', null);
+  },
+);
+
+test(
+  'has no form data it has no name and a radio is checked',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" value="value">
+            <glide-core-radio-group-radio
+              label="One"
+              value="one"
+              checked
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+              value="two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', null);
+  },
+);
+
+test(
+  'has no form data when disabled',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" name="name" disabled>
+            <glide-core-radio-group-radio
+              label="One"
+              value="one"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+              value="two"
+              checked
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+
+    await expect(form).toHaveFormData('name', null);
+  },
+);
+
+test(
+  'is valid when required and a radio is checked',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+              checked
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'is valid when not required and no radio is checked',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label">
+            <glide-core-radio-group-radio
+              label="One"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'is valid when required and made not required programmatically and no radio is checked',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, removeAttribute }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio
+          ></glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+
+    await removeAttribute(host, 'required');
+
+    await expect(host).not.toDispatchEvents(async () => {
+      await callMethod(host, 'checkValidity');
+      await callMethod(host, 'reportValidity');
+    }, [{ type: 'invalid' }]);
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+
+    expect(await callMethod(host, 'checkValidity')).toBe(true);
+    expect(await callMethod(host, 'reportValidity')).toBe(true);
+  },
+);
+
+test(
+  'is valid on submit when required and a radio is checked',
+  { tag: '@forms' },
+  async ({ addEventListener, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+              checked
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const form = page.locator('form');
+    const radios = page.getByRole('radio');
+
+    await addEventListener(form, 'submit', {
+      preventDefault: true,
+    });
+
+    await expect(host).not.toDispatchEvents(
+      async () => radios.nth(0).press('Enter'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', true);
+    await expect(host).toHaveJSProperty('validity.valueMissing', false);
+  },
+);
+
+test(
+  'is invalid when an enabled and checked radio is disabled programmatically',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+              checked
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const radios = page.locator('glide-core-radio-group-radio');
+
+    await setProperty(radios.nth(0), 'disabled', true);
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'reportValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.valueMissing', true);
+
+    expect(await callMethod(host, 'checkValidity')).toBe(false);
+    expect(await callMethod(host, 'reportValidity')).toBe(false);
+  },
+);
+
+test(
+  'is invalid when required and no radio is checked',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+              value="one"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+              value="two"
+            ></glide-core-radio-group-radio
+          ></glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'reportValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.valueMissing', true);
+
+    expect(await callMethod(host, 'checkValidity')).toBe(false);
+    expect(await callMethod(host, 'reportValidity')).toBe(false);
+  },
+);
+
+test(
+  'is invalid when required and a radio is unchecked via programmatically',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+              checked
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const radios = page.getByRole('radio');
+
+    await setProperty(radios.nth(0), 'checked', false);
+
+    await expect(host).toDispatchEvents(
+      () => callMethod(host, 'reportValidity'),
+      [{ type: 'invalid' }],
+    );
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.valueMissing', true);
+
+    expect(await callMethod(host, 'checkValidity')).toBe(false);
+    expect(await callMethod(host, 'reportValidity')).toBe(false);
+  },
+);
+
+test(
+  'is invalid on submit when required and no radio is checked',
+  { tag: '@forms' },
+  async ({ mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+              value="one"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+              value="two"
+            ></glide-core-radio-group-radio
+          ></glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const radios = page.getByRole('radio');
+
+    await expect(host).toDispatchEvents(
+      () => radios.nth(0).press('Enter'),
+      [
+        {
+          type: 'invalid',
+        },
+      ],
+    );
+
+    await expect(radios.nth(0)).toBeFocused();
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.valueMissing', true);
+  },
+);
+
+test(
+  'submits its form on Enter',
+  { tag: '@forms' },
+  async ({ addEventListener, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label">
+            <glide-core-radio-group-radio
+              label="One"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const form = page.locator('form');
+    const radios = page.getByRole('radio');
+
+    await addEventListener(form, 'submit', {
+      preventDefault: true,
+    });
+
+    await expect(form).toDispatchEvents(
+      () => radios.nth(0).press('Enter'),
+      [{ type: 'submit' }],
+    );
+  },
+);
+
+test(
+  'updates its validity on blur',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+
+    await callMethod(host, 'setCustomValidity', 'message');
+
+    await expect(validityMessage).toHaveText('message', {
+      useInnerText: true,
+    });
+  },
+);
+
+test(
+  'supports `setCustomValidity()`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+
+    await test.step('with message', async () => {
+      await callMethod(host, 'setCustomValidity', 'message');
+      await callMethod(host, 'reportValidity');
+
+      await expect(host).toHaveJSProperty('validity.customError', true);
+
+      await expect(validityMessage).toHaveText('message', {
+        useInnerText: true,
+      });
+    });
+
+    await test.step('without message', async () => {
+      await callMethod(host, 'setCustomValidity', '');
+      await callMethod(host, 'reportValidity');
+
+      await expect(host).toHaveJSProperty('validity.customError', false);
+      await expect(validityMessage).toBeHidden();
+    });
+  },
+);
+
+test(
+  'supports `setValidity()`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page, setProperty }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+              checked
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+    const radios = page.locator('glide-core-radio-group-radio');
+
+    await callMethod(host, 'setValidity', { customError: true }, 'message');
+    await setProperty(radios.nth(0), 'checked', false);
+    await callMethod(host, 'reportValidity');
+
+    await expect(host).toHaveJSProperty('validity.valid', false);
+    await expect(host).toHaveJSProperty('validity.customError', true);
+
+    await expect(validityMessage).toHaveText('message', {
+      useInnerText: true,
+    });
+  },
+);
+
+test(
+  'supports `resetValidityFeedback()`',
+  { tag: '@forms' },
+  async ({ callMethod, mount, page }) => {
+    await mount(
+      () => html`
+        <form>
+          <glide-core-radio-group label="Label" required>
+            <glide-core-radio-group-radio
+              label="One"
+            ></glide-core-radio-group-radio>
+
+            <glide-core-radio-group-radio
+              label="Two"
+            ></glide-core-radio-group-radio>
+          </glide-core-radio-group>
+        </form>
+      `,
+    );
+
+    const host = page.locator('glide-core-radio-group');
+    const validityMessage = page.locator('[data-test="validity-message"]');
+
+    await callMethod(host, 'setCustomValidity', 'message');
+    await callMethod(host, 'reportValidity');
+    await callMethod(host, 'resetValidityFeedback');
+
+    await expect(validityMessage).toBeHidden();
+  },
+);

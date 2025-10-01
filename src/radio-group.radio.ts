@@ -53,7 +53,7 @@ export default class RadioGroupRadio extends LitElement {
   /**
    * @default false
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean })
   get checked(): boolean {
     return this.#checked;
   }
@@ -64,27 +64,13 @@ export default class RadioGroupRadio extends LitElement {
     this.#checked = isChecked;
     this.ariaChecked = isChecked && !this.disabled ? 'true' : 'false';
 
-    if (isChecked && wasChecked !== isChecked) {
-      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-
+    if (wasChecked !== isChecked) {
       this.dispatchEvent(
-        new Event('change', { bubbles: true, composed: true }),
+        new Event('private-checked-change', {
+          bubbles: true,
+        }),
       );
     }
-
-    // `this.checked` can be set programmatically. Radio Group needs to know when
-    // that happens so it can update its own `this.value`.
-    this.dispatchEvent(
-      new CustomEvent('private-checked-change', {
-        bubbles: true,
-        detail: {
-          // Without knowing what the old value was, Radio Group would be unable to
-          // update `this.value`.
-          old: wasChecked,
-          new: isChecked,
-        },
-      }),
-    );
   }
 
   /**
@@ -103,7 +89,7 @@ export default class RadioGroupRadio extends LitElement {
     // `this.disabled` can be changed programmatically. Radio Group needs to know when
     // that happens so it can make radios tabbable or untabbable.
     this.dispatchEvent(
-      new CustomEvent('private-disabled-change', {
+      new Event('private-disabled-change', {
         bubbles: true,
       }),
     );
@@ -142,20 +128,11 @@ export default class RadioGroupRadio extends LitElement {
   }
 
   set value(value: string) {
-    const old = this.#value;
     this.#value = value;
 
-    // `this.value` can be set programmatically. Radio Group needs to know when
-    // that happens so it can update its own `this.value`.
     this.dispatchEvent(
-      new CustomEvent('private-value-change', {
+      new Event('private-value-change', {
         bubbles: true,
-        detail: {
-          // Without knowing what the old value was, Radio Group would be unable to
-          // update `this.value`.
-          old,
-          new: value,
-        },
       }),
     );
   }
@@ -190,6 +167,18 @@ export default class RadioGroupRadio extends LitElement {
     }
   }
 
+  privateCheck() {
+    if (!this.checked) {
+      this.checked = true;
+
+      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+
+      this.dispatchEvent(
+        new Event('change', { bubbles: true, composed: true }),
+      );
+    }
+  }
+
   override render() {
     return html`
       <div
@@ -197,7 +186,6 @@ export default class RadioGroupRadio extends LitElement {
           component: true,
           disabled: this.disabled,
         })}
-        data-test="component"
       >
         <div
           class=${classMap({
@@ -207,7 +195,6 @@ export default class RadioGroupRadio extends LitElement {
             disabled: this.disabled,
             animate: this.hasUpdated,
           })}
-          data-test="radio"
         ></div>
 
         ${this.#label}

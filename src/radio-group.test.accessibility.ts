@@ -1,6 +1,34 @@
+import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 import type RadioGroup from './radio-group.js';
 import type RadioGroupRadio from './radio-group.radio.js';
+
+test('is accessible', { tag: '@accessibility' }, async ({ mount, page }) => {
+  await mount(
+    () => html`
+      <glide-core-radio-group
+        label="Label"
+        name="name"
+        value="one"
+        tooltip="Tooltip"
+      >
+        <glide-core-radio-group-radio
+          label="One"
+          value="one"
+        ></glide-core-radio-group-radio>
+
+        <glide-core-radio-group-radio
+          label="Two"
+          value="two"
+        ></glide-core-radio-group-radio>
+
+        <div slot="description">Description</div>
+      </glide-core-radio-group>
+    `,
+  );
+
+  await expect(page).toBeAccessible('glide-core-radio-group');
+});
 
 test('disabled', { tag: '@accessibility' }, async ({ page }) => {
   await page.goto('?id=radio-group--radio-group');
