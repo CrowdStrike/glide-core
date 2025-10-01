@@ -215,7 +215,7 @@ test(
 );
 
 test(
-  'has no form data when it is without a name and a checkbox is checked',
+  'has no form data it has no name and a checkbox is checked',
   { tag: '@forms' },
   async ({ mount, page }) => {
     await mount(
@@ -359,7 +359,8 @@ test(
       () => html`
         <form>
           <glide-core-checkbox-group label="Label" required>
-            <glide-core-checkbox label="Label" checked></glide-core-checkbox>
+            <glide-core-checkbox label="One"></glide-core-checkbox>
+            <glide-core-checkbox label="Two"></glide-core-checkbox>
           </glide-core-checkbox-group>
         </form>
       `,
@@ -367,14 +368,14 @@ test(
 
     const host = page.locator('glide-core-checkbox-group');
     const form = page.locator('form');
-    const checkbox = page.getByRole('checkbox');
+    const checkboxes = page.getByRole('checkbox');
 
     await addEventListener(form, 'submit', {
       preventDefault: true,
     });
 
     await expect(host).not.toDispatchEvents(
-      async () => checkbox.press('Enter'),
+      async () => checkboxes.nth(0).press('Enter'),
       [{ type: 'invalid' }],
     );
 

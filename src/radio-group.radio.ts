@@ -53,7 +53,7 @@ export default class RadioGroupRadio extends LitElement {
   /**
    * @default false
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean })
   get checked(): boolean {
     return this.#checked;
   }
