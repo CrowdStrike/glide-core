@@ -8658,12 +8658,6 @@
           ],
           "events": [
             {
-              "name": "selected",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
               "name": "private-icon-slotchange",
               "type": {
                 "text": "Event"
@@ -8676,7 +8670,13 @@
               }
             },
             {
-              "name": "private-selected",
+              "name": "selected",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "deselected",
               "type": {
                 "text": "Event"
               }

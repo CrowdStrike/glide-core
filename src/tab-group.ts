@@ -90,9 +90,10 @@ export default class TabGroup extends LitElement {
         >
           <slot
             name="nav"
-            @private-selected=${this.#onTabSelected}
+            @deselected=${this.#onTabDeselected}
             @private-label-change=${this.#onTabIconSlotOrLabelChange}
             @private-icon-slotchange=${this.#onTabIconSlotOrLabelChange}
+            @selected=${this.#onTabSelected}
             @slotchange=${this.#onNavSlotChange}
             ${assertSlot([TabGroupTab], true)}
           >
@@ -339,6 +340,20 @@ export default class TabGroup extends LitElement {
     });
   }
 
+  #onTabDeselected() {
+    if (this.#firstTab && !this.#lastSelectedTab) {
+      this.#firstTab.selected = true;
+      this.#firstTab.tabIndex = 0;
+
+      this.#updateSelectedTabIndicator();
+    }
+
+    for (const panel of this.#panelElements) {
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
+    }
+  }
+
   #onTabIconSlotOrLabelChange() {
     if (this.#componentElementRef.value) {
       // By temporarily disabling transitions, we ensure the measurements that happen in
@@ -375,8 +390,8 @@ export default class TabGroup extends LitElement {
   }
 
   #onTabSelected(event: Event) {
-    if (event.target instanceof TabGroupTab && event.target.selected) {
-      event.target.privateSelect();
+    if (event.target instanceof TabGroupTab) {
+      event.target.selected = true;
       event.target.tabIndex = 0;
 
       for (const tab of this.#tabElements) {
@@ -385,11 +400,6 @@ export default class TabGroup extends LitElement {
           tab.tabIndex = -1;
         }
       }
-
-      this.#updateSelectedTabIndicator();
-    } else if (this.#firstTab && !this.#lastSelectedTab) {
-      this.#firstTab.privateSelect();
-      this.#firstTab.tabIndex = 0;
 
       this.#updateSelectedTabIndicator();
     }
