@@ -47,6 +47,10 @@ export default class TabGroup extends LitElement {
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
+  override firstUpdated() {
+    this.#updateSelectedTabIndicator();
+  }
+
   override render() {
     return html`<div
       class="component"
@@ -284,7 +288,6 @@ export default class TabGroup extends LitElement {
 
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
-    this.#updateSelectedTabIndicator();
     this.#validateTabPanelPairs();
   }
 
