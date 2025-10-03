@@ -95,8 +95,8 @@ export default class TabGroup extends LitElement {
           <slot
             name="nav"
             @deselected=${this.#onTabDeselected}
-            @private-label-change=${this.#onTabIconSlotOrLabelChange}
-            @private-icon-slotchange=${this.#onTabIconSlotOrLabelChange}
+            @private-label-change=${this.#onTabContentChange}
+            @private-icon-slotchange=${this.#onTabContentChange}
             @selected=${this.#onTabSelected}
             @slotchange=${this.#onNavSlotChange}
             ${assertSlot([TabGroupTab], true)}
@@ -357,21 +357,7 @@ export default class TabGroup extends LitElement {
     });
   }
 
-  #onTabDeselected() {
-    if (this.#firstTab && !this.#lastSelectedTab) {
-      this.#firstTab.selected = true;
-      this.#firstTab.tabIndex = 0;
-
-      this.#updateSelectedTabIndicator();
-    }
-
-    for (const panel of this.#panelElements) {
-      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
-      panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
-    }
-  }
-
-  #onTabIconSlotOrLabelChange() {
+  #onTabContentChange() {
     if (this.#componentElementRef.value) {
       // By temporarily disabling transitions, we ensure the measurements that happen in
       // `#setOverflowButtonsState()` are in a settled, non-transitioning state.
@@ -395,6 +381,20 @@ export default class TabGroup extends LitElement {
           this.#componentElementRef.value.style = '';
         }
       });
+    }
+  }
+
+  #onTabDeselected() {
+    if (this.#firstTab && !this.#lastSelectedTab) {
+      this.#firstTab.selected = true;
+      this.#firstTab.tabIndex = 0;
+
+      this.#updateSelectedTabIndicator();
+    }
+
+    for (const panel of this.#panelElements) {
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
   }
 
