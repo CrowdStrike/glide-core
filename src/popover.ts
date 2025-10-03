@@ -136,6 +136,14 @@ export default class Popover extends LitElement {
     document.addEventListener('click', this.#onDocumentClick);
   }
 
+  /* v8 ignore start */
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+
+    document.removeEventListener('click', this.#onDocumentClick);
+  }
+  /* v8 ignore stop */
+
   override firstUpdated() {
     if (this.#popoverElementRef.value) {
       // `popover` so Popover can break out of Modal or another element that has
