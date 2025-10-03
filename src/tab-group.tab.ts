@@ -93,8 +93,8 @@ export default class TabGroupTab extends LitElement {
     } else if (hasChanged) {
       this.dispatchEvent(
         new Event('deselected', {
-          // No need to be composed, as consumers won't use this event directly.
           bubbles: true,
+          composed: true,
         }),
       );
     }

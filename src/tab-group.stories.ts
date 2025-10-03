@@ -26,7 +26,7 @@ const meta: Meta = {
   ],
   parameters: {
     actions: {
-      handles: ['selected'],
+      handles: ['deselected', 'selected'],
     },
     docs: {
       story: {
@@ -212,7 +212,8 @@ const meta: Meta = {
         category: 'Tab',
         type: {
           summary: 'method',
-          detail: '(event: "selected", handler: (event: Event) => void): void',
+          detail:
+            '(event: "deselected" | "selected", handler: (event: Event) => void): void',
         },
       },
     },

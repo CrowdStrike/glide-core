@@ -19,6 +19,7 @@ it('dispatches a "deselected" event when deselected', async () => {
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('dispatches a "selected" event when selected', async () => {
