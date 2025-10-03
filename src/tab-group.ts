@@ -192,6 +192,20 @@ export default class TabGroup extends LitElement {
     ];
   }
 
+  #assertTabPanelPairs() {
+    for (const tab of this.#tabElements) {
+      if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
+        throw new Error(`Tab with panel="${tab.panel}" has no matching Panel.`);
+      }
+    }
+
+    for (const panel of this.#panelElements) {
+      if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
+        throw new Error(`Panel with name="${panel.name}" has no matching Tab.`);
+      }
+    }
+  }
+
   #onComponentClick(event: Event) {
     const target = event.target as HTMLElement;
     const clickedTab = target.closest('glide-core-tab-group-tab');
@@ -288,7 +302,7 @@ export default class TabGroup extends LitElement {
 
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
-    this.#validateTabPanelPairs();
+    this.#assertTabPanelPairs();
   }
 
   #onNavSlotChange() {
@@ -313,7 +327,7 @@ export default class TabGroup extends LitElement {
 
     this.#setAriaAttributes();
     this.#setOverflowButtonsState();
-    this.#validateTabPanelPairs();
+    this.#assertTabPanelPairs();
   }
 
   #onOverflowButtonClick(button: 'start' | 'end') {
@@ -496,19 +510,5 @@ export default class TabGroup extends LitElement {
         );
       }
     });
-  }
-
-  #validateTabPanelPairs() {
-    for (const tab of this.#tabElements) {
-      if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
-        throw new Error(`Tab with panel="${tab.panel}" has no matching Panel.`);
-      }
-    }
-
-    for (const panel of this.#panelElements) {
-      if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
-        throw new Error(`Panel with name="${panel.name}" has no matching Tab.`);
-      }
-    }
   }
 }
