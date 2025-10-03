@@ -31,7 +31,6 @@ declare global {
  *
  * @slot {Element} [icon]
  *
- * @fires {Event} deselected
  * @fires {Event} selected
  */
 @customElement('glide-core-tab-group-tab')
@@ -84,17 +83,11 @@ export default class TabGroupTab extends LitElement {
     this.#isSelected = isSelected;
 
     if (hasChanged && isSelected) {
-      this.dispatchEvent(
-        new Event('selected', {
-          bubbles: true,
-          composed: true,
-        }),
-      );
+      this.dispatchEvent(new Event('private-selected', { bubbles: true }));
     } else if (hasChanged) {
       this.dispatchEvent(
-        new Event('deselected', {
+        new Event('private-deselected', {
           bubbles: true,
-          composed: true,
         }),
       );
     }
@@ -108,6 +101,20 @@ export default class TabGroupTab extends LitElement {
 
   @property({ reflect: true })
   override readonly role = 'tab';
+
+  privateSelect() {
+    const hasChanged = !this.#isSelected;
+    this.selected = true;
+
+    if (hasChanged) {
+      this.dispatchEvent(
+        new Event('selected', {
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+  }
 
   override render() {
     return html`<div

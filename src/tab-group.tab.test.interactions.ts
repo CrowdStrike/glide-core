@@ -1,4 +1,4 @@
-import { expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import TabGroupTab from './tab-group.tab.js';
@@ -25,6 +25,23 @@ it('sets `ariaDisabled` and `tabIndex` when disabled programmatically', async ()
 
   expect(host?.ariaDisabled).to.equal('true');
   expect(host?.tabIndex).to.equal(-1);
+});
+
+it('sets `selected` when `privateSelect()` is called', async () => {
+  const host = await fixture<TabGroupTab>(
+    html`<glide-core-tab-group-tab
+      label="Label"
+      panel="1"
+    ></glide-core-tab-group-tab>`,
+  );
+
+  setTimeout(() => {
+    host.privateSelect();
+  });
+
+  await aTimeout(0);
+
+  expect(host.selected).to.be.true;
 });
 
 it('throws when subclassed', async () => {

@@ -94,9 +94,10 @@ export default class TabGroup extends LitElement {
         >
           <slot
             name="nav"
-            @deselected=${this.#onTabDeselected}
+            @private-deselected=${this.#onTabDeselected}
             @private-label-change=${this.#onTabContentChange}
             @private-icon-slotchange=${this.#onTabContentChange}
+            @private-selected=${this.#onTabSelected}
             @selected=${this.#onTabSelected}
             @slotchange=${this.#onNavSlotChange}
             ${assertSlot([TabGroupTab], true)}
@@ -218,7 +219,7 @@ export default class TabGroup extends LitElement {
       // a Tab Panel.
       this.#tabElements.includes(clickedTab)
     ) {
-      clickedTab.selected = true;
+      clickedTab.privateSelect();
     }
   }
 
@@ -232,7 +233,7 @@ export default class TabGroup extends LitElement {
       tab instanceof TabGroupTab &&
       !tab.disabled
     ) {
-      tab.selected = true;
+      tab.privateSelect();
       event.preventDefault(); // Prevent page scroll when Space is pressed
     }
 
@@ -408,7 +409,6 @@ export default class TabGroup extends LitElement {
 
   #onTabSelected(event: Event) {
     if (event.target instanceof TabGroupTab) {
-      event.target.selected = true;
       event.target.tabIndex = 0;
 
       for (const tab of this.#tabElements) {
