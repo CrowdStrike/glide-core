@@ -148,7 +148,7 @@ test(
 );
 
 test(
-  'has no form data it has no name and a radio is checked',
+  'has no form data when it has no name and a radio is checked',
   { tag: '@forms' },
   async ({ mount, page }) => {
     await mount(
@@ -429,7 +429,7 @@ test(
 );
 
 test(
-  'is invalid when required and a radio is unchecked via programmatically',
+  'is invalid when required and a radio is unchecked programmatically',
   { tag: '@forms' },
   async ({ callMethod, mount, page, setProperty }) => {
     await mount(

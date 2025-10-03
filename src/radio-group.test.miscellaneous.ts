@@ -571,7 +571,7 @@ test(
 );
 
 test(
-  'has an empty value when a disabled radio is checked programmatically',
+  'has an empty value when a checked radio is disabled programmatically',
   { tag: '@miscellaneous' },
   async ({ mount, page, setProperty }) => {
     await mount(

@@ -215,7 +215,7 @@ test(
 );
 
 test(
-  'has no form data it has no name and a checkbox is checked',
+  'has no form data when it has no name and a checkbox is checked',
   { tag: '@forms' },
   async ({ mount, page }) => {
     await mount(
