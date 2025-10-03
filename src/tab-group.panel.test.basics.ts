@@ -1,16 +1,18 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import TabPanel from './tab.panel.js';
+import TabGroupPanel from './tab-group.panel.js';
 
 @customElement('glide-core-subclassed')
-class Subclassed extends TabPanel {}
+class Subclassed extends TabGroupPanel {}
 
 it('throws when `name` is undefined', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture(html`<glide-core-tab-panel>Panel</glide-core-tab-panel>`);
+    await fixture(
+      html`<glide-core-tab-group-panel>Panel</glide-core-tab-group-panel>`,
+    );
   } catch {
     spy();
   }

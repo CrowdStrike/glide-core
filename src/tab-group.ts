@@ -6,11 +6,11 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import Tab from './tab.js';
-import TabPanel from './tab.panel.js';
+import TabGroupTab from './tab-group.tab.js';
+import TabGroupPanel from './tab-group.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
-import styles from './tab.group.styles.js';
+import styles from './tab-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import final from './library/final.js';
 
@@ -40,12 +40,16 @@ export default class TabGroup extends LitElement {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* c8 ignore stop */
 
   static override styles = styles;
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
+
+  override firstUpdated() {
+    this.#updateSelectedTabIndicator();
+  }
 
   override render() {
     return html`<div
@@ -54,7 +58,11 @@ export default class TabGroup extends LitElement {
       @keydown=${this.#onComponentKeydown}
       ${ref(this.#componentElementRef)}
     >
-      <div class="tab-container" data-test="tab-container">
+      <div
+        class="tab-container"
+        data-test="tab-container"
+        ${onResize(this.#onTabContainerResize.bind(this))}
+      >
         ${when(
           this.isShowOverflowButtons,
           () => html`
@@ -80,16 +88,19 @@ export default class TabGroup extends LitElement {
           data-test="tablist"
           role="tablist"
           tabindex="-1"
-          @focusout=${this.#onTabListFocusout}
+          @focusout=${this.#onTabListFocusOut}
           @scroll=${this.#setOverflowButtonsState}
-          ${onResize(this.#onTabListResize.bind(this))}
           ${ref(this.#tabListElementRef)}
         >
           <slot
             name="nav"
+            @private-deselected=${this.#onTabDeselected}
+            @private-label-change=${this.#onTabContentChange}
+            @private-icon-slotchange=${this.#onTabContentChange}
             @private-selected=${this.#onTabSelected}
+            @selected=${this.#onTabSelected}
             @slotchange=${this.#onNavSlotChange}
-            ${assertSlot([Tab])}
+            ${assertSlot([TabGroupTab], true)}
           >
             <!-- @type {Tab} -->
           </slot>
@@ -100,7 +111,6 @@ export default class TabGroup extends LitElement {
               animated: this.hasUpdated,
             })}
             data-test="selected-tab-indicator"
-            @transitionstart=${this.#onSelectedTabIndicatorTransition}
             ${ref(this.#selectedTabIndicatorElementRef)}
           ></div>
         </div>
@@ -127,7 +137,10 @@ export default class TabGroup extends LitElement {
         )}
       </div>
 
-      <slot @slotchange=${this.#onDefaultSlotChange} ${assertSlot([TabPanel])}>
+      <slot
+        @slotchange=${this.#onDefaultSlotChange}
+        ${assertSlot([TabGroupPanel], true)}
+      >
         <!-- @type {TabPanel} -->
       </slot>
     </div>`;
@@ -166,41 +179,61 @@ export default class TabGroup extends LitElement {
 
   get #panelElements() {
     return [
-      ...this.querySelectorAll<TabPanel>(':scope > glide-core-tab-panel'),
+      ...this.querySelectorAll<TabGroupPanel>(
+        ':scope > glide-core-tab-group-panel',
+      ),
     ];
   }
 
   get #tabElements() {
-    return [...this.querySelectorAll<Tab>(':scope > glide-core-tab')];
+    return [
+      ...this.querySelectorAll<TabGroupTab>(
+        ':scope > glide-core-tab-group-tab',
+      ),
+    ];
+  }
+
+  #assertTabPanelPairs() {
+    for (const tab of this.#tabElements) {
+      if (!this.#panelElements.some((panel) => panel.name === tab.panel)) {
+        throw new Error(`Tab with panel="${tab.panel}" has no matching Panel.`);
+      }
+    }
+
+    for (const panel of this.#panelElements) {
+      if (!this.#tabElements.some((tab) => tab.panel === panel.name)) {
+        throw new Error(`Panel with name="${panel.name}" has no matching Tab.`);
+      }
+    }
   }
 
   #onComponentClick(event: Event) {
     const target = event.target as HTMLElement;
-    const clickedTab = target.closest('glide-core-tab');
+    const clickedTab = target.closest('glide-core-tab-group-tab');
 
     if (
-      clickedTab instanceof Tab &&
+      clickedTab instanceof TabGroupTab &&
       !clickedTab.disabled &&
       // Tab Panels can themselves include a Tab Group. We want to ensure
       // we're dealing with one of this instance's Tabs and not a Tab in
       // a Tab Panel.
       this.#tabElements.includes(clickedTab)
     ) {
-      clickedTab.selected = true;
+      clickedTab.privateSelect();
     }
   }
 
   #onComponentKeydown(event: KeyboardEvent) {
     const tab =
       event.target instanceof HTMLElement &&
-      event.target.closest('glide-core-tab');
+      event.target.closest('glide-core-tab-group-tab');
 
     if (
       ['Enter', ' '].includes(event.key) &&
-      tab instanceof Tab &&
+      tab instanceof TabGroupTab &&
       !tab.disabled
     ) {
-      tab.selected = true;
+      tab.privateSelect();
       event.preventDefault(); // Prevent page scroll when Space is pressed
     }
 
@@ -218,7 +251,7 @@ export default class TabGroup extends LitElement {
         tab.matches(':focus'),
       );
 
-      if (focusedElement instanceof Tab) {
+      if (focusedElement instanceof TabGroupTab) {
         let index = this.#tabElements.indexOf(focusedElement);
 
         switch (event.key) {
@@ -270,6 +303,7 @@ export default class TabGroup extends LitElement {
 
   #onDefaultSlotChange() {
     this.#setAriaAttributes();
+    this.#assertTabPanelPairs();
   }
 
   #onNavSlotChange() {
@@ -288,12 +322,13 @@ export default class TabGroup extends LitElement {
     }
 
     for (const panel of this.#panelElements) {
-      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
 
     this.#setAriaAttributes();
     this.#setOverflowButtonsState();
+    this.#assertTabPanelPairs();
   }
 
   #onOverflowButtonClick(button: 'start' | 'end') {
@@ -311,38 +346,10 @@ export default class TabGroup extends LitElement {
     }
   }
 
-  #onSelectedTabIndicatorTransition() {
-    this.#setOverflowButtonsState();
-  }
-
-  #onTabListFocusout() {
-    // Set the last selected tab as tabbable so that when pressing Shift + Tab on the
-    // Tab Panel focus goes back to the last selected tab.
-    for (const [, tabElement] of this.#tabElements.entries()) {
-      tabElement.tabIndex = tabElement === this.#lastSelectedTab ? 0 : -1;
-    }
-  }
-
-  #onTabListResize() {
+  #onTabContainerResize() {
     if (this.#resizeTimeout) {
       clearTimeout(this.#resizeTimeout);
     }
-
-    // TODO
-    //
-    // This only needs to be called here so the indicator is updated when the content
-    // of Tab's slots changes.
-    //
-    // Tab's default slot will soon be replaced by a `label` attribute. When that
-    // happens, this call can be removed, and `#updateSelectedTabIndicator()` can be
-    // instead called when Tab dispatches "private-label-change" and
-    // "private-icon-slotchange" events.
-    //
-    // Those changes will certainly require slightly more code. But they'll make it
-    // much clearer why `#updateSelectedTabIndicator()` is being called. Additionally,
-    // Tab Group will no longer be doing unncessary work every time the viewport is
-    // resized.
-    this.#updateSelectedTabIndicator();
 
     // Toggling the overflow buttons will itself cause a resize. So we
     // wait a tick to avoid a loop.
@@ -351,9 +358,57 @@ export default class TabGroup extends LitElement {
     });
   }
 
+  #onTabContentChange() {
+    if (this.#componentElementRef.value) {
+      // By temporarily disabling transitions, we ensure the measurements that happen in
+      // `#setOverflowButtonsState()` are in a settled, non-transitioning state.
+      // Otherwise, the overflow buttons would appear unnecessarily.
+      //
+      // Disabling these transitions also ensures the selected tab indicator and tab
+      // labels don't jump around briefly when being modified.
+      this.#componentElementRef.value.style =
+        '--private-transition-duration: 0ms';
+
+      this.#updateSelectedTabIndicator();
+
+      // Requesting an animation frame to help with the issue described above. We should
+      // wait until everything has settled completely before evaluating if the overflow
+      // buttons should appear or not. Otherwise they may appear and then immediately
+      // disappear.
+      requestAnimationFrame(() => {
+        this.#setOverflowButtonsState();
+
+        if (this.#componentElementRef.value) {
+          this.#componentElementRef.value.style = '';
+        }
+      });
+    }
+  }
+
+  #onTabDeselected() {
+    if (this.#firstTab && !this.#lastSelectedTab) {
+      this.#firstTab.selected = true;
+      this.#firstTab.tabIndex = 0;
+
+      this.#updateSelectedTabIndicator();
+    }
+
+    for (const panel of this.#panelElements) {
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
+    }
+  }
+
+  #onTabListFocusOut() {
+    // Set the last selected tab as tabbable so that when pressing Shift + Tab on the
+    // Tab Panel focus goes back to the last selected tab.
+    for (const tabElement of this.#tabElements.values()) {
+      tabElement.tabIndex = tabElement === this.#lastSelectedTab ? 0 : -1;
+    }
+  }
+
   #onTabSelected(event: Event) {
-    if (event.target instanceof Tab && event.target.selected) {
-      event.target.privateSelect();
+    if (event.target instanceof TabGroupTab) {
       event.target.tabIndex = 0;
 
       for (const tab of this.#tabElements) {
@@ -362,15 +417,12 @@ export default class TabGroup extends LitElement {
           tab.tabIndex = -1;
         }
       }
-    } else if (this.#firstTab && !this.#lastSelectedTab) {
-      this.#firstTab.privateSelect();
-      this.#firstTab.tabIndex = 0;
+
+      this.#updateSelectedTabIndicator();
     }
 
-    this.#updateSelectedTabIndicator();
-
     for (const panel of this.#panelElements) {
-      panel.privateIsSelected = panel.name === this.#lastSelectedTab?.panel;
+      panel.privateSelected = panel.name === this.#lastSelectedTab?.panel;
       panel.tabIndex = panel.name === this.#lastSelectedTab?.panel ? 0 : -1;
     }
   }
@@ -407,50 +459,56 @@ export default class TabGroup extends LitElement {
   }
 
   #updateSelectedTabIndicator() {
-    if (
-      this.#lastSelectedTab &&
-      this.#tabElements.length > 0 &&
-      this.#selectedTabIndicatorElementRef.value
-    ) {
-      const isFirstTab = this.#lastSelectedTab === this.#tabElements.at(0);
-      const isLastTab = this.#lastSelectedTab === this.#tabElements.at(-1);
+    // We need our measurements and positioning to happen before painting, but after
+    // transitioning the font-weight of the selected tab. Requesting an animation frame
+    // helps with the timing. Otherwise the selected tab indicator won't have the
+    // correct width or positioning.
+    requestAnimationFrame(() => {
+      if (
+        this.#lastSelectedTab &&
+        this.#tabElements.length > 0 &&
+        this.#selectedTabIndicatorElementRef.value
+      ) {
+        const isFirstTab = this.#lastSelectedTab === this.#tabElements.at(0);
+        const isLastTab = this.#lastSelectedTab === this.#tabElements.at(-1);
 
-      const selectedTabInlinePadding = isFirstTab
-        ? Number.parseInt(
-            window
-              .getComputedStyle(this.#lastSelectedTab)
-              .getPropertyValue('padding-inline-start'),
-          )
-        : isLastTab
+        const selectedTabInlinePadding = isFirstTab
           ? Number.parseInt(
               window
                 .getComputedStyle(this.#lastSelectedTab)
-                .getPropertyValue('padding-inline-end'),
+                .getPropertyValue('padding-inline-start'),
             )
-          : 0;
+          : isLastTab
+            ? Number.parseInt(
+                window
+                  .getComputedStyle(this.#lastSelectedTab)
+                  .getPropertyValue('padding-inline-end'),
+              )
+            : 0;
 
-      const selectedTabIndicatorTranslateLeft =
-        this.#lastSelectedTab === this.#tabElements.at(0)
-          ? selectedTabInlinePadding
-          : this.#lastSelectedTab.offsetLeft -
-            // `this.#tabElements.at(0)` is guaranteed to be defined by the guard at the
-            // top of this function.
-            //
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.#tabElements.at(0)!.offsetLeft;
+        const selectedTabIndicatorTranslateLeft =
+          this.#lastSelectedTab === this.#tabElements.at(0)
+            ? selectedTabInlinePadding
+            : this.#lastSelectedTab.offsetLeft -
+              // `this.#tabElements.at(0)` is guaranteed to be defined by the guard at the
+              // top of this function.
+              //
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              this.#tabElements.at(0)!.offsetLeft;
 
-      this.#selectedTabIndicatorElementRef.value.style.setProperty(
-        '--private-selected-tab-indicator-translate',
-        `${selectedTabIndicatorTranslateLeft}px`,
-      );
+        this.#selectedTabIndicatorElementRef.value.style.setProperty(
+          '--private-selected-tab-indicator-translate',
+          `${selectedTabIndicatorTranslateLeft}px`,
+        );
 
-      const { width: selectedTabWidth } =
-        this.#lastSelectedTab.getBoundingClientRect();
+        const { width: selectedTabWidth } =
+          this.#lastSelectedTab.getBoundingClientRect();
 
-      this.#selectedTabIndicatorElementRef.value.style.setProperty(
-        '--private-selected-tab-indicator-width',
-        `${selectedTabWidth - selectedTabInlinePadding}px`,
-      );
-    }
+        this.#selectedTabIndicatorElementRef.value.style.setProperty(
+          '--private-selected-tab-indicator-width',
+          `${selectedTabWidth - selectedTabInlinePadding}px`,
+        );
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { expect, test } from './playwright/test.js';
-import type TabGroup from './tab.group.js';
-import type Tab from './tab.js';
+import type TabGroup from './tab-group.js';
+import type TabGroupTab from './tab-group.tab.js';
 import fetchStories from './playwright/fetch-stories.js';
 
 const stories = await fetchStories('Tab Group');
@@ -22,7 +22,7 @@ for (const story of stories) {
             });
 
           await page
-            .locator('glide-core-tab-panel')
+            .locator('glide-core-tab-group-panel')
             .first()
             .evaluate<void, TabGroup>((element) => {
               element.style.setProperty('--padding-inline-end', '5rem');
@@ -45,13 +45,13 @@ for (const story of stories) {
           );
         });
 
-        test('<glide-core-tab>.disabled', async ({ page }, test) => {
+        test('<glide-core-tab-group-tab>.disabled', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
-            .locator('glide-core-tab')
+            .locator('glide-core-tab-group-tab')
             .first()
-            .evaluate<void, Tab>((element) => {
+            .evaluate<void, TabGroupTab>((element) => {
               element.disabled = true;
             });
 
@@ -60,18 +60,18 @@ for (const story of stories) {
           );
         });
 
-        test('<glide-core-tab>:focus', async ({ page }, test) => {
+        test('<glide-core-tab-group-tab>:focus', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.locator('glide-core-tab').first().focus();
+          await page.locator('glide-core-tab-group-tab').first().focus();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
           );
         });
 
-        test('<glide-core-tab>:hover', async ({ page }, test) => {
+        test('<glide-core-tab-group-tab>:hover', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.locator('glide-core-tab').first().hover();
+          await page.locator('glide-core-tab-group-tab').first().hover();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,

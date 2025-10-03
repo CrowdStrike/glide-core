@@ -8473,21 +8473,417 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/tab.group.styles.ts",
+      "path": "src/tab-group.panel.styles.ts",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/tab.group.styles.ts"
+            "module": "src/tab-group.panel.styles.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/tab.group.ts",
+      "path": "src/tab-group.panel.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TabGroupPanel",
+          "cssProperties": [
+            {
+              "name": "--padding-inline-end",
+              "default": "0rem"
+            },
+            {
+              "name": "--padding-inline-start",
+              "default": "0rem"
+            }
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "The content of the panel.",
+              "type": {
+                "text": "Element | string"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "The corresponding Tab should have a `panel` attribute with this name.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateSelected",
+              "attribute": "privateSelected"
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tabpanel'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "The corresponding Tab should have a `panel` attribute with this name.",
+              "fieldName": "name",
+              "required": true
+            },
+            {
+              "name": "privateSelected",
+              "fieldName": "privateSelected"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tabpanel'",
+              "fieldName": "role"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-tab-group-panel",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "TabGroupPanel",
+            "module": "src/tab-group.panel.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-tab-group-panel",
+          "declaration": {
+            "name": "TabGroupPanel",
+            "module": "src/tab-group.panel.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tab-group.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/tab-group.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tab-group.tab.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/tab-group.tab.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tab-group.tab.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "TabGroupTab",
+          "slots": [
+            {
+              "name": "icon",
+              "description": "",
+              "type": {
+                "text": "Element"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "panel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "panel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tab'",
+              "attribute": "role",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "selected",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-icon-slotchange",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-label-change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-selected",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-deselected",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "label",
+              "required": true
+            },
+            {
+              "name": "panel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "panel",
+              "required": true
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selected"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'tab'",
+              "fieldName": "role"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-tab-group-tab",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "TabGroupTab",
+            "module": "src/tab-group.tab.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-tab-group-tab",
+          "declaration": {
+            "name": "TabGroupTab",
+            "module": "src/tab-group.tab.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tab-group.ts",
       "declarations": [
         {
           "kind": "class",
@@ -8572,7 +8968,7 @@
           "name": "default",
           "declaration": {
             "name": "TabGroup",
-            "module": "src/tab.group.ts"
+            "module": "src/tab-group.ts"
           }
         },
         {
@@ -8580,373 +8976,7 @@
           "name": "glide-core-tab-group",
           "declaration": {
             "name": "TabGroup",
-            "module": "src/tab.group.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/tab.panel.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/tab.panel.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/tab.panel.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "TabPanel",
-          "cssProperties": [
-            {
-              "name": "--padding-inline-end",
-              "default": "0rem"
-            },
-            {
-              "name": "--padding-inline-start",
-              "default": "0rem"
-            }
-          ],
-          "slots": [
-            {
-              "name": "",
-              "description": "The content of the panel",
-              "type": {
-                "text": "Element | string"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "type": {
-                "text": "string | undefined"
-              },
-              "description": "The corresponding Tab should have a `panel` attribute with this name",
-              "attribute": "name",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateIsSelected",
-              "attribute": "privateIsSelected"
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'tabpanel'",
-              "attribute": "role",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "id",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "name",
-              "type": {
-                "text": "string | undefined"
-              },
-              "description": "The corresponding Tab should have a `panel` attribute with this name",
-              "fieldName": "name",
-              "required": true
-            },
-            {
-              "name": "privateIsSelected",
-              "fieldName": "privateIsSelected"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            },
-            {
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'tabpanel'",
-              "fieldName": "role"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "id"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-tab-panel",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "TabPanel",
-            "module": "src/tab.panel.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-tab-panel",
-          "declaration": {
-            "name": "TabPanel",
-            "module": "src/tab.panel.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/tab.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/tab.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/tab.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "Tab",
-          "slots": [
-            {
-              "name": "icon",
-              "description": "",
-              "type": {
-                "text": "Element"
-              }
-            },
-            {
-              "name": "",
-              "description": "A label",
-              "type": {
-                "text": "Element | string"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
-            },
-            {
-              "kind": "field",
-              "name": "panel",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "panel",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "selected",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "id",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'tab'",
-              "attribute": "role",
-              "reflects": true
-            }
-          ],
-          "events": [
-            {
-              "name": "selected",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
-              "name": "private-selected",
-              "type": {
-                "text": "Event"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "panel",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "panel",
-              "required": true
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "selected"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "id"
-            },
-            {
-              "name": "role",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "default": "'tab'",
-              "fieldName": "role"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-tab",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "Tab",
-            "module": "src/tab.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-tab",
-          "declaration": {
-            "name": "Tab",
-            "module": "src/tab.ts"
+            "module": "src/tab-group.ts"
           }
         }
       ]
