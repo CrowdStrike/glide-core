@@ -2,4 +2,4 @@
 '@crowdstrike/glide-core': patch
 ---
 
-Popover now removes its document listeners when it's removed from the DOM.
+Popover now removes its document listener when removed from the DOM.
