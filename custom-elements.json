@@ -6278,8 +6278,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "checked",
-              "reflects": true
+              "attribute": "checked"
             },
             {
               "kind": "field",
@@ -6338,19 +6337,19 @@
             {
               "name": "private-checked-change",
               "type": {
-                "text": "CustomEvent"
+                "text": "Event"
               }
             },
             {
               "name": "private-disabled-change",
               "type": {
-                "text": "CustomEvent"
+                "text": "Event"
               }
             },
             {
               "name": "private-value-change",
               "type": {
-                "text": "CustomEvent"
+                "text": "Event"
               }
             }
           ],

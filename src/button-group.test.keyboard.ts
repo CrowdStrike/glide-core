@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { expect, test } from './playwright/test.js';
 
 test(
-  'selects buttons via arrow keys',
+  'selects buttons when arrowing',
   { tag: '@keyboard' },
   async ({ mount, page }) => {
     await mount(

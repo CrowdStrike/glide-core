@@ -293,12 +293,12 @@ export default class CheckboxGroup extends LitElement implements FormControl {
         >
           <slot
             class="default-slot"
-            @focusin=${this.#onCheckBoxFocusIn}
-            @focusout=${this.#onCheckBoxFocusOut}
-            @private-checked-change=${this.#onCheckboxCheckedChange}
-            @private-disabled-change=${this.#onCheckboxDisabledChange}
-            @private-value-change=${this.#onCheckboxValueChange}
-            @slotchange=${this.#onDefaultSlotChange}
+            @focusin=${this.#onDefaultSlotFocusIn}
+            @focusout=${this.#onDefaultSlotFocusOut}
+            @private-checked-change=${this.#onDefaultSlotCheckedChange}
+            @private-disabled-change=${this.#onDefaultSlotDisabledChange}
+            @private-value-change=${this.#onDefaultSlotValueChange}
+            @slotchange=${this.#onDefaultSlotSlotChange}
             ${assertSlot([Checkbox])}
             ${ref(this.#defaultSlotElementRef)}
           >
@@ -376,7 +376,13 @@ export default class CheckboxGroup extends LitElement implements FormControl {
   setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.#hasCustomValidity = true;
     this.validityMessage = message;
-    this.#internals.setValidity(flags, ' ', this.#componentElementRef.value);
+
+    this.#internals.setValidity(
+      flags,
+      ' ',
+      this.#focusedCheckbox ??
+        this.#checkboxElements.find(({ disabled }) => !disabled),
+    );
   }
 
   constructor() {
@@ -479,7 +485,7 @@ export default class CheckboxGroup extends LitElement implements FormControl {
     );
   }
 
-  #onCheckboxCheckedChange(event: Event) {
+  #onDefaultSlotCheckedChange(event: Event) {
     if (event.target instanceof Checkbox && event.target.checked) {
       this.#checkedAndEnabledCheckboxes.add(event.target);
     } else if (event.target instanceof Checkbox && !event.target.checked) {
@@ -497,7 +503,7 @@ export default class CheckboxGroup extends LitElement implements FormControl {
     this.requestUpdate();
   }
 
-  #onCheckboxDisabledChange(event: Event) {
+  #onDefaultSlotDisabledChange(event: Event) {
     if (
       event.target instanceof Checkbox &&
       event.target.disabled &&
@@ -516,13 +522,13 @@ export default class CheckboxGroup extends LitElement implements FormControl {
     this.#setValidity();
   }
 
-  #onCheckBoxFocusIn(event: FocusEvent) {
+  #onDefaultSlotFocusIn(event: FocusEvent) {
     if (event.target instanceof Checkbox) {
       this.#focusedCheckbox = event.target;
     }
   }
 
-  #onCheckBoxFocusOut(event: FocusEvent) {
+  #onDefaultSlotFocusOut(event: FocusEvent) {
     this.#focusedCheckbox = null;
 
     const lastEnabledCheckbox = this.#checkboxElements.findLast(
@@ -536,14 +542,7 @@ export default class CheckboxGroup extends LitElement implements FormControl {
     }
   }
 
-  #onCheckboxValueChange() {
-    this.#value = Array.from(
-      this.#checkedAndEnabledCheckboxes,
-      ({ value }) => value,
-    );
-  }
-
-  #onDefaultSlotChange() {
+  #onDefaultSlotSlotChange() {
     for (const checkbox of this.#checkboxElements) {
       checkbox.privateVariant = 'minimal';
     }
@@ -564,6 +563,13 @@ export default class CheckboxGroup extends LitElement implements FormControl {
     this.#setValidity();
   }
 
+  #onDefaultSlotValueChange() {
+    this.#value = Array.from(
+      this.#checkedAndEnabledCheckboxes,
+      ({ value }) => value,
+    );
+  }
+
   #setValidity() {
     if (this.#hasCustomValidity) {
       return;
@@ -573,7 +579,8 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       this.#internals.setValidity(
         { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
-        this.#checkboxElements.at(0),
+        this.#focusedCheckbox ??
+          this.#checkboxElements.find(({ disabled }) => !disabled),
       );
 
       return;

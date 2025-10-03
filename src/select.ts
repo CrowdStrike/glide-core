@@ -448,7 +448,7 @@ export default class Select
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
   #tooManySelectedOptionsError = new Error(
-    'Only one option may be selected at a time.',
+    'Only one Option may be `selected` at a time.',
   );
 
   #value: string[] = [];
