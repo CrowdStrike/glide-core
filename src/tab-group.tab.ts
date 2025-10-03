@@ -76,12 +76,12 @@ export default class TabGroupTab extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   get selected(): boolean {
-    return this.#selected;
+    return this.#isSelected;
   }
 
   set selected(isSelected: boolean) {
-    const hasChanged = isSelected !== this.#selected;
-    this.#selected = isSelected;
+    const hasChanged = isSelected !== this.#isSelected;
+    this.#isSelected = isSelected;
 
     if (hasChanged && isSelected) {
       this.dispatchEvent(
@@ -145,9 +145,9 @@ export default class TabGroupTab extends LitElement {
     }
   }
 
-  #label?: string;
+  #isSelected = false;
 
-  #selected = false;
+  #label?: string;
 
   #onIconSlotChange() {
     this.dispatchEvent(
