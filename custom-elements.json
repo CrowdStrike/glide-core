@@ -1356,13 +1356,6 @@
           "name": "Checkbox",
           "slots": [
             {
-              "name": "private-icon",
-              "description": "",
-              "type": {
-                "text": "Element"
-              }
-            },
-            {
               "name": "description",
               "description": "Additional information or context",
               "type": {
@@ -1410,15 +1403,6 @@
             },
             {
               "kind": "field",
-              "name": "privateInternallyInert",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "private-internally-inert"
-            },
-            {
-              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -1463,36 +1447,6 @@
               },
               "default": "''",
               "attribute": "name",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateLabelTooltipOffset",
-              "type": {
-                "text": "number"
-              },
-              "default": "4",
-              "attribute": "private-label-tooltip-offset",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateShowLabelTooltip",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "private-show-label-tooltip",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateDisableLabelTooltip",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "private-disable-label-tooltip",
               "reflects": true
             },
             {
@@ -1737,14 +1691,6 @@
               "fieldName": "checked"
             },
             {
-              "name": "private-internally-inert",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateInternallyInert"
-            },
-            {
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -1783,30 +1729,6 @@
               },
               "default": "''",
               "fieldName": "name"
-            },
-            {
-              "name": "private-label-tooltip-offset",
-              "type": {
-                "text": "number"
-              },
-              "default": "4",
-              "fieldName": "privateLabelTooltipOffset"
-            },
-            {
-              "name": "private-show-label-tooltip",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateShowLabelTooltip"
-            },
-            {
-              "name": "private-disable-label-tooltip",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateDisableLabelTooltip"
             },
             {
               "name": "privateSplit",

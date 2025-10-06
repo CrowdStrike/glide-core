@@ -305,6 +305,8 @@ export default class DropdownOption extends LitElement {
     // The linter wants a keyboard handler. There's one on Dropdown itself. It's there
     // because options aren't focusable and thus don't produce keyboard events when
     // Dropdown is filterable.
+
+    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div
       class=${classMap({
         component: true,
@@ -318,32 +320,53 @@ export default class DropdownOption extends LitElement {
         this.isMultiple,
         () => {
           return html`
-            <glide-core-checkbox
+            <div
               class=${classMap({
-                checkbox: true,
+                'checkbox-container': true,
                 editable: this.editable,
               })}
-              data-test="checkbox"
-              label=${this.label ?? ''}
-              tabindex="-1"
-              private-label-tooltip-offset=${12}
-              private-variant="minimal"
-              value=${this.value}
-              @click=${this.#onCheckboxClick}
-              private-internally-inert
-              ?disabled=${this.disabled}
-              ?indeterminate=${this.privateIndeterminate}
-              ?private-show-label-tooltip=${this.privateIsTooltipOpen}
-              ?private-disable-label-tooltip=${this.disabled}
-              ${ref(this.#checkboxElementRef)}
+              @click=${this.#onCheckboxContainerClick}
             >
+              <glide-core-checkbox
+                class="checkbox"
+                data-test="checkbox"
+                label=${this.label ?? ''}
+                tabindex="-1"
+                value=${this.value}
+                hide-label
+                ?disabled=${this.disabled}
+                ?indeterminate=${this.privateIndeterminate}
+                @click=${this.#onCheckboxClick}
+                ${ref(this.#checkboxElementRef)}
+              >
+              </glide-core-checkbox>
+
               <slot class="checkbox-icon-slot" name="icon" slot="private-icon">
                 <!--
                   An icon before the label
                   @type {Element}
                 -->
               </slot>
-            </glide-core-checkbox>
+
+              <glide-core-tooltip
+                aria-hidden="true"
+                class="tooltip"
+                data-test="tooltip"
+                label=${ifDefined(this.label)}
+                offset=${10}
+                ?disabled=${!this.isLabelOverflow || this.disabled}
+                ?open=${this.privateIsTooltipOpen}
+                @toggle=${this.#onTooltipToggle}
+              >
+                <div
+                  class="checkbox-label"
+                  slot="target"
+                  ${ref(this.#labelElementRef)}
+                >
+                  ${this.label}
+                </div>
+              </glide-core-tooltip>
+            </div>
 
             ${when(this.editable, () => {
               return html`<button
@@ -536,6 +559,13 @@ export default class DropdownOption extends LitElement {
     // This is also why Dropdown listens for "input" when multiselect and "click"
     // when single-select.
     event.stopPropagation();
+  }
+
+  #onCheckboxContainerClick(event: MouseEvent) {
+    // Canceled so the `click()` below doesn't result in two events.
+    event.stopPropagation();
+
+    this.#checkboxElementRef.value?.click();
   }
 
   #onEditButtonMouseout() {

@@ -1,5 +1,4 @@
 import { html } from 'lit';
-import { styleMap } from 'lit/directives/style-map.js';
 import { expect, test } from './playwright/test.js';
 
 test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
@@ -37,53 +36,6 @@ test(
     await callMethod(host, 'focus');
 
     await expect(checkbox).toBeFocused();
-  },
-);
-
-test(
-  'has a tooltip when "minimal" and with a long label',
-  { tag: '@miscellaneous' },
-  async ({ mount, page }) => {
-    await mount(
-      () =>
-        html`<glide-core-checkbox
-          style=${styleMap({
-            display: 'block',
-            maxWidth: '6.25rem',
-          })}
-          label=${'x'.repeat(100)}
-          private-variant="minimal"
-          private-show-label-tooltip
-        ></glide-core-checkbox>`,
-    );
-
-    const tooltip = page.locator('[data-test="label-tooltip"]');
-
-    await expect(tooltip).not.toHaveAttribute('disabled');
-    await expect(tooltip).toHaveAttribute('open');
-
-    await expect(tooltip).toHaveText('x'.repeat(100), {
-      useInnerText: true,
-    });
-  },
-);
-
-test(
-  'has no tooltip when "minimal" and with a short label',
-  { tag: '@miscellaneous' },
-  async ({ mount, page }) => {
-    await mount(
-      () =>
-        html`<glide-core-checkbox
-          label="Label"
-          private-variant="minimal"
-          private-show-label-tooltip
-        ></glide-core-checkbox>`,
-    );
-
-    const tooltip = page.locator('[data-test="label-tooltip"]');
-
-    await expect(tooltip).toHaveAttribute('disabled');
   },
 );
 
