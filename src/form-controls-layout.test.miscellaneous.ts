@@ -103,7 +103,7 @@ test(
       mount(
         () => html`
           <glide-core-form-controls-layout>
-            <input />
+            Text
           </glide-core-form-controls-layout>
         `,
       ),

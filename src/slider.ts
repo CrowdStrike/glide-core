@@ -456,7 +456,7 @@ export default class Slider extends LitElement implements FormControl {
     //
     /*  eslint-disable lit-a11y/click-events-have-key-events */
     return html`
-      <glide-core-private-label
+      <glide-core-label
         class=${classMap({
           left: this.privateSplit === 'left',
           middle: this.privateSplit === 'middle',
@@ -467,7 +467,7 @@ export default class Slider extends LitElement implements FormControl {
         tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
-        ?hide=${this.hideLabel}
+        ?hide-label=${this.hideLabel}
         ?required=${this.required}
       >
         <label>${this.label}</label>
@@ -718,7 +718,7 @@ export default class Slider extends LitElement implements FormControl {
               >`,
           )}
         </div>
-      </glide-core-private-label>
+      </glide-core-label>
     `;
   }
 

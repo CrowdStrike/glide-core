@@ -83,13 +83,13 @@ export default class Toggle extends LitElement {
 
   override render() {
     return html`<div data-test="component">
-      <glide-core-private-label
+      <glide-core-label
         label=${ifDefined(this.label)}
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
-        ?hide=${this.hideLabel}
+        ?hide-label=${this.hideLabel}
       >
         <label for="input"> ${this.label} </label>
 
@@ -142,7 +142,7 @@ export default class Toggle extends LitElement {
             @type {Element | string}
           -->
         </slot>
-      </glide-core-private-label>
+      </glide-core-label>
     </div>`;
   }
 

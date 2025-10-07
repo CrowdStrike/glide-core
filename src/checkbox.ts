@@ -316,14 +316,14 @@ export default class Checkbox extends LitElement implements FormControl {
           </label>
         `,
         () =>
-          html`<glide-core-private-label
+          html`<glide-core-label
             label=${ifDefined(this.label)}
             orientation=${this.orientation}
             split=${ifDefined(this.privateSplit ?? undefined)}
             tooltip=${ifDefined(this.tooltip)}
             ?disabled=${this.disabled}
             ?error=${this.#isShowValidationFeedback}
-            ?hide=${this.hideLabel}
+            ?hide-label=${this.hideLabel}
             ?required=${this.required}
           >
             <label for="input"> ${this.label} </label>
@@ -405,7 +405,7 @@ export default class Checkbox extends LitElement implements FormControl {
                   </span>`,
               )}
             </div>
-          </glide-core-private-label>`,
+          </glide-core-label>`,
       )}
     </div>`;
   }

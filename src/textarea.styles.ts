@@ -21,7 +21,7 @@ export default [
     ${visuallyHidden('.character-count .hidden')}
   `,
   css`
-    glide-core-private-label[orientation='horizontal']::part(private-tooltips) {
+    glide-core-label[orientation='horizontal']::part(private-tooltips) {
       align-items: flex-start;
       margin-block-start: var(--glide-core-spacing-base-sm);
     }

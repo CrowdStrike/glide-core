@@ -14,14 +14,14 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-private-label': Label;
+    'glide-core-label': Label;
   }
 }
 
 /**
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [error=false]
- * @attr {boolean} [hide=false]
+ * @attr {boolean} [hide-label=false]
  * @attr {string} [label]
  * @attr {'horizontal'|'vertical'} [orientation='horizontal']
  * @attr {boolean} [required=false]
@@ -33,7 +33,7 @@ declare global {
  * @slot {Element | string} [description] - Additional information or context
  * @slot {Element | string} [summary] - Additional information or context
  */
-@customElement('glide-core-private-label')
+@customElement('glide-core-label')
 @final
 export default class Label extends LitElement {
   /* v8 ignore start */
@@ -51,8 +51,8 @@ export default class Label extends LitElement {
   @property({ reflect: true, type: Boolean })
   error = false;
 
-  @property({ reflect: true, type: Boolean })
-  hide = false;
+  @property({ attribute: 'hide-label', reflect: true, type: Boolean })
+  hideLabel = false;
 
   @property({ reflect: true, useDefault: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
@@ -98,13 +98,13 @@ export default class Label extends LitElement {
         left: this.split === 'left',
         middle: this.split === 'middle',
         right: this.split === 'right',
-        'hidden-label': this.hide,
+        'hidden-label': this.hideLabel,
       })}
     >
       <div
         class=${classMap({
           tooltips: true,
-          hidden: this.hide,
+          hidden: this.hideLabel,
           left: this.split === 'left',
           middle: this.split === 'middle',
           right: this.split === 'right',
@@ -175,7 +175,7 @@ export default class Label extends LitElement {
             disabled: this.disabled,
             vertical: this.orientation === 'vertical',
             summaryless: !this.hasSummarySlot,
-            'hidden-label': this.hide,
+            'hidden-label': this.hideLabel,
           })}
           name="control"
           ${assertSlot()}

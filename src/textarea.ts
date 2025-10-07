@@ -204,7 +204,7 @@ export default class Textarea extends LitElement implements FormControl {
   }
 
   override render() {
-    return html`<glide-core-private-label
+    return html`<glide-core-label
       label=${ifDefined(this.label)}
       split=${ifDefined(this.privateSplit ?? undefined)}
       tooltip=${ifDefined(this.tooltip)}
@@ -212,7 +212,7 @@ export default class Textarea extends LitElement implements FormControl {
       ?disabled=${this.disabled}
       ?error=${this.#isShowValidationFeedback ||
       this.#isMaxCharacterCountExceeded}
-      ?hide=${this.hideLabel}
+      ?hide-label=${this.hideLabel}
       ?required=${this.required}
     >
       <label class="label" for="textarea">${this.label}</label>
@@ -295,7 +295,7 @@ export default class Textarea extends LitElement implements FormControl {
               >
             </div>`
           : nothing}
-      </div></glide-core-private-label
+      </div></glide-core-label
     >`;
   }
 

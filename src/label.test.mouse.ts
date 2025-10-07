@@ -7,10 +7,10 @@ test(
   async ({ mount, page }) => {
     await mount(
       () =>
-        html`<glide-core-private-label>
+        html`<glide-core-label>
           <label> ${'x'.repeat(500)} </label>
           <input slot="control" />
-        </glide-core-private-label>`,
+        </glide-core-label>`,
     );
 
     const tooltip = page.getByTestId('label-tooltip');
@@ -28,10 +28,10 @@ test(
   async ({ mount, page }) => {
     await mount(
       () =>
-        html`<glide-core-private-label>
+        html`<glide-core-label>
           <label> Label </label>
           <input slot="control" />
-        </glide-core-private-label>`,
+        </glide-core-label>`,
     );
 
     const tooltip = page.getByTestId('label-tooltip');

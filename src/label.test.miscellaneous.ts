@@ -4,15 +4,15 @@ import { expect, test } from './playwright/test.js';
 test('defines itself', { tag: '@miscellaneous' }, async ({ mount, page }) => {
   await mount(
     () =>
-      html`<glide-core-private-label>
+      html`<glide-core-label>
         <label>Label</label>
         <input slot="control" />
-      </glide-core-private-label>`,
+      </glide-core-label>`,
   );
 
-  const host = page.locator('glide-core-private-label');
+  const host = page.locator('glide-core-label');
 
-  await expect(host).toBeInTheCustomElementRegistry('glide-core-private-label');
+  await expect(host).toBeInTheCustomElementRegistry('glide-core-label');
 });
 
 test(
@@ -21,10 +21,10 @@ test(
   async ({ mount, page }) => {
     await mount(
       () =>
-        html`<glide-core-private-label required>
+        html`<glide-core-label required>
           <label>Label</label>
           <input slot="control" />
-        </glide-core-private-label>`,
+        </glide-core-label>`,
     );
 
     const asterisk = page.getByTestId('asterisk');
@@ -39,10 +39,10 @@ test(
   async ({ mount, page }) => {
     await mount(
       () =>
-        html`<glide-core-private-label tooltip="Tooltip">
+        html`<glide-core-label tooltip="Tooltip">
           <label>Label</label>
           <input slot="control" />
-        </glide-core-private-label>`,
+        </glide-core-label>`,
     );
 
     const tooltip = page.getByTestId('optional-tooltip');
@@ -57,10 +57,10 @@ test(
   async ({ mount, page }) => {
     await mount(
       () =>
-        html`<glide-core-private-label orientation="vertical" tooltip="Tooltip">
+        html`<glide-core-label orientation="vertical" tooltip="Tooltip">
           <label>Label</label>
           <input slot="control" />
-        </glide-core-private-label>`,
+        </glide-core-label>`,
     );
 
     const tooltip = page.getByTestId('optional-tooltip');
@@ -75,13 +75,13 @@ test(
   async ({ mount, page }) => {
     await mount(
       () =>
-        html`<glide-core-private-label>
+        html`<glide-core-label>
           <label>Label</label>
           <input slot="control" />
-        </glide-core-private-label>`,
+        </glide-core-label>`,
     );
 
-    const host = page.locator('glide-core-private-label');
+    const host = page.locator('glide-core-label');
 
     await expect(host).not.toBeExtensible();
   },
@@ -94,9 +94,7 @@ test(
     await expect(
       mount(
         () =>
-          html`<glide-core-private-label
-            ><input slot="control"
-          /></glide-core-private-label>`,
+          html`<glide-core-label><input slot="control" /></glide-core-label>`,
       ),
     ).rejects.toThrow();
   },
@@ -109,9 +107,9 @@ test(
     await expect(
       mount(
         () =>
-          html`<glide-core-private-label>
+          html`<glide-core-label>
             <label>Label</label>
-          </glide-core-private-label>`,
+          </glide-core-label>`,
       ),
     ).rejects.toThrow();
   },
