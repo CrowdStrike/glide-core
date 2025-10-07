@@ -42,20 +42,31 @@ export default [
       }
     }
 
-    .checkbox {
+    .checkbox-container {
+      align-items: center;
+      block-size: var(--private-option-height);
+      column-gap: var(--glide-core-spacing-base-xs);
+      display: flex;
       flex-grow: 1;
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-regular);
       overflow: hidden;
-
-      &::part(private-label-and-input-and-checkbox) {
-        block-size: var(--private-option-height);
-        padding-inline-start: var(--glide-core-spacing-base-sm);
-      }
+      padding-inline-start: var(--glide-core-spacing-base-sm);
 
       &:not(.count, .editable) {
-        &::part(private-label-and-input-and-checkbox) {
-          padding-inline-end: var(--glide-core-spacing-base-sm);
-        }
+        padding-inline-end: var(--glide-core-spacing-base-sm);
       }
+    }
+
+    .checkbox {
+      display: block;
+    }
+
+    .checkbox-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .indeterminate-icon {

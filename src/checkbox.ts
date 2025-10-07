@@ -38,7 +38,6 @@ declare global {
  * @attr {string} [version]
  *
  * @slot {Element | string} [description] - Additional information or context
- * @slot {Element} [private-icon]
  *
  * @fires {Event} change
  * @fires {Event} input
@@ -123,10 +122,6 @@ export default class Checkbox extends LitElement implements FormControl {
     }
   }
 
-  // Private because it's only meant to be used by Dropdown Option.
-  @property({ attribute: 'private-internally-inert', type: Boolean })
-  privateInternallyInert = false;
-
   /**
    * @default false
    */
@@ -151,32 +146,6 @@ export default class Checkbox extends LitElement implements FormControl {
 
   @property({ reflect: true, useDefault: true })
   name = '';
-
-  // Private because it's only meant to be used by Dropdown Option to offset the
-  // tooltip by the option's padding.
-  @property({
-    attribute: 'private-label-tooltip-offset',
-    reflect: true,
-    useDefault: true,
-    type: Number,
-  })
-  privateLabelTooltipOffset = 4;
-
-  // Private because it's only meant to be used by Dropdown Option.
-  @property({
-    attribute: 'private-show-label-tooltip',
-    reflect: true,
-    type: Boolean,
-  })
-  privateShowLabelTooltip = false;
-
-  // Private because it's only meant to be used by Dropdown Option.
-  @property({
-    attribute: 'private-disable-label-tooltip',
-    reflect: true,
-    type: Boolean,
-  })
-  privateDisableLabelTooltip = false;
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
@@ -292,10 +261,7 @@ export default class Checkbox extends LitElement implements FormControl {
       ${when(
         this.privateVariant === 'minimal',
         () => html`
-          <label
-            class="label-and-input-and-checkbox"
-            part="private-label-and-input-and-checkbox"
-          >
+          <label class="label-and-input-and-checkbox">
             <div
               class=${classMap({
                 'input-and-checkbox': true,
@@ -308,7 +274,6 @@ export default class Checkbox extends LitElement implements FormControl {
                 data-test="input"
                 type="checkbox"
                 .checked=${this.checked}
-                .inert=${this.privateInternallyInert}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
                 @change=${this.#onInputChangeOrInput}
@@ -329,33 +294,25 @@ export default class Checkbox extends LitElement implements FormControl {
               </div>
             </div>
 
-            <div class="icon-and-label">
-              <slot name="private-icon">
-                <!-- @type {Element} -->
-              </slot>
-
-              <glide-core-tooltip
-                class="label-tooltip"
-                data-test="label-tooltip"
-                label=${ifDefined(this.label)}
-                offset=${this.privateLabelTooltipOffset}
-                ?disabled=${!this.isLabelOverflow ||
-                this.privateDisableLabelTooltip}
-                ?open=${this.privateShowLabelTooltip}
-                screenreader-hidden
+            <glide-core-tooltip
+              class="label-tooltip"
+              data-test="label-tooltip"
+              label=${ifDefined(this.label)}
+              offset=${4}
+              ?disabled=${!this.isLabelOverflow}
+              screenreader-hidden
+            >
+              <div
+                class=${classMap({
+                  label: true,
+                  disabled: this.disabled,
+                })}
+                slot="target"
+                ${ref(this.#labelElementRef)}
               >
-                <div
-                  class=${classMap({
-                    label: true,
-                    disabled: this.disabled,
-                  })}
-                  slot="target"
-                  ${ref(this.#labelElementRef)}
-                >
-                  ${this.label}
-                </div>
-              </glide-core-tooltip>
-            </div>
+                ${this.label}
+              </div>
+            </glide-core-tooltip>
           </label>
         `,
         () =>

@@ -175,13 +175,6 @@ export default [
       stroke: var(--glide-core-color-interactive-icon-active);
     }
 
-    .icon-and-label {
-      align-items: center;
-      column-gap: var(--glide-core-spacing-base-xs);
-      display: flex;
-      overflow: hidden;
-    }
-
     .label-tooltip {
       overflow: hidden;
     }
