@@ -546,12 +546,6 @@ export default class Input extends LitElement implements FormControl {
         //   `delegatesFocus`.
         //
         // - The browser will ignore this if Input isn't the first invalid form control.
-        //
-        // TODO
-        // Try passing `focusVisible` after browsers support it. It may prevent the issue
-        // where the input itself has a focus outline after this call.
-        //
-        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#focusvisible
         this.focus();
       }
     });
