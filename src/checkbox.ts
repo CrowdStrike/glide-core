@@ -151,8 +151,16 @@ export default class Checkbox extends LitElement implements FormControl {
   @property()
   privateSplit?: 'left' | 'middle' | 'right';
 
-  // Private because it's only meant to be used by Checkbox Group and Dropdown
-  // Option.
+  // Private because it's only meant to be used by Checkbox Group.
+  //
+  // This variant exists because Checkbox Group has a requirement for Checkbox's
+  // label to be to the right of Checkbox's checkbox.
+  //
+  // Option also has this requirement. But Option is able to add a label next to
+  // Checkbox because it supplies its own Checkbox.
+  //
+  // With Checkbox Group, however, Checkboxes are provided by consumers. So it
+  // requires cooperation from Checkbox.
   @property({ attribute: 'private-variant' })
   privateVariant?: 'minimal';
 
