@@ -2301,6 +2301,12 @@ export default class Dropdown extends LitElement implements FormControl {
       lastSelectedAndNotOverflowingOption.selected = false;
       this.#isEditingOrRemovingTag = false;
 
+      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+
+      this.dispatchEvent(
+        new Event('change', { bubbles: true, composed: true }),
+      );
+
       return;
     }
 
@@ -2324,6 +2330,12 @@ export default class Dropdown extends LitElement implements FormControl {
       }
 
       this.#isEditingOrRemovingTag = false;
+
+      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+
+      this.dispatchEvent(
+        new Event('change', { bubbles: true, composed: true }),
+      );
 
       return;
     }

@@ -58,6 +58,128 @@ it('dispatches an "add" event on Add button selection via Enter', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
+it('dispatches an "input" event when a tag is removed via Backspace', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  host.addEventListener('input', spy);
+
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'Tab' });
+  sendKeys({ press: 'Backspace' });
+
+  const event = await oneEvent(host, 'input');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(spy.callCount).to.equal(1);
+});
+
+it('dispatches a "change" event when a tag is removed via Backspace', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  host.addEventListener('change', spy);
+
+  await sendKeys({ press: 'Tab' }); // "One" tag
+  await sendKeys({ press: 'Tab' }); // Input field
+  sendKeys({ press: 'Backspace' });
+
+  const event = await oneEvent(host, 'change');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(spy.callCount).to.equal(1);
+});
+
+it('dispatches an "input" event when all tags are removed via Meta + Backspace', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  host.addEventListener('input', spy);
+
+  await sendKeys({ press: 'Tab' }); // "One" tag
+  await sendKeys({ press: 'Tab' }); // "Two" tag
+  await sendKeys({ press: 'Tab' }); // Input field
+  await sendKeys({ down: 'Meta' });
+  sendKeys({ press: 'Backspace' });
+
+  const event = await oneEvent(host, 'input');
+
+  await sendKeys({ up: 'Meta' });
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(spy.callCount).to.equal(1);
+});
+
+it('dispatches a "change" event when all tags are removed via Meta + Backspace', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" filterable multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  host.addEventListener('change', spy);
+
+  await sendKeys({ press: 'Tab' }); // "One" tag
+  await sendKeys({ press: 'Tab' }); // "Two" tag
+  await sendKeys({ press: 'Tab' }); // Input field
+  await sendKeys({ down: 'Meta' });
+  sendKeys({ press: 'Backspace' });
+
+  const event = await oneEvent(host, 'change');
+
+  await sendKeys({ up: 'Meta' });
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(spy.callCount).to.equal(1);
+});
+
 it('does not dispatch "input" events on input', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
