@@ -92,7 +92,7 @@ const meta: Meta = {
         type: {
           summary: 'number',
           detail:
-            '// Set to `Infinity` to make it persist until dismissed by the user',
+            '// Must be at least `3000`. Set to `Infinity` to make Toast persist until dismissed by the user.',
         },
       },
     },

@@ -9757,7 +9757,7 @@
                 "text": "number"
               },
               "default": "5000",
-              "description": "Set to `Infinity` to make it persist until dismissed by the user",
+              "description": "Must be at least 3000. Set to `Infinity` to make Toast persist until dismissed by the user.",
               "attribute": "duration",
               "reflects": true
             },
@@ -9853,7 +9853,7 @@
                 "text": "number"
               },
               "default": "5000",
-              "description": "Set to `Infinity` to make it persist until dismissed by the user",
+              "description": "Must be at least 3000. Set to `Infinity` to make Toast persist until dismissed by the user.",
               "fieldName": "duration"
             },
             {

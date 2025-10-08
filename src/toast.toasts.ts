@@ -157,6 +157,15 @@ export default class Toasts extends LitElement {
   }
 
   static async show(toast: Toast): Promise<void> {
+    // We throw here instead of in Toast so we don't throw twice: once when Toast
+    // is initially added to the page and again when it's added to Toasts below.
+
+    /* v8 ignore start - Tests often set a shorter duration so they finish quickly. */
+    if (toast.duration < 3000 && !window.navigator.webdriver) {
+      throw new RangeError('`duration` must be at least 3 seconds.');
+    }
+    /* v8 ignore stop */
+
     let toasts = document.querySelector('glide-core-private-toasts');
 
     if (!toasts) {
