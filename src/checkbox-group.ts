@@ -418,12 +418,6 @@ export default class CheckboxGroup extends LitElement implements FormControl {
         //   `delegatesFocus`.
         //
         // - The browser will ignore this if Checkbox isn't the first invalid form control.
-        //
-        // TODO
-        // Try passing `focusVisible` after browsers support it. It may prevent the issue
-        // where the checkbox itself has a focus outline after this call.
-        //
-        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#focusvisible
         this.focus();
       }
     });
