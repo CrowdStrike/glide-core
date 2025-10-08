@@ -55,10 +55,10 @@ test(
       await page.getByRole('option').nth(0).click();
       await page.getByRole('option').nth(1).click();
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['one', 'two']);
@@ -108,10 +108,10 @@ test(
       await callMethod(options.nth(0), 'click');
       await callMethod(options.nth(1), 'click');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['one', 'two']);
@@ -171,10 +171,10 @@ test(
       await options.nth(0).click();
       await options.nth(2).click();
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['one', 'three']);
@@ -229,10 +229,10 @@ test(
       await callMethod(options.nth(0), 'click');
       await callMethod(options.nth(2), 'click');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['one', 'three']);
@@ -290,10 +290,10 @@ test(
       await page.getByRole('option').nth(0).click();
       await page.getByRole('option').nth(1).click();
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['three']);
@@ -357,10 +357,10 @@ test(
       await callMethod(options.nth(0), 'click');
       await callMethod(options.nth(1), 'click');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['three']);

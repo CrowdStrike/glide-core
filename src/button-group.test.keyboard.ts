@@ -40,7 +40,7 @@ test(
 
     await expect(buttons.nth(3)).toDispatchEvents(
       () => page.keyboard.press('ArrowRight'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(3)).toHaveJSProperty('selected', true);
@@ -48,7 +48,7 @@ test(
 
     await expect(buttons.nth(1)).toDispatchEvents(
       () => page.keyboard.press('ArrowDown'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(1)).toHaveJSProperty('selected', true);
@@ -56,7 +56,7 @@ test(
 
     await expect(buttons.nth(3)).toDispatchEvents(
       () => page.keyboard.press('ArrowRight'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(3)).toHaveJSProperty('selected', true);
@@ -64,7 +64,7 @@ test(
 
     await expect(buttons.nth(1)).toDispatchEvents(
       () => page.keyboard.press('ArrowLeft'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(1)).toHaveJSProperty('selected', true);
@@ -72,7 +72,7 @@ test(
 
     await expect(buttons.nth(3)).toDispatchEvents(
       () => page.keyboard.press('ArrowUp'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(3)).toHaveJSProperty('selected', true);
@@ -80,7 +80,7 @@ test(
 
     await expect(buttons.nth(1)).toDispatchEvents(
       () => page.keyboard.press('ArrowLeft'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(1)).toHaveJSProperty('selected', true);
@@ -111,7 +111,7 @@ test(
 
     await expect(buttons.nth(1)).toDispatchEvents(
       () => page.keyboard.press('Space'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(1)).toHaveJSProperty('selected', true);
@@ -120,7 +120,7 @@ test(
 
     await expect(buttons.nth(0)).toDispatchEvents(
       () => page.keyboard.press('Space'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(0)).toHaveJSProperty('selected', true);

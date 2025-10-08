@@ -22,7 +22,7 @@ test(
 
     await expect(buttons.nth(1)).toDispatchEvents(
       () => buttons.nth(1).click(),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(1)).toHaveJSProperty('selected', true);
@@ -50,7 +50,7 @@ test(
 
     await expect(buttons.nth(1)).toDispatchEvents(
       () => callMethod(buttons.nth(1), 'click'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(buttons.nth(1)).toHaveJSProperty('selected', true);

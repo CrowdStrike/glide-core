@@ -27,10 +27,10 @@ test(
       await target.press('ArrowDown');
       await target.press('Space');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { bubbles: true, cancelable: false, composed: true, type: 'input' },
+      { bubbles: true, cancelable: false, composed: true, type: 'change' },
+      { bubbles: true, cancelable: false, composed: true, type: 'input' },
+      { bubbles: true, cancelable: false, composed: true, type: 'change' },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['one', 'two']);
@@ -80,10 +80,10 @@ test(
       await target.press('ArrowDown');
       await target.press('Enter');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { bubbles: true, cancelable: false, composed: true, type: 'input' },
+      { bubbles: true, cancelable: false, composed: true, type: 'change' },
+      { bubbles: true, cancelable: false, composed: true, type: 'input' },
+      { bubbles: true, cancelable: false, composed: true, type: 'change' },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['one', 'two']);
@@ -147,10 +147,10 @@ test(
       await target.press('ArrowDown');
       await target.press('Space');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { bubbles: true, cancelable: false, composed: true, type: 'input' },
+      { bubbles: true, cancelable: false, composed: true, type: 'change' },
+      { bubbles: true, cancelable: false, composed: true, type: 'input' },
+      { bubbles: true, cancelable: false, composed: true, type: 'change' },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['three']);
@@ -214,10 +214,10 @@ test(
       await target.press('ArrowDown');
       await target.press('Enter');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { bubbles: true, cancelable: false, composed: true, type: 'input' },
+      { bubbles: true, cancelable: false, composed: true, type: 'change' },
+      { bubbles: true, cancelable: false, composed: true, type: 'input' },
+      { bubbles: true, cancelable: false, composed: true, type: 'change' },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['three']);
