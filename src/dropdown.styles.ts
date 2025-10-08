@@ -22,7 +22,7 @@ export default [
       position: relative;
     }
 
-    glide-core-private-label {
+    glide-core-label {
       &::part(private-control-and-summary) {
         /*
           The Label component's grid column styling combined with the fact that

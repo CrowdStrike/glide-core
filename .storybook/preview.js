@@ -74,25 +74,39 @@ export default {
           // Now strip out the rest. These are elements inside component slots used primarily
           // for styling.
           for (const $element of $container.querySelectorAll('*')) {
-            const isCoreElement = $element.tagName.startsWith('GLIDE-CORE');
+            const isCoreComponent = $element.tagName.startsWith('GLIDE-CORE');
+
+            const isLabelComponentElement =
+              $element.parentElement?.tagName === 'GLIDE-CORE-LABEL' &&
+              ($element.tagName === 'LABEL' || $element.tagName === 'INPUT');
+
             const isSlotted = Boolean($element.slot);
             const isScriptTag = $element.tagName === 'SCRIPT';
             const isStyleTag = $element.tagName === 'STYLE';
 
-            // IDs are only for internal use and so are removed. You'll find comments in
-            // the Radio Group story explaining why they're needed.
-            $element.removeAttribute('id');
+            if (!isLabelComponentElement) {
+              // IDs are only for internal use and so are removed. You'll find comments in
+              // the Radio Group story explaining why they're needed.
+              $element.removeAttribute('id');
+            }
 
-            if (isScriptTag) {
-              if ($element.type === 'ignore') {
-                // Scripts with `type="ignore"` exist to show consumers what needs
-                // to be imported. `"ignore"` is just a hack to prevent the script
-                // from executing and shouldn't show up in the code example.
-                $element.removeAttribute('type');
-              }
-            } else if (isStyleTag) {
+            if (isScriptTag && $element.type === 'ignore') {
+              // Scripts with `type="ignore"` exist to show consumers what needs
+              // to be imported. `"ignore"` is just a hack to prevent the script
+              // from executing and shouldn't show up in the code example.
+              $element.removeAttribute('type');
+            }
+
+            if (isStyleTag) {
               $element.remove();
-            } else if (!isCoreElement && !isSlotted && !isScriptTag) {
+            }
+
+            if (
+              !isCoreComponent &&
+              !isSlotted &&
+              !isScriptTag &&
+              !isLabelComponentElement
+            ) {
               if ($element.children.length === 0) {
                 // `<div style="margin: 0.625rem;">Panel</div>` → `Panel`
                 $element.replaceWith($element.textContent);

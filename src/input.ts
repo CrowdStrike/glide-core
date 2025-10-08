@@ -286,7 +286,7 @@ export default class Input extends LitElement implements FormControl {
 
   override render() {
     return html`
-      <glide-core-private-label
+      <glide-core-label
         class=${classMap({
           left: this.privateSplit === 'left',
           middle: this.privateSplit === 'middle',
@@ -298,7 +298,7 @@ export default class Input extends LitElement implements FormControl {
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback ||
         this.#isMaxCharacterCountExceeded}
-        ?hide=${this.hideLabel}
+        ?hide-label=${this.hideLabel}
         ?required=${this.required}
       >
         <label for="input"> ${this.label} </label>
@@ -462,7 +462,7 @@ export default class Input extends LitElement implements FormControl {
               `
             : nothing}
         </div>
-      </glide-core-private-label>
+      </glide-core-label>
     `;
   }
 

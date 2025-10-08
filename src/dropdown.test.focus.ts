@@ -40,8 +40,7 @@ it('closes and reports validity when it loses focus', async () => {
   expect(host.shadowRoot?.activeElement).to.be.null;
   expect(host.validity.valid).to.be.false;
 
-  expect(host.shadowRoot?.querySelector('glide-core-private-label')?.error).to
-    .be.true;
+  expect(host.shadowRoot?.querySelector('glide-core-label')?.error).to.be.true;
 });
 
 it('is focused on click', async () => {

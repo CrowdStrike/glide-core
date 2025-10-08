@@ -47,7 +47,6 @@
     "./styles/fonts.css": "./dist/styles/fonts.css",
     "./styles/*": null,
     "./library/*": null,
-    "./label.js": null,
     "./icons/*": null,
     "./*.styles.js": null
   },

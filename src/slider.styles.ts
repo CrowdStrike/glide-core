@@ -7,7 +7,7 @@ export default [
   `,
   css`
     /* The designs call for a bit more spacing than the default when vertical. */
-    glide-core-private-label[orientation='vertical']::part(private-tooltips) {
+    glide-core-label[orientation='vertical']::part(private-tooltips) {
       margin-block-end: var(--glide-core-spacing-base-xxs);
     }
 

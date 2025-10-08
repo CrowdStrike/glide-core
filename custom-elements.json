@@ -4219,12 +4219,12 @@
             },
             {
               "kind": "field",
-              "name": "hide",
+              "name": "hideLabel",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "hide",
+              "attribute": "hide-label",
               "reflects": true
             },
             {
@@ -4290,12 +4290,12 @@
               "fieldName": "error"
             },
             {
-              "name": "hide",
+              "name": "hide-label",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "hide"
+              "fieldName": "hideLabel"
             },
             {
               "name": "orientation",
@@ -4339,7 +4339,7 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "glide-core-private-label",
+          "tagName": "glide-core-label",
           "customElement": true
         }
       ],
@@ -4354,7 +4354,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "glide-core-private-label",
+          "name": "glide-core-label",
           "declaration": {
             "name": "Label",
             "module": "src/label.ts"

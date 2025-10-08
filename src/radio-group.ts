@@ -320,14 +320,14 @@ export default class RadioGroup extends LitElement implements FormControl {
         @keydown=${this.#onComponentKeydown}
         ${ref(this.#componentElementRef)}
       >
-        <glide-core-private-label
+        <glide-core-label
           label=${ifDefined(this.label)}
           orientation=${this.orientation}
           split=${ifDefined(this.privateSplit ?? undefined)}
           tooltip=${ifDefined(this.tooltip)}
           ?disabled=${this.disabled}
           ?error=${this.#isShowValidationFeedback}
-          ?hide=${this.hideLabel}
+          ?hide-label=${this.hideLabel}
           ?required=${this.required}
         >
           <label id="label"> ${this.label} </label>
@@ -378,7 +378,7 @@ export default class RadioGroup extends LitElement implements FormControl {
                 </div>`,
             )}
           </div>
-        </glide-core-private-label>
+        </glide-core-label>
       </div>
     `;
   }
