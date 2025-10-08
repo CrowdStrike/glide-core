@@ -24,8 +24,8 @@ test(
     await expect(host).toDispatchEvents(
       () => target.press('Space'),
       [
-        { bubbles: true, composed: true, type: 'input' },
-        { bubbles: true, composed: true, type: 'change' },
+        { bubbles: true, cancelable: false, composed: true, type: 'input' },
+        { bubbles: true, cancelable: false, composed: true, type: 'change' },
       ],
     );
 
@@ -62,8 +62,8 @@ test(
     await expect(host).toDispatchEvents(
       () => target.press('Enter'),
       [
-        { bubbles: true, composed: true, type: 'input' },
-        { bubbles: true, composed: true, type: 'change' },
+        { bubbles: true, cancelable: false, composed: true, type: 'input' },
+        { bubbles: true, cancelable: false, composed: true, type: 'change' },
       ],
     );
 

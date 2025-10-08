@@ -53,8 +53,8 @@ test(
     await expect(host).toDispatchEvents(
       () => page.getByRole('option').nth(0).click(),
       [
-        { bubbles: true, composed: true, type: 'input' },
-        { bubbles: true, composed: true, type: 'change' },
+        { type: 'input', bubbles: true, cancelable: false, composed: true },
+        { type: 'change', bubbles: true, cancelable: false, composed: true },
       ],
     );
 
@@ -93,8 +93,8 @@ test(
 
       await callMethod(option, 'click');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['one']);
@@ -141,8 +141,8 @@ test(
     await expect(host).toDispatchEvents(
       () => page.getByRole('option').nth(0).click(),
       [
-        { bubbles: true, composed: true, type: 'input' },
-        { bubbles: true, composed: true, type: 'change' },
+        { type: 'input', bubbles: true, cancelable: false, composed: true },
+        { type: 'change', bubbles: true, cancelable: false, composed: true },
       ],
     );
 
@@ -192,8 +192,8 @@ test(
 
       await callMethod(option, 'click');
     }, [
-      { bubbles: true, composed: true, type: 'input' },
-      { bubbles: true, composed: true, type: 'change' },
+      { type: 'input', bubbles: true, cancelable: false, composed: true },
+      { type: 'change', bubbles: true, cancelable: false, composed: true },
     ]);
 
     await expect(host).toHaveJSProperty('value', ['one']);
@@ -234,8 +234,8 @@ test(
     await expect(host).toDispatchEvents(
       () => page.getByRole('option').nth(1).click(),
       [
-        { bubbles: true, composed: true, type: 'input' },
-        { bubbles: true, composed: true, type: 'change' },
+        { type: 'input', bubbles: true, cancelable: false, composed: true },
+        { type: 'change', bubbles: true, cancelable: false, composed: true },
       ],
     );
 

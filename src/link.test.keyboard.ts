@@ -20,6 +20,7 @@ test(
       [
         {
           bubbles: true,
+          cancelable: true,
           composed: true,
           type: 'click',
         },

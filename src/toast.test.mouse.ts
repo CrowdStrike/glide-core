@@ -22,7 +22,7 @@ test(
 
     await expect(container).toDispatchEvents(
       () => button.click(),
-      [{ type: 'dismiss', bubbles: true, composed: true }],
+      [{ type: 'dismiss', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(host).not.toBeAttached();
@@ -53,7 +53,7 @@ test(
 
     await expect(container).toDispatchEvents(
       () => button.click(),
-      [{ type: 'dismiss', bubbles: true, composed: true }],
+      [{ type: 'dismiss', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(host).not.toBeAttached();
@@ -82,7 +82,7 @@ test(
 
     await expect(container).toDispatchEvents(
       () => callMethod(button, 'click'),
-      [{ type: 'dismiss', bubbles: true, composed: true }],
+      [{ type: 'dismiss', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(host).not.toBeAttached();
@@ -113,7 +113,7 @@ test(
 
     await expect(container).toDispatchEvents(
       () => callMethod(button, 'click'),
-      [{ type: 'dismiss', bubbles: true, composed: true }],
+      [{ type: 'dismiss', bubbles: true, cancelable: false, composed: true }],
     );
 
     await expect(host).not.toBeAttached();

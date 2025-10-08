@@ -112,7 +112,7 @@ test(
 
     await expect(host).toDispatchEvents(
       () => callMethod(host, 'privateSelect'),
-      [{ type: 'selected', bubbles: true }],
+      [{ type: 'selected', bubbles: true, cancelable: false, composed: true }],
     );
   },
 );
