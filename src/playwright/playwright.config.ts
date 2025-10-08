@@ -64,6 +64,7 @@ export default defineConfig({
             'src/input.test.*.ts',
             'src/label.test.*.ts',
             'src/link.test.*.ts',
+            'src/menu.test.miscellaneous.ts',
             'src/modal.test.*.ts',
             'src/modal.icon-button.test.*.ts',
             'src/option.test.*.ts',
