@@ -136,9 +136,20 @@ it('gives selected options precedence over `value`', async () => {
   expect(host.value).to.deep.equal(['one']);
 });
 
-it('cannot be open when disabled', async () => {
+it('does not open when open and disabled', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open disabled>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = host?.shadowRoot?.querySelector('[data-test="options"]');
+  expect(options?.checkVisibility()).to.be.false;
+});
+
+it('does not open when open and readonly', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" open readonly>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );

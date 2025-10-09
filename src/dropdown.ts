@@ -183,7 +183,7 @@ export default class Dropdown extends LitElement implements FormControl {
     const hasChanged = isOpen !== this.#isOpen;
     this.#isOpen = isOpen;
 
-    if (isOpen && hasChanged && !this.disabled) {
+    if (isOpen && hasChanged && !this.disabled && !this.readonly) {
       this.#show();
 
       this.dispatchEvent(
@@ -234,8 +234,23 @@ export default class Dropdown extends LitElement implements FormControl {
   @property()
   privateSplit?: 'left' | 'middle' | 'right';
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  readonly = false;
+  get readonly(): boolean {
+    return this.#isReadOnly;
+  }
+
+  set readonly(isReadOnly: boolean) {
+    this.#isReadOnly = isReadOnly;
+
+    if (this.open && isReadOnly) {
+      this.#hide();
+    } else if (this.open) {
+      this.#show();
+    }
+  }
 
   @property({ attribute: 'select-all', reflect: true, type: Boolean })
   selectAll = false;
@@ -497,7 +512,7 @@ export default class Dropdown extends LitElement implements FormControl {
       this.#optionsAndFeedbackElementRef.value.popover = 'manual';
     }
 
-    if (this.open && !this.disabled) {
+    if (this.open && !this.disabled && !this.readonly) {
       this.#show();
     }
 
@@ -1358,6 +1373,8 @@ export default class Dropdown extends LitElement implements FormControl {
 
   // See `#setTagOverflowLimit()`.
   #isOverflowTest = false;
+
+  #isReadOnly = false;
 
   // Used in `#onOptionsSelectedChange()` to guard against, among other things,
   // resetting Select All back to its previous value after Select All is selected
