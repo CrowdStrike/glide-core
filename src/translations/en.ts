@@ -25,6 +25,7 @@ const translation: Translation = {
   informational: 'Informational:',
   loading: 'Loading',
   add: 'Add',
+  ariaRequired: 'required',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Character count ${current} of ${maximum}`,

@@ -37,6 +37,7 @@ export interface Translation extends DefaultTranslation {
   informational: string;
   loading: string;
   add: string;
+  ariaRequired: string;
 
   announcedCharacterCount: (current: number, maximum: number) => string;
   displayedCharacterCount: (current: number, maximum: number) => string;

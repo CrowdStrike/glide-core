@@ -619,7 +619,11 @@ test('required', { tag: '@accessibility' }, async ({ page }) => {
   await page.getByRole('button').focus();
 
   await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot(`
-    - text: Label
-    - button "Label"
+    - text: Label required
+    - button "Label required" [expanded]
+    - listbox:
+      - option "One"
+      - option "Two"
+      - option "Three"
   `);
 });
