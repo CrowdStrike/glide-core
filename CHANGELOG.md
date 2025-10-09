@@ -1,5 +1,50 @@
 # @crowdstrike/glide-core
 
+## 0.35.0
+
+### Minor Changes
+
+- [#1116](https://github.com/CrowdStrike/glide-core/pull/1116) [`3ef1093`](https://github.com/CrowdStrike/glide-core/commit/3ef1093c0ddc7d750e59d7f553f438a62a542d78) Thanks [@clintcs](https://github.com/clintcs)! - Popover now requires its default slot content to be wrapped in a Popover Container.
+
+  The reason for the change is so Popover's target and its content can be associated with one another via ARIA attributes, improving accessibility.
+
+  ```html
+  <glide-core-popover>
+    <button slot="target">Target</button>
+
+    <glide-core-popover-container>Content</glide-core-popover-container
+  </glide-core-popover>
+  ```
+
+### Patch Changes
+
+- [#1151](https://github.com/CrowdStrike/glide-core/pull/1151) [`4bd6537`](https://github.com/CrowdStrike/glide-core/commit/4bd653730096b14120afdaa408589d6425414bbb) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Button now supports a `loading` attribute that will render a Spinner and effectively disable the Button.
+
+- [#1136](https://github.com/CrowdStrike/glide-core/pull/1136) [`7f2b520`](https://github.com/CrowdStrike/glide-core/commit/7f2b52078cb3d971cda0cb746ec19ed6f9886f7f) Thanks [@clintcs](https://github.com/clintcs)! - Select now supports multiselection via a new `multiple` attribute.
+
+- [#1166](https://github.com/CrowdStrike/glide-core/pull/1166) [`4eaf4e0`](https://github.com/CrowdStrike/glide-core/commit/4eaf4e0024413cab32e0d330efb4da6466af9bd4) Thanks [@clintcs](https://github.com/clintcs)! - The `role` attribute of Select's target is now "listbox" instead of "menu".
+
+- [#1167](https://github.com/CrowdStrike/glide-core/pull/1167) [`be849a4`](https://github.com/CrowdStrike/glide-core/commit/be849a4f6ff9160c459f8f86b8c2198d95abc726) Thanks [@clintcs](https://github.com/clintcs)! - Select now supports slots in its Options component.
+
+- [#1169](https://github.com/CrowdStrike/glide-core/pull/1169) [`1ca7ef2`](https://github.com/CrowdStrike/glide-core/commit/1ca7ef26fccfe7e1ee6e4132267b82f0207295fd) Thanks [@clintcs](https://github.com/clintcs)! - Select now updates its `value` attribute when the `value` attribute of a selected Option changes.
+
+- [#1168](https://github.com/CrowdStrike/glide-core/pull/1168) [`9655556`](https://github.com/CrowdStrike/glide-core/commit/9655556e6884496e18552d7fd191c2be1760dd82) Thanks [@clintcs](https://github.com/clintcs)! - Option now dispatches a "value-change" event when its `value` attribute is changed programmatically.
+
+- [#1161](https://github.com/CrowdStrike/glide-core/pull/1161) [`62892a4`](https://github.com/CrowdStrike/glide-core/commit/62892a432787229fa7cf0e21d7b0a3ff3c2242ee) Thanks [@clintcs](https://github.com/clintcs)! - Tooltip no longer sets its `open` attribute when disabled and its target is hovered.
+
+- [#1163](https://github.com/CrowdStrike/glide-core/pull/1163) [`ae903ae`](https://github.com/CrowdStrike/glide-core/commit/ae903ae497dc46b34cd38530876aeb2e2cbae86d) Thanks [@ynotdraw](https://github.com/ynotdraw)! - All screen reader announced strings have been translated for French and Japanese.
+
+- [#1158](https://github.com/CrowdStrike/glide-core/pull/1158) [`c9cdbbb`](https://github.com/CrowdStrike/glide-core/commit/c9cdbbb716be6d4d112c6e8bfc5bef9794b41907) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Icon Button now supports a `size` attribute which can be set to `small` or `large`. `small` is the default. It does not apply when `variant="tertiary"`.
+
+- [#1147](https://github.com/CrowdStrike/glide-core/pull/1147) [`6fa736b`](https://github.com/CrowdStrike/glide-core/commit/6fa736b319b73c41e5beec2f8ed359e2537c59e5) Thanks [@clintcs](https://github.com/clintcs)! - Disabled Option sub-Menu targets are now hidden.
+
+- [#1159](https://github.com/CrowdStrike/glide-core/pull/1159) [`7f08c34`](https://github.com/CrowdStrike/glide-core/commit/7f08c348d156034abe502f057cbf918c3aadf540) Thanks [@clintcs](https://github.com/clintcs)! - - Popover no longer dispatches a "toggle" event when disabled and opened programmatically.
+
+  - Popover no longer sets its `open` attribute when disabled and its target is clicked.
+  - Popover now sets `aria-expanded="false"` on its target both when initially open but disabled and when initially closed and enabled.
+
+- [#1116](https://github.com/CrowdStrike/glide-core/pull/1116) [`3ef1093`](https://github.com/CrowdStrike/glide-core/commit/3ef1093c0ddc7d750e59d7f553f438a62a542d78) Thanks [@clintcs](https://github.com/clintcs)! - Popover's content is now announced by screenreaders when Popover is opened.
+
 ## 0.34.1
 
 ### Patch Changes
