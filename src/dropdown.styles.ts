@@ -8,6 +8,7 @@ export default [
     ${opacityAndScaleAnimation('.options-and-feedback:popover-open')}
     ${skeleton('.loading-feedback')}
     ${visuallyHidden('.item-count')}
+    ${visuallyHidden('.required')}
     ${visuallyHidden('.selected-option-labels')}
   `,
   css`

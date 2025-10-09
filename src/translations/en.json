@@ -17,6 +17,7 @@
   "informational": "Informational:",
   "loading": "Loading",
   "add": "Add",
+  "ariaRequired": "required",
   "announcedCharacterCount": "Character count {current} of {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "Clear {label} entry",

@@ -658,6 +658,9 @@ export default class Dropdown extends LitElement implements FormControl {
     // worse for screenreader users because they wouldn't discover the Add button until
     // they move focus off the input field.
 
+    // "ariaRequired" is included in the label because `aria-required` is invalid on a
+    // button.
+
     /* eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/click-events-have-key-events */
     return html`<div
       class=${classMap({
@@ -679,7 +682,16 @@ export default class Dropdown extends LitElement implements FormControl {
         ?hide-label=${this.hideLabel}
         ?required=${this.required}
       >
-        <label for="primary-button" id="label"> ${this.label} </label>
+        <label for="primary-button" id="label">
+          ${this.label}
+          ${when(
+            this.required && !this.filterable && !this.isFilterable,
+            () =>
+              html`<span class="required">
+                ${this.#localize.term('ariaRequired')}
+              </span>`,
+          )}
+        </label>
 
         <div
           class="dropdown-and-options"
@@ -966,7 +978,6 @@ export default class Dropdown extends LitElement implements FormControl {
                   aria-haspopup="listbox"
                   aria-hidden=${this.filterable || this.isFilterable}
                   aria-labelledby="selected-option-labels label loading-feedback"
-                  aria-required=${this.required}
                   class="primary-button"
                   data-test="primary-button"
                   id="primary-button"
