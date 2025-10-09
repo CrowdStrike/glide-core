@@ -17,7 +17,7 @@ declare global {
 
 /**
  * @attr {string} label
- * @attr {number} [duration=5000] - Set to `Infinity` to make it persist until dismissed by the user
+ * @attr {number} [duration=5000] - Must be at least 3000. Set to `Infinity` to make Toast persist until dismissed by the user.
  * @attr {'informational'|'success'|'error'} [variant='informational']
  *
  * @readonly
@@ -47,7 +47,7 @@ export default class Toast extends LitElement {
   privateDescription?: string;
 
   /**
-   * Set to `Infinity` to make it persist until dismissed by the user
+   * Must be at least 3000. Set to `Infinity` to make Toast persist until dismissed by the user.
    **/
   @property({ reflect: true, type: Number, useDefault: true })
   duration = 5000;
