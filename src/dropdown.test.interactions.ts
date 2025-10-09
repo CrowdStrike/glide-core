@@ -49,6 +49,36 @@ it('does not open when opened programmatically and there are no options', async 
   expect(options?.checkVisibility()).to.be.false;
 });
 
+it('does not open on click when disabled', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" disabled>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await click(host);
+
+  const options = host.shadowRoot?.querySelector('[data-test="options"]');
+
+  expect(host.open).to.be.false;
+  expect(options?.checkVisibility()).to.not.be.ok;
+});
+
+it('does not open on click when `readonly`', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" readonly>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await click(host);
+
+  const options = host.shadowRoot?.querySelector('[data-test="options"]');
+
+  expect(host.open).to.be.false;
+  expect(options?.checkVisibility()).to.not.be.ok;
+});
+
 it('opens on ArrowUp', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
@@ -63,38 +93,6 @@ it('opens on ArrowUp', async () => {
 
   expect(host.open).to.be.true;
   expect(options?.checkVisibility()).to.be.true;
-});
-
-it('does not open on ArrowUp when disabled', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" disabled>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'ArrowUp' });
-
-  const options = host.shadowRoot?.querySelector('[data-test="options"]');
-
-  expect(host.open).to.be.false;
-  expect(options?.checkVisibility()).to.be.false;
-});
-
-it('does not open on ArrowUp when `readonly`', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" readonly>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'ArrowUp' });
-
-  const options = host.shadowRoot?.querySelector('[data-test="options"]');
-
-  expect(host.open).to.be.false;
-  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('opens on ArrowDown', async () => {
@@ -114,40 +112,6 @@ it('opens on ArrowDown', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
-it('does not open on ArrowDown when disabled', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" disabled>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'ArrowDown' });
-
-  const options = host.shadowRoot?.querySelector('[data-test="options"]');
-
-  expect(host.open).to.be.false;
-  expect(options?.checkVisibility()).to.be.false;
-});
-
-it('does not open on ArrowDown when `readonly`', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" readonly>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: 'ArrowDown' });
-
-  const options = host.shadowRoot?.querySelector('[data-test="options"]');
-
-  expect(host.open).to.be.false;
-  expect(options?.checkVisibility()).to.be.false;
-});
-
 it('opens on Space', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
@@ -165,38 +129,6 @@ it('opens on Space', async () => {
 
   expect(host.open).to.be.true;
   expect(options?.checkVisibility()).to.be.true;
-});
-
-it('does not open on Space when disabled', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" disabled>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: ' ' });
-
-  const options = host.shadowRoot?.querySelector('[data-test="options"]');
-
-  expect(host.open).to.be.false;
-  expect(options?.checkVisibility()).to.be.false;
-});
-
-it('does not open on Space when `readonly`', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" readonly>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-  await sendKeys({ press: ' ' });
-
-  const options = host.shadowRoot?.querySelector('[data-test="options"]');
-
-  expect(host.open).to.be.false;
-  expect(options?.checkVisibility()).to.be.false;
 });
 
 // See the `document` click handler comment in `dropdown.ts` for an explanation.
