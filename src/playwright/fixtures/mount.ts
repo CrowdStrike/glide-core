@@ -145,10 +145,10 @@ export default test.extend<{
           // Digging through the manifest is only necessary because sub-component names don't
           // map directly to filenames.
           //
-          // For example, `glide-core-dropdown-option` maps to `dropdown.option.ts` on disk
-          // instead of mapping to `dropdown-option.ts`.
+          // For example, `glide-core-button-group-button` maps to `button-group.button.ts`
+          // on disk instead of mapping to `button-group-button.ts`.
           //
-          // If it mapped to the latter, we wouldn't have to do any of this.
+          // If they were mapped to the latter, we wouldn't have to do any of this.
           for (const module of customElements.modules) {
             const exportedComponent = module.exports.find(({ kind, name }) => {
               return kind === 'custom-element-definition' && name === tag;

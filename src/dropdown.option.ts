@@ -6,15 +6,12 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
-import checkedIcon from './icons/checked.js';
-import pencilIcon from './icons/pencil.js';
 import { LocalizeController } from './library/localize.js';
 import styles from './dropdown.option.styles.js';
 import type Checkbox from './checkbox.js';
-import final from './library/final.js';
-import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
+
+/* eslint-disable @crowdstrike/glide-core/slot-type-comment, @crowdstrike/glide-core/use-final-decorator */
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -49,7 +46,6 @@ declare global {
  * @fires {Event} edit
  */
 @customElement('glide-core-dropdown-option')
-@final
 export default class DropdownOption extends LitElement {
   /* c8 ignore start */
   static override shadowRootOptions: ShadowRootInit = {
@@ -64,7 +60,6 @@ export default class DropdownOption extends LitElement {
    * @default undefined
    */
   @property({ reflect: true })
-  @required
   get label(): string | undefined {
     return this.#label;
   }
@@ -203,9 +198,6 @@ export default class DropdownOption extends LitElement {
     this.#value = value;
   }
 
-  @property({ reflect: true })
-  readonly version: string = packageJson.version;
-
   @state()
   private get isMultiple() {
     // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
@@ -341,12 +333,11 @@ export default class DropdownOption extends LitElement {
               >
               </glide-core-checkbox>
 
-              <slot class="checkbox-icon-slot" name="icon" slot="private-icon">
-                <!--
-                  An icon before the label
-                  @type {Element}
-                -->
-              </slot>
+              <slot
+                class="checkbox-icon-slot"
+                name="icon"
+                slot="private-icon"
+              ></slot>
 
               <glide-core-tooltip
                 aria-hidden="true"
@@ -390,7 +381,7 @@ export default class DropdownOption extends LitElement {
                 @mouseover=${this.#onEditButtonMouseover}
                 @mouseout=${this.#onEditButtonMouseout}
               >
-                ${pencilIcon}
+                ${icons.pencil}
               </button>`;
             })}
             ${when(this.isCountGreaterThanZero, () => {
@@ -421,12 +412,7 @@ export default class DropdownOption extends LitElement {
                   'icon-slot': true,
                 })}
                 name="icon"
-              >
-                <!--
-                  An icon before the label
-                  @type {Element}
-                -->
-              </slot>
+              ></slot>
 
               <glide-core-tooltip
                 class="tooltip"
@@ -457,7 +443,7 @@ export default class DropdownOption extends LitElement {
                     class="checked-icon-container"
                     data-test="checked-icon-container"
                   >
-                    ${checkedIcon}
+                    ${icons.checkmark}
                   </div>`;
                 },
               )}
@@ -482,7 +468,7 @@ export default class DropdownOption extends LitElement {
                   @mouseover=${this.#onEditButtonMouseover}
                   @mouseout=${this.#onEditButtonMouseout}
                 >
-                  ${pencilIcon}
+                  ${icons.pencil}
                 </button>`;
               })}
 
@@ -597,3 +583,38 @@ export default class DropdownOption extends LitElement {
     }
   }
 }
+
+const icons = {
+  checkmark: html`<svg
+    aria-hidden="true"
+    fill="none"
+    height="0.875rem"
+    viewBox="0 0 24 24"
+    width="0.875rem"
+  >
+    <path
+      class="check"
+      data-test="check"
+      d="M20 6L9 17L4 12"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>`,
+  pencil: html`<svg
+    aria-hidden="true"
+    fill="none"
+    height="0.875rem"
+    viewBox="0 0 14 14"
+    width="0.875rem"
+  >
+    <path
+      d="M10.0244 5.95031L8.0395 3.96536M2.06587 11.924L3.74532 11.7374C3.95051 11.7146 4.0531 11.7032 4.149 11.6721C4.23407 11.6446 4.31504 11.6057 4.38969 11.5564C4.47384 11.501 4.54683 11.428 4.69281 11.282L11.5132 4.4616C12.0613 3.91347 12.0613 3.02478 11.5132 2.47665C10.965 1.92852 10.0763 1.92852 9.52821 2.47665L2.70786 9.29703C2.56188 9.44302 2.48889 9.51601 2.4334 9.60015C2.38417 9.67481 2.34526 9.75577 2.31772 9.84085C2.28667 9.93674 2.27527 10.0393 2.25247 10.2445L2.06587 11.924Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>`,
+};

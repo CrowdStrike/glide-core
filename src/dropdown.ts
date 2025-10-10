@@ -12,20 +12,13 @@ import { range } from 'lit/directives/range.js';
 import { map } from 'lit/directives/map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
 import onResize from './library/on-resize.js';
 import DropdownOption from './dropdown.option.js';
 import { LocalizeController } from './library/localize.js';
-import chevronIcon from './icons/chevron.js';
-import magnifyingGlassIcon from './icons/magnifying-glass.js';
-import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.styles.js';
-import assertSlot from './library/assert-slot.js';
-import type FormControl from './library/form-control.js';
-import final from './library/final.js';
-import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
-import xIcon from './icons/x.js';
+
+/* eslint-disable @crowdstrike/glide-core/slot-type-comment, @crowdstrike/glide-core/use-final-decorator */
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -52,9 +45,6 @@ declare global {
  * @attr {string} [tooltip]
  * @attr {string[]} [value=[]]
  * @attr {'quiet'} [variant]
- *
- * @readonly
- * @attr {string} [version]
  *
  * @slot {DropdownOption}
  * @slot {Element | string} [description] - Additional information or context
@@ -96,8 +86,7 @@ declare global {
  * @param {string} [message]
  */
 @customElement('glide-core-dropdown')
-@final
-export default class Dropdown extends LitElement implements FormControl {
+export default class Dropdown extends LitElement {
   static formAssociated = true;
 
   /* c8 ignore start */
@@ -110,7 +99,6 @@ export default class Dropdown extends LitElement implements FormControl {
   static override styles = styles;
 
   @property({ reflect: true })
-  @required
   label?: string;
 
   @property({ attribute: 'add-button', reflect: true, type: Boolean })
@@ -318,17 +306,17 @@ export default class Dropdown extends LitElement implements FormControl {
   /**
    * @default undefined
    */
-  @property()
+  @property({ reflect: true })
   get split(): 'left' | 'middle' | 'right' | undefined {
     return this.#split;
   }
 
   set split(split: 'left' | 'middle' | 'right' | undefined) {
+    this.#split = split;
+
     if (split && this.orientation === 'vertical') {
       throw new Error('`split` is unsupported with `orientation="vertical"`.');
     }
-
-    this.#split = split;
   }
 
   @property({ reflect: true })
@@ -412,9 +400,6 @@ export default class Dropdown extends LitElement implements FormControl {
   */
   @property({ reflect: true })
   variant?: 'quiet';
-
-  @property({ reflect: true })
-  readonly version: string = packageJson.version;
 
   private get activeOption() {
     return this.#optionElementsIncludingSelectAll?.find(
@@ -793,24 +778,13 @@ export default class Dropdown extends LitElement implements FormControl {
                                 data-test="multiselect-icon-slot"
                                 name="icon:${option.value}"
                                 slot="icon"
-                              >
-                                <!--
-                                  Icons for the selected Dropdown Option(s).
-                                  Slot one icon per Dropdown Option.
-                                  \`<value>\` should be equal to the \`value\` of each Dropdown Option.
-
-                                  @name icon:value
-                                  @type {Element}
-                                -->
-                              </slot>
+                              ></slot>
                             `;
                           })}
                           ${when(option.editable, () => {
                             return html`<button
                               aria-label=${this.#localize.term(
                                 'editTag',
-                                // `option.label` is always defined because it's a required attribute.
-                                //
                                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                                 option.label!,
                               )}
@@ -824,7 +798,7 @@ export default class Dropdown extends LitElement implements FormControl {
                               ?disabled=${this.disabled || this.readonly}
                               @click=${this.#onTagEditClick}
                             >
-                              ${pencilIcon}
+                              ${icons.pencil}
                             </button>`;
                           })}
 
@@ -832,8 +806,6 @@ export default class Dropdown extends LitElement implements FormControl {
                             aria-label=${this.#localize.term(
                               'removeTag',
 
-                              // `optional.label` is always defined because it's a required attribute.
-                              //
                               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                               option.label!,
                             )}
@@ -847,7 +819,7 @@ export default class Dropdown extends LitElement implements FormControl {
                             ?disabled=${this.disabled || this.readonly}
                             @click=${this.#onTagRemoveClick.bind(this, option)}
                           >
-                            ${xIcon}
+                            ${icons.x}
                           </button>
                         </div>
                       </li>`;
@@ -890,12 +862,7 @@ export default class Dropdown extends LitElement implements FormControl {
                   })}
                   data-test="single-select-icon-slot"
                   name="icon:${this.lastSelectedAndEnabledOption?.value}"
-                >
-                  <!--
-                    @type {Element}
-                    @ignore
-                  -->
-                </slot>`;
+                ></slot>`;
               },
             )}
 
@@ -1027,8 +994,7 @@ export default class Dropdown extends LitElement implements FormControl {
                     label=${this.#localize.term(
                       'editOption',
                       // `this.lastSelectedAndEnabledOption` is guaranteed to be defined by the
-                      // `when()` above. And its `label` property is always defined because it's
-                      // required.
+                      // `when()` above.
                       //
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                       this.lastSelectedAndEnabledOption!.label!,
@@ -1039,7 +1005,7 @@ export default class Dropdown extends LitElement implements FormControl {
                     @click=${this.#onEditButtonClick}
                     ${ref(this.#editButtonElementRef)}
                   >
-                    ${pencilIcon}
+                    ${icons.pencil}
                   </glide-core-icon-button>`;
                 },
               )}
@@ -1064,10 +1030,10 @@ export default class Dropdown extends LitElement implements FormControl {
                     this.isFiltering,
                     () => {
                       return html`<div data-test="magnifying-glass-icon">
-                        ${magnifyingGlassIcon}
+                        ${icons.magnifyingGlass}
                       </div>`;
                     },
-                    () => chevronIcon,
+                    () => icons.chevron,
                   )}
                 </button>`;
               })}
@@ -1128,14 +1094,8 @@ export default class Dropdown extends LitElement implements FormControl {
                 })}
                 @private-selected-change=${this.#onOptionsSelectedChange}
                 @slotchange=${this.#onDefaultSlotChange}
-                ${assertSlot([DropdownOption, Text], true)}
                 ${ref(this.#defaultSlotElementRef)}
-              >
-                <!--
-                    @required
-                    @type {DropdownOption}
-                  -->
-              </slot>
+              ></slot>
             </div>
 
             ${when(this.isAddButtonVisible, () => {
@@ -1210,12 +1170,7 @@ export default class Dropdown extends LitElement implements FormControl {
               ),
             })}
             name="description"
-          >
-            <!--
-              Additional information or context
-              @type {Element | string}
-            -->
-          </slot>
+          ></slot>
 
           ${when(
             this.#isShowValidationFeedback && this.validityMessage,
@@ -3246,3 +3201,66 @@ export default class Dropdown extends LitElement implements FormControl {
     );
   }
 }
+
+const icons = {
+  chevron: html`<svg
+    aria-hidden="true"
+    fill="none"
+    height="1rem"
+    viewBox="0 0 24 24"
+    width="1rem"
+  >
+    <path
+      d="M6 9L12 15L18 9"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>`,
+  magnifyingGlass: html`<svg
+    fill="none"
+    height="1rem"
+    stroke-width="1.5"
+    stroke="currentColor"
+    style="display: block"
+    viewBox="0 0 24 24"
+    width="1rem"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+    />
+  </svg>`,
+  pencil: html`<svg
+    aria-hidden="true"
+    fill="none"
+    height="0.875rem"
+    viewBox="0 0 14 14"
+    width="0.875rem"
+  >
+    <path
+      d="M10.0244 5.95031L8.0395 3.96536M2.06587 11.924L3.74532 11.7374C3.95051 11.7146 4.0531 11.7032 4.149 11.6721C4.23407 11.6446 4.31504 11.6057 4.38969 11.5564C4.47384 11.501 4.54683 11.428 4.69281 11.282L11.5132 4.4616C12.0613 3.91347 12.0613 3.02478 11.5132 2.47665C10.965 1.92852 10.0763 1.92852 9.52821 2.47665L2.70786 9.29703C2.56188 9.44302 2.48889 9.51601 2.4334 9.60015C2.38417 9.67481 2.34526 9.75577 2.31772 9.84085C2.28667 9.93674 2.27527 10.0393 2.25247 10.2445L2.06587 11.924Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>`,
+  x: html`<svg
+    aria-hidden="true"
+    fill="none"
+    height="1rem"
+    viewBox="0 0 20 20"
+    width="1rem"
+  >
+    <path
+      d="M15 5L5 15M5 5L15 15"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>`,
+};

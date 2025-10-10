@@ -364,15 +364,6 @@ class Component extends LitElement {
         type: { summary: '"quiet"', detail: '// Unsupported with `multiple`' },
       },
     },
-    version: {
-      control: false,
-      table: {
-        defaultValue: {
-          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
-        },
-        type: { summary: 'string', detail: '// For debugging' },
-      },
-    },
     '<glide-core-dropdown-option>.label': {
       name: 'label',
       table: {
