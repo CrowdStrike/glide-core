@@ -35,6 +35,7 @@ const meta: Meta = {
     'hide-label': false,
     orientation: 'horizontal',
     'slot="description"': '',
+    split: '',
     summary: '',
     tooltip: '',
     version: '',
@@ -88,6 +89,24 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
+    split: {
+      control: 'select',
+      options: ['', 'left', 'middle', 'right'],
+      table: {
+        type: {
+          summary: '"left" | "middle" | "right"',
+          detail: `
+// The split between the label and toggle:
+//
+// - "left": 1/3 of the available space for the label. 2/3 for the toggle.
+// - "middle": 1/2 of the available space the label. 1/2 for the toggle.
+// - "right": 2/3 of the available space the label. 1/3 for the toggle.
+//
+// Unsupported with \`orientation="vertical"\`.
+`,
+        },
+      },
+    },
     summary: {
       table: {
         type: { summary: 'string' },
@@ -125,6 +144,7 @@ const meta: Meta = {
       orientation=${arguments_.orientation === 'horizontal'
         ? nothing
         : arguments_.orientation}
+      split=${arguments_.split || nothing}
       summary=${arguments_.summary || nothing}
       tooltip=${arguments_.tooltip || nothing}
       ?checked=${arguments_.checked}

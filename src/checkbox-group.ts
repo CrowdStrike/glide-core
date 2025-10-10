@@ -27,6 +27,7 @@ declare global {
  * @attr {string} [name='']
  * @attr {'horizontal'} [orientation='horizontal']
  * @attr {boolean} [required=false]
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [summary]
  * @attr {string} [tooltip]
  * @attr {string[]} [value=[]]
@@ -106,10 +107,6 @@ export default class CheckboxGroup extends LitElement implements FormControl {
   @property({ reflect: true, useDefault: true })
   orientation = 'horizontal' as const;
 
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle' | 'right';
-
   /**
    * @default false
    */
@@ -122,6 +119,9 @@ export default class CheckboxGroup extends LitElement implements FormControl {
     this.#isRequired = isRequired;
     this.#setValidity();
   }
+
+  @property()
+  split?: 'left' | 'middle' | 'right' | undefined;
 
   @property({ reflect: true })
   summary?: string;
@@ -272,7 +272,7 @@ export default class CheckboxGroup extends LitElement implements FormControl {
       <glide-core-label
         label=${ifDefined(this.label)}
         orientation=${this.orientation}
-        split=${ifDefined(this.privateSplit ?? undefined)}
+        split=${ifDefined(this.split)}
         tooltip=${ifDefined(this.tooltip)}
         ?hide-label=${this.hideLabel}
         ?disabled=${this.disabled}

@@ -46,6 +46,7 @@ const meta: Meta = {
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
+    split: '',
     tooltip: '',
     value: [],
     version: '',
@@ -163,6 +164,22 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
+    split: {
+      control: 'select',
+      options: ['', 'left', 'middle', 'right'],
+      table: {
+        type: {
+          summary: '"left" | "middle" | "right"',
+          detail: `
+// The split between the label and checkboxes:
+//
+// - "left": 1/3 of the available space for the label. 2/3 for the checkboxes.
+// - "middle": 1/2 of the available space the label. 1/2 for the checkboxes.
+// - "right": 2/3 of the available space the label. 1/3 for the checkboxes.
+`,
+        },
+      },
+    },
     tooltip: {
       table: {
         type: { summary: 'string' },
@@ -269,6 +286,7 @@ const meta: Meta = {
               ? nothing
               : arguments_.horizontal
           }
+          split=${arguments_.split || nothing}
           tooltip=${arguments_.tooltip || nothing}
           ?disabled=${arguments_.disabled}
           ?hide-label=${arguments_['hide-label'] || nothing}

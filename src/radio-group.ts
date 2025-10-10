@@ -28,6 +28,7 @@ declare global {
  * @attr {string} [name='']
  * @attr {'horizontal'} [orientation='horizontal']
  * @attr {boolean} [required=false]
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [tooltip]
  * @attr {string} [value='']
  *
@@ -124,13 +125,6 @@ export default class RadioGroup extends LitElement implements FormControl {
   @property({ reflect: true })
   orientation = 'horizontal' as const;
 
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle' | 'right';
-
-  @property({ reflect: true })
-  tooltip?: string;
-
   /**
    * @default false
    */
@@ -152,6 +146,12 @@ export default class RadioGroup extends LitElement implements FormControl {
 
     this.#setValidity();
   }
+
+  @property()
+  split?: 'left' | 'middle' | 'right' | undefined;
+
+  @property({ reflect: true })
+  tooltip?: string;
 
   // Intentionally not reflected to match native.
   /**
@@ -323,7 +323,7 @@ export default class RadioGroup extends LitElement implements FormControl {
         <glide-core-label
           label=${ifDefined(this.label)}
           orientation=${this.orientation}
-          split=${ifDefined(this.privateSplit ?? undefined)}
+          split=${ifDefined(this.split)}
           tooltip=${ifDefined(this.tooltip)}
           ?disabled=${this.disabled}
           ?error=${this.#isShowValidationFeedback}

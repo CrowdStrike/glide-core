@@ -83,3 +83,20 @@ test(
     ).rejects.toThrow();
   },
 );
+
+test(
+  'throws when split and vertical',
+  { tag: '@miscellaneous' },
+  async ({ mount }) => {
+    await expect(
+      mount(
+        () =>
+          html`<glide-core-checkbox
+            label="Label"
+            orientation="vertical"
+            split="left"
+          ></glide-core-checkbox>`,
+      ),
+    ).rejects.toThrow();
+  },
+);
