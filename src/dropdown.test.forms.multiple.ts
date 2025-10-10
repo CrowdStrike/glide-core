@@ -3,7 +3,6 @@ import './dropdown.option.js';
 import sinon from 'sinon';
 import { sendKeys } from '@web/test-runner-commands';
 import Dropdown from './dropdown.js';
-import Tag from './tag.js';
 import { click } from './library/mouse.js';
 import requestIdleCallback from './library/request-idle-callback.js';
 
@@ -45,7 +44,7 @@ it('can be reset after options are selected via click', async () => {
     '[data-test="internal-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.false;
@@ -91,7 +90,7 @@ it('can be reset after options are selected programmatically', async () => {
     '[data-test="internal-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0].selected).to.be.false;
   expect(options[1].selected).to.be.false;
@@ -132,7 +131,7 @@ it('can be reset after options are deselected via click', async () => {
   form.reset();
   await host.updateComplete;
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.true;
@@ -140,8 +139,8 @@ it('can be reset after options are deselected via click', async () => {
   expect(options[1]?.ariaSelected).to.equal('true');
   expect(host.value).to.deep.equal(['one', 'two']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('One');
-  expect(tags?.[1]?.label).to.equal('Two');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('One');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Two');
 });
 
 it('can be reset after options are deselected programmatically', async () => {
@@ -175,7 +174,7 @@ it('can be reset after options are deselected programmatically', async () => {
   form.reset();
   await host.updateComplete;
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.true;
@@ -183,8 +182,8 @@ it('can be reset after options are deselected programmatically', async () => {
   expect(options[1]?.ariaSelected).to.equal('true');
   expect(host.value).to.deep.equal(['one', 'two']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('One');
-  expect(tags?.[1]?.label).to.equal('Two');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('One');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Two');
 });
 
 it('has `formData` value when options are selected', async () => {

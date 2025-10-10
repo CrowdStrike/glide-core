@@ -104,8 +104,6 @@ export default [
     }
 
     .checked-icon-container {
-      --private-size: 1rem;
-
       display: contents;
 
       > svg {

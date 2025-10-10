@@ -2,7 +2,6 @@ import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
 import { sendKeys } from '@web/test-runner-commands';
 import Dropdown from './dropdown.js';
-import type Tag from './tag.js';
 
 it('focuses its primary button when `focus()` is called', async () => {
   const host = await fixture<Dropdown>(
@@ -100,11 +99,13 @@ it('focuses the second tag when the first one is removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll<HTMLButtonElement>(
+    '[data-test="tag-removal-button"]',
+  );
 
   tags?.[0]?.click();
-  await host.updateComplete;
 
+  await host.updateComplete;
   await aTimeout(0); // Wait for the timeout in `#onTagRemove()`
 
   expect(host.shadowRoot?.activeElement).to.equal(tags?.[1]);
@@ -130,11 +131,13 @@ it('focuses the third tag when the second one is removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll<HTMLButtonElement>(
+    '[data-test="tag-removal-button"]',
+  );
 
   tags?.[1]?.click();
-  await host.updateComplete;
 
+  await host.updateComplete;
   await aTimeout(0); // Wait for the timeout in `#onTagRemove()`
 
   expect(host.shadowRoot?.activeElement).to.equal(tags?.[2]);
@@ -160,11 +163,13 @@ it('focuses the second tag when the third tag removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll<HTMLButtonElement>(
+    '[data-test="tag-removal-button"]',
+  );
 
   tags?.[2]?.click();
-  await host.updateComplete;
 
+  await host.updateComplete;
   await aTimeout(0); // Wait for the timeout in `#onTagRemove()`
 
   expect(host.shadowRoot?.activeElement).to.equal(tags?.[1]);
@@ -180,7 +185,9 @@ it('focuses itself when the last tag is removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  host.shadowRoot?.querySelector<Tag>('[data-test="tag"]')?.click();
+  host.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="tag-removal-button"]')
+    ?.click();
 
   await host.updateComplete;
   await aTimeout(0); // Wait for the timeout in `#onTagRemove()`

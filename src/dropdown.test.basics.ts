@@ -1,9 +1,6 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
-import sinon from 'sinon';
-import { customElement } from 'lit/decorators.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
-import expectWindowError from './library/expect-window-error.js';
 import type Tooltip from './tooltip.js';
 import requestIdleCallback from './library/request-idle-callback.js';
 
@@ -21,9 +18,6 @@ import requestIdleCallback from './library/request-idle-callback.js';
 // They nonetheless reside there because moving them out and duplicating them in
 // both `dropdown.test.interactions.single.ts` and
 // `dropdown.test.interactions.multiple.ts` would add a ton of test weight.
-
-@customElement('glide-core-subclassed')
-class Subclassed extends Dropdown {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-dropdown')).to.equal(Dropdown);
@@ -251,42 +245,4 @@ it('hides the tooltip of the active option when open', async () => {
     ?.shadowRoot?.querySelector<Tooltip>('[data-test="tooltip"]');
 
   expect(tooltip?.open).to.be.false;
-});
-
-it('throws when `label` is undefined', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
-      html`<glide-core-dropdown>
-        <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-      </glide-core-dropdown>`,
-    );
-  } catch {
-    spy();
-  }
-
-  expect(spy.callCount).to.equal(1);
-});
-
-it('throws when subclassed', async () => {
-  const spy = sinon.spy();
-
-  try {
-    new Subclassed();
-  } catch {
-    spy();
-  }
-
-  expect(spy.callCount).to.equal(1);
-});
-
-it('throws when its default slot is the wrong type', async () => {
-  await expectWindowError(() => {
-    return fixture(
-      html`<glide-core-dropdown label="Label">
-        <button>Button</button>
-      </glide-core-dropdown>`,
-    );
-  });
 });

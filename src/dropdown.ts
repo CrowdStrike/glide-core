@@ -12,20 +12,13 @@ import { range } from 'lit/directives/range.js';
 import { map } from 'lit/directives/map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
-import packageJson from '../package.json' with { type: 'json' };
 import onResize from './library/on-resize.js';
 import DropdownOption from './dropdown.option.js';
 import { LocalizeController } from './library/localize.js';
-import Tag from './tag.js';
-import chevronIcon from './icons/chevron.js';
-import magnifyingGlassIcon from './icons/magnifying-glass.js';
-import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.styles.js';
-import assertSlot from './library/assert-slot.js';
-import type FormControl from './library/form-control.js';
-import final from './library/final.js';
-import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
+
+/* eslint-disable @crowdstrike/glide-core/slot-type-comment, @crowdstrike/glide-core/use-final-decorator */
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -52,15 +45,13 @@ declare global {
  * @attr {string[]} [value=[]]
  * @attr {'quiet'} [variant]
  *
- * @readonly
- * @attr {string} [version]
- *
  * @slot {DropdownOption}
  * @slot {Element | string} [description] - Additional information or context
  * @slot {Element} [icon:value] - Icons for the selected Dropdown Option(s). Slot one icon per Dropdown Option. `<value>` should be equal to the `value` of each Dropdown Option.
  *
  * @fires {CustomEvent} add
  * @fires {Event} change
+ * @fires {Event} edit
  * @fires {Event} input
  * @fires {Event} invalid
  * @fires {Event} toggle
@@ -94,8 +85,7 @@ declare global {
  * @param {string} [message]
  */
 @customElement('glide-core-dropdown')
-@final
-export default class Dropdown extends LitElement implements FormControl {
+export default class Dropdown extends LitElement {
   static formAssociated = true;
 
   /* c8 ignore start */
@@ -108,7 +98,6 @@ export default class Dropdown extends LitElement implements FormControl {
   static override styles = styles;
 
   @property({ reflect: true })
-  @required
   label?: string;
 
   @property({ attribute: 'add-button', reflect: true, type: Boolean })
@@ -398,9 +387,6 @@ export default class Dropdown extends LitElement implements FormControl {
   */
   @property({ reflect: true })
   variant?: 'quiet';
-
-  @property({ reflect: true })
-  readonly version: string = packageJson.version;
 
   private get activeOption() {
     return this.#optionElementsIncludingSelectAll?.find(
@@ -761,37 +747,68 @@ export default class Dropdown extends LitElement implements FormControl {
                         data-test="tag-container"
                         data-test-hidden=${index > this.tagOverflowLimit - 1}
                       >
-                        <glide-core-tag
+                        <div
+                          class=${classMap({
+                            tag: true,
+                            added: true,
+                            disabled: this.disabled || this.readonly,
+                            readonly: this.readonly,
+                          })}
                           data-test="tag"
                           data-id=${option.id}
-                          label=${ifDefined(option.label)}
-                          removable
-                          style="--max-inline-size: none"
-                          ?disabled=${this.disabled || this.readonly}
-                          ?private-editable=${option.editable}
-                          ?private-readonly=${this.readonly}
-                          @edit=${this.#onTagEdit}
-                          @remove=${this.#onTagRemove.bind(this, option)}
                         >
+                          <span class="tag-label"> ${option.label} </span>
+
                           ${when(option.value, () => {
                             return html`
                               <slot
                                 data-test="multiselect-icon-slot"
                                 name="icon:${option.value}"
                                 slot="icon"
-                              >
-                                <!--
-                                  Icons for the selected Dropdown Option(s).
-                                  Slot one icon per Dropdown Option.
-                                  \`<value>\` should be equal to the \`value\` of each Dropdown Option.
-
-                                  @name icon:value
-                                  @type {Element}
-                                -->
-                              </slot>
+                              ></slot>
                             `;
                           })}
-                        </glide-core-tag>
+                          ${when(option.editable, () => {
+                            return html`<button
+                              aria-label=${this.#localize.term(
+                                'editTag',
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                option.label!,
+                              )}
+                              class=${classMap({
+                                'tag-edit-button': true,
+                                disabled: this.disabled,
+                                readonly: this.readonly,
+                              })}
+                              data-test="tag-edit-button"
+                              type="button"
+                              ?disabled=${this.disabled || this.readonly}
+                              @click=${this.#onTagEditClick}
+                            >
+                              ${icons.pencil}
+                            </button>`;
+                          })}
+
+                          <button
+                            aria-label=${this.#localize.term(
+                              'removeTag',
+
+                              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                              option.label!,
+                            )}
+                            class=${classMap({
+                              'tag-removal-button': true,
+                              disabled: this.disabled,
+                              readonly: this.readonly,
+                            })}
+                            data-test="tag-removal-button"
+                            type="button"
+                            ?disabled=${this.disabled || this.readonly}
+                            @click=${this.#onTagRemoveClick.bind(this, option)}
+                          >
+                            ${icons.x}
+                          </button>
+                        </div>
                       </li>`;
                     },
                   )}
@@ -832,12 +849,7 @@ export default class Dropdown extends LitElement implements FormControl {
                   })}
                   data-test="single-select-icon-slot"
                   name="icon:${this.lastSelectedAndEnabledOption?.value}"
-                >
-                  <!--
-                    @type {Element}
-                    @ignore
-                  -->
-                </slot>`;
+                ></slot>`;
               },
             )}
 
@@ -969,8 +981,7 @@ export default class Dropdown extends LitElement implements FormControl {
                     label=${this.#localize.term(
                       'editOption',
                       // `this.lastSelectedAndEnabledOption` is guaranteed to be defined by the
-                      // `when()` above. And its `label` property is always defined because it's
-                      // required.
+                      // `when()` above.
                       //
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                       this.lastSelectedAndEnabledOption!.label!,
@@ -981,7 +992,7 @@ export default class Dropdown extends LitElement implements FormControl {
                     @click=${this.#onEditButtonClick}
                     ${ref(this.#editButtonElementRef)}
                   >
-                    ${pencilIcon}
+                    ${icons.pencil}
                   </glide-core-icon-button>`;
                 },
               )}
@@ -1006,10 +1017,10 @@ export default class Dropdown extends LitElement implements FormControl {
                     this.isFiltering,
                     () => {
                       return html`<div data-test="magnifying-glass-icon">
-                        ${magnifyingGlassIcon}
+                        ${icons.magnifyingGlass}
                       </div>`;
                     },
-                    () => chevronIcon,
+                    () => icons.chevron,
                   )}
                 </button>`;
               })}
@@ -1070,14 +1081,8 @@ export default class Dropdown extends LitElement implements FormControl {
                 })}
                 @private-selected-change=${this.#onOptionsSelectedChange}
                 @slotchange=${this.#onDefaultSlotChange}
-                ${assertSlot([DropdownOption, Text], true)}
                 ${ref(this.#defaultSlotElementRef)}
-              >
-                <!--
-                    @required
-                    @type {DropdownOption}
-                  -->
-              </slot>
+              ></slot>
             </div>
 
             ${when(this.isAddButtonVisible, () => {
@@ -1152,12 +1157,7 @@ export default class Dropdown extends LitElement implements FormControl {
               ),
             })}
             name="description"
-          >
-            <!--
-              Additional information or context
-              @type {Element | string}
-            -->
-          </slot>
+          ></slot>
 
           ${when(
             this.#isShowValidationFeedback && this.validityMessage,
@@ -1420,6 +1420,14 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #value: string[] = [];
 
+  get #tagElements() {
+    /* c8 ignore start - The else branch is untestable. */
+    return this.#shadowRoot
+      ? [...this.#shadowRoot.querySelectorAll<HTMLElement>('.tag')]
+      : [];
+    /* c8 ignore stop */
+  }
+
   // An arrow function field instead of a method so `this` is closed over and set
   // to the component instead of `document`.
   #onDocumentClick = () => {
@@ -1655,14 +1663,17 @@ export default class Dropdown extends LitElement implements FormControl {
       return;
     }
 
-    if (!this.open && event.key === 'Enter' && !this.#isEditingOrRemovingTag) {
+    const isTagEditOrRemoval = this.#tagElements.some((tag) => {
+      return event.target instanceof Element && tag.contains(event.target);
+    });
+
+    if (!this.open && event.key === 'Enter' && !isTagEditOrRemoval) {
       this.form?.requestSubmit();
       return;
     }
 
     if (event.key === 'Escape') {
-      // Prevent Safari from leaving full screen.
-      event.preventDefault();
+      event.preventDefault(); // Prevent Safari from leaving full screen.
 
       this.open = false;
 
@@ -2053,9 +2064,9 @@ export default class Dropdown extends LitElement implements FormControl {
     if (event.detail !== 0) {
       this.open = true;
 
-      // If Dropdown was opened because its primary button or `<input>` were clicked,
+      // If Dropdown was opened because its primary button or `<input>` was clicked,
       // then Dropdown will already have focus. But if something else was clicked, like
-      // the padding around Dropdown or a Tag, then it won't. So we focus it manually.
+      // the padding around Dropdown or a tag, then it won't. So we focus it manually.
       this.focus();
 
       return;
@@ -2067,21 +2078,20 @@ export default class Dropdown extends LitElement implements FormControl {
     // padding around the component. Clicking the padding will move focus to
     // `document.body`, which is not what the user expects.
     //
-    // Having to exclude tags is unfortunate because clicking on the tag's label or
-    // padding shouldn't cause the input to lose focus. The trouble is we don't know
-    // it if is the Tag's removal button that's being clicked. And if it is we have
-    // to allow it to receive focus.
     const isFilterable = this.filterable || this.isFilterable;
-    const isTag = event.target instanceof Tag;
 
-    if (isFilterable && !isTag) {
+    const isTagRemovalButton =
+      event.target instanceof Element &&
+      event.target.classList.contains('tag-removal-button');
+
+    if (isFilterable && !isTagRemovalButton) {
       // If input field is about to be clicked, canceling the event would prevent the
       // insertion point from moving inside the input.
       if (event.target !== this.#inputElementRef.value) {
         event.preventDefault();
         this.focus();
       }
-    } else if (!isTag) {
+    } else if (!isTagRemovalButton) {
       event.preventDefault();
     }
   }
@@ -2660,7 +2670,7 @@ export default class Dropdown extends LitElement implements FormControl {
   #onOptionsEditableChange() {
     // Dropdown doesn't know to rerender when an option's `editable` property
     // has changed. But it needs to rerender to show or hide its edit button
-    // or else to set or unset its Tags as editable in the case of multiselect.
+    // or to make its tags editable or uneditable in the case of multiselect.
     // So a rerender is forced.
     this.requestUpdate();
   }
@@ -2894,28 +2904,27 @@ export default class Dropdown extends LitElement implements FormControl {
     this.isInternalLabelTooltipOpen = false;
   }
 
-  #onTagEdit() {
+  #onTagEditClick() {
     this.#isEditingOrRemovingTag = true;
     this.open = false;
+    this.dispatchEvent(new Event('edit', { bubbles: true, composed: true }));
   }
 
-  async #onTagRemove(option: DropdownOption) {
+  async #onTagRemoveClick(option: DropdownOption) {
     this.#isEditingOrRemovingTag = true;
 
     option.selected = false;
 
-    const tags = this.#tagsElementRef.value?.querySelectorAll('glide-core-tag');
-
-    if (tags && this.selectedAndEnabledOptions.length > 0) {
-      const removedTagIndex = [...tags].findIndex(
+    if (this.selectedAndEnabledOptions.length > 0) {
+      const removedTagIndex = this.#tagElements.findIndex(
         (tag) => tag.dataset.id === option.id,
       );
 
       // The tag to the right of the one removed unless it was the rightmost tag.
       // Otherwise the tag to the left.
       const tagToFocus =
-        tags[
-          removedTagIndex < tags.length - 1
+        this.#tagElements[
+          removedTagIndex < this.#tagElements.length - 1
             ? removedTagIndex + 1
             : removedTagIndex - 1
         ];
@@ -2930,11 +2939,13 @@ export default class Dropdown extends LitElement implements FormControl {
       // before moving focus.
       //
       // Without a timeout, two tags will be removed by a single Enter press: the
-      // previously focused Tag and the now-focused one. The previous because of the
-      // "edit" event dispatched by Tag on "keydown". And the now-focused one because
-      // of the "edit" event dispatched by Tag on "click".
+      // previously focused tag and the now-focused one. The previous because of the
+      // "edit" event dispatched by tag on "keydown". And the now-focused one because
+      // of the "edit" event dispatched by tag on "click".
       setTimeout(() => {
-        tagToFocus?.focus();
+        tagToFocus
+          ?.querySelector<HTMLButtonElement>('.tag-removal-button')
+          ?.focus();
 
         // Because the tag has been removed via `option.selected = false` above and focus
         // isn't moved until after the click, a "click" event will never be dispatched.
@@ -3175,3 +3186,66 @@ export default class Dropdown extends LitElement implements FormControl {
     );
   }
 }
+
+const icons = {
+  chevron: html`<svg
+    aria-hidden="true"
+    fill="none"
+    height="1rem"
+    viewBox="0 0 24 24"
+    width="1rem"
+  >
+    <path
+      d="M6 9L12 15L18 9"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>`,
+  magnifyingGlass: html`<svg
+    fill="none"
+    height="1rem"
+    stroke-width="1.5"
+    stroke="currentColor"
+    style="display: block"
+    viewBox="0 0 24 24"
+    width="1rem"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+    />
+  </svg>`,
+  pencil: html`<svg
+    aria-hidden="true"
+    fill="none"
+    height="0.875rem"
+    viewBox="0 0 14 14"
+    width="0.875rem"
+  >
+    <path
+      d="M10.0244 5.95031L8.0395 3.96536M2.06587 11.924L3.74532 11.7374C3.95051 11.7146 4.0531 11.7032 4.149 11.6721C4.23407 11.6446 4.31504 11.6057 4.38969 11.5564C4.47384 11.501 4.54683 11.428 4.69281 11.282L11.5132 4.4616C12.0613 3.91347 12.0613 3.02478 11.5132 2.47665C10.965 1.92852 10.0763 1.92852 9.52821 2.47665L2.70786 9.29703C2.56188 9.44302 2.48889 9.51601 2.4334 9.60015C2.38417 9.67481 2.34526 9.75577 2.31772 9.84085C2.28667 9.93674 2.27527 10.0393 2.25247 10.2445L2.06587 11.924Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>`,
+  x: html`<svg
+    aria-hidden="true"
+    fill="none"
+    height="1rem"
+    viewBox="0 0 20 20"
+    width="1rem"
+  >
+    <path
+      d="M15 5L5 15M5 5L15 15"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>`,
+};

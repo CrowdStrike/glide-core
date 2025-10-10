@@ -114,7 +114,7 @@ const meta: Meta = {
           detail: `
 // Only "add" is a \`CustomEvent\`. The \`detail\` property of that event is set to the user's filter query.
 
-(event: "add" | "change" | "input" | "invalid" | "toggle", handler: (event: Event | CustomEvent<string>) => void): void
+(event: "add" | "change" | "edit" | "input" | "invalid" | "toggle", handler: (event: Event | CustomEvent<string>) => void): void
 `,
         },
       },
@@ -343,15 +343,6 @@ class Component extends LitElement {
       options: ['', 'quiet'],
       table: {
         type: { summary: '"quiet"', detail: '// Unsupported with `multiple`' },
-      },
-    },
-    version: {
-      control: false,
-      table: {
-        defaultValue: {
-          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
-        },
-        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '<glide-core-dropdown-option>.label': {
