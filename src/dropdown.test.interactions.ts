@@ -64,7 +64,7 @@ it('does not open on click when disabled', async () => {
   expect(options?.checkVisibility()).to.not.be.ok;
 });
 
-it('does not open on click when `readonly`', async () => {
+it('does not open on click when readonly', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" readonly>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -230,6 +230,25 @@ it('opens when open and enabled programmatically', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
+it('opens when open and made not readonly programmatically', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" open readonly>
+      <glide-core-dropdown-option
+        label="Label"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.readonly = false;
+  await requestIdleCallback(); // Wait for Floating UI
+
+  const options = host?.shadowRoot?.querySelector('[data-test="options"]');
+  expect(options?.checkVisibility()).to.be.true;
+});
+
 it('closes when open and disabled programmatically', async () => {
   const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
@@ -244,6 +263,26 @@ it('closes when open and disabled programmatically', async () => {
 
   await requestIdleCallback(); // Wait for Floating UI
   host.disabled = true;
+
+  const options = host?.shadowRoot?.querySelector('[data-test="options"]');
+  expect(options?.checkVisibility()).to.be.false;
+});
+
+it('closes when open and made readonly programmatically', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" open>
+      <glide-core-dropdown-option
+        label="Label"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await requestIdleCallback(); // Wait for Floating UI
+  host.readonly = true;
+  await requestIdleCallback(); // Wait for Floating UI
 
   const options = host?.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.false;
