@@ -92,6 +92,7 @@ const meta: Meta = {
         orientation=${arguments_.orientation === 'horizontal'
           ? nothing
           : arguments_.orientation}
+        split=${arguments_.split || nothing}
         tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
         ?disabled=${arguments_.disabled}
@@ -141,6 +142,7 @@ const meta: Meta = {
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
+    split: '',
     tooltip: '',
     value: 'one',
     version: '',
@@ -254,6 +256,22 @@ const meta: Meta = {
     'slot="description"': {
       table: {
         type: { summary: 'Element' },
+      },
+    },
+    split: {
+      control: 'select',
+      options: ['', 'left', 'middle', 'right'],
+      table: {
+        type: {
+          summary: '"left" | "middle" | "right"',
+          detail: `
+// The split between the label and radios:
+//
+// - "left": 1/3 of the available space for the label. 2/3 for the radios.
+// - "middle": 1/2 of the available space the label. 1/2 for the radios.
+// - "right": 2/3 of the available space the label. 1/3 for the radios.
+`,
+        },
       },
     },
     tooltip: {

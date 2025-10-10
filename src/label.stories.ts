@@ -140,7 +140,7 @@ const meta: Meta = {
         type: {
           summary: '"left" | "middle" | "right"',
           detail: `
-// The layout of the default and "control" slots:
+// The split between the default and "control" slots:
 //
 // - "left": 1/3 of the available space for the default slot. 2/3 for "control" slot.
 // - "middle": 1/2 of the available space the default slot. 1/2 for "control" slot.

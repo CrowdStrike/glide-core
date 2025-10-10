@@ -51,3 +51,20 @@ test(
     ).rejects.toThrow();
   },
 );
+
+test(
+  'throws when split and vertical',
+  { tag: '@miscellaneous' },
+  async ({ mount }) => {
+    await expect(
+      mount(
+        () =>
+          html`<glide-core-toggle
+            label="Label"
+            orientation="vertical"
+            split="left"
+          ></glide-core-toggle>`,
+      ),
+    ).rejects.toThrow();
+  },
+);

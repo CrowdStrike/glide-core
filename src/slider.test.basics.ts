@@ -2,6 +2,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import Slider from './slider.js';
+import expectWindowError from './library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
 class GlideCoreSubclassed extends Slider {}
@@ -40,4 +41,16 @@ it('throws when subclassed', async () => {
   }
 
   expect(spy.callCount).to.equal(1);
+});
+
+it('throws when split and vertical', async () => {
+  await expectWindowError(() => {
+    return fixture(
+      html`<glide-core-slider
+        label="Label"
+        orientation="vertical"
+        split="left"
+      ></glide-core-slider>`,
+    );
+  });
 });

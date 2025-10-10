@@ -45,6 +45,7 @@ const meta: Meta = {
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
+    split: '',
     summary: '',
     tooltip: '',
     value: '',
@@ -171,6 +172,24 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
+    split: {
+      control: 'select',
+      options: ['', 'left', 'middle', 'right'],
+      table: {
+        type: {
+          summary: '"left" | "middle" | "right"',
+          detail: `
+// The split between the label and checkbox:
+//
+// - "left": 1/3 of the available space for the label. 2/3 for the checkbox.
+// - "middle": 1/2 of the available space the label. 1/2 for the checkbox.
+// - "right": 2/3 of the available space the label. 1/3 for the checkbox.
+//
+// Unsupported with \`orientation="vertical"\`.
+`,
+        },
+      },
+    },
     summary: {
       table: {
         type: { summary: 'string' },
@@ -250,6 +269,7 @@ const meta: Meta = {
           ? nothing
           : arguments_.orientation}
         summary=${arguments_.summary || nothing}
+        split=${arguments_.split || nothing}
         tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
         ?checked=${arguments_.checked}

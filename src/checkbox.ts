@@ -30,6 +30,7 @@ declare global {
  * @attr {string} [name='']
  * @attr {'horizontal'|'vertical'} [orientation='horizontal']
  * @attr {boolean} [required=false]
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [summary]
  * @attr {string} [tooltip]
  * @attr {string} [value='']
@@ -147,10 +148,6 @@ export default class Checkbox extends LitElement implements FormControl {
   @property({ reflect: true, useDefault: true })
   name = '';
 
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle' | 'right';
-
   // Private because it's only meant to be used by Checkbox Group.
   //
   // This variant exists because Checkbox Group has a requirement for Checkbox's
@@ -175,6 +172,22 @@ export default class Checkbox extends LitElement implements FormControl {
   set required(isRequired: boolean) {
     this.#isRequired = isRequired;
     this.#setValidity();
+  }
+
+  /**
+   * @default undefined
+   */
+  @property()
+  get split(): 'left' | 'middle' | 'right' | undefined {
+    return this.#split;
+  }
+
+  set split(split: 'left' | 'middle' | 'right' | undefined) {
+    if (split && this.orientation === 'vertical') {
+      throw new Error('`split` is unsupported with `orientation="vertical"`.');
+    }
+
+    this.#split = split;
   }
 
   @property({ reflect: true })
@@ -327,7 +340,7 @@ export default class Checkbox extends LitElement implements FormControl {
           html`<glide-core-label
             label=${ifDefined(this.label)}
             orientation=${this.orientation}
-            split=${ifDefined(this.privateSplit ?? undefined)}
+            split=${ifDefined(this.split)}
             tooltip=${ifDefined(this.tooltip)}
             ?disabled=${this.disabled}
             ?error=${this.#isShowValidationFeedback}
@@ -538,6 +551,8 @@ export default class Checkbox extends LitElement implements FormControl {
   #label?: string;
 
   #labelElementRef = createRef<HTMLElement>();
+
+  #split?: 'left' | 'middle' | 'right';
 
   #value = '';
 

@@ -737,7 +737,7 @@ test(
             <input type="radio" />
 
             <glide-core-radio-group-radio
-              label="Two"
+              label="Label"
             ></glide-core-radio-group-radio>
           </glide-core-radio-group>`,
       ),

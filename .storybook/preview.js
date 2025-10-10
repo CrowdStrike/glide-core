@@ -140,52 +140,6 @@ export default {
             $component.removeAttribute('style');
           }
 
-          if (context.componentId === 'form-controls-layout') {
-            const hasValueChanged =
-              context.args['<glide-core-dropdown>.value'].toString() !==
-              context.initialArgs['<glide-core-dropdown>.value'].toString();
-
-            if (hasValueChanged) {
-              $component
-                .querySelector('glide-core-dropdown')
-                .setAttribute(
-                  'value',
-                  JSON.stringify(context.args['<glide-core-dropdown>.value']),
-                );
-            }
-
-            const isCheckboxGroupValueChanged =
-              context.args['<glide-core-checkbox-group>.value'].toString() !==
-              context.initialArgs[
-                '<glide-core-checkbox-group>.value'
-              ].toString();
-
-            if (isCheckboxGroupValueChanged) {
-              $component
-                .querySelector('glide-core-checkbox-group')
-                .setAttribute(
-                  'value',
-                  JSON.stringify(
-                    context.args['<glide-core-checkbox-group>.value'],
-                  ),
-                );
-            }
-
-            for (const $option of $component.querySelectorAll(
-              'glide-core-dropdown-option',
-            )) {
-              $option.removeAttribute('aria-selected');
-            }
-
-            for (const $radio of $component.querySelectorAll(
-              'glide-core-radio-group-radio',
-            )) {
-              $radio.removeAttribute('aria-checked');
-              $radio.removeAttribute('aria-disabled');
-              $radio.removeAttribute('aria-label');
-            }
-          }
-
           if (context.componentId === 'dropdown') {
             const hasValueChanged =
               context.args.value.toString() !==
