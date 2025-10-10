@@ -58,6 +58,7 @@ const meta: Meta = {
     'setValidity(flags, message)': '',
     'slot="description"': '',
     'slot="icon:<value>"': '',
+    split: '',
     tooltip: '',
     value: [],
     variant: '',
@@ -325,6 +326,24 @@ class Component extends LitElement {
         },
       },
     },
+    split: {
+      control: 'select',
+      options: ['', 'left', 'middle', 'right'],
+      table: {
+        type: {
+          summary: '"left" | "middle" | "right"',
+          detail: `
+// The split between the label and dropdown:
+//
+// - "left": 1/3 of the available space for the label. 2/3 for the dropdown.
+// - "middle": 1/2 of the available space the label. 1/2 for the dropdown.
+// - "right": 2/3 of the available space the label. 1/3 for the dropdown.
+//
+// Unsupported with \`orientation="vertical"\`.
+`,
+        },
+      },
+    },
     tooltip: {
       table: {
         type: { summary: 'string' },
@@ -567,6 +586,7 @@ class Component extends LitElement {
         ? nothing
         : arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
+      split=${arguments_.split || nothing}
       tooltip=${arguments_.tooltip || nothing}
       variant=${arguments_.variant || nothing}
       ?add-button=${arguments_['add-button']}
@@ -660,6 +680,7 @@ export const WithIcons: StoryObj = {
         ? nothing
         : arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
+      split=${arguments_.split || nothing}
       variant=${arguments_.variant || nothing}
       ?add-button=${arguments_['add-button']}
       ?disabled=${arguments_.disabled}

@@ -1040,14 +1040,6 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "attribute": "privateSplit"
-            },
-            {
-              "kind": "field",
               "name": "required",
               "type": {
                 "text": "boolean"
@@ -1055,6 +1047,14 @@
               "default": "false",
               "attribute": "required",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined | undefined"
+              },
+              "attribute": "split"
             },
             {
               "kind": "field",
@@ -1260,19 +1260,19 @@
               "fieldName": "orientation"
             },
             {
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "fieldName": "privateSplit"
-            },
-            {
               "name": "required",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "fieldName": "required"
+            },
+            {
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined | undefined"
+              },
+              "fieldName": "split"
             },
             {
               "name": "summary",
@@ -1451,14 +1451,6 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "attribute": "privateSplit"
-            },
-            {
-              "kind": "field",
               "name": "privateVariant",
               "type": {
                 "text": "'minimal' | undefined"
@@ -1474,6 +1466,15 @@
               "default": "false",
               "attribute": "required",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "attribute": "split"
             },
             {
               "kind": "field",
@@ -1731,13 +1732,6 @@
               "fieldName": "name"
             },
             {
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "fieldName": "privateSplit"
-            },
-            {
               "name": "private-variant",
               "type": {
                 "text": "'minimal' | undefined"
@@ -1751,6 +1745,14 @@
               },
               "default": "false",
               "fieldName": "required"
+            },
+            {
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "split"
             },
             {
               "name": "summary",
@@ -2530,6 +2532,16 @@
             },
             {
               "kind": "field",
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "multiple",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -2569,30 +2581,12 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "attribute": "privateSplit"
-            },
-            {
-              "kind": "field",
               "name": "readonly",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "readonly",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "selectAll",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "select-all",
               "reflects": true
             },
             {
@@ -2607,13 +2601,22 @@
             },
             {
               "kind": "field",
-              "name": "multiple",
+              "name": "selectAll",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "multiple",
+              "attribute": "select-all",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "attribute": "split"
             },
             {
               "kind": "field",
@@ -2878,6 +2881,14 @@
               "fieldName": "loading"
             },
             {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "multiple"
+            },
+            {
               "name": "name",
               "type": {
                 "text": "string"
@@ -2909,27 +2920,12 @@
               "fieldName": "placeholder"
             },
             {
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "fieldName": "privateSplit"
-            },
-            {
               "name": "readonly",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "fieldName": "readonly"
-            },
-            {
-              "name": "select-all",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "selectAll"
             },
             {
               "name": "required",
@@ -2940,12 +2936,20 @@
               "fieldName": "required"
             },
             {
-              "name": "multiple",
+              "name": "select-all",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "multiple"
+              "fieldName": "selectAll"
+            },
+            {
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "split"
             },
             {
               "name": "tooltip",
@@ -3001,113 +3005,6 @@
           "declaration": {
             "name": "Dropdown",
             "module": "src/dropdown.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/form-controls-layout.styles.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "module": "src/form-controls-layout.styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/form-controls-layout.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "FormControlsLayout",
-          "slots": [
-            {
-              "name": "",
-              "description": "",
-              "type": {
-                "text": "Checkbox | CheckboxGroup | Dropdown | Input | RadioGroup | Slider | TextArea"
-              }
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: window.navigator.webdriver ? 'open' : 'closed', }"
-            },
-            {
-              "kind": "field",
-              "name": "split",
-              "type": {
-                "text": "'left' | 'middle' | 'right'"
-              },
-              "default": "'left'",
-              "attribute": "split",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "split",
-              "type": {
-                "text": "'left' | 'middle' | 'right'"
-              },
-              "default": "'left'",
-              "fieldName": "split"
-            },
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-form-controls-layout",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "FormControlsLayout",
-            "module": "src/form-controls-layout.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-form-controls-layout",
-          "declaration": {
-            "name": "FormControlsLayout",
-            "module": "src/form-controls-layout.ts"
           }
         }
       ]
@@ -3734,14 +3631,6 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "attribute": "privateSplit"
-            },
-            {
-              "kind": "field",
               "name": "readonly",
               "type": {
                 "text": "boolean"
@@ -3769,6 +3658,15 @@
               "default": "false",
               "attribute": "spellcheck",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "attribute": "split"
             },
             {
               "kind": "field",
@@ -4052,13 +3950,6 @@
               "fieldName": "pattern"
             },
             {
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "fieldName": "privateSplit"
-            },
-            {
               "name": "readonly",
               "type": {
                 "text": "boolean"
@@ -4081,6 +3972,14 @@
               },
               "default": "false",
               "fieldName": "spellcheck"
+            },
+            {
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "split"
             },
             {
               "name": "tooltip",
@@ -6466,11 +6365,21 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
+              "name": "required",
               "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
+                "text": "boolean"
               },
-              "attribute": "privateSplit"
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined | undefined"
+              },
+              "attribute": "split"
             },
             {
               "kind": "field",
@@ -6479,16 +6388,6 @@
                 "text": "string | undefined"
               },
               "attribute": "tooltip",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "required",
               "reflects": true
             },
             {
@@ -6677,11 +6576,19 @@
               "fieldName": "orientation"
             },
             {
-              "name": "privateSplit",
+              "name": "required",
               "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
+                "text": "boolean"
               },
-              "fieldName": "privateSplit"
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined | undefined"
+              },
+              "fieldName": "split"
             },
             {
               "name": "tooltip",
@@ -6689,14 +6596,6 @@
                 "text": "string | undefined"
               },
               "fieldName": "tooltip"
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required"
             },
             {
               "name": "value",
@@ -7186,69 +7085,12 @@
             },
             {
               "kind": "field",
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "name",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "number[]"
-              },
-              "default": "[]",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "attribute": "label",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "orientation",
-              "type": {
-                "text": "'horizontal' | 'vertical'"
-              },
-              "default": "'horizontal'",
-              "attribute": "orientation",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "hideLabel",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "hide-label"
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "required",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "readonly"
             },
             {
               "kind": "field",
@@ -7259,6 +7101,15 @@
               "default": "false",
               "attribute": "disabled",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-label"
             },
             {
               "kind": "field",
@@ -7291,6 +7142,54 @@
             },
             {
               "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "attribute": "split"
+            },
+            {
+              "kind": "field",
               "name": "step",
               "type": {
                 "text": "number"
@@ -7301,11 +7200,21 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
+              "name": "tooltip",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "string | undefined"
               },
-              "attribute": "privateSplit"
+              "attribute": "tooltip",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "attribute": "value"
             },
             {
               "kind": "field",
@@ -7315,15 +7224,6 @@
               },
               "readonly": true,
               "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tooltip",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "tooltip",
               "reflects": true
             },
             {
@@ -7452,22 +7352,6 @@
           ],
           "attributes": [
             {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "name"
-            },
-            {
-              "name": "value",
-              "type": {
-                "text": "number[]"
-              },
-              "default": "[]",
-              "fieldName": "value"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
@@ -7476,12 +7360,12 @@
               "required": true
             },
             {
-              "name": "orientation",
+              "name": "disabled",
               "type": {
-                "text": "'horizontal' | 'vertical'"
+                "text": "boolean"
               },
-              "default": "'horizontal'",
-              "fieldName": "orientation"
+              "default": "false",
+              "fieldName": "disabled"
             },
             {
               "name": "hide-label",
@@ -7490,30 +7374,6 @@
               },
               "default": "false",
               "fieldName": "hideLabel"
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required"
-            },
-            {
-              "name": "readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "readonly"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
             },
             {
               "name": "max",
@@ -7540,6 +7400,46 @@
               "fieldName": "multiple"
             },
             {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "split"
+            },
+            {
               "name": "step",
               "type": {
                 "text": "number"
@@ -7548,11 +7448,19 @@
               "fieldName": "step"
             },
             {
-              "name": "privateSplit",
+              "name": "tooltip",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "string | undefined"
               },
-              "fieldName": "privateSplit"
+              "fieldName": "tooltip"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "fieldName": "value"
             },
             {
               "name": "version",
@@ -7561,13 +7469,6 @@
               },
               "readonly": true,
               "fieldName": "version"
-            },
-            {
-              "name": "tooltip",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "tooltip"
             }
           ],
           "superclass": {
@@ -9205,14 +9106,6 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "attribute": "privateSplit"
-            },
-            {
-              "kind": "field",
               "name": "spellcheck",
               "type": {
                 "text": "boolean"
@@ -9240,6 +9133,15 @@
               "default": "false",
               "attribute": "readonly",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "attribute": "split"
             },
             {
               "kind": "field",
@@ -9465,13 +9367,6 @@
               "fieldName": "placeholder"
             },
             {
-              "name": "privateSplit",
-              "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
-              },
-              "fieldName": "privateSplit"
-            },
-            {
               "name": "spellcheck",
               "type": {
                 "text": "boolean"
@@ -9494,6 +9389,14 @@
               },
               "default": "false",
               "fieldName": "readonly"
+            },
+            {
+              "name": "split",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "split"
             },
             {
               "name": "tooltip",
@@ -9976,11 +9879,12 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
+              "name": "split",
               "type": {
                 "text": "'left' | 'middle' | 'right' | undefined"
               },
-              "attribute": "privateSplit"
+              "default": "undefined",
+              "attribute": "split"
             },
             {
               "kind": "field",
@@ -10084,11 +9988,12 @@
               "fieldName": "orientation"
             },
             {
-              "name": "privateSplit",
+              "name": "split",
               "type": {
                 "text": "'left' | 'middle' | 'right' | undefined"
               },
-              "fieldName": "privateSplit"
+              "default": "undefined",
+              "fieldName": "split"
             },
             {
               "name": "summary",

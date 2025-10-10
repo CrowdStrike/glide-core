@@ -290,3 +290,15 @@ it('throws when its default slot is the wrong type', async () => {
     );
   });
 });
+
+it('throws when split and vertical', async () => {
+  await expectWindowError(() => {
+    return fixture(
+      html`<glide-core-dropdown
+        label="Label"
+        orientation="vertical"
+        split="left"
+      ></glide-core-dropdown>`,
+    );
+  });
+});

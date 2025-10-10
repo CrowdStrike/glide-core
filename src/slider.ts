@@ -30,6 +30,7 @@ declare global {
  * @attr {'horizontal'|'vertical'} [orientation='horizontal']
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {number} [step=1]
  * @attr {string} [tooltip]
  * @attr {number[]} [value=[]]
@@ -82,138 +83,15 @@ export default class Slider extends LitElement implements FormControl {
 
   static override styles = styles;
 
-  @property({ reflect: true, useDefault: true })
-  name = '';
-
-  // Intentionally not reflected to match native.
-  /**
-   * @default []
-   */
-  @property({ type: Array })
-  get value(): number[] {
-    if (
-      this.multiple &&
-      this.minimumValue !== undefined &&
-      this.maximumValue !== undefined
-    ) {
-      return [this.minimumValue, this.maximumValue];
-    }
-
-    if (this.minimumValue !== undefined) {
-      return [this.minimumValue];
-    }
-
-    return [];
-  }
-
-  set value(value: number[]) {
-    if (value.length === 0) {
-      const rangeSize = this.max - this.min;
-
-      // To match native, when the value is emptied, we create one.
-      // Native sets it to 50% of the max, but we have a design
-      // requirement for a 25/75% split of the range size.
-      this.minimumValue = this.min + Math.floor(rangeSize * 0.25);
-
-      this.maximumValue = this.multiple
-        ? this.min + Math.ceil(rangeSize * 0.75)
-        : undefined;
-
-      this.#updateHandlesAndTrack();
-
-      return;
-    }
-
-    if (
-      this.multiple &&
-      value.length === 2 &&
-      value[0] !== undefined &&
-      value[1] !== undefined
-    ) {
-      if (value[0] > value[1]) {
-        throw new Error('The first value must be less than the second.');
-      }
-
-      // Normalize values to snap to the closest valid step
-      // increment, even if a developer sets a value between
-      // steps.
-      //
-      // Doing so creates consistent behavior between programmatic
-      // updates and user interactions. Users can select values that
-      // align with steps when dragging the handles or when entering
-      // values into the inputs. This ensures programmatic updates
-      // follow the same rules.
-      //
-      // It also prevents the Slider from ending up in a state where
-      // the position visually doesn't match where a user would
-      // expect based on the step configuration.
-      const normalizedMinimum = Math.round(value[0] / this.step) * this.step;
-      const normalizedMaximum = Math.round(value[1] / this.step) * this.step;
-
-      // Clamp the normalized values to the allowed ranges.
-      this.minimumValue = Math.max(normalizedMinimum, this.min);
-      this.maximumValue = Math.min(normalizedMaximum, this.max);
-
-      this.#updateHandlesAndTrack();
-      return;
-    }
-
-    if (this.multiple && value.length > 2) {
-      throw new Error('Only two values are allowed when `multiple`.');
-    }
-
-    if (!this.multiple && value.length > 0 && value[0] !== undefined) {
-      // Normalize the value to snap to the closest valid step
-      // increment, even if a developer sets a value between steps.
-      //
-      // Doing so creates consistent behavior between programmatic
-      // updates and user interactions. Users can select values that
-      // align with step when dragging the handle or when entering
-      // values into the input. This ensures programmatic updates
-      // follow the same rules.
-      //
-      // It also prevents the Slider from ending up in a state where
-      // the position visually doesn't match where a user would
-      // expect based on the step configuration.
-      const normalizedValue = Math.round(value[0] / this.step) * this.step;
-
-      // Clamp the normalized value to the allowed range.
-      this.minimumValue = Math.max(
-        Math.min(normalizedValue, this.max),
-        this.min,
-      );
-
-      // When not in multiple mode, we clear the maximumValue to
-      // ensure the Slider won't get in an odd state as the
-      // minimumValue is adjusted. If a consumers add the multiple
-      // attribute, we recalculate what the maximumValue should be
-      // based on the current position of the minimum handle with
-      // respect to max and step.
-      this.maximumValue = undefined;
-
-      this.#updateHandlesAndTrack();
-      return;
-    }
-  }
-
   @property({ reflect: true })
   @required
   label?: string;
 
-  @property({ reflect: true, useDefault: true })
-  orientation: 'horizontal' | 'vertical' = 'horizontal';
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
 
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
-
-  @property({ reflect: true, type: Boolean })
-  required = false;
-
-  @property({ type: Boolean })
-  readonly = false;
-
-  @property({ reflect: true, type: Boolean })
-  disabled = false;
 
   /**
    * @default 100
@@ -341,6 +219,34 @@ export default class Slider extends LitElement implements FormControl {
     }
   }
 
+  @property({ reflect: true, useDefault: true })
+  name = '';
+
+  @property({ reflect: true, useDefault: true })
+  orientation: 'horizontal' | 'vertical' = 'horizontal';
+
+  @property({ type: Boolean })
+  readonly = false;
+
+  @property({ reflect: true, type: Boolean })
+  required = false;
+
+  /**
+   * @default undefined
+   */
+  @property()
+  get split(): 'left' | 'middle' | 'right' | undefined {
+    return this.#split;
+  }
+
+  set split(split: 'left' | 'middle' | 'right' | undefined) {
+    if (this.orientation === 'vertical') {
+      throw new Error('`split` is unsupported with `orientation="vertical"`.');
+    }
+
+    this.#split = split;
+  }
+
   /**
    * @default 1
    */
@@ -353,15 +259,122 @@ export default class Slider extends LitElement implements FormControl {
     this.#step = step > 0 ? step : 1;
   }
 
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle';
+  @property({ reflect: true })
+  tooltip?: string;
+
+  // Intentionally not reflected to match native.
+  /**
+   * @default []
+   */
+  @property({ type: Array })
+  get value(): number[] {
+    if (
+      this.multiple &&
+      this.minimumValue !== undefined &&
+      this.maximumValue !== undefined
+    ) {
+      return [this.minimumValue, this.maximumValue];
+    }
+
+    if (this.minimumValue !== undefined) {
+      return [this.minimumValue];
+    }
+
+    return [];
+  }
+
+  set value(value: number[]) {
+    if (value.length === 0) {
+      const rangeSize = this.max - this.min;
+
+      // To match native, when the value is emptied, we create one.
+      // Native sets it to 50% of the max, but we have a design
+      // requirement for a 25/75% split of the range size.
+      this.minimumValue = this.min + Math.floor(rangeSize * 0.25);
+
+      this.maximumValue = this.multiple
+        ? this.min + Math.ceil(rangeSize * 0.75)
+        : undefined;
+
+      this.#updateHandlesAndTrack();
+
+      return;
+    }
+
+    if (
+      this.multiple &&
+      value.length === 2 &&
+      value[0] !== undefined &&
+      value[1] !== undefined
+    ) {
+      if (value[0] > value[1]) {
+        throw new Error('The first value must be less than the second.');
+      }
+
+      // Normalize values to snap to the closest valid step
+      // increment, even if a developer sets a value between
+      // steps.
+      //
+      // Doing so creates consistent behavior between programmatic
+      // updates and user interactions. Users can select values that
+      // align with steps when dragging the handles or when entering
+      // values into the inputs. This ensures programmatic updates
+      // follow the same rules.
+      //
+      // It also prevents the Slider from ending up in a state where
+      // the position visually doesn't match where a user would
+      // expect based on the step configuration.
+      const normalizedMinimum = Math.round(value[0] / this.step) * this.step;
+      const normalizedMaximum = Math.round(value[1] / this.step) * this.step;
+
+      // Clamp the normalized values to the allowed ranges.
+      this.minimumValue = Math.max(normalizedMinimum, this.min);
+      this.maximumValue = Math.min(normalizedMaximum, this.max);
+
+      this.#updateHandlesAndTrack();
+      return;
+    }
+
+    if (this.multiple && value.length > 2) {
+      throw new Error('Only two values are allowed when `multiple`.');
+    }
+
+    if (!this.multiple && value.length > 0 && value[0] !== undefined) {
+      // Normalize the value to snap to the closest valid step
+      // increment, even if a developer sets a value between steps.
+      //
+      // Doing so creates consistent behavior between programmatic
+      // updates and user interactions. Users can select values that
+      // align with step when dragging the handle or when entering
+      // values into the input. This ensures programmatic updates
+      // follow the same rules.
+      //
+      // It also prevents the Slider from ending up in a state where
+      // the position visually doesn't match where a user would
+      // expect based on the step configuration.
+      const normalizedValue = Math.round(value[0] / this.step) * this.step;
+
+      // Clamp the normalized value to the allowed range.
+      this.minimumValue = Math.max(
+        Math.min(normalizedValue, this.max),
+        this.min,
+      );
+
+      // When not in multiple mode, we clear the maximumValue to
+      // ensure the Slider won't get in an odd state as the
+      // minimumValue is adjusted. If a consumers add the multiple
+      // attribute, we recalculate what the maximumValue should be
+      // based on the current position of the minimum handle with
+      // respect to max and step.
+      this.maximumValue = undefined;
+
+      this.#updateHandlesAndTrack();
+      return;
+    }
+  }
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
-
-  @property({ reflect: true })
-  tooltip?: string;
 
   get form(): HTMLFormElement | null {
     return this.#internals.form;
@@ -458,12 +471,12 @@ export default class Slider extends LitElement implements FormControl {
     return html`
       <glide-core-label
         class=${classMap({
-          left: this.privateSplit === 'left',
-          middle: this.privateSplit === 'middle',
+          left: this.split === 'left',
+          middle: this.split === 'middle',
         })}
         label=${ifDefined(this.label)}
         orientation=${this.orientation}
-        split=${ifDefined(this.privateSplit ?? undefined)}
+        split=${ifDefined(this.split)}
         tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
@@ -853,6 +866,8 @@ export default class Slider extends LitElement implements FormControl {
   #sliderElementRef = createRef<HTMLDivElement>();
 
   #sliderFillElementRef = createRef<HTMLDivElement>();
+
+  #split?: 'left' | 'middle' | 'right';
 
   #step = 1;
 

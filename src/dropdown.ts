@@ -48,6 +48,7 @@ declare global {
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
  * @attr {boolean} [select-all=false]
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [tooltip]
  * @attr {string[]} [value=[]]
  * @attr {'quiet'} [variant]
@@ -169,6 +170,65 @@ export default class Dropdown extends LitElement implements FormControl {
   @property({ reflect: true, type: Boolean })
   loading = false;
 
+  /**
+   * @default false
+   */
+  @property({ reflect: true, type: Boolean })
+  get multiple(): boolean {
+    return this.#isMultiple;
+  }
+
+  set multiple(isMultiple) {
+    const wasMultiple = this.#isMultiple && !isMultiple;
+    const wasSingle = !this.#isMultiple && isMultiple;
+
+    this.#isMultiple = isMultiple;
+
+    for (const option of this.#optionElements) {
+      option.privateMultiple = isMultiple;
+
+      // A single-select Dropdown can only have one option selected. So all but the
+      // last selected and enabled option is deselected.
+      if (wasMultiple && option !== this.lastSelectedAndEnabledOption) {
+        option.selected = false;
+      }
+    }
+
+    if (wasMultiple && this.lastSelectedAndEnabledOption) {
+      this.#value = this.lastSelectedAndEnabledOption?.value
+        ? [this.lastSelectedAndEnabledOption.value]
+        : [];
+
+      this.selectedAndEnabledOptions = [this.lastSelectedAndEnabledOption];
+
+      this.isShowSingleSelectIcon = Boolean(
+        this.lastSelectedAndEnabledOption?.value,
+      );
+
+      if (
+        this.#inputElementRef.value &&
+        this.lastSelectedAndEnabledOption?.label
+      ) {
+        this.#inputElementRef.value.value =
+          this.lastSelectedAndEnabledOption.label;
+
+        this.inputValue = this.lastSelectedAndEnabledOption.label;
+      }
+    } else if (wasSingle && this.lastSelectedAndEnabledOption) {
+      // If Dropdown was single-select and filterable and an option is selected,
+      // then the value of its `<input>` is set to the label of the selected option.
+      // That behavior doesn't apply to multiselect Dropdown because its selected
+      // option or options are represented by tags. So we clear input field.
+      if (this.#inputElementRef.value) {
+        this.#inputElementRef.value.value = '';
+        this.inputValue = '';
+      }
+
+      this.lastSelectedAndEnabledOption.privateUpdateCheckbox();
+      this.isShowSingleSelectIcon = false;
+    }
+  }
+
   @property({ reflect: true, useDefault: true })
   name = '';
 
@@ -231,10 +291,6 @@ export default class Dropdown extends LitElement implements FormControl {
   @property({ reflect: true })
   placeholder?: string;
 
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle' | 'right';
-
   /**
    * @default false
    */
@@ -253,69 +309,26 @@ export default class Dropdown extends LitElement implements FormControl {
     }
   }
 
-  @property({ attribute: 'select-all', reflect: true, type: Boolean })
-  selectAll = false;
-
   @property({ reflect: true, type: Boolean })
   required = false;
 
+  @property({ attribute: 'select-all', reflect: true, type: Boolean })
+  selectAll = false;
+
   /**
-   * @default false
+   * @default undefined
    */
-  @property({ reflect: true, type: Boolean })
-  get multiple(): boolean {
-    return this.#isMultiple;
+  @property()
+  get split(): 'left' | 'middle' | 'right' | undefined {
+    return this.#split;
   }
 
-  set multiple(isMultiple) {
-    const wasMultiple = this.#isMultiple && !isMultiple;
-    const wasSingle = !this.#isMultiple && isMultiple;
-
-    this.#isMultiple = isMultiple;
-
-    for (const option of this.#optionElements) {
-      option.privateMultiple = isMultiple;
-
-      // A single-select Dropdown can only have one option selected. So all but the
-      // last selected and enabled option is deselected.
-      if (wasMultiple && option !== this.lastSelectedAndEnabledOption) {
-        option.selected = false;
-      }
+  set split(split: 'left' | 'middle' | 'right' | undefined) {
+    if (this.orientation === 'vertical') {
+      throw new Error('`split` is unsupported with `orientation="vertical"`.');
     }
 
-    if (wasMultiple && this.lastSelectedAndEnabledOption) {
-      this.#value = this.lastSelectedAndEnabledOption?.value
-        ? [this.lastSelectedAndEnabledOption.value]
-        : [];
-
-      this.selectedAndEnabledOptions = [this.lastSelectedAndEnabledOption];
-
-      this.isShowSingleSelectIcon = Boolean(
-        this.lastSelectedAndEnabledOption?.value,
-      );
-
-      if (
-        this.#inputElementRef.value &&
-        this.lastSelectedAndEnabledOption?.label
-      ) {
-        this.#inputElementRef.value.value =
-          this.lastSelectedAndEnabledOption.label;
-
-        this.inputValue = this.lastSelectedAndEnabledOption.label;
-      }
-    } else if (wasSingle && this.lastSelectedAndEnabledOption) {
-      // If Dropdown was single-select and filterable and an option is selected,
-      // then the value of its `<input>` is set to the label of the selected option.
-      // That behavior doesn't apply to multiselect Dropdown because its selected
-      // option or options are represented by tags. So we clear input field.
-      if (this.#inputElementRef.value) {
-        this.#inputElementRef.value.value = '';
-        this.inputValue = '';
-      }
-
-      this.lastSelectedAndEnabledOption.privateUpdateCheckbox();
-      this.isShowSingleSelectIcon = false;
-    }
+    this.#split = split;
   }
 
   @property({ reflect: true })
@@ -691,7 +704,7 @@ export default class Dropdown extends LitElement implements FormControl {
       <glide-core-label
         label=${ifDefined(this.label)}
         orientation=${this.orientation}
-        split=${ifDefined(this.privateSplit ?? undefined)}
+        split=${ifDefined(this.split)}
         tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
@@ -1460,6 +1473,8 @@ export default class Dropdown extends LitElement implements FormControl {
   #selectAllElementRef = createRef<DropdownOption>();
 
   #shadowRoot?: ShadowRoot;
+
+  #split?: 'left' | 'middle' | 'right';
 
   #tagsElementRef = createRef<HTMLElement>();
 

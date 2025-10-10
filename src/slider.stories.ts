@@ -47,6 +47,7 @@ const meta: Meta = {
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
+    split: '',
     step: 1,
     tooltip: '',
     value: [],
@@ -105,6 +106,7 @@ const meta: Meta = {
         tooltip=${arguments_.tooltip || nothing}
         min=${arguments_.min || nothing}
         max=${arguments_.max || nothing}
+        split=${arguments_.split || nothing}
         step=${arguments_.step === 1 ? nothing : arguments_.step}
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label']}
@@ -249,6 +251,24 @@ const meta: Meta = {
     'slot="description"': {
       table: {
         type: { summary: 'Element' },
+      },
+    },
+    split: {
+      control: 'select',
+      options: ['', 'left', 'middle', 'right'],
+      table: {
+        type: {
+          summary: '"left" | "middle" | "right"',
+          detail: `
+// The split between the label and slider:
+//
+// - "left": 1/3 of the available space for the label. 2/3 for the slider.
+// - "middle": 1/2 of the available space the label. 1/2 for the slider.
+// - "right": 2/3 of the available space the label. 1/3 for the slider.
+//
+// Unsupported with \`orientation="vertical"\`.
+`,
+        },
       },
     },
     step: {

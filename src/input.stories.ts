@@ -56,6 +56,7 @@ const meta: Meta = {
     'slot="suffix-icon"': '',
     tooltip: '',
     spellcheck: 'false',
+    split: '',
     type: 'text',
     value: '',
     version: '',
@@ -119,6 +120,7 @@ const meta: Meta = {
         spellcheck=${arguments_.spellcheck === 'false'
           ? nothing
           : arguments_.spellcheck}
+        split=${arguments_.split || nothing}
         tooltip=${arguments_.tooltip || nothing}
         type=${arguments_.type === 'text' ? nothing : arguments_.type}
         value=${arguments_.value || nothing}
@@ -324,6 +326,24 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
+    split: {
+      control: 'select',
+      options: ['', 'left', 'middle', 'right'],
+      table: {
+        type: {
+          summary: '"left" | "middle" | "right"',
+          detail: `
+// The split between the label and input field:
+//
+// - "left": 1/3 of the available space for the label. 2/3 for the input field.
+// - "middle": 1/2 of the available space the label. 1/2 for the input field.
+// - "right": 2/3 of the available space the label. 1/3 for the input field.
+//
+// Unsupported with \`orientation="vertical"\`.
+`,
+        },
+      },
+    },
     tooltip: {
       table: {
         type: { summary: 'string' },
@@ -405,6 +425,7 @@ export const WithIcons: StoryObj = {
         spellcheck=${arguments_.spellcheck === 'false'
           ? nothing
           : arguments_.spellcheck}
+        split=${arguments_.split || nothing}
         tooltip=${arguments_.tooltip || nothing}
         type=${arguments_.type === 'text' ? nothing : arguments_.type}
         value=${arguments_.value || nothing}

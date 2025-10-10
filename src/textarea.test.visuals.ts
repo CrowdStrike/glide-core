@@ -283,6 +283,48 @@ for (const story of stories) {
           );
         });
 
+        test('split="left"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, Textarea>((element) => {
+              element.split = 'left';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('split="middle"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, Textarea>((element) => {
+              element.split = 'middle';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('split="right"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, Textarea>((element) => {
+              element.split = 'right';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('value', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
