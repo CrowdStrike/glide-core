@@ -324,7 +324,7 @@ export default class Dropdown extends LitElement implements FormControl {
   }
 
   set split(split: 'left' | 'middle' | 'right' | undefined) {
-    if (this.orientation === 'vertical') {
+    if (split && this.orientation === 'vertical') {
       throw new Error('`split` is unsupported with `orientation="vertical"`.');
     }
 
