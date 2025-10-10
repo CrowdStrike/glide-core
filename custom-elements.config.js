@@ -20,6 +20,9 @@ export default {
     './src/styles/**',
     './src/translations/**',
     './src/ts-morph/**',
+
+    // TODO: Remove after Dropdown is moved out.
+    './src/dropdown*',
   ],
   globs: ['./src/*.ts'],
   litelement: true,
