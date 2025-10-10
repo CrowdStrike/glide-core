@@ -2,9 +2,12 @@ import { css } from 'lit';
 import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
 import skeleton from './styles/skeleton.js';
+import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('.tag-edit-button:focus-visible')}
+    ${focusOutline('.tag-removal-button:focus-visible')}
     ${opacityAndScaleAnimation('.options-and-feedback:popover-open')}
     ${skeleton('.loading-feedback')}
     ${visuallyHidden('.item-count')}
@@ -215,8 +218,7 @@ export default [
 
       /*
         Tags will overflow their columns if they don't have a minimum width. "5.5rem"
-        is roughly the size of a Tag with a few characters in it. That Dropdown has
-        to know anything about Tag's internal width is unfortunate.
+        is roughly the size of a tag with a few characters in it.
       */
       grid-auto-columns: minmax(5.5rem, auto);
       grid-auto-flow: column;
@@ -230,6 +232,108 @@ export default [
 
       &.hidden {
         display: none;
+      }
+    }
+
+    .tag {
+      align-items: center;
+      background-color: var(
+        --glide-core-color-static-surface-container-secondary
+      );
+      block-size: 1.5rem;
+      border: 1px solid var(--glide-core-color-interactive-stroke-primary);
+      border-radius: var(--glide-core-rounding-base-radius-round);
+      box-sizing: border-box;
+      color: var(--glide-core-color-interactive-text-default);
+      column-gap: var(--glide-core-spacing-base-xs);
+      display: flex;
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-small);
+      font-weight: var(--glide-core-typography-weight-regular);
+      justify-content: center;
+      line-height: 1;
+      opacity: 1;
+      padding-inline: var(--glide-core-spacing-base-sm);
+
+      &.disabled {
+        background-color: var(
+          --glide-core-color-static-surface-container-secondary
+        );
+        border-color: var(--glide-core-color-interactive-stroke-primary);
+        color: var(--glide-core-color-interactive-icon-default--disabled);
+      }
+
+      &.readonly {
+        background-color: var(--glide-core-color-static-surface-container);
+        border-color: var(--glide-core-color-interactive-stroke-primary);
+        color: var(--glide-core-color-interactive-text-default);
+      }
+    }
+
+    .tag-label {
+      overflow: hidden;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tag-edit-button {
+      background-color: transparent;
+      border: none;
+      border-radius: 0.0625rem;
+      display: flex;
+      padding: 0;
+
+      &.disabled {
+        color: var(--glide-core-color-interactive-icon-default--disabled);
+        cursor: not-allowed;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:hover:not(.disabled, .readonly) {
+        color: var(--glide-core-color-interactive-icon-active--hover);
+      }
+
+      &.readonly {
+        color: var(--glide-core-color-interactive-icon-default--disabled);
+        cursor: not-allowed;
+      }
+    }
+
+    .tag-removal-button {
+      align-items: center;
+      background-color: transparent;
+      block-size: 1rem;
+      border: none;
+      border-radius: 0.0625rem;
+      color: var(--glide-core-color-interactive-icon-default);
+      cursor: pointer;
+      display: flex;
+      inline-size: 1rem;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      transition: color 200ms ease-in-out;
+
+      &.disabled {
+        color: var(--glide-core-color-interactive-icon-default--disabled);
+        cursor: not-allowed;
+      }
+
+      &:hover:not(.disabled, .readonly) {
+        color: var(--glide-core-color-interactive-icon-active--hover);
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &.readonly {
+        color: var(--glide-core-color-interactive-icon-default--disabled);
+        cursor: not-allowed;
       }
     }
 

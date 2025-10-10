@@ -2804,6 +2804,12 @@
               }
             },
             {
+              "name": "edit",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
               "name": "add",
               "type": {
                 "text": "CustomEvent"
@@ -8924,12 +8930,6 @@
           "kind": "class",
           "description": "",
           "name": "Tag",
-          "cssProperties": [
-            {
-              "name": "--max-inline-size",
-              "default": "max-content"
-            }
-          ],
           "slots": [
             {
               "name": "icon",
@@ -8970,26 +8970,6 @@
             },
             {
               "kind": "field",
-              "name": "privateEditable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "private-editable",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "privateReadonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "private-readonly",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "removable",
               "type": {
                 "text": "boolean"
@@ -9019,12 +8999,6 @@
           ],
           "events": [
             {
-              "name": "edit",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
               "name": "remove",
               "type": {
                 "text": "Event"
@@ -9047,22 +9021,6 @@
               },
               "default": "false",
               "fieldName": "disabled"
-            },
-            {
-              "name": "private-editable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateEditable"
-            },
-            {
-              "name": "private-readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateReadonly"
             },
             {
               "name": "removable",

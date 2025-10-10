@@ -3,7 +3,6 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    ${focusOutline('.edit-button:focus-visible')}
     ${focusOutline('.removal-button:focus-visible')}
   `,
   css`
@@ -27,10 +26,6 @@ export default [
       }
     }
 
-    :host {
-      --max-inline-size: max-content;
-    }
-
     .component {
       align-items: center;
       background-color: var(
@@ -48,7 +43,7 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       justify-content: center;
       line-height: 1;
-      max-inline-size: var(--max-inline-size);
+      max-inline-size: max-content;
       opacity: 1;
       padding-inline: var(--glide-core-spacing-base-sm);
 
@@ -64,12 +59,6 @@ export default [
         );
         border-color: var(--glide-core-color-interactive-stroke-primary);
         color: var(--glide-core-color-interactive-icon-default--disabled);
-      }
-
-      &.readonly {
-        background-color: var(--glide-core-color-static-surface-container);
-        border-color: var(--glide-core-color-interactive-stroke-primary);
-        color: var(--glide-core-color-interactive-text-default);
       }
 
       &.removed {
@@ -133,27 +122,6 @@ export default [
         display: flex;
         inline-size: 1rem;
         justify-content: center;
-      }
-    }
-
-    .edit-button {
-      background-color: transparent;
-      border: none;
-      border-radius: 0.0625rem;
-      display: flex;
-      padding: 0;
-
-      &.disabled {
-        color: var(--glide-core-color-interactive-icon-default--disabled);
-        cursor: not-allowed;
-      }
-
-      &:focus {
-        outline: none;
-      }
-
-      &:hover:not(.disabled) {
-        color: var(--glide-core-color-interactive-icon-active--hover);
       }
     }
   `,

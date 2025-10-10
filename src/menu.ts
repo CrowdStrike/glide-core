@@ -583,14 +583,15 @@ export default class Menu extends LitElement {
   }
 
   #onComponentFocusOut(event: FocusEvent) {
-    const isTargetFocused =
+    const isStillFocused =
       event.relatedTarget instanceof Element &&
-      this.#targetElement?.contains(event.relatedTarget);
+      (this.contains(event.relatedTarget) ||
+        this.#targetElement?.contains(event.relatedTarget));
 
     this.#hasVoiceOverMovedFocusToOptionsOrAnOption =
       event.target instanceof Option || event.target instanceof Options;
 
-    if (!isTargetFocused && !this.#hasVoiceOverMovedFocusToOptionsOrAnOption) {
+    if (!isStillFocused && !this.#hasVoiceOverMovedFocusToOptionsOrAnOption) {
       this.open = false;
     }
   }

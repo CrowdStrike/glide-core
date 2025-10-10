@@ -114,7 +114,7 @@ const meta: Meta = {
           detail: `
 // Only "add" is a \`CustomEvent\`. The \`detail\` property of that event is set to the user's filter query.
 
-(event: "add" | "change" | "input" | "invalid" | "toggle", handler: (event: Event | CustomEvent<string>) => void): void
+(event: "add" | "change" | "edit" | "input" | "invalid" | "toggle", handler: (event: Event | CustomEvent<string>) => void): void
 `,
         },
       },

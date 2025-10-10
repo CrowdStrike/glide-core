@@ -64,58 +64,6 @@ test(
 );
 
 test(
-  'can be edited via Enter',
-  { tag: '@keyboard' },
-  async ({ mount, page }) => {
-    await mount(
-      () =>
-        html`<glide-core-tag label="Label" private-editable></glide-core-tag>`,
-    );
-
-    const host = page.locator('glide-core-tag');
-    const button = page.getByRole('button');
-
-    await expect(host).toDispatchEvents(
-      () => button.press('Enter'),
-      [
-        {
-          bubbles: true,
-          cancelable: false,
-          composed: true,
-          type: 'edit',
-        },
-      ],
-    );
-  },
-);
-
-test(
-  'can be edited via Space when editable',
-  { tag: '@keyboard' },
-  async ({ mount, page }) => {
-    await mount(
-      () =>
-        html`<glide-core-tag label="Label" private-editable></glide-core-tag>`,
-    );
-
-    const host = page.locator('glide-core-tag');
-    const button = page.getByRole('button');
-
-    await expect(host).toDispatchEvents(
-      () => button.press('Space'),
-      [
-        {
-          bubbles: true,
-          cancelable: false,
-          composed: true,
-          type: 'edit',
-        },
-      ],
-    );
-  },
-);
-
-test(
   'cannot be removed via Enter when disabled',
   { tag: '@keyboard' },
   async ({ mount, page }) => {

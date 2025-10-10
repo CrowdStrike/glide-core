@@ -3,7 +3,6 @@ import './tag.js';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import { styleMap } from 'lit/directives/style-map.js';
 
 const meta: Meta = {
   title: 'Tag',
@@ -23,13 +22,10 @@ const meta: Meta = {
     },
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/prefer-nullish-coalescing */
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
-        style=${styleMap({
-          '--max-inline-size': arguments_['--max-inline-size'] || null,
-        })}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
       >
@@ -44,7 +40,6 @@ const meta: Meta = {
     removable: false,
     'slot="icon"': '',
     version: '',
-    '--max-inline-size': '',
   },
   argTypes: {
     label: {
@@ -92,13 +87,6 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '--max-inline-size': {
-      table: {
-        type: {
-          summary: 'CSS custom property',
-        },
-      },
-    },
   },
 };
 
@@ -110,13 +98,10 @@ export const Tag: StoryObj = {
 
 export const WithIcon: StoryObj = {
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/prefer-nullish-coalescing */
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
-        style=${styleMap({
-          '--max-inline-size': arguments_['--max-inline-size'] || null,
-        })}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
       >
