@@ -1,7 +1,6 @@
 import './dropdown.option.js';
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import Dropdown from './dropdown.js';
-import Tag from './tag.js';
 import type DropdownOption from './dropdown.option.js';
 import requestIdleCallback from './library/request-idle-callback.js';
 
@@ -21,17 +20,6 @@ it('is accessible', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
-
-  const tag = host.shadowRoot
-    ?.querySelector('[data-test="tag"]')
-    ?.shadowRoot?.querySelector<HTMLElement>('[data-test="component"]');
-
-  const timeout = tag?.dataset.animationDuration;
-  assert(timeout);
-
-  // Tag animates its opacity when added to the page. We wait for the animation
-  // to complete to avoid a color contrast violation.
-  await aTimeout(Number(timeout));
 
   await expect(host).to.be.accessible();
 });
@@ -64,7 +52,7 @@ it('can have selected options', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.true;
@@ -74,8 +62,8 @@ it('can have selected options', async () => {
   expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
   expect(host.value).to.deep.equal(['one', 'two']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('One');
-  expect(tags?.[1]?.label).to.equal('Two');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('One');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Two');
 });
 
 it('shows Select All', async () => {
@@ -365,7 +353,7 @@ it('only selects the first option with a matching value when multiple options ha
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.false;
@@ -373,7 +361,7 @@ it('only selects the first option with a matching value when multiple options ha
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
   expect(host.value).to.deep.equal(['one']);
   expect(tags?.length).to.equal(1);
-  expect(tags?.[0]?.label).to.equal('One');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('One');
 });
 
 it('selects multiple options with the same value when `value` is set', async () => {

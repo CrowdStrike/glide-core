@@ -1036,9 +1036,7 @@ it('does not clear its filter when a tag is removed via click', async () => {
   await sendKeys({ type: 'o' });
 
   await click(
-    host.shadowRoot
-      ?.querySelector('[data-test="tag"]')
-      ?.shadowRoot?.querySelector('[data-test="removal-button"]'),
+    host.shadowRoot?.querySelector('[data-test="tag-removal-button"]'),
   );
 
   await host.updateComplete;

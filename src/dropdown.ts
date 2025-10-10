@@ -16,7 +16,6 @@ import packageJson from '../package.json' with { type: 'json' };
 import onResize from './library/on-resize.js';
 import DropdownOption from './dropdown.option.js';
 import { LocalizeController } from './library/localize.js';
-import Tag from './tag.js';
 import chevronIcon from './icons/chevron.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import pencilIcon from './icons/pencil.js';
@@ -26,6 +25,7 @@ import type FormControl from './library/form-control.js';
 import final from './library/final.js';
 import required from './library/required.js';
 import uniqueId from './library/unique-id.js';
+import xIcon from './icons/x.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -61,6 +61,7 @@ declare global {
  *
  * @fires {CustomEvent} add
  * @fires {Event} change
+ * @fires {Event} edit
  * @fires {Event} input
  * @fires {Event} invalid
  * @fires {Event} toggle
@@ -761,18 +762,18 @@ export default class Dropdown extends LitElement implements FormControl {
                         data-test="tag-container"
                         data-test-hidden=${index > this.tagOverflowLimit - 1}
                       >
-                        <glide-core-tag
+                        <div
+                          class=${classMap({
+                            tag: true,
+                            added: true,
+                            disabled: this.disabled || this.readonly,
+                            readonly: this.readonly,
+                          })}
                           data-test="tag"
                           data-id=${option.id}
-                          label=${ifDefined(option.label)}
-                          removable
-                          style="--max-inline-size: none"
-                          ?disabled=${this.disabled || this.readonly}
-                          ?private-editable=${option.editable}
-                          ?private-readonly=${this.readonly}
-                          @edit=${this.#onTagEdit}
-                          @remove=${this.#onTagRemove.bind(this, option)}
                         >
+                          <span class="tag-label"> ${option.label} </span>
+
                           ${when(option.value, () => {
                             return html`
                               <slot
@@ -791,7 +792,51 @@ export default class Dropdown extends LitElement implements FormControl {
                               </slot>
                             `;
                           })}
-                        </glide-core-tag>
+                          ${when(option.editable, () => {
+                            return html`<button
+                              aria-label=${this.#localize.term(
+                                'editTag',
+                                // `option.label` is always defined because it's a required attribute.
+                                //
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                option.label!,
+                              )}
+                              class=${classMap({
+                                'tag-edit-button': true,
+                                disabled: this.disabled,
+                                readonly: this.readonly,
+                              })}
+                              data-test="tag-edit-button"
+                              type="button"
+                              ?disabled=${this.disabled || this.readonly}
+                              @click=${this.#onTagEditClick}
+                            >
+                              ${pencilIcon}
+                            </button>`;
+                          })}
+
+                          <button
+                            aria-label=${this.#localize.term(
+                              'removeTag',
+
+                              // `optional.label` is always defined because it's a required attribute.
+                              //
+                              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                              option.label!,
+                            )}
+                            class=${classMap({
+                              'tag-removal-button': true,
+                              disabled: this.disabled,
+                              readonly: this.readonly,
+                            })}
+                            data-test="tag-removal-button"
+                            type="button"
+                            ?disabled=${this.disabled || this.readonly}
+                            @click=${this.#onTagRemoveClick.bind(this, option)}
+                          >
+                            ${xIcon}
+                          </button>
+                        </div>
                       </li>`;
                     },
                   )}
@@ -1420,6 +1465,14 @@ export default class Dropdown extends LitElement implements FormControl {
 
   #value: string[] = [];
 
+  get #tagElements() {
+    /* c8 ignore start - The else branch is untestable. */
+    return this.#shadowRoot
+      ? [...this.#shadowRoot.querySelectorAll<HTMLElement>('.tag')]
+      : [];
+    /* c8 ignore stop */
+  }
+
   // An arrow function field instead of a method so `this` is closed over and set
   // to the component instead of `document`.
   #onDocumentClick = () => {
@@ -1655,14 +1708,17 @@ export default class Dropdown extends LitElement implements FormControl {
       return;
     }
 
-    if (!this.open && event.key === 'Enter' && !this.#isEditingOrRemovingTag) {
+    const isTagEditOrRemoval = this.#tagElements.some((tag) => {
+      return event.target instanceof Element && tag.contains(event.target);
+    });
+
+    if (!this.open && event.key === 'Enter' && !isTagEditOrRemoval) {
       this.form?.requestSubmit();
       return;
     }
 
     if (event.key === 'Escape') {
-      // Prevent Safari from leaving full screen.
-      event.preventDefault();
+      event.preventDefault(); // Prevent Safari from leaving full screen.
 
       this.open = false;
 
@@ -2053,9 +2109,9 @@ export default class Dropdown extends LitElement implements FormControl {
     if (event.detail !== 0) {
       this.open = true;
 
-      // If Dropdown was opened because its primary button or `<input>` were clicked,
+      // If Dropdown was opened because its primary button or `<input>` was clicked,
       // then Dropdown will already have focus. But if something else was clicked, like
-      // the padding around Dropdown or a Tag, then it won't. So we focus it manually.
+      // the padding around Dropdown or a tag, then it won't. So we focus it manually.
       this.focus();
 
       return;
@@ -2067,21 +2123,20 @@ export default class Dropdown extends LitElement implements FormControl {
     // padding around the component. Clicking the padding will move focus to
     // `document.body`, which is not what the user expects.
     //
-    // Having to exclude tags is unfortunate because clicking on the tag's label or
-    // padding shouldn't cause the input to lose focus. The trouble is we don't know
-    // it if is the Tag's removal button that's being clicked. And if it is we have
-    // to allow it to receive focus.
     const isFilterable = this.filterable || this.isFilterable;
-    const isTag = event.target instanceof Tag;
 
-    if (isFilterable && !isTag) {
+    const isTagRemovalButton =
+      event.target instanceof Element &&
+      event.target.classList.contains('tag-removal-button');
+
+    if (isFilterable && !isTagRemovalButton) {
       // If input field is about to be clicked, canceling the event would prevent the
       // insertion point from moving inside the input.
       if (event.target !== this.#inputElementRef.value) {
         event.preventDefault();
         this.focus();
       }
-    } else if (!isTag) {
+    } else if (!isTagRemovalButton) {
       event.preventDefault();
     }
   }
@@ -2660,7 +2715,7 @@ export default class Dropdown extends LitElement implements FormControl {
   #onOptionsEditableChange() {
     // Dropdown doesn't know to rerender when an option's `editable` property
     // has changed. But it needs to rerender to show or hide its edit button
-    // or else to set or unset its Tags as editable in the case of multiselect.
+    // or to make its tags editable or uneditable in the case of multiselect.
     // So a rerender is forced.
     this.requestUpdate();
   }
@@ -2894,28 +2949,27 @@ export default class Dropdown extends LitElement implements FormControl {
     this.isInternalLabelTooltipOpen = false;
   }
 
-  #onTagEdit() {
+  #onTagEditClick() {
     this.#isEditingOrRemovingTag = true;
     this.open = false;
+    this.dispatchEvent(new Event('edit', { bubbles: true, composed: true }));
   }
 
-  async #onTagRemove(option: DropdownOption) {
+  async #onTagRemoveClick(option: DropdownOption) {
     this.#isEditingOrRemovingTag = true;
 
     option.selected = false;
 
-    const tags = this.#tagsElementRef.value?.querySelectorAll('glide-core-tag');
-
-    if (tags && this.selectedAndEnabledOptions.length > 0) {
-      const removedTagIndex = [...tags].findIndex(
+    if (this.selectedAndEnabledOptions.length > 0) {
+      const removedTagIndex = this.#tagElements.findIndex(
         (tag) => tag.dataset.id === option.id,
       );
 
       // The tag to the right of the one removed unless it was the rightmost tag.
       // Otherwise the tag to the left.
       const tagToFocus =
-        tags[
-          removedTagIndex < tags.length - 1
+        this.#tagElements[
+          removedTagIndex < this.#tagElements.length - 1
             ? removedTagIndex + 1
             : removedTagIndex - 1
         ];
@@ -2930,11 +2984,13 @@ export default class Dropdown extends LitElement implements FormControl {
       // before moving focus.
       //
       // Without a timeout, two tags will be removed by a single Enter press: the
-      // previously focused Tag and the now-focused one. The previous because of the
-      // "edit" event dispatched by Tag on "keydown". And the now-focused one because
-      // of the "edit" event dispatched by Tag on "click".
+      // previously focused tag and the now-focused one. The previous because of the
+      // "edit" event dispatched by tag on "keydown". And the now-focused one because
+      // of the "edit" event dispatched by tag on "click".
       setTimeout(() => {
-        tagToFocus?.focus();
+        tagToFocus
+          ?.querySelector<HTMLButtonElement>('.tag-removal-button')
+          ?.focus();
 
         // Because the tag has been removed via `option.selected = false` above and focus
         // isn't moved until after the click, a "click" event will never be dispatched.
