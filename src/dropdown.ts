@@ -103,7 +103,7 @@ export default class Dropdown extends LitElement implements FormControl {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* c8 ignore stop */
 
   static override styles = styles;
 
@@ -766,13 +766,13 @@ export default class Dropdown extends LitElement implements FormControl {
                                 slot="icon"
                               >
                                 <!--
-                                Icons for the selected Dropdown Option(s).
-                                Slot one icon per Dropdown Option.
-                                \`<value>\` should be equal to the \`value\` of each Dropdown Option.
+                                  Icons for the selected Dropdown Option(s).
+                                  Slot one icon per Dropdown Option.
+                                  \`<value>\` should be equal to the \`value\` of each Dropdown Option.
 
-                                @name icon:value
-                                @type {Element}
-                              -->
+                                  @name icon:value
+                                  @type {Element}
+                                -->
                               </slot>
                             `;
                           })}
@@ -1626,10 +1626,6 @@ export default class Dropdown extends LitElement implements FormControl {
   // options can receive focus via VoiceOver, and `.dropdown` won't emit a "keydown"
   // if an option is focused.
   #onDropdownAndOptionsKeydown(event: KeyboardEvent) {
-    if (this.disabled || this.readonly) {
-      return;
-    }
-
     // On Enter and Space, an "edit" event should be dispatched and Dropdown should
     // close. Both Enter and Space result in a "click" event. So no need to dispatch
     // "edit" here. It's dispatched in `#onDropdownClick`. And Dropdown is closed via
