@@ -13,7 +13,6 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { click, hover } from './library/mouse.js';
 import Dropdown from './dropdown.js';
 import DropdownOption from './dropdown.option.js';
-import Tag from './tag.js';
 import requestIdleCallback from './library/request-idle-callback.js';
 
 @customElement('glide-core-dropdown-in-another-component')
@@ -84,7 +83,7 @@ it('selects an option on click via mouse', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.true;
@@ -95,8 +94,8 @@ it('selects an option on click via mouse', async () => {
   expect(labels?.[1]?.textContent?.trim()).to.equal('One,');
   expect(host.value).to.deep.equal(['two', 'one']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('One');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('One');
 });
 
 it('selects an option on click via `click()`', async () => {
@@ -126,7 +125,7 @@ it('selects an option on click via `click()`', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.true;
@@ -137,8 +136,8 @@ it('selects an option on click via `click()`', async () => {
   expect(labels?.[1]?.textContent?.trim()).to.equal('One,');
   expect(host.value).to.deep.equal(['two', 'one']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('One');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('One');
 });
 
 it('selects an option when one is selected programmatically', async () => {
@@ -168,7 +167,7 @@ it('selects an option when one is selected programmatically', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.true;
@@ -179,8 +178,8 @@ it('selects an option when one is selected programmatically', async () => {
   expect(labels?.[1]?.textContent?.trim()).to.equal('One,');
   expect(host.value).to.deep.equal(['two', 'one']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('One');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('One');
 });
 
 it('deselects an option on click via mouse', async () => {
@@ -209,7 +208,7 @@ it('deselects an option on click via mouse', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -219,7 +218,7 @@ it('deselects an option on click via mouse', async () => {
   expect(labels?.[0]?.textContent?.trim()).to.equal('Two,');
   expect(host.value).to.deep.equal(['two']);
   expect(tags?.length).to.equal(1);
-  expect(tags?.[0]?.label).to.equal('Two');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
 });
 
 it('deselects an option on click via `click()`', async () => {
@@ -250,7 +249,7 @@ it('deselects an option on click via `click()`', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -260,7 +259,7 @@ it('deselects an option on click via `click()`', async () => {
   expect(labels?.[0]?.textContent?.trim()).to.equal('Two,');
   expect(host.value).to.deep.equal(['two']);
   expect(tags?.length).to.equal(1);
-  expect(tags?.[0]?.label).to.equal('Two');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
 });
 
 it('deselects an option when one is deselected programmatically', async () => {
@@ -292,7 +291,7 @@ it('deselects an option when one is deselected programmatically', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -302,7 +301,7 @@ it('deselects an option when one is deselected programmatically', async () => {
   expect(labels?.[0]?.textContent?.trim()).to.equal('Two,');
   expect(host.value).to.deep.equal(['two']);
   expect(tags?.length).to.equal(1);
-  expect(tags?.[0]?.label).to.equal('Two');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
 });
 
 it('does not select a disabled option on click via mouse', async () => {
@@ -324,7 +323,7 @@ it('does not select a disabled option on click via mouse', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(option?.selected).to.be.false;
   expect(labels?.length).to.equal(0);
@@ -361,7 +360,7 @@ it('selects an option on Space', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.true;
@@ -372,8 +371,8 @@ it('selects an option on Space', async () => {
   expect(labels?.[1]?.textContent?.trim()).to.equal('One,');
   expect(host.value).to.deep.equal(['two', 'one']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('One');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('One');
 });
 
 it('deselects an option on Space', async () => {
@@ -406,7 +405,7 @@ it('deselects an option on Space', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -416,7 +415,7 @@ it('deselects an option on Space', async () => {
   expect(labels?.[0]?.textContent?.trim()).to.equal('Two,');
   expect(host.value).to.deep.equal(['two']);
   expect(tags?.length).to.equal(1);
-  expect(tags?.[0]?.label).to.equal('Two');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
 });
 
 it('selects an option on Enter', async () => {
@@ -446,7 +445,7 @@ it('selects an option on Enter', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.true;
@@ -457,8 +456,8 @@ it('selects an option on Enter', async () => {
   expect(labels?.[1]?.textContent?.trim()).to.equal('One,');
   expect(host.value).to.deep.equal(['two', 'one']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('One');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('One');
 });
 
 it('deselects an option on Enter', async () => {
@@ -489,7 +488,7 @@ it('deselects an option on Enter', async () => {
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -499,7 +498,7 @@ it('deselects an option on Enter', async () => {
   expect(labels?.[0]?.textContent?.trim()).to.equal('Two,');
   expect(host.value).to.deep.equal(['two']);
   expect(tags?.length).to.equal(1);
-  expect(tags?.[0]?.label).to.equal('Two');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
 });
 
 it('activates Select All by default', async () => {
@@ -634,7 +633,9 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  host.shadowRoot?.querySelector<Tag>('[data-test="tag"]')?.focus();
+  host.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="tag-removal-button"]')
+    ?.focus();
 
   await sendKeys({ press: 'ArrowDown' });
 
@@ -659,32 +660,9 @@ it('updates its tag when `label` of a selected option is set programmatically', 
   option.label = 'Three';
   await host.updateComplete;
 
-  const tag = host.shadowRoot?.querySelector<Tag>('[data-test="tag"]');
+  const tag = host.shadowRoot?.querySelector('[data-test="tag"]');
 
-  expect(tag?.label).to.equal('Three');
-});
-
-it('makes its tag editable when `editable` of a selected option is set programmatically', async () => {
-  const host = await fixture<Dropdown>(
-    html`<glide-core-dropdown label="Label" multiple>
-      <glide-core-dropdown-option
-        label="One"
-        selected
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const option = host.querySelector('glide-core-dropdown-option');
-  assert(option);
-
-  option.editable = true;
-  await host.updateComplete;
-
-  const tag = host.shadowRoot?.querySelector<Tag>('[data-test="tag"]');
-
-  expect(tag?.privateEditable).to.be.true;
+  expect(tag?.textContent?.trim()).to.equal('Three');
 });
 
 it('selects and deselects options when `value` is set programmatically', async () => {
@@ -717,7 +695,7 @@ it('selects and deselects options when `value` is set programmatically', async (
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -727,8 +705,8 @@ it('selects and deselects options when `value` is set programmatically', async (
   expect(labels?.[1]?.textContent?.trim()).to.equal('Three,');
   expect(host.value).to.deep.equal(['two', 'three']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('Three');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Three');
 });
 
 it('only selects the first option when `value` is set programmatically and multiple options have the same `value`', async () => {
@@ -755,7 +733,7 @@ it('only selects the first option when `value` is set programmatically and multi
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.false;
@@ -763,7 +741,7 @@ it('only selects the first option when `value` is set programmatically and multi
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
   expect(host.value).to.deep.equal(['one']);
   expect(tags?.length).to.equal(1);
-  expect(tags?.[0]?.label).to.equal('One');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('One');
 });
 
 it('does not update `value` when a disabled option is selected via click', async () => {
@@ -1056,7 +1034,9 @@ it('deselects an option when its tag is removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  host.shadowRoot?.querySelector<Tag>('[data-test="tag"]')?.click();
+  host.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="tag-removal-button"]')
+    ?.click();
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -1127,7 +1107,7 @@ it('selects all enabled options when some are selected and Select All is selecte
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.true;
   expect(options[1]?.selected).to.be.false;
@@ -1140,8 +1120,8 @@ it('selects all enabled options when some are selected and Select All is selecte
   expect(labels?.[1]?.textContent?.trim()).to.equal('Three,');
   expect(host.value).to.deep.equal(['one', 'three']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('One');
-  expect(tags?.[1]?.label).to.equal('Three');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('One');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Three');
 });
 
 it('deselects all options when all are selected and Select All is selected via click', async () => {
@@ -1171,7 +1151,7 @@ it('deselects all options when all are selected and Select All is selected via c
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.false;
@@ -1213,7 +1193,7 @@ it('selects all enabled options when none are selected and Select All is selecte
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -1226,8 +1206,8 @@ it('selects all enabled options when none are selected and Select All is selecte
   expect(labels?.[1]?.textContent?.trim()).to.equal('Three,');
   expect(host.value).to.deep.equal(['two', 'three']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('Three');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Three');
 });
 
 it('selects all enabled options when some are selected and Select All is selected via Space', async () => {
@@ -1264,7 +1244,7 @@ it('selects all enabled options when some are selected and Select All is selecte
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -1277,8 +1257,8 @@ it('selects all enabled options when some are selected and Select All is selecte
   expect(labels?.[1]?.textContent?.trim()).to.equal('Three,');
   expect(host.value).to.deep.equal(['two', 'three']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('Three');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Three');
 });
 
 it('deselects all options when all are selected and Select All is selected via Space', async () => {
@@ -1311,7 +1291,7 @@ it('deselects all options when all are selected and Select All is selected via S
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.false;
@@ -1353,7 +1333,7 @@ it('selects all enabled options when none are selected and Select All is selecte
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -1366,8 +1346,8 @@ it('selects all enabled options when none are selected and Select All is selecte
   expect(labels?.[1]?.textContent?.trim()).to.equal('Three,');
   expect(host.value).to.deep.equal(['two', 'three']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('Three');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Three');
 });
 
 it('selects all enabled options when some are selected and Select All is selected via Enter', async () => {
@@ -1404,7 +1384,7 @@ it('selects all enabled options when some are selected and Select All is selecte
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
@@ -1417,8 +1397,8 @@ it('selects all enabled options when some are selected and Select All is selecte
   expect(labels?.[1]?.textContent?.trim()).to.equal('Three,');
   expect(host.value).to.deep.equal(['two', 'three']);
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0]?.label).to.equal('Two');
-  expect(tags?.[1]?.label).to.equal('Three');
+  expect(tags?.[0]?.textContent?.trim()).to.equal('Two');
+  expect(tags?.[1]?.textContent?.trim()).to.equal('Three');
 });
 
 it('deselects all options when all are selected and Select All is selected via Enter', async () => {
@@ -1451,7 +1431,7 @@ it('deselects all options when all are selected and Select All is selected via E
     '[data-test="selected-option-label"]',
   );
 
-  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll('[data-test="tag"]');
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.false;
@@ -1629,12 +1609,7 @@ it('closes when a tag is edited via click', async () => {
   );
 
   await requestIdleCallback(); // Wait for Floating UI
-
-  await click(
-    host.shadowRoot
-      ?.querySelector('glide-core-tag')
-      ?.shadowRoot?.querySelector('[data-test="edit-button"]'),
-  );
+  await click(host.shadowRoot?.querySelector('[data-test="tag-edit-button"]'));
 
   expect(host.open).to.be.false;
 });

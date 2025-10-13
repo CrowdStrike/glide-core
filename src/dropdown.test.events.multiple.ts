@@ -447,7 +447,9 @@ it('dispatches one "change" event when a tag is removed', async () => {
   );
 
   setTimeout(() => {
-    host.shadowRoot?.querySelector<HTMLElement>('[data-test="tag"]')?.click();
+    host.shadowRoot
+      ?.querySelector<HTMLElement>('[data-test="tag-removal-button"]')
+      ?.click();
   });
 
   const spy = sinon.spy();
@@ -470,11 +472,39 @@ it('dispatches one "input" event when a tag is removed', async () => {
   );
 
   setTimeout(() => {
-    host.shadowRoot?.querySelector<HTMLElement>('[data-test="tag"]')?.click();
+    host.shadowRoot
+      ?.querySelector<HTMLElement>('[data-test="tag-removal-button"]')
+      ?.click();
   });
 
   const spy = sinon.spy();
   host.addEventListener('input', spy);
+
+  await aTimeout(0);
+  expect(spy.callCount).to.equal(1);
+});
+
+it('dispatches one "edit" event when a tag is edited', async () => {
+  const host = await fixture<Dropdown>(
+    html`<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  setTimeout(() => {
+    host.shadowRoot
+      ?.querySelector<HTMLElement>('[data-test="tag-edit-button"]')
+      ?.click();
+  });
+
+  const spy = sinon.spy();
+  host.addEventListener('edit', spy);
 
   await aTimeout(0);
   expect(spy.callCount).to.equal(1);
