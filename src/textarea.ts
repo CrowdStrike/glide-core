@@ -32,6 +32,7 @@ declare global {
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
  * @attr {boolean} [spellcheck=false]
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [tooltip]
  * @attr {string} [value='']
  *
@@ -123,10 +124,6 @@ export default class Textarea extends LitElement implements FormControl {
   @property({ reflect: true })
   placeholder?: string;
 
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle' | 'right';
-
   // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
   @property({ reflect: true, type: Boolean, useDefault: true })
   override spellcheck = false;
@@ -136,6 +133,22 @@ export default class Textarea extends LitElement implements FormControl {
 
   @property({ reflect: true, type: Boolean })
   readonly = false;
+
+  /**
+   * @default undefined
+   */
+  @property()
+  get split(): 'left' | 'middle' | 'right' | undefined {
+    return this.#split;
+  }
+
+  set split(split: 'left' | 'middle' | 'right' | undefined) {
+    if (split && this.orientation === 'vertical') {
+      throw new Error('`split` is unsupported with `orientation="vertical"`.');
+    }
+
+    this.#split = split;
+  }
 
   @property({ reflect: true })
   tooltip?: string;
@@ -206,7 +219,7 @@ export default class Textarea extends LitElement implements FormControl {
   override render() {
     return html`<glide-core-label
       label=${ifDefined(this.label)}
-      split=${ifDefined(this.privateSplit ?? undefined)}
+      split=${ifDefined(this.split)}
       tooltip=${ifDefined(this.tooltip)}
       orientation=${this.orientation}
       ?disabled=${this.disabled}
@@ -395,6 +408,8 @@ export default class Textarea extends LitElement implements FormControl {
   #internals: ElementInternals;
 
   #localize = new LocalizeController(this);
+
+  #split?: 'left' | 'middle' | 'right';
 
   #textareaElementRef = createRef<HTMLTextAreaElement>();
 

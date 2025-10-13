@@ -21,6 +21,7 @@ declare global {
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [hide-label=false]
  * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [summary]
  * @attr {string} [tooltip]
  *
@@ -60,9 +61,21 @@ export default class Toggle extends LitElement {
   @property({ reflect: true, useDefault: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
-  // Private because it's only meant to be used by Form Controls Layout.
+  /**
+   * @default undefined
+   */
   @property()
-  privateSplit?: 'left' | 'middle' | 'right';
+  get split(): 'left' | 'middle' | 'right' | undefined {
+    return this.#split;
+  }
+
+  set split(split: 'left' | 'middle' | 'right' | undefined) {
+    if (split && this.orientation === 'vertical') {
+      throw new Error('`split` is unsupported with `orientation="vertical"`.');
+    }
+
+    this.#split = split;
+  }
 
   @property({ reflect: true })
   summary?: string;
@@ -86,7 +99,7 @@ export default class Toggle extends LitElement {
       <glide-core-label
         label=${ifDefined(this.label)}
         orientation=${this.orientation}
-        split=${ifDefined(this.privateSplit ?? undefined)}
+        split=${ifDefined(this.split)}
         tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
         ?hide-label=${this.hideLabel}
@@ -147,6 +160,8 @@ export default class Toggle extends LitElement {
   }
 
   #inputElementRef = createRef<HTMLInputElement>();
+
+  #split?: 'left' | 'middle' | 'right';
 
   // Only "change" would need to be handled if not for some consumers needing
   // to force Toggle checked or unchecked until the user has completed some action.

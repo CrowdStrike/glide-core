@@ -42,6 +42,7 @@ declare global {
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
  * @attr {boolean} [spellcheck=false]
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [tooltip]
  * @attr {'color'|'date'|'email'|'number'|'password'|'search'|'tel'|'text'|'time'|'url'} [type='text']
  * @attr {string} [value='']
@@ -155,10 +156,6 @@ export default class Input extends LitElement implements FormControl {
   @property({ reflect: true, useDefault: true })
   pattern: string | undefined = '';
 
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle' | 'right';
-
   @property({ reflect: true, type: Boolean })
   readonly = false;
 
@@ -168,6 +165,22 @@ export default class Input extends LitElement implements FormControl {
   // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
   @property({ reflect: true, type: Boolean, useDefault: true })
   override spellcheck = false;
+
+  /**
+   * @default undefined
+   */
+  @property()
+  get split(): 'left' | 'middle' | 'right' | undefined {
+    return this.#split;
+  }
+
+  set split(split: 'left' | 'middle' | 'right' | undefined) {
+    if (split && this.orientation === 'vertical') {
+      throw new Error('`split` is unsupported with `orientation="vertical"`.');
+    }
+
+    this.#split = split;
+  }
 
   @property({ reflect: true })
   tooltip?: string;
@@ -288,12 +301,12 @@ export default class Input extends LitElement implements FormControl {
     return html`
       <glide-core-label
         class=${classMap({
-          left: this.privateSplit === 'left',
-          middle: this.privateSplit === 'middle',
+          left: this.split === 'left',
+          middle: this.split === 'middle',
         })}
         label=${ifDefined(this.label)}
         orientation=${this.orientation}
-        split=${ifDefined(this.privateSplit ?? undefined)}
+        split=${ifDefined(this.split)}
         tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback ||
@@ -574,6 +587,8 @@ export default class Input extends LitElement implements FormControl {
   #internals: ElementInternals;
 
   #localize = new LocalizeController(this);
+
+  #split?: 'left' | 'middle' | 'right';
 
   get #hasClearButton() {
     return this.clearable && !this.disabled && !this.readonly;

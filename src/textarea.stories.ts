@@ -89,6 +89,7 @@ const meta: Meta = {
     'setValidity(flags, message)': '',
     'slot="description"': '',
     spellcheck: 'false',
+    split: '',
     tooltip: '',
     value: '',
     version: '',
@@ -248,6 +249,24 @@ const meta: Meta = {
         type: { summary: '"true" | "false"' },
       },
     },
+    split: {
+      control: 'select',
+      options: ['', 'left', 'middle', 'right'],
+      table: {
+        type: {
+          summary: '"left" | "middle" | "right"',
+          detail: `
+// The split between the label and text area:
+//
+// - "left": 1/3 of the available space for the label. 2/3 for the text area.
+// - "middle": 1/2 of the available space the label. 1/2 for the text area.
+// - "right": 2/3 of the available space the label. 1/3 for the text area.
+//
+// Unsupported with \`orientation="vertical"\`.
+`,
+        },
+      },
+    },
     tooltip: {
       table: {
         type: { summary: 'string' },
@@ -289,6 +308,7 @@ const meta: Meta = {
         spellcheck=${arguments_.spellcheck === 'false'
           ? nothing
           : arguments_.spellcheck}
+        split=${arguments_.split || nothing}
         tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
         ?disabled=${arguments_.disabled}
