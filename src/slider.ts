@@ -234,7 +234,7 @@ export default class Slider extends LitElement implements FormControl {
   /**
    * @default undefined
    */
-  @property()
+  @property({ reflect: true })
   get split(): 'left' | 'middle' | 'right' | undefined {
     return this.#split;
   }
