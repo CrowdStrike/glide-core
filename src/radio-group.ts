@@ -147,7 +147,7 @@ export default class RadioGroup extends LitElement implements FormControl {
     this.#setValidity();
   }
 
-  @property()
+  @property({ reflect: true })
   split?: 'left' | 'middle' | 'right' | undefined;
 
   @property({ reflect: true })

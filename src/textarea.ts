@@ -137,7 +137,7 @@ export default class Textarea extends LitElement implements FormControl {
   /**
    * @default undefined
    */
-  @property()
+  @property({ reflect: true })
   get split(): 'left' | 'middle' | 'right' | undefined {
     return this.#split;
   }

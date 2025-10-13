@@ -1054,7 +1054,8 @@
               "type": {
                 "text": "'left' | 'middle' | 'right' | undefined | undefined"
               },
-              "attribute": "split"
+              "attribute": "split",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1474,7 +1475,8 @@
                 "text": "'left' | 'middle' | 'right' | undefined"
               },
               "default": "undefined",
-              "attribute": "split"
+              "attribute": "split",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -3666,7 +3668,8 @@
                 "text": "'left' | 'middle' | 'right' | undefined"
               },
               "default": "undefined",
-              "attribute": "split"
+              "attribute": "split",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -6379,7 +6382,8 @@
               "type": {
                 "text": "'left' | 'middle' | 'right' | undefined | undefined"
               },
-              "attribute": "split"
+              "attribute": "split",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -7186,7 +7190,8 @@
                 "text": "'left' | 'middle' | 'right' | undefined"
               },
               "default": "undefined",
-              "attribute": "split"
+              "attribute": "split",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -9141,7 +9146,8 @@
                 "text": "'left' | 'middle' | 'right' | undefined"
               },
               "default": "undefined",
-              "attribute": "split"
+              "attribute": "split",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -9884,7 +9890,8 @@
                 "text": "'left' | 'middle' | 'right' | undefined"
               },
               "default": "undefined",
-              "attribute": "split"
+              "attribute": "split",
+              "reflects": true
             },
             {
               "kind": "field",
