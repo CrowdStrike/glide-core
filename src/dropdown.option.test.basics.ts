@@ -1,4 +1,5 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
 import DropdownOption from './dropdown.option.js';
 
 it('registers itself', async () => {
@@ -38,4 +39,18 @@ it('sets `aria-selected` when disabled', async () => {
   );
 
   expect(host.ariaSelected).to.equal('false');
+});
+
+it('throws when `label` is undefined', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-dropdown-option></glide-core-dropdown-option>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

@@ -10,6 +10,7 @@ import { LocalizeController } from './library/localize.js';
 import styles from './dropdown.option.styles.js';
 import type Checkbox from './checkbox.js';
 import uniqueId from './library/unique-id.js';
+import required from './library/required.js';
 
 /* eslint-disable @crowdstrike/glide-core/slot-type-comment, @crowdstrike/glide-core/use-final-decorator */
 
@@ -52,7 +53,7 @@ export default class DropdownOption extends LitElement {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',
   };
-  /* c8 ignore end */
+  /* c8 ignore stop */
 
   static override styles = styles;
 
@@ -60,6 +61,7 @@ export default class DropdownOption extends LitElement {
    * @default undefined
    */
   @property({ reflect: true })
+  @required
   get label(): string | undefined {
     return this.#label;
   }

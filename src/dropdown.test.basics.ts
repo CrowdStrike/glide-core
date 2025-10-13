@@ -1,4 +1,5 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 import expectWindowError from './library/expect-window-error.js';
@@ -246,6 +247,22 @@ it('hides the tooltip of the active option when open', async () => {
     ?.shadowRoot?.querySelector<Tooltip>('[data-test="tooltip"]');
 
   expect(tooltip?.open).to.be.false;
+});
+
+it('throws when `label` is undefined', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-dropdown>
+        <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+      </glide-core-dropdown>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when split and vertical', async () => {

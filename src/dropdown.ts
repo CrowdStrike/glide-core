@@ -17,6 +17,7 @@ import DropdownOption from './dropdown.option.js';
 import { LocalizeController } from './library/localize.js';
 import styles from './dropdown.styles.js';
 import uniqueId from './library/unique-id.js';
+import required from './library/required.js';
 
 /* eslint-disable @crowdstrike/glide-core/slot-type-comment, @crowdstrike/glide-core/use-final-decorator */
 
@@ -99,6 +100,7 @@ export default class Dropdown extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ attribute: 'add-button', reflect: true, type: Boolean })
