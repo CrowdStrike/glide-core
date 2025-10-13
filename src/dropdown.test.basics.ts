@@ -1,6 +1,5 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
-import { customElement } from 'lit/decorators.js';
 import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 import expectWindowError from './library/expect-window-error.js';
@@ -19,11 +18,8 @@ import requestIdleCallback from './library/request-idle-callback.js';
 // Many of the tests in `dropdown.test.interactions.ts`, for example, don't
 // apply to the filterable case and so aren't common among all three states.
 // They nonetheless reside there because moving them out and duplicating them in
-// both `dropdown.test.interactions.single.ts` and
-// `dropdown.test.interactions.multiple.ts` would add a ton of test weight.
-
-@customElement('glide-core-subclassed')
-class Subclassed extends Dropdown {}
+// both `dropdown.test.interactions.[single|multiple].ts` would add a ton of test
+// weight.
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-dropdown')).to.equal(Dropdown);
@@ -267,28 +263,6 @@ it('throws when `label` is undefined', async () => {
   }
 
   expect(spy.callCount).to.equal(1);
-});
-
-it('throws when subclassed', async () => {
-  const spy = sinon.spy();
-
-  try {
-    new Subclassed();
-  } catch {
-    spy();
-  }
-
-  expect(spy.callCount).to.equal(1);
-});
-
-it('throws when its default slot is the wrong type', async () => {
-  await expectWindowError(() => {
-    return fixture(
-      html`<glide-core-dropdown label="Label">
-        <button>Button</button>
-      </glide-core-dropdown>`,
-    );
-  });
 });
 
 it('throws when split and vertical', async () => {

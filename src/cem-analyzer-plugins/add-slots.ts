@@ -86,8 +86,7 @@ export default () => {
                 ({ name }) => name !== slot.name,
               );
 
-              // Some components, like DropdownOption, have multiple slots with
-              // the same name.
+              // Some components may have multiple slots with the same name.
               if (isNew) {
                 declaration.slots.push(slot);
               }

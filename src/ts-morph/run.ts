@@ -24,6 +24,11 @@ project.addSourceFilesAtPaths([
 let isSave = false;
 
 for (const file of project.getSourceFiles()) {
+  // TODO: Remove after Dropdown is moved out.
+  if (file.getFilePath().includes('dropdown')) {
+    continue;
+  }
+
   for (const node of file.getClasses()) {
     if (node.getBaseClass()?.getName() === 'LitElement') {
       const declaration = manifest.modules

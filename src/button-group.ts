@@ -131,11 +131,10 @@ export default class ButtonGroup extends LitElement {
       this.#buttonElements.filter(({ selected }) => selected).length > 1;
 
     if (areMultipleButtonsSelected) {
-      // With form controls where only one control should be selected, like Radio Group
-      // or single-select Dropdown, we allow consumers to set multiple options as
-      // selected: both to match native and because we're able to avoid negative
-      // outcomes, at the form level, by ensuring the `value` of those components only
-      // includes one value.
+      // With form controls where only one control should be selected, like Radio Group,
+      // we allow consumers to set multiple options as selected: both to match native and
+      // because we're able to avoid negative outcomes, at the form level, by ensuring
+      // the `value` of those components only includes one value.
       //
       // Button Group is different because its state doesn't end at a form. Its state is
       // always represented somewhere else in the application. And, if the data or logic

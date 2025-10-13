@@ -49,10 +49,10 @@ export const privateStateDecorators = createRule({
           //
           // For example, it's common for developers to decorate with `@state()` a field
           // in a subcomponent then modify that field in its controlling component. Think
-          // of a case like Dropdown modifying a field on Dropdown Option.
+          // of a case like Button Group modifying a field on Button Group Button.
           //
-          // The `private` keyword would be added to Dropdown Option's field on save,
-          // presumably. Then Dropdown, to the developer's surprise, would fail to
+          // The `private` keyword would be added to Button Group Buttons's field on save,
+          // presumably. Then Button Group, to the developer's surprise, would fail to
           // typecheck because the developer didn't notice the `private` keyword was added
           // automatically.
           //
