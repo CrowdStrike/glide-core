@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> Glide Core is no longer being publicly developed.
+
 <div align="center">
   <p align="center">
     <a href="https://glide-core.crowdstrike-ux.workers.dev">
